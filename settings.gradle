@@ -1,0 +1,3 @@
+rootProject.name = 'swagger-coverage'
+include 'swagger-coverage-commandline'
+
