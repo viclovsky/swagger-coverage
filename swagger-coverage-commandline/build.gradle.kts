@@ -3,13 +3,13 @@ plugins {
     application
 }
 
-group = "ru.vicdev.swagger.coverage"
+group = "ru.viclovsky.swagger.coverage"
 version = "1.0-SNAPSHOT"
 
 description = "Openapi-coverage Commandline"
 
 application {
-    mainClassName = "ru.vicdev.swagger.coverage.CommandLine"
+    mainClassName = "ru.viclovsky.swagger.coverage.CommandLine"
 }
 
 java {

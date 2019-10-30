@@ -1,4 +1,4 @@
-package ru.vicdev.swagger.coverage;
+package ru.viclovsky.swagger.coverage;
 
 public class CommandLine {
 

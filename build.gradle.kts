@@ -2,7 +2,7 @@ plugins {
     java
 }
 
-group = "ru.vicdev.openapi.coverage"
+group = "ru.viclovsky.swagger.coverage"
 version = "1.0-SNAPSHOT"
 
 java {
