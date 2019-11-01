@@ -42,28 +42,22 @@ public class SwaggerCoverageExec {
         createDirectories(config.getOutputPath());
 
         SwaggerParser parser = new SwaggerParser();
-        Swagger result = new SwaggerParser().read(config.getSpecPath().toString());
+        Swagger spec = new SwaggerParser().read(config.getSpecPath().toString());
 
         Map<Path, Swagger> coverage = new HashMap<>();
         readPaths(config.getReqPath()).forEach(p -> coverage.put(p, parser.read(p.toString())));
 
-        coverage.forEach((p, s) -> compare(s, result));
-
-//        String json = dumpToJson(result);
+        Compare compare = new Compare(spec);
+        coverage.forEach((p, s) -> compare.addCoverage(s));
+        System.out.println(compare.getOutput());
+//        String json = dumpToJson(spec);
 //        writeInFile(json);
-    }
-
-    private static Swagger compare(Swagger coverage, Swagger result) {
-        //TODO: do something
-
-        return result;
     }
 
     private Set<Path> readPaths(Path output) {
         Set<Path> result = new HashSet<>();
         try (Stream<Path> paths = Files.walk(output)) {
-            paths.filter(Files::isRegularFile)
-                    .forEach(result::add);
+            paths.filter(Files::isRegularFile).forEach(result::add);
         } catch (IOException e) {
             throw new RuntimeException("can't read coverage file's", e);
         }
@@ -84,7 +78,6 @@ public class SwaggerCoverageExec {
             throw new RuntimeException("Could not create Swagger coverage directory", e);
         }
     }
-
 
     private Path writeInFile(String json) {
         String uuid = UUID.randomUUID().toString() + COVERAGE_RESULTS_FILE_SUFFIX;
