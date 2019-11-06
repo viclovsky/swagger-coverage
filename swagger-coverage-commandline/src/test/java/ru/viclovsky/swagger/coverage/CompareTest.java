@@ -5,6 +5,7 @@ import io.swagger.parser.SwaggerParser;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import ru.viclovsky.swagger.coverage.model.Coverage;
 
 import java.io.File;
 
@@ -36,54 +37,54 @@ public class CompareTest {
 
     @Test
     public void shouldSeeAllEmpty() {
-        Output compare = new Compare(swagger).getOutput();
-        assertThat(compare.getEmptyCoverage().keySet(), hasSize(20));
-        assertThat(compare.getPartialCoverage().keySet(), hasSize(0));
-        assertThat(compare.getFullCoverage().keySet(), hasSize(0));
+        Coverage compare = new Compare(swagger).getCoverage();
+        assertThat(compare.getEmpty().keySet(), hasSize(20));
+        assertThat(compare.getPartial().keySet(), hasSize(0));
+        assertThat(compare.getFull().keySet(), hasSize(0));
     }
 
     @Test
     public void shouldSeeKey() {
-        Output compare = new Compare(swagger).getOutput();
-        assertThat(compare.getEmptyCoverage().containsKey("GET /pet/{petId}"), equalTo(true));
-        assertThat(compare.getEmptyCoverage().containsKey("POST /pet/{petId}"), equalTo(true));
-        assertThat(compare.getEmptyCoverage().containsKey("DELETE /pet/{petId}"), equalTo(true));
-        assertThat(compare.getEmptyCoverage().containsKey("POST /pet/{petId}/uploadImage"), equalTo(true));
+        Coverage compare = new Compare(swagger).getCoverage();
+        assertThat(compare.getEmpty().containsKey("GET /pet/{petId}"), equalTo(true));
+        assertThat(compare.getEmpty().containsKey("POST /pet/{petId}"), equalTo(true));
+        assertThat(compare.getEmpty().containsKey("DELETE /pet/{petId}"), equalTo(true));
+        assertThat(compare.getEmpty().containsKey("POST /pet/{petId}/uploadImage"), equalTo(true));
     }
 
 
     @Test
     public void shouldSeeAllFull() {
-        Output compare = new Compare(swagger).addCoverage(swagger2).getOutput();
-        assertThat(compare.getEmptyCoverage().keySet(), hasSize(0));
-        assertThat(compare.getPartialCoverage().keySet(), hasSize(0));
-        assertThat(compare.getFullCoverage().keySet(), hasSize(20));
+        Coverage compare = new Compare(swagger).addCoverage(swagger2).getCoverage();
+        assertThat(compare.getEmpty().keySet(), hasSize(0));
+        assertThat(compare.getPartial().keySet(), hasSize(0));
+        assertThat(compare.getFull().keySet(), hasSize(20));
     }
 
 
     @Test
     @Ignore("java.util.ConcurrentModificationException")
     public void shouldSeeAddAll() {
-        Output compare = new Compare(swagger).addCoverage(swagger).getOutput();
-        assertThat(compare.getEmptyCoverage().keySet(), hasSize(0));
-        assertThat(compare.getPartialCoverage().keySet(), hasSize(0));
-        assertThat(compare.getFullCoverage().keySet(), hasSize(20));
+        Coverage compare = new Compare(swagger).addCoverage(swagger).getCoverage();
+        assertThat(compare.getEmpty().keySet(), hasSize(0));
+        assertThat(compare.getPartial().keySet(), hasSize(0));
+        assertThat(compare.getFull().keySet(), hasSize(20));
     }
 
 
     @Test
     public void shouldAddPartial() {
-        Output compare = new Compare(swagger).addCoverage(partialCoverage).getOutput();
-        assertThat(compare.getEmptyCoverage().keySet(), hasSize(19));
-        assertThat(compare.getPartialCoverage().keySet(), hasSize(1));
-        assertThat(compare.getFullCoverage().keySet(), hasSize(0));
+        Coverage compare = new Compare(swagger).addCoverage(partialCoverage).getCoverage();
+        assertThat(compare.getEmpty().keySet(), hasSize(19));
+        assertThat(compare.getPartial().keySet(), hasSize(1));
+        assertThat(compare.getFull().keySet(), hasSize(0));
     }
 
     @Test
     public void shouldAddFull() {
-        Output compare = new Compare(swagger).addCoverage(fullCoverage).getOutput();
-        assertThat(compare.getEmptyCoverage().keySet(), hasSize(19));
-        assertThat(compare.getPartialCoverage().keySet(), hasSize(0));
-        assertThat(compare.getFullCoverage().keySet(), hasSize(1));
+        Coverage compare = new Compare(swagger).addCoverage(fullCoverage).getCoverage();
+        assertThat(compare.getEmpty().keySet(), hasSize(19));
+        assertThat(compare.getPartial().keySet(), hasSize(0));
+        assertThat(compare.getFull().keySet(), hasSize(1));
     }
 }

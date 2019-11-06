@@ -7,6 +7,8 @@ public class Config {
     private Path specPath;
     private Path reqPath;
     private Path outputPath;
+    private boolean ignoreHeaders;
+    private boolean ignoreStatusCodes;
 
     private Config() {
     }
@@ -40,5 +42,23 @@ public class Config {
 
     public Path getOutputPath() {
         return outputPath;
+    }
+
+    public Boolean getIgnoreHeaders() {
+        return ignoreHeaders;
+    }
+
+    public Config withIgnoreHeaders(boolean ignoreHeaders) {
+        this.ignoreHeaders = ignoreHeaders;
+        return this;
+    }
+
+    public boolean getIgnoreStatusCodes() {
+        return ignoreStatusCodes;
+    }
+
+    public Config withIgnoreStatusCodes(boolean ignoreStatusCodes) {
+        this.ignoreStatusCodes = ignoreStatusCodes;
+        return this;
     }
 }

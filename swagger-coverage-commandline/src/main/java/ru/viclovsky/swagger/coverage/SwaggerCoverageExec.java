@@ -1,5 +1,9 @@
 package ru.viclovsky.swagger.coverage;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
 import org.apache.log4j.Logger;
@@ -9,16 +13,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Stream;
+
+import static java.util.Objects.isNull;
 
 public class SwaggerCoverageExec {
 
-    private static final String OUTPUT_DIRECTORY = "coverage-results";
+    private static final String OUTPUT_DIRECTORY = "swagger-coverage-results";
     private static final String COVERAGE_RESULTS_FILE_SUFFIX = "-coverage-results.json";
 
     private Config config;
@@ -49,9 +51,8 @@ public class SwaggerCoverageExec {
 
         Compare compare = new Compare(spec);
         coverage.forEach((p, s) -> compare.addCoverage(s));
-        System.out.println(compare.getOutput());
-//        String json = dumpToJson(spec);
-//        writeInFile(json);
+        String json = dumpToJson(compare.getCoverage());
+        writeInFile(json);
     }
 
     private Set<Path> readPaths(Path output) {
@@ -65,6 +66,9 @@ public class SwaggerCoverageExec {
     }
 
     private boolean isValidResultsDirectory(final Path resultsDirectory) {
+        if (isNull(resultsDirectory)) {
+            return false;
+        }
         if (Files.notExists(resultsDirectory)) {
             return false;
         }
@@ -77,6 +81,22 @@ public class SwaggerCoverageExec {
         } catch (IOException e) {
             throw new RuntimeException("Could not create Swagger coverage directory", e);
         }
+    }
+
+    //todo: remove this
+    private String dumpToJson(Object o) {
+        //dump to json
+        ObjectWriter ow = new ObjectMapper()
+                .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+                .writer().withDefaultPrettyPrinter();
+        String json = null;
+
+        try {
+            json = ow.writeValueAsString(o);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Could not process json", e);
+        }
+        return json;
     }
 
     private Path writeInFile(String json) {
