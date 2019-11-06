@@ -47,7 +47,7 @@ public class SwaggerCoverageExec {
         Swagger spec = new SwaggerParser().read(config.getSpecPath().toString());
 
         Map<Path, Swagger> coverage = new HashMap<>();
-        readPaths(config.getReqPath()).forEach(p -> coverage.put(p, parser.read(p.toString())));
+        readPaths(config.getInputPath()).forEach(p -> coverage.put(p, parser.read(p.toString())));
 
         Compare compare = new Compare(spec);
         coverage.forEach((p, s) -> compare.addCoverage(s));

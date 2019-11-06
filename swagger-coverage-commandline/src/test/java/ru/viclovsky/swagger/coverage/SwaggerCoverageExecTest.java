@@ -15,7 +15,7 @@ public class SwaggerCoverageExecTest {
     @Test
     public void shouldExecute() {
         SwaggerCoverageExec.swaggerCoverage(Config.conf()
-                .withReqPath(reqDir.toPath()).withSpecPath(spec.toPath())
+                .withInputPath(reqDir.toPath()).withSpecPath(spec.toPath())
                 .withIgnoreHeaders(true).withIgnoreStatusCodes(true)).execute();
     }
 }

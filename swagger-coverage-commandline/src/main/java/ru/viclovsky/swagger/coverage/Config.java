@@ -5,7 +5,7 @@ import java.nio.file.Path;
 public class Config {
 
     private Path specPath;
-    private Path reqPath;
+    private Path inputPath;
     private Path outputPath;
     private boolean ignoreHeaders;
     private boolean ignoreStatusCodes;
@@ -22,8 +22,8 @@ public class Config {
         return this;
     }
 
-    public Config withReqPath(Path reqPath) {
-        this.reqPath = reqPath;
+    public Config withInputPath(Path reqPath) {
+        this.inputPath = reqPath;
         return this;
     }
 
@@ -36,8 +36,8 @@ public class Config {
         return specPath;
     }
 
-    public Path getReqPath() {
-        return reqPath;
+    public Path getInputPath() {
+        return inputPath;
     }
 
     public Path getOutputPath() {
