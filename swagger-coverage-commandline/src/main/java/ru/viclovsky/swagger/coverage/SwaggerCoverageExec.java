@@ -7,6 +7,9 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
 import org.apache.log4j.Logger;
+import ru.viclovsky.swagger.coverage.model.Coverage;
+import ru.viclovsky.swagger.coverage.model.Output;
+import ru.viclovsky.swagger.coverage.model.Problem;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -20,7 +23,6 @@ import static java.util.Objects.isNull;
 
 public class SwaggerCoverageExec {
 
-    private static final String OUTPUT_DIRECTORY = "swagger-coverage-results";
     private static final String COVERAGE_RESULTS_FILE_SUFFIX = "-coverage-results.json";
 
     private Config config;
@@ -37,22 +39,58 @@ public class SwaggerCoverageExec {
     private final static Logger LOG = Logger.getLogger(SwaggerCoverageExec.class);
 
     void execute() {
-        if (!isValidResultsDirectory(config.getOutputPath())) {
-            LOG.error(String.format("%s not valid directory", config.getOutputPath()));
-            config.withOutputPath(Paths.get(OUTPUT_DIRECTORY));
-        }
-        createDirectories(config.getOutputPath());
-
         SwaggerParser parser = new SwaggerParser();
         Swagger spec = new SwaggerParser().read(config.getSpecPath().toString());
 
-        Map<Path, Swagger> coverage = new HashMap<>();
-        readPaths(config.getInputPath()).forEach(p -> coverage.put(p, parser.read(p.toString())));
+        Map<Path, Swagger> input = new HashMap<>();
+        readPaths(config.getInputPath()).forEach(p -> input.put(p, parser.read(p.toString())));
 
         Compare compare = new Compare(spec);
-        coverage.forEach((p, s) -> compare.addCoverage(s));
-        String json = dumpToJson(compare.getCoverage());
-        writeInFile(json);
+        input.forEach((p, s) -> compare.addCoverage(s));
+
+        Coverage coverage = compare.getCoverage();
+        Output output = printCoverage(coverage);
+        writeInFile(dumpToJson(output));
+    }
+
+    private Output printCoverage(Coverage coverage) {
+        Output output = new Output();
+        int emptyCount = coverage.getEmpty().size();
+        int partialCount = coverage.getPartial().size();
+        int fullCount = coverage.getFull().size();
+        int allCount = emptyCount + partialCount + fullCount;
+
+        Map<String, Problem> partialOutput = new HashMap<>();
+
+        coverage.getPartial().forEach((k, v) ->
+        {
+            Problem problem = new Problem();
+            Set<String> paramsProblem = new TreeSet<>();
+            Set<String> statusCodesProblem = new TreeSet<>();
+
+            v.getModified().getParameters().forEach(parameter ->
+                    paramsProblem.add(parameter.getName()));
+            v.getModified().getResponses().forEach((status, resp) ->
+                    statusCodesProblem.add(status));
+
+            partialOutput.put(k, problem
+                    .withAllParamsCount(v.getOriginal().getParameters().size())
+                    .withParamsCount(v.getModified().getParameters().size())
+                    .withAllStatusCodesCount(v.getOriginal().getResponses().keySet().size())
+                    .withStatusCodesCount(v.getModified().getResponses().keySet().size())
+                    .withParams(paramsProblem)
+                    .withStatusCodes(statusCodesProblem)
+            );
+        });
+
+        output.withAllCount(allCount).withEmptyCount(emptyCount)
+                .withPartialCount(partialCount)
+                .withFullCount(fullCount)
+                .withEmpty(coverage.getEmpty().keySet())
+                .withFull(coverage.getFull().keySet())
+                .withPartial(partialOutput);
+
+        return output;
     }
 
     private Set<Path> readPaths(Path output) {
@@ -100,15 +138,14 @@ public class SwaggerCoverageExec {
     }
 
     private Path writeInFile(String json) {
-        String uuid = UUID.randomUUID().toString() + COVERAGE_RESULTS_FILE_SUFFIX;
-        Path path = Paths.get(config.getOutputPath().toString(), uuid);
+        String fileName = UUID.randomUUID().toString() + COVERAGE_RESULTS_FILE_SUFFIX;
 
-        try (FileWriter fileWriter =  new FileWriter(path.toFile(), true)) {
+        try (FileWriter fileWriter = new FileWriter(fileName, true)) {
             fileWriter.write(json);
         } catch (IOException e) {
             throw new RuntimeException("Could not write Swagger coverage in file", e);
         }
 
-        return path;
+        return Paths.get(fileName);
     }
 }

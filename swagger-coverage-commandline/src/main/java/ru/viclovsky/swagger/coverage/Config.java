@@ -6,7 +6,6 @@ public class Config {
 
     private Path specPath;
     private Path inputPath;
-    private Path outputPath;
     private boolean ignoreHeaders;
     private boolean ignoreStatusCodes;
 
@@ -27,21 +26,12 @@ public class Config {
         return this;
     }
 
-    public Config withOutputPath(Path outputPath) {
-        this.outputPath = outputPath;
-        return this;
-    }
-
     public Path getSpecPath() {
         return specPath;
     }
 
     public Path getInputPath() {
         return inputPath;
-    }
-
-    public Path getOutputPath() {
-        return outputPath;
     }
 
     public Boolean getIgnoreHeaders() {

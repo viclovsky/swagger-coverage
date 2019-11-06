@@ -12,14 +12,11 @@ public class CommandLine {
     @Parameter
     private List<String> parameters = new ArrayList<>();
 
-    @Parameter(names = "-spec", description = "Path to specification")
+    @Parameter(names = "-spec", description = "Path to specification", required = true)
     private Path specPath;
 
-    @Parameter(names = "-input", description = "Path to files with coverage")
+    @Parameter(names = "-input", description = "Path to files with coverage", required = true)
     private Path inputPath;
-
-    @Parameter(names = "-output", description = "Path to output")
-    private Path outputPath;
 
     @Parameter(names = "-ignoreHeaders", description = "Ignore headers")
     private boolean ignoreHeaders;
@@ -33,15 +30,13 @@ public class CommandLine {
                 .addObject(commandLine)
                 .build()
                 .parse(argv);
-
         commandLine.run();
     }
 
-    private void run() {
+    public void run() {
         Config config = Config.conf()
                 .withInputPath(inputPath)
                 .withSpecPath(specPath)
-                .withOutputPath(outputPath)
                 .withIgnoreHeaders(ignoreHeaders)
                 .withIgnoreStatusCodes(ignoreStatusCodes);
         SwaggerCoverageExec.swaggerCoverage(config).execute();
