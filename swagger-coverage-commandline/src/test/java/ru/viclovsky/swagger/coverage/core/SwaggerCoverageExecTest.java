@@ -1,4 +1,4 @@
-package ru.viclovsky.swagger.coverage;
+package ru.viclovsky.swagger.coverage.core;
 
 import org.junit.Test;
 import ru.viclovsky.swagger.coverage.config.Config;

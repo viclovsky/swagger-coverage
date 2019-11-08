@@ -1,4 +1,4 @@
-package ru.viclovsky.swagger.coverage;
+package ru.viclovsky.swagger.coverage.core;
 
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
