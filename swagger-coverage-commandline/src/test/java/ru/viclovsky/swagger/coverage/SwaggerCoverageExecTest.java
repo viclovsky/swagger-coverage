@@ -1,6 +1,8 @@
 package ru.viclovsky.swagger.coverage;
 
 import org.junit.Test;
+import ru.viclovsky.swagger.coverage.config.Config;
+import ru.viclovsky.swagger.coverage.core.SwaggerCoverageExec;
 
 import java.io.File;
 

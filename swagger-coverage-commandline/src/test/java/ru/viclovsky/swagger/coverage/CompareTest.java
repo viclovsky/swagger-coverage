@@ -5,6 +5,7 @@ import io.swagger.parser.SwaggerParser;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import ru.viclovsky.swagger.coverage.core.Compare;
 import ru.viclovsky.swagger.coverage.model.Coverage;
 
 import java.io.File;

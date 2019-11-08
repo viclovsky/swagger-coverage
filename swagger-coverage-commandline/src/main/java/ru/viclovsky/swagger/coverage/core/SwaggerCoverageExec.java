@@ -1,4 +1,4 @@
-package ru.viclovsky.swagger.coverage;
+package ru.viclovsky.swagger.coverage.core;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
 import org.apache.log4j.Logger;
+import ru.viclovsky.swagger.coverage.config.Config;
 import ru.viclovsky.swagger.coverage.model.Coverage;
 import ru.viclovsky.swagger.coverage.model.Output;
 import ru.viclovsky.swagger.coverage.model.Problem;
@@ -38,7 +39,7 @@ public class SwaggerCoverageExec {
 
     private final static Logger LOG = Logger.getLogger(SwaggerCoverageExec.class);
 
-    void execute() {
+    public void execute() {
         SwaggerParser parser = new SwaggerParser();
         Swagger spec = new SwaggerParser().read(config.getSpecPath().toString());
 

@@ -1,4 +1,4 @@
-package ru.viclovsky.swagger.coverage;
+package ru.viclovsky.swagger.coverage.config;
 
 import java.nio.file.Path;
 
