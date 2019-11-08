@@ -31,7 +31,7 @@ import static java.lang.String.valueOf;
 
 public class RequestLoggerFilter implements OrderedFilter {
 
-    private static final String OUTPUT_DIRECTORY = "output-swagger-coverage";
+    private static final String OUTPUT_DIRECTORY = "swagger-coverage-output";
     private static final String COVERAGE_RESULT_FILE_SUFFIX = "-coverage.json";
     private Path outputDirectory = Paths.get(OUTPUT_DIRECTORY);
 
