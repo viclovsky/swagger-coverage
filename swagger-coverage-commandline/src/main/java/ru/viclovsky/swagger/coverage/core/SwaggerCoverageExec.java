@@ -104,24 +104,6 @@ public class SwaggerCoverageExec {
         return result;
     }
 
-    private boolean isValidResultsDirectory(final Path resultsDirectory) {
-        if (isNull(resultsDirectory)) {
-            return false;
-        }
-        if (Files.notExists(resultsDirectory)) {
-            return false;
-        }
-        return Files.isDirectory(resultsDirectory);
-    }
-
-    private void createDirectories(final Path directory) {
-        try {
-            Files.createDirectories(directory);
-        } catch (IOException e) {
-            throw new RuntimeException("Could not create Swagger coverage directory", e);
-        }
-    }
-
     //todo: remove this
     private String dumpToJson(Object o) {
         //dump to json
