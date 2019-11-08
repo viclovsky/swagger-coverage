@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.viclovsky.swagger.coverage.config.Config;
 import ru.viclovsky.swagger.coverage.core.SwaggerCoverageExec;
-import ru.viclovsky.swagger.coverage.option.FilterOptions;
 import ru.viclovsky.swagger.coverage.option.MainOptions;
 import ru.viclovsky.swagger.coverage.option.VerboseOptions;
 
@@ -18,9 +17,6 @@ public class CommandLine {
 
     @ParametersDelegate
     private MainOptions mainOptions = new MainOptions();
-
-    @ParametersDelegate
-    private FilterOptions filterOptions = new FilterOptions();
 
     @ParametersDelegate
     private VerboseOptions verboseOptions = new VerboseOptions();
@@ -74,8 +70,8 @@ public class CommandLine {
         Config config = Config.conf()
                 .withInputPath(mainOptions.getInputPath())
                 .withSpecPath(mainOptions.getSpecPath())
-                .withIgnoreHeaders(filterOptions.isIgnoreHeaders())
-                .withIgnoreStatusCodes(filterOptions.isIgnoreStatusCodes());
+                .withIgnoreHeaders(mainOptions.isIgnoreHeaders())
+                .withIgnoreStatusCodes(mainOptions.isIgnoreStatusCodes());
 
         SwaggerCoverageExec.swaggerCoverage(config).execute();
         return ExitCode.NO_ERROR;
