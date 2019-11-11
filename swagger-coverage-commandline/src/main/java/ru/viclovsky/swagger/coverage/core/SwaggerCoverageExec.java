@@ -42,13 +42,14 @@ public class SwaggerCoverageExec {
     public void execute() {
         SwaggerParser parser = new SwaggerParser();
         Swagger spec = new SwaggerParser().read(config.getSpecPath().toString());
+        //todo: copy object?
+        Swagger temp = new SwaggerParser().read(config.getSpecPath().toString());
 
         Map<Path, Swagger> input = new HashMap<>();
         readPaths(config.getInputPath()).forEach(p -> input.put(p, parser.read(p.toString())));
 
-        Compare compare = new Compare(spec);
-        input.forEach((p, s) -> compare.addCoverage(s));
-
+        Compare compare = new Compare(spec, temp);
+        compare.addCoverage(input.values());
         Coverage coverage = compare.getCoverage();
         Output output = printCoverage(coverage);
         writeInFile(dumpToJson(output));

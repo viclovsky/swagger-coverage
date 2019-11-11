@@ -10,8 +10,8 @@ public class Coverage {
     }
 
     private Map<String, Operation> empty;
-    private Map<String, OperationPair> partial;
-    private Map<String, OperationPair> full;
+    private Map<String, OperationCoverage> partial;
+    private Map<String, OperationCoverage> full;
 
     public Map<String, Operation> getEmpty() {
         return empty;
@@ -22,20 +22,20 @@ public class Coverage {
         return this;
     }
 
-    public Map<String, OperationPair> getPartial() {
+    public Map<String, OperationCoverage> getPartial() {
         return partial;
     }
 
-    public Coverage withPartial(Map<String, OperationPair> partial) {
+    public Coverage withPartial(Map<String, OperationCoverage> partial) {
         this.partial = partial;
         return this;
     }
 
-    public Map<String, OperationPair> getFull() {
+    public Map<String, OperationCoverage> getFull() {
         return full;
     }
 
-    public Coverage withFull(Map<String, OperationPair> full) {
+    public Coverage withFull(Map<String, OperationCoverage> full) {
         this.full = full;
         return this;
     }

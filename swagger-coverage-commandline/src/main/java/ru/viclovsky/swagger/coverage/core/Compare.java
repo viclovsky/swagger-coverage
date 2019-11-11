@@ -3,32 +3,32 @@ package ru.viclovsky.swagger.coverage.core;
 import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
 import io.swagger.models.parameters.Parameter;
-import ru.viclovsky.swagger.coverage.model.OperationPair;
+import ru.viclovsky.swagger.coverage.model.OperationCoverage;
 import ru.viclovsky.swagger.coverage.model.Coverage;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Predicate;
 
-import static ru.viclovsky.swagger.coverage.model.OperationPair.operationPair;
+import static ru.viclovsky.swagger.coverage.model.OperationCoverage.operationCoverage;
 
 final class Compare {
 
     private static final String BODY_PARAM_NAME = "body";
     private Map<String, Operation> emptyCoverage;
-    private Map<String, OperationPair> partialCoverage;
-    private Map<String, OperationPair> fullCoverage;
+    private Map<String, OperationCoverage> partialCoverage;
+    private Map<String, OperationCoverage> fullCoverage;
     private Map<String, Operation> spec;
 
-    private boolean ignoreStatusCodes;
-    private boolean ignoreHeaders;
-
-    public Compare(Swagger spec) {
+    public Compare(Swagger spec, Swagger temp) {
         this.spec = getOperationMap(spec);
-        this.emptyCoverage = getOperationMap(spec);
+        this.emptyCoverage = getOperationMap(temp);
         this.partialCoverage = new HashMap<>();
         this.fullCoverage = new HashMap<>();
+    }
+
+    public Compare addCoverage(Collection<Swagger> coverageSpecs) {
+        coverageSpecs.forEach(this::addCoverage);
+        return this;
     }
 
     public Compare addCoverage(Swagger coverageSpec) {
@@ -49,10 +49,10 @@ final class Compare {
             }
 
             if (isEmptyOperation(Objects.requireNonNull(op))) {
-                fullCoverage.put(k, operationPair().withModified(op).withOriginal(spec.get(k)));
+                fullCoverage.put(k, operationCoverage().withModified(op).withOriginal(spec.get(k)));
                 return;
             }
-            partialCoverage.put(k, operationPair().withModified(op).withOriginal(spec.get(k)));
+            partialCoverage.put(k, operationCoverage().withModified(op).withOriginal(spec.get(k)));
         });
         return this;
     }
