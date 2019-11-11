@@ -3,6 +3,7 @@ package ru.viclovsky.swagger.coverage.model;
 import io.swagger.models.Operation;
 import io.swagger.models.parameters.Parameter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class OperationCoverage {
@@ -10,8 +11,8 @@ public class OperationCoverage {
     private Operation original;
     private Operation modified;
 
-    private Set<Parameter> ignoredParams;
-    private Set<String> ignoredStatusCodes;
+    private Set<Parameter> ignoredParams = new HashSet<>();
+    private Set<String> ignoredStatusCodes = new HashSet<>();
 
     private OperationCoverage() {
     }

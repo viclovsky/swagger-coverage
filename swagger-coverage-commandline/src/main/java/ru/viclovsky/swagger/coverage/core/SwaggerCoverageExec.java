@@ -53,11 +53,11 @@ public class SwaggerCoverageExec {
                 .withIgnoreStatusPattern(config.getIgnoreStatusCodes());
         compare.addCoverage(input.values());
         Coverage coverage = compare.getCoverage();
-        Output output = printCoverage(coverage);
+        Output output = getSimpleOutput(coverage);
         writeInFile(dumpToJson(output));
     }
 
-    private Output printCoverage(Coverage coverage) {
+    private Output getSimpleOutput(Coverage coverage) {
         Output output = new Output();
         int emptyCount = coverage.getEmpty().size();
         int partialCount = coverage.getPartial().size();

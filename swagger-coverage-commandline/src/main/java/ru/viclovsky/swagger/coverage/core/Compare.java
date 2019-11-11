@@ -10,7 +10,6 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static ru.viclovsky.swagger.coverage.model.OperationCoverage.operationCoverage;
 
 final class Compare {
@@ -20,8 +19,8 @@ final class Compare {
     private Map<String, OperationCoverage> partialCoverage;
     private Map<String, OperationCoverage> fullCoverage;
     private Map<String, Operation> spec;
-    private String ignoredStatusPattern = EMPTY;
-    private String ignoredParamsPattern = EMPTY;
+    private String ignoredStatusPattern;
+    private String ignoredParamsPattern;
 
     public Compare(Swagger spec, Swagger temp) {
         this.spec = getOperationMap(spec);
@@ -112,27 +111,39 @@ final class Compare {
 
     private Set<String> ignoreStatusCodes(Operation operation, String ignored) {
         Set<String> result = new TreeSet<>();
-        if (!ignored.isEmpty()) {
-            if (Objects.nonNull(operation.getResponses())) {
-                operation.getResponses().forEach((status, resp) -> {
-                   if (status.matches(ignored)) {
-                       result.add(status);
-                   }
-                });
-            }
+        if (Objects.isNull(ignored)) {
+            return result;
         }
-        operation.getResponses().keySet().removeAll(result);
+
+        if (Objects.nonNull(operation.getResponses())) {
+            if (!ignored.isEmpty()) {
+                if (Objects.nonNull(operation.getResponses())) {
+                    operation.getResponses().forEach((status, resp) -> {
+                        if (status.matches(ignored)) {
+                            result.add(status);
+                        }
+                    });
+                }
+            }
+            operation.getResponses().keySet().removeAll(result);
+        }
         return result;
     }
 
     private Set<Parameter> ignoreParams(Operation operation, String ignored) {
         Set<Parameter> result = new HashSet<>();
-        if (!ignored.isEmpty()) {
-            if (Objects.nonNull(operation.getParameters())) {
-                result = operation.getParameters().stream()
-                        .filter(p -> p.getName().matches(ignored)).collect(Collectors.toSet());
+        if (Objects.isNull(ignored)) {
+            return result;
+        }
+
+        if (Objects.nonNull(operation.getParameters())) {
+            if (!ignored.isEmpty()) {
+                if (Objects.nonNull(operation.getParameters())) {
+                    result = operation.getParameters().stream()
+                            .filter(p -> p.getName().matches(ignored)).collect(Collectors.toSet());
+                }
+                result.forEach(r -> operation.getParameters().remove(r));
             }
-            result.forEach(r -> operation.getParameters().remove(r));
         }
         return result;
     }

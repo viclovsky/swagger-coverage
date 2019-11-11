@@ -56,7 +56,7 @@ public class MainOptions {
         return inputPath;
     }
 
-    public String getIgnoreHeaders() {
+    public String getIgnoreParams() {
         return ignoreHeaders;
     }
 

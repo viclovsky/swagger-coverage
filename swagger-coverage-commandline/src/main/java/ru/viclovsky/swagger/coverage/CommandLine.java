@@ -70,7 +70,7 @@ public class CommandLine {
         Config config = Config.conf()
                 .withInputPath(mainOptions.getInputPath())
                 .withSpecPath(mainOptions.getSpecPath())
-                .withIgnoreHeaders(mainOptions.getIgnoreHeaders())
+                .withIgnoreParams(mainOptions.getIgnoreParams())
                 .withIgnoreStatusCodes(mainOptions.getIgnoreStatusCodes());
 
         SwaggerCoverageExec.swaggerCoverage(config).execute();

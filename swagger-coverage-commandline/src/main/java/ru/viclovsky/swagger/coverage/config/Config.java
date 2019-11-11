@@ -40,8 +40,8 @@ public class Config {
         return ignoreParams;
     }
 
-    public Config withIgnoreHeaders(String ignoreHeaders) {
-        this.ignoreParams = ignoreHeaders;
+    public Config withIgnoreParams(String ignoreParams) {
+        this.ignoreParams = ignoreParams;
         return this;
     }
 
