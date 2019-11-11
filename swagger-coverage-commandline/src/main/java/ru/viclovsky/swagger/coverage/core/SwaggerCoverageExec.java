@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import io.swagger.models.Swagger;
+import io.swagger.models.parameters.Parameter;
 import io.swagger.parser.SwaggerParser;
 import org.apache.log4j.Logger;
 import ru.viclovsky.swagger.coverage.config.Config;
@@ -18,9 +19,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static java.util.Objects.isNull;
 
 public class SwaggerCoverageExec {
 
@@ -48,7 +48,9 @@ public class SwaggerCoverageExec {
         Map<Path, Swagger> input = new HashMap<>();
         readPaths(config.getInputPath()).forEach(p -> input.put(p, parser.read(p.toString())));
 
-        Compare compare = new Compare(spec, temp);
+        Compare compare = new Compare(spec, temp)
+                .withIgnoreParamsPattern(config.getIgnoreParams())
+                .withIgnoreStatusPattern(config.getIgnoreStatusCodes());
         compare.addCoverage(input.values());
         Coverage coverage = compare.getCoverage();
         Output output = printCoverage(coverage);
@@ -77,11 +79,15 @@ public class SwaggerCoverageExec {
 
             partialOutput.put(k, problem
                     .withAllParamsCount(v.getOriginal().getParameters().size())
+                    .withIgnoredParamsCount(v.getIgnoredParams().size())
                     .withParamsCount(v.getModified().getParameters().size())
                     .withAllStatusCodesCount(v.getOriginal().getResponses().keySet().size())
+                    .withIgnoredStatusCodesCount(v.getIgnoredStatusCodes().size())
                     .withStatusCodesCount(v.getModified().getResponses().keySet().size())
                     .withParams(paramsProblem)
+                    .withIgnoredParams(v.getIgnoredParams().stream().map(Parameter::getName).collect(Collectors.toSet()))
                     .withStatusCodes(statusCodesProblem)
+                    .withIgnoredStatusCodes(v.getIgnoredStatusCodes())
             );
         });
 

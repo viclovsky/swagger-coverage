@@ -17,7 +17,14 @@ public class SwaggerCoverageExecTest {
     @Test
     public void shouldExecute() {
         SwaggerCoverageExec.swaggerCoverage(Config.conf()
+                .withInputPath(reqDir.toPath()).withSpecPath(spec.toPath())).execute();
+    }
+
+    @Test
+    public void shouldExecuteWithIgnoredAllStatusCodesAndParams() {
+        SwaggerCoverageExec.swaggerCoverage(Config.conf()
                 .withInputPath(reqDir.toPath()).withSpecPath(spec.toPath())
-                .withIgnoreHeaders(true).withIgnoreStatusCodes(true)).execute();
+                .withIgnoreHeaders(".*").withIgnoreStatusCodes(".*"))
+                .execute();
     }
 }

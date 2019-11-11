@@ -8,7 +8,9 @@ import ru.viclovsky.swagger.coverage.model.Coverage;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static ru.viclovsky.swagger.coverage.model.OperationCoverage.operationCoverage;
 
 final class Compare {
@@ -18,12 +20,24 @@ final class Compare {
     private Map<String, OperationCoverage> partialCoverage;
     private Map<String, OperationCoverage> fullCoverage;
     private Map<String, Operation> spec;
+    private String ignoredStatusPattern = EMPTY;
+    private String ignoredParamsPattern = EMPTY;
 
     public Compare(Swagger spec, Swagger temp) {
         this.spec = getOperationMap(spec);
         this.emptyCoverage = getOperationMap(temp);
         this.partialCoverage = new HashMap<>();
         this.fullCoverage = new HashMap<>();
+    }
+
+    public Compare withIgnoreStatusPattern(String ignoredStatusPattern) {
+        this.ignoredStatusPattern = ignoredStatusPattern;
+        return this;
+    }
+
+    public Compare withIgnoreParamsPattern(String ignoredParamsPattern) {
+        this.ignoredParamsPattern = ignoredParamsPattern;
+        return this;
     }
 
     public Compare addCoverage(Collection<Swagger> coverageSpecs) {
@@ -34,11 +48,17 @@ final class Compare {
     public Compare addCoverage(Swagger coverageSpec) {
         Map<String, Operation> coverage = getOperationMap(coverageSpec);
         coverage.forEach((k, operation) -> {
+            Set<String> ignoredStatusCodes = new HashSet<>();
+            Set<Parameter> ignoredParams = new HashSet<>();
+
             if (fullCoverage.containsKey(k)) {
                 return;
             }
             Operation op = null;
             if (emptyCoverage.containsKey(k)) {
+                ignoredStatusCodes.addAll(ignoreStatusCodes(emptyCoverage.get(k), ignoredStatusPattern));
+                ignoredParams.addAll(ignoreParams(emptyCoverage.get(k), ignoredParamsPattern));
+
                 op = processOperation(operation, emptyCoverage.get(k));
                 emptyCoverage.remove(k);
             }
@@ -49,10 +69,12 @@ final class Compare {
             }
 
             if (isEmptyOperation(Objects.requireNonNull(op))) {
-                fullCoverage.put(k, operationCoverage().withModified(op).withOriginal(spec.get(k)));
+                fullCoverage.put(k, operationCoverage().withModified(op).withOriginal(spec.get(k))
+                        .withIgnoredStatusCodes(ignoredStatusCodes).withIgnoredParams(ignoredParams));
                 return;
             }
-            partialCoverage.put(k, operationCoverage().withModified(op).withOriginal(spec.get(k)));
+            partialCoverage.put(k, operationCoverage().withModified(op).withOriginal(spec.get(k))
+                    .withIgnoredStatusCodes(ignoredStatusCodes).withIgnoredParams(ignoredParams));
         });
         return this;
     }
@@ -86,6 +108,33 @@ final class Compare {
                             .ifPresent(presentParam -> expected.getParameters().remove(presentParam)));
         }
         return expected;
+    }
+
+    private Set<String> ignoreStatusCodes(Operation operation, String ignored) {
+        Set<String> result = new TreeSet<>();
+        if (!ignored.isEmpty()) {
+            if (Objects.nonNull(operation.getResponses())) {
+                operation.getResponses().forEach((status, resp) -> {
+                   if (status.matches(ignored)) {
+                       result.add(status);
+                   }
+                });
+            }
+        }
+        operation.getResponses().keySet().removeAll(result);
+        return result;
+    }
+
+    private Set<Parameter> ignoreParams(Operation operation, String ignored) {
+        Set<Parameter> result = new HashSet<>();
+        if (!ignored.isEmpty()) {
+            if (Objects.nonNull(operation.getParameters())) {
+                result = operation.getParameters().stream()
+                        .filter(p -> p.getName().matches(ignored)).collect(Collectors.toSet());
+            }
+            result.forEach(r -> operation.getParameters().remove(r));
+        }
+        return result;
     }
 
     public Coverage getCoverage() {

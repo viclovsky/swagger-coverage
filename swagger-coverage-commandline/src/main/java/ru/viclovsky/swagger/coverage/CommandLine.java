@@ -70,8 +70,8 @@ public class CommandLine {
         Config config = Config.conf()
                 .withInputPath(mainOptions.getInputPath())
                 .withSpecPath(mainOptions.getSpecPath())
-                .withIgnoreHeaders(mainOptions.isIgnoreHeaders())
-                .withIgnoreStatusCodes(mainOptions.isIgnoreStatusCodes());
+                .withIgnoreHeaders(mainOptions.getIgnoreHeaders())
+                .withIgnoreStatusCodes(mainOptions.getIgnoreStatusCodes());
 
         SwaggerCoverageExec.swaggerCoverage(config).execute();
         return ExitCode.NO_ERROR;

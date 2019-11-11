@@ -24,17 +24,17 @@ public class MainOptions {
 
     @Parameter(
             names = "--ignoreHeaders",
-            description = "Ignore all headers.",
+            description = "Ignore headers by regexp.",
             order = 2
     )
-    private boolean ignoreHeaders;
+    private String ignoreHeaders;
 
     @Parameter(
             names = "--ignoreStatusCodes",
-            description = "Ignore status codes, except status code 200.",
+            description = "Ignore status codes by regexp",
             order = 3
     )
-    private boolean ignoreStatusCodes;
+    private String ignoreStatusCodes;
 
     @Parameter(
             names = "--help",
@@ -56,11 +56,11 @@ public class MainOptions {
         return inputPath;
     }
 
-    public boolean isIgnoreHeaders() {
+    public String getIgnoreHeaders() {
         return ignoreHeaders;
     }
 
-    public boolean isIgnoreStatusCodes() {
+    public String getIgnoreStatusCodes() {
         return ignoreStatusCodes;
     }
 }

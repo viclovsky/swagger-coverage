@@ -33,6 +33,7 @@ public class RequestLoggerFilter implements OrderedFilter {
 
     private static final String OUTPUT_DIRECTORY = "swagger-coverage-output";
     private static final String COVERAGE_RESULT_FILE_SUFFIX = "-coverage.json";
+    private static final String BODY_PARAM_NAME = "body";
     private Path outputDirectory = Paths.get(OUTPUT_DIRECTORY);
 
     public RequestLoggerFilter(Path outputDirectory) {
@@ -56,7 +57,7 @@ public class RequestLoggerFilter implements OrderedFilter {
         requestSpec.getHeaders().forEach(header -> operation.addParameter(new HeaderParameter().name(header.getName()).example(header.getValue())));
 
         if (Objects.nonNull(requestSpec.getBody())) {
-            operation.addParameter(new BodyParameter().name("body"));
+            operation.addParameter(new BodyParameter().name(BODY_PARAM_NAME));
         }
 
         final Response response = ctx.next(requestSpec, responseSpec);
