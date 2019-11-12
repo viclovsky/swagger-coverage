@@ -12,12 +12,15 @@ import ru.viclovsky.swagger.coverage.config.Config;
 import ru.viclovsky.swagger.coverage.model.Coverage;
 import ru.viclovsky.swagger.coverage.model.Output;
 import ru.viclovsky.swagger.coverage.model.Problem;
+import ru.viclovsky.swagger.coverage.model.Statistics;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -25,9 +28,9 @@ import java.util.stream.Stream;
 public class SwaggerCoverageExec {
 
     private static final String COVERAGE_RESULTS_FILE_SUFFIX = "-coverage-results.json";
+    private static final String STATISTICS_FILE_SUFFIX = "-statistics.json";
 
     private Config config;
-
 
     private SwaggerCoverageExec(Config config) {
         this.config = config;
@@ -53,17 +56,26 @@ public class SwaggerCoverageExec {
                 .withIgnoreStatusPattern(config.getIgnoreStatusCodes());
         compare.addCoverage(input.values());
         Coverage coverage = compare.getCoverage();
-        Output output = getSimpleOutput(coverage);
-        writeInFile(dumpToJson(output));
+
+        Statistics statistics = getStatistics(coverage);
+        Output output = getOutput(coverage);
+
+        writeInFile(dumpToJson(output), COVERAGE_RESULTS_FILE_SUFFIX);
+        writeInFile(dumpToJson(statistics), STATISTICS_FILE_SUFFIX);
     }
 
-    private Output getSimpleOutput(Coverage coverage) {
-        Output output = new Output();
+    private Statistics getStatistics(Coverage coverage) {
         int emptyCount = coverage.getEmpty().size();
         int partialCount = coverage.getPartial().size();
         int fullCount = coverage.getFull().size();
         int allCount = emptyCount + partialCount + fullCount;
 
+        return new Statistics().withAllCount(allCount).withEmptyCount(emptyCount)
+                .withPartialCount(partialCount).withFullCount(fullCount);
+    }
+
+    private Output getOutput(Coverage coverage) {
+        Output output = new Output();
         Map<String, Problem> partialOutput = new HashMap<>();
 
         coverage.getPartial().forEach((k, v) ->
@@ -91,10 +103,7 @@ public class SwaggerCoverageExec {
             );
         });
 
-        output.withAllCount(allCount).withEmptyCount(emptyCount)
-                .withPartialCount(partialCount)
-                .withFullCount(fullCount)
-                .withEmpty(coverage.getEmpty().keySet())
+        output.withEmpty(coverage.getEmpty().keySet())
                 .withFull(coverage.getFull().keySet())
                 .withPartial(partialOutput);
 
@@ -127,8 +136,8 @@ public class SwaggerCoverageExec {
         return json;
     }
 
-    private Path writeInFile(String json) {
-        String fileName = UUID.randomUUID().toString() + COVERAGE_RESULTS_FILE_SUFFIX;
+    private Path writeInFile(String json, String fileSuffix) {
+        String fileName = ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME) + fileSuffix;
 
         try (FileWriter fileWriter = new FileWriter(fileName, true)) {
             fileWriter.write(json);

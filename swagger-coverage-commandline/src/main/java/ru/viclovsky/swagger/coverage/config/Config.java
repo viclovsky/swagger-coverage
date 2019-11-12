@@ -2,14 +2,12 @@ package ru.viclovsky.swagger.coverage.config;
 
 import java.nio.file.Path;
 
-import static org.apache.commons.lang3.StringUtils.EMPTY;
-
 public class Config {
 
     private Path specPath;
     private Path inputPath;
-    private String ignoreParams = EMPTY;
-    private String ignoreStatusCodes = EMPTY;
+    private String ignoreParams;
+    private String ignoreStatusCodes;
 
     private Config() {
     }

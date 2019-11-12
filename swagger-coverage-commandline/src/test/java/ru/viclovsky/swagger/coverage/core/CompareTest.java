@@ -56,22 +56,11 @@ public class CompareTest {
 
     @Test
     public void shouldSeeAllFull() {
-        Coverage compare = new Compare(swagger, swagger2).addCoverage(swagger2).getCoverage();
-        assertThat(compare.getEmpty().keySet(), hasSize(0));
-        assertThat(compare.getPartial().keySet(), hasSize(0));
-        assertThat(compare.getFull().keySet(), hasSize(20));
-    }
-
-
-    @Test
-    @Ignore("java.util.ConcurrentModificationException")
-    public void shouldSeeAddAll() {
         Coverage compare = new Compare(swagger, swagger2).addCoverage(swagger).getCoverage();
         assertThat(compare.getEmpty().keySet(), hasSize(0));
         assertThat(compare.getPartial().keySet(), hasSize(0));
         assertThat(compare.getFull().keySet(), hasSize(20));
     }
-
 
     @Test
     public void shouldAddPartial() {

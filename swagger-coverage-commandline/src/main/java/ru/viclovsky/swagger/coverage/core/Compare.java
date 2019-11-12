@@ -3,6 +3,7 @@ package ru.viclovsky.swagger.coverage.core;
 import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
 import io.swagger.models.parameters.Parameter;
+import org.apache.log4j.Logger;
 import ru.viclovsky.swagger.coverage.model.OperationCoverage;
 import ru.viclovsky.swagger.coverage.model.Coverage;
 
@@ -13,6 +14,8 @@ import java.util.stream.Collectors;
 import static ru.viclovsky.swagger.coverage.model.OperationCoverage.operationCoverage;
 
 final class Compare {
+
+    private final static Logger LOG = Logger.getLogger(Compare.class);
 
     private static final String BODY_PARAM_NAME = "body";
     private Map<String, Operation> emptyCoverage;
