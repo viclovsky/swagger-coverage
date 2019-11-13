@@ -32,7 +32,7 @@ public class RequestLoggerFilterTest {
 
     @Test
     public void shouldDumpSwaggerFile() {
-        RestAssured.given().filter(new RequestLoggerFilter())
+        RestAssured.given().filter(new SwaggerCoverageRestAssured())
                 .header(new Header("X-Request-ID", "h"))
                 .formParam("form_param", "f")
                 .queryParam("query_param", "q")

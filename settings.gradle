@@ -1,4 +1,4 @@
 rootProject.name = 'swagger-coverage'
 include 'swagger-coverage-commandline'
-include 'rest-assured-request-logger-filter'
+include 'swagger-coverage-rest-assured'
 

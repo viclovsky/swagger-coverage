@@ -29,18 +29,18 @@ import java.util.UUID;
 import static io.swagger.models.Scheme.forValue;
 import static java.lang.String.valueOf;
 
-public class RequestLoggerFilter implements OrderedFilter {
+public class SwaggerCoverageRestAssured implements OrderedFilter {
 
     private static final String OUTPUT_DIRECTORY = "swagger-coverage-output";
     private static final String COVERAGE_RESULT_FILE_SUFFIX = "-coverage.json";
     private static final String BODY_PARAM_NAME = "body";
     private Path outputDirectory = Paths.get(OUTPUT_DIRECTORY);
 
-    public RequestLoggerFilter(Path outputDirectory) {
+    public SwaggerCoverageRestAssured(Path outputDirectory) {
         this.outputDirectory = outputDirectory;
     }
 
-    public RequestLoggerFilter() {
+    public SwaggerCoverageRestAssured() {
     }
 
     @Override
