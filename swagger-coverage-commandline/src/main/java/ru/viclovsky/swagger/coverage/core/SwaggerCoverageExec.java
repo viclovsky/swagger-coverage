@@ -1,9 +1,5 @@
 package ru.viclovsky.swagger.coverage.core;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import io.swagger.models.Swagger;
 import io.swagger.models.parameters.Parameter;
 import io.swagger.parser.SwaggerParser;
@@ -14,19 +10,14 @@ import ru.viclovsky.swagger.coverage.model.Output;
 import ru.viclovsky.swagger.coverage.model.Problem;
 import ru.viclovsky.swagger.coverage.model.Statistics;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static ru.viclovsky.swagger.coverage.utils.FileUtils.writeInFile;
-import static ru.viclovsky.swagger.coverage.utils.JsonUtils.dumpToJson;
 
 public class SwaggerCoverageExec {
 
@@ -61,7 +52,7 @@ public class SwaggerCoverageExec {
         Coverage coverage = compare.getCoverage();
 
         Output output = getOutput(coverage);
-        writeInFile(dumpToJson(output), ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME), COVERAGE_RESULTS_FILE_SUFFIX);
+//        writeInFile(dumpToJson(output), ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME), COVERAGE_RESULTS_FILE_SUFFIX);
     }
 
     private Statistics getStatistics(Coverage coverage) {

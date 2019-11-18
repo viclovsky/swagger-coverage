@@ -1,9 +1,5 @@
 package ru.viclovsky.swagger.coverage;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import io.restassured.filter.FilterContext;
 import io.restassured.filter.OrderedFilter;
 import io.restassured.response.Response;
@@ -16,33 +12,26 @@ import io.swagger.models.parameters.FormParameter;
 import io.swagger.models.parameters.HeaderParameter;
 import io.swagger.models.parameters.PathParameter;
 import io.swagger.models.parameters.QueryParameter;
-import ru.viclovsky.swagger.coverage.utils.FileUtils;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.net.URI;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
-import java.util.UUID;
 
 import static io.swagger.models.Scheme.forValue;
 import static java.lang.String.valueOf;
-import static ru.viclovsky.swagger.coverage.utils.JsonUtils.dumpToJson;
+import static ru.viclovsky.swagger.coverage.SwaggerCoverageConstants.BODY_PARAM_NAME;
+import static ru.viclovsky.swagger.coverage.SwaggerCoverageConstants.OUTPUT_DIRECTORY;
 
 public class SwaggerCoverageRestAssured implements OrderedFilter {
 
-    private static final String OUTPUT_DIRECTORY = "swagger-coverage-output";
-    private static final String COVERAGE_RESULT_FILE_SUFFIX = "-coverage.json";
-    private static final String BODY_PARAM_NAME = "body";
-    private Path outputDirectory = Paths.get(OUTPUT_DIRECTORY);
+    private CoverageResultsWriter writer;
 
-    public SwaggerCoverageRestAssured(Path outputDirectory) {
-        this.outputDirectory = outputDirectory;
+    public SwaggerCoverageRestAssured(CoverageResultsWriter writer) {
+        this.writer = writer;
     }
 
     public SwaggerCoverageRestAssured() {
+       this.writer = new FileSystemResultsWriter(Paths.get(OUTPUT_DIRECTORY));
     }
 
     @Override
@@ -73,21 +62,7 @@ public class SwaggerCoverageRestAssured implements OrderedFilter {
                 .produces(response.getContentType())
                 .path(requestSpec.getUserDefinedPath(), new io.swagger.models.Path().set(requestSpec.getMethod().toLowerCase(), operation));
 
-        createDirectories(outputDirectory);
-        writeInFile(swagger);
+        writer.write(swagger);
         return response;
-    }
-
-    private void createDirectories(final Path directory) {
-        try {
-            Files.createDirectories(directory);
-        } catch (IOException e) {
-            throw new RuntimeException("Could not create Swagger coverage directory", e);
-        }
-    }
-
-    private void writeInFile(Swagger swagger) {
-        String json = dumpToJson(swagger);
-        FileUtils.writeInFile(json, UUID.randomUUID().toString(), COVERAGE_RESULT_FILE_SUFFIX);
     }
 }
