@@ -24,14 +24,14 @@ import static ru.viclovsky.swagger.coverage.SwaggerCoverageConstants.OUTPUT_DIRE
 
 public class SwaggerCoverageRestAssured implements OrderedFilter {
 
-    private CoverageResultsWriter writer;
+    private CoverageOutputWriter writer;
 
-    public SwaggerCoverageRestAssured(CoverageResultsWriter writer) {
+    public SwaggerCoverageRestAssured(CoverageOutputWriter writer) {
         this.writer = writer;
     }
 
     public SwaggerCoverageRestAssured() {
-       this.writer = new FileSystemResultsWriter(Paths.get(OUTPUT_DIRECTORY));
+       this.writer = new FileSystemOutputWriter(Paths.get(OUTPUT_DIRECTORY));
     }
 
     @Override

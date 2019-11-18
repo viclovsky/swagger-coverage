@@ -10,15 +10,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
-import static ru.viclovsky.swagger.coverage.SwaggerCoverageUtils.generateCoverageResultName;
+import static ru.viclovsky.swagger.coverage.SwaggerCoverageUtils.generateCoverageOutputName;
 
-public class FileSystemResultsWriter implements CoverageResultsWriter {
+public class FileSystemOutputWriter implements CoverageOutputWriter {
 
     private final Path outputDirectory;
 
     private final ObjectMapper mapper;
 
-    public FileSystemResultsWriter(final Path outputDirectory) {
+    public FileSystemOutputWriter(final Path outputDirectory) {
         this.outputDirectory = outputDirectory;
         this.mapper = SwaggerCoverage2ModelJackson.createMapper();
     }
@@ -27,19 +27,19 @@ public class FileSystemResultsWriter implements CoverageResultsWriter {
         try {
             Files.createDirectories(directory);
         } catch (IOException e) {
-            throw new SwaggerCoverageWriteException("Could not create Swagger results directory", e);
+            throw new SwaggerCoverageWriteException("Could not create Swagger output directory", e);
         }
     }
 
     @Override
-    public void write(Swagger swaggerResults) {
-        final String swaggerResultName = generateCoverageResultName();
+    public void write(Swagger swagger) {
+        final String swaggerResultName = generateCoverageOutputName();
         createDirectories(outputDirectory);
         Path file = outputDirectory.resolve(swaggerResultName);
         try (OutputStream os = Files.newOutputStream(file, CREATE_NEW)) {
-            mapper.writeValue(os, swaggerResults);
+            mapper.writeValue(os, swagger);
         } catch (IOException e) {
-            throw new SwaggerCoverageWriteException("Could not write Swagger result", e);
+            throw new SwaggerCoverageWriteException("Could not write Swagger", e);
         }
     }
 }

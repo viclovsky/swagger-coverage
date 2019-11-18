@@ -13,16 +13,11 @@ import ru.viclovsky.swagger.coverage.model.Statistics;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class SwaggerCoverageExec {
-
-    private static final String COVERAGE_RESULTS_FILE_SUFFIX = "-coverage-results.json";
-    private static final String STATISTICS_FILE_SUFFIX = "-statistics.json";
 
     private Config config;
 
@@ -39,7 +34,7 @@ public class SwaggerCoverageExec {
     public void execute() {
         SwaggerParser parser = new SwaggerParser();
         Swagger spec = new SwaggerParser().read(config.getSpecPath().toString());
-        //todo: copy object?
+
         Swagger temp = new SwaggerParser().read(config.getSpecPath().toString());
 
         Map<Path, Swagger> input = new HashMap<>();
@@ -52,7 +47,6 @@ public class SwaggerCoverageExec {
         Coverage coverage = compare.getCoverage();
 
         Output output = getOutput(coverage);
-//        writeInFile(dumpToJson(output), ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME), COVERAGE_RESULTS_FILE_SUFFIX);
     }
 
     private Statistics getStatistics(Coverage coverage) {

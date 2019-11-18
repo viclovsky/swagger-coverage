@@ -2,6 +2,6 @@ package ru.viclovsky.swagger.coverage;
 
 import io.swagger.models.Swagger;
 
-public interface CoverageResultsWriter {
+public interface CoverageOutputWriter {
     void write(Swagger swagger);
 }
