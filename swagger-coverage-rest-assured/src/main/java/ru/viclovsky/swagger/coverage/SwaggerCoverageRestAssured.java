@@ -16,6 +16,7 @@ import io.swagger.models.parameters.FormParameter;
 import io.swagger.models.parameters.HeaderParameter;
 import io.swagger.models.parameters.PathParameter;
 import io.swagger.models.parameters.QueryParameter;
+import ru.viclovsky.swagger.coverage.utils.FileUtils;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -28,6 +29,7 @@ import java.util.UUID;
 
 import static io.swagger.models.Scheme.forValue;
 import static java.lang.String.valueOf;
+import static ru.viclovsky.swagger.coverage.utils.JsonUtils.dumpToJson;
 
 public class SwaggerCoverageRestAssured implements OrderedFilter {
 
@@ -85,25 +87,7 @@ public class SwaggerCoverageRestAssured implements OrderedFilter {
     }
 
     private void writeInFile(Swagger swagger) {
-        //dump to json
-        ObjectWriter ow = new ObjectMapper()
-                .setSerializationInclusion(JsonInclude.Include.NON_NULL)
-                .writer().withDefaultPrettyPrinter();
-        String json = null;
-
-        try {
-            json = ow.writeValueAsString(swagger);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Could not process Swagger coverage", e);
-
-        }
-
-        String uuid = UUID.randomUUID().toString() + COVERAGE_RESULT_FILE_SUFFIX;
-        //write in uuid random file
-        try (FileWriter fileWriter = new FileWriter(Paths.get(outputDirectory.toString(), uuid).toFile(), true)) {
-            fileWriter.write(json);
-        } catch (IOException e) {
-            throw new RuntimeException("Could not write Swagger coverage in file", e);
-        }
+        String json = dumpToJson(swagger);
+        FileUtils.writeInFile(json, UUID.randomUUID().toString(), COVERAGE_RESULT_FILE_SUFFIX);
     }
 }

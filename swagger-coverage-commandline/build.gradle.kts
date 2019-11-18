@@ -21,6 +21,7 @@ repositories {
 }
 
 dependencies {
+    api(project(":swagger-coverage-commons"))
     implementation("io.swagger:swagger-compat-spec-parser")
     implementation("org.slf4j:slf4j-simple")
     implementation("log4j:log4j")

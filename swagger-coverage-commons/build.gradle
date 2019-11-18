@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+}
+
+group 'ru.viclovsky.swagger.coverage'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+description = "Swagger Coverage Commons"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("com.fasterxml.jackson.core:jackson-core:2.10.1")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.10.1")
+    testImplementation("junit:junit")
+}

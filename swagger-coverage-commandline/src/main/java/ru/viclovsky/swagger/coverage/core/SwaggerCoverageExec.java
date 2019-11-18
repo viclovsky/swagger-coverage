@@ -25,6 +25,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static ru.viclovsky.swagger.coverage.utils.FileUtils.writeInFile;
+import static ru.viclovsky.swagger.coverage.utils.JsonUtils.dumpToJson;
+
 public class SwaggerCoverageExec {
 
     private static final String COVERAGE_RESULTS_FILE_SUFFIX = "-coverage-results.json";
@@ -60,8 +63,8 @@ public class SwaggerCoverageExec {
         Statistics statistics = getStatistics(coverage);
         Output output = getOutput(coverage);
 
-        writeInFile(dumpToJson(output), COVERAGE_RESULTS_FILE_SUFFIX);
-        writeInFile(dumpToJson(statistics), STATISTICS_FILE_SUFFIX);
+        writeInFile(dumpToJson(output), ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME), COVERAGE_RESULTS_FILE_SUFFIX);
+        writeInFile(dumpToJson(statistics), ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME), STATISTICS_FILE_SUFFIX);
     }
 
     private Statistics getStatistics(Coverage coverage) {
@@ -118,33 +121,5 @@ public class SwaggerCoverageExec {
             throw new RuntimeException("can't read coverage file's", e);
         }
         return result;
-    }
-
-    //todo: remove this
-    private String dumpToJson(Object o) {
-        //dump to json
-        ObjectWriter ow = new ObjectMapper()
-                .setSerializationInclusion(JsonInclude.Include.NON_NULL)
-                .writer().withDefaultPrettyPrinter();
-        String json = null;
-
-        try {
-            json = ow.writeValueAsString(o);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Could not process json", e);
-        }
-        return json;
-    }
-
-    private Path writeInFile(String json, String fileSuffix) {
-        String fileName = ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME) + fileSuffix;
-
-        try (FileWriter fileWriter = new FileWriter(fileName, true)) {
-            fileWriter.write(json);
-        } catch (IOException e) {
-            throw new RuntimeException("Could not write Swagger coverage in file", e);
-        }
-
-        return Paths.get(fileName);
     }
 }

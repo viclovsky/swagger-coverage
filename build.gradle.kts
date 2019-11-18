@@ -13,7 +13,12 @@ java {
 }
 
 configure(subprojects) {
+    group = "ru.viclovsky.swagger.coverage"
+    version = version
+
     apply(plugin = "io.spring.dependency-management")
+    apply(plugin = "java")
+    apply(plugin = "java-library")
 
     configure<DependencyManagementExtension> {
         imports {
@@ -28,6 +33,8 @@ configure(subprojects) {
             dependency("org.hamcrest:hamcrest-all:1.3")
             dependency("io.rest-assured:rest-assured:4.0.0")
             dependency("com.github.tomakehurst:wiremock:2.24.1")
+            dependency("com.fasterxml.jackson.core:jackson-core:2.10.1")
+            dependency("com.fasterxml.jackson.core:jackson-databind:2.10.1")
         }
     }
 }
