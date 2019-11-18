@@ -7,12 +7,13 @@ public class Output {
     private Set<String> empty;
     private Set<String> full;
     private Map<String, Problem> partial;
+    private Statistics statistics;
 
     public Set<String> getEmpty() {
         return empty;
     }
 
-    public Output withEmpty(Set<String> empty) {
+    public Output setEmpty(Set<String> empty) {
         this.empty = empty;
         return this;
     }
@@ -21,7 +22,7 @@ public class Output {
         return full;
     }
 
-    public Output withFull(Set<String> full) {
+    public Output setFull(Set<String> full) {
         this.full = full;
         return this;
     }
@@ -30,8 +31,17 @@ public class Output {
         return partial;
     }
 
-    public Output withPartial(Map<String, Problem> partial) {
+    public Output setPartial(Map<String, Problem> partial) {
         this.partial = partial;
         return this;
+    }
+
+    public Output setStatistics(Statistics statistics) {
+        this.statistics = statistics;
+        return this;
+    }
+
+    public Statistics getStatistics() {
+        return statistics;
     }
 }

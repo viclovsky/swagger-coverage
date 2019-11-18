@@ -16,14 +16,14 @@ public class SwaggerCoverageExecTest {
     @Test
     public void shouldExecute() {
         SwaggerCoverageExec.swaggerCoverage(Config.conf()
-                .withInputPath(reqDir.toPath()).withSpecPath(spec.toPath())).execute();
+                .setInputPath(reqDir.toPath()).setSpecPath(spec.toPath())).execute();
     }
 
     @Test
     public void shouldExecuteWithIgnoredAllStatusCodesAndParams() {
         SwaggerCoverageExec.swaggerCoverage(Config.conf()
-                .withInputPath(reqDir.toPath()).withSpecPath(spec.toPath())
-                .withIgnoreParams("x-.*").withIgnoreStatusCodes("^[4].*"))
+                .setInputPath(reqDir.toPath()).setSpecPath(spec.toPath())
+                .setIgnoreParams("x-.*").setIgnoreStatusCodes("^[4].*"))
                 .execute();
     }
 }

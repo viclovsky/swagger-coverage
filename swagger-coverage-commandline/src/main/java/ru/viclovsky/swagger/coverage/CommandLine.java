@@ -68,10 +68,10 @@ public class CommandLine {
         }
 
         Config config = Config.conf()
-                .withInputPath(mainOptions.getInputPath())
-                .withSpecPath(mainOptions.getSpecPath())
-                .withIgnoreParams(mainOptions.getIgnoreParams())
-                .withIgnoreStatusCodes(mainOptions.getIgnoreStatusCodes());
+                .setInputPath(mainOptions.getInputPath())
+                .setSpecPath(mainOptions.getSpecPath())
+                .setIgnoreParams(mainOptions.getIgnoreParams())
+                .setIgnoreStatusCodes(mainOptions.getIgnoreStatusCodes());
 
         SwaggerCoverageExec.swaggerCoverage(config).execute();
         return ExitCode.NO_ERROR;

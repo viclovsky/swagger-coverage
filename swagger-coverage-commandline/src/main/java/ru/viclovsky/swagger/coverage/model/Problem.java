@@ -20,7 +20,7 @@ public class Problem {
         return paramsCount;
     }
 
-    public Problem withParamsCount(int paramsCount) {
+    public Problem setParamsCount(int paramsCount) {
         this.paramsCount = paramsCount;
         return this;
     }
@@ -29,7 +29,7 @@ public class Problem {
         return allParamsCount;
     }
 
-    public Problem withAllParamsCount(int allParamsCount) {
+    public Problem setAllParamsCount(int allParamsCount) {
         this.allParamsCount = allParamsCount;
         return this;
     }
@@ -38,7 +38,7 @@ public class Problem {
         return statusCodesCount;
     }
 
-    public Problem withStatusCodesCount(int statusCodesCount) {
+    public Problem setStatusCodesCount(int statusCodesCount) {
         this.statusCodesCount = statusCodesCount;
         return this;
     }
@@ -47,7 +47,7 @@ public class Problem {
         return allStatusCodesCount;
     }
 
-    public Problem withAllStatusCodesCount(int allStatusCodesCount) {
+    public Problem setAllStatusCodesCount(int allStatusCodesCount) {
         this.allStatusCodesCount = allStatusCodesCount;
         return this;
     }
@@ -56,7 +56,7 @@ public class Problem {
         return params;
     }
 
-    public Problem withParams(Set<String> params) {
+    public Problem setParams(Set<String> params) {
         this.params = params;
         return this;
     }
@@ -65,7 +65,7 @@ public class Problem {
         return statusCodes;
     }
 
-    public Problem withStatusCodes(Set<String> statusCodes) {
+    public Problem setStatusCodes(Set<String> statusCodes) {
         this.statusCodes = statusCodes;
         return this;
     }
@@ -74,7 +74,7 @@ public class Problem {
         return ignoredParamsCount;
     }
 
-    public Problem withIgnoredParamsCount(int ignoredParamsCount) {
+    public Problem setIgnoredParamsCount(int ignoredParamsCount) {
         this.ignoredParamsCount = ignoredParamsCount;
         return this;
     }
@@ -83,7 +83,7 @@ public class Problem {
         return ignoredStatusCodesCount;
     }
 
-    public Problem withIgnoredStatusCodesCount(int ignoredStatusCodesCount) {
+    public Problem setIgnoredStatusCodesCount(int ignoredStatusCodesCount) {
         this.ignoredStatusCodesCount = ignoredStatusCodesCount;
         return this;
     }
@@ -92,7 +92,7 @@ public class Problem {
         return ignoredParams;
     }
 
-    public Problem withIgnoredParams(Set<String> ignoredParams) {
+    public Problem setIgnoredParams(Set<String> ignoredParams) {
         this.ignoredParams = ignoredParams;
         return this;
     }
@@ -101,7 +101,7 @@ public class Problem {
         return ignoredStatusCodes;
     }
 
-    public Problem withIgnoredStatusCodes(Set<String> ignoredStatusCodes) {
+    public Problem setIgnoredStatusCodes(Set<String> ignoredStatusCodes) {
         this.ignoredStatusCodes = ignoredStatusCodes;
         return this;
     }

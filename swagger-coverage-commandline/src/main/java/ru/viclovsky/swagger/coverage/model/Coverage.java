@@ -17,7 +17,7 @@ public class Coverage {
         return empty;
     }
 
-    public Coverage withEmpty(Map<String, Operation> empty) {
+    public Coverage setEmpty(Map<String, Operation> empty) {
         this.empty = empty;
         return this;
     }
@@ -26,7 +26,7 @@ public class Coverage {
         return partial;
     }
 
-    public Coverage withPartial(Map<String, OperationCoverage> partial) {
+    public Coverage setPartial(Map<String, OperationCoverage> partial) {
         this.partial = partial;
         return this;
     }
@@ -35,7 +35,7 @@ public class Coverage {
         return full;
     }
 
-    public Coverage withFull(Map<String, OperationCoverage> full) {
+    public Coverage setFull(Map<String, OperationCoverage> full) {
         this.full = full;
         return this;
     }

@@ -25,7 +25,7 @@ public class OperationCoverage {
         return modified;
     }
 
-    public OperationCoverage withModified(Operation modified) {
+    public OperationCoverage setModified(Operation modified) {
         this.modified = modified;
         return this;
     }
@@ -34,7 +34,7 @@ public class OperationCoverage {
         return original;
     }
 
-    public OperationCoverage withOriginal(Operation original) {
+    public OperationCoverage setOriginal(Operation original) {
         this.original = original;
         return this;
     }
@@ -43,7 +43,7 @@ public class OperationCoverage {
         return ignoredParams;
     }
 
-    public OperationCoverage withIgnoredParams(Set<Parameter> ignoredParams) {
+    public OperationCoverage setIgnoredParams(Set<Parameter> ignoredParams) {
         this.ignoredParams = ignoredParams;
         return this;
     }
@@ -52,7 +52,7 @@ public class OperationCoverage {
         return ignoredStatusCodes;
     }
 
-    public OperationCoverage withIgnoredStatusCodes(Set<String> ignoredStatusCodes) {
+    public OperationCoverage setIgnoredStatusCodes(Set<String> ignoredStatusCodes) {
         this.ignoredStatusCodes = ignoredStatusCodes;
         return this;
     }

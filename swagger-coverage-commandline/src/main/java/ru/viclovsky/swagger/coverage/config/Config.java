@@ -16,12 +16,12 @@ public class Config {
         return new Config();
     }
 
-    public Config withSpecPath(Path specPath) {
+    public Config setSpecPath(Path specPath) {
         this.specPath = specPath;
         return this;
     }
 
-    public Config withInputPath(Path reqPath) {
+    public Config setInputPath(Path reqPath) {
         this.inputPath = reqPath;
         return this;
     }
@@ -38,7 +38,7 @@ public class Config {
         return ignoreParams;
     }
 
-    public Config withIgnoreParams(String ignoreParams) {
+    public Config setIgnoreParams(String ignoreParams) {
         this.ignoreParams = ignoreParams;
         return this;
     }
@@ -47,7 +47,7 @@ public class Config {
         return ignoreStatusCodes;
     }
 
-    public Config withIgnoreStatusCodes(String ignoreStatusCodes) {
+    public Config setIgnoreStatusCodes(String ignoreStatusCodes) {
         this.ignoreStatusCodes = ignoreStatusCodes;
         return this;
     }

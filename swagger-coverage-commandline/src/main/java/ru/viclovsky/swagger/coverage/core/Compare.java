@@ -32,12 +32,12 @@ final class Compare {
         this.fullCoverage = new HashMap<>();
     }
 
-    public Compare withIgnoreStatusPattern(String ignoredStatusPattern) {
+    public Compare setIgnoreStatusPattern(String ignoredStatusPattern) {
         this.ignoredStatusPattern = ignoredStatusPattern;
         return this;
     }
 
-    public Compare withIgnoreParamsPattern(String ignoredParamsPattern) {
+    public Compare setIgnoreParamsPattern(String ignoredParamsPattern) {
         this.ignoredParamsPattern = ignoredParamsPattern;
         return this;
     }
@@ -71,12 +71,12 @@ final class Compare {
             }
 
             if (isEmptyOperation(Objects.requireNonNull(op))) {
-                fullCoverage.put(k, operationCoverage().withModified(op).withOriginal(spec.get(k))
-                        .withIgnoredStatusCodes(ignoredStatusCodes).withIgnoredParams(ignoredParams));
+                fullCoverage.put(k, operationCoverage().setModified(op).setOriginal(spec.get(k))
+                        .setIgnoredStatusCodes(ignoredStatusCodes).setIgnoredParams(ignoredParams));
                 return;
             }
-            partialCoverage.put(k, operationCoverage().withModified(op).withOriginal(spec.get(k))
-                    .withIgnoredStatusCodes(ignoredStatusCodes).withIgnoredParams(ignoredParams));
+            partialCoverage.put(k, operationCoverage().setModified(op).setOriginal(spec.get(k))
+                    .setIgnoredStatusCodes(ignoredStatusCodes).setIgnoredParams(ignoredParams));
         });
         return this;
     }
@@ -153,9 +153,9 @@ final class Compare {
 
     public Coverage getCoverage() {
         return Coverage.coverage()
-                .withEmpty(emptyCoverage)
-                .withFull(fullCoverage)
-                .withPartial(partialCoverage);
+                .setEmpty(emptyCoverage)
+                .setFull(fullCoverage)
+                .setPartial(partialCoverage);
     }
 
     private static Predicate<Parameter> equalsParam(Parameter parameter) {

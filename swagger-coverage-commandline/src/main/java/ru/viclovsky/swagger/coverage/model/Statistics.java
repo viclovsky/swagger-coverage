@@ -10,7 +10,7 @@ public class Statistics {
         return all;
     }
 
-    public Statistics withAllCount(int allCount) {
+    public Statistics setAllCount(int allCount) {
         this.all = allCount;
         return this;
     }
@@ -19,7 +19,7 @@ public class Statistics {
         return empty;
     }
 
-    public Statistics withEmptyCount(int emptyCount) {
+    public Statistics setEmptyCount(int emptyCount) {
         this.empty = emptyCount;
         return this;
     }
@@ -28,7 +28,7 @@ public class Statistics {
         return partial;
     }
 
-    public Statistics withPartialCount(int partialCount) {
+    public Statistics setPartialCount(int partialCount) {
         this.partial = partialCount;
         return this;
     }
@@ -37,7 +37,7 @@ public class Statistics {
         return full;
     }
 
-    public Statistics withFullCount(int fullCount) {
+    public Statistics setFullCount(int fullCount) {
         this.full = fullCount;
         return this;
     }

@@ -55,16 +55,13 @@ public class SwaggerCoverageExec {
         readPaths(config.getInputPath()).forEach(p -> input.put(p, parser.read(p.toString())));
 
         Compare compare = new Compare(spec, temp)
-                .withIgnoreParamsPattern(config.getIgnoreParams())
-                .withIgnoreStatusPattern(config.getIgnoreStatusCodes());
+                .setIgnoreParamsPattern(config.getIgnoreParams())
+                .setIgnoreStatusPattern(config.getIgnoreStatusCodes());
         compare.addCoverage(input.values());
         Coverage coverage = compare.getCoverage();
 
-        Statistics statistics = getStatistics(coverage);
         Output output = getOutput(coverage);
-
         writeInFile(dumpToJson(output), ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME), COVERAGE_RESULTS_FILE_SUFFIX);
-        writeInFile(dumpToJson(statistics), ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME), STATISTICS_FILE_SUFFIX);
     }
 
     private Statistics getStatistics(Coverage coverage) {
@@ -73,11 +70,12 @@ public class SwaggerCoverageExec {
         int fullCount = coverage.getFull().size();
         int allCount = emptyCount + partialCount + fullCount;
 
-        return new Statistics().withAllCount(allCount).withEmptyCount(emptyCount)
-                .withPartialCount(partialCount).withFullCount(fullCount);
+        return new Statistics().setAllCount(allCount).setEmptyCount(emptyCount)
+                .setPartialCount(partialCount).setFullCount(fullCount);
     }
 
     private Output getOutput(Coverage coverage) {
+        Statistics statistics = getStatistics(coverage);
         Output output = new Output();
         Map<String, Problem> partialOutput = new HashMap<>();
 
@@ -93,22 +91,23 @@ public class SwaggerCoverageExec {
                     statusCodesProblem.add(status));
 
             partialOutput.put(k, problem
-                    .withAllParamsCount(v.getOriginal().getParameters().size())
-                    .withIgnoredParamsCount(v.getIgnoredParams().size())
-                    .withParamsCount(v.getModified().getParameters().size())
-                    .withAllStatusCodesCount(v.getOriginal().getResponses().keySet().size())
-                    .withIgnoredStatusCodesCount(v.getIgnoredStatusCodes().size())
-                    .withStatusCodesCount(v.getModified().getResponses().keySet().size())
-                    .withParams(paramsProblem)
-                    .withIgnoredParams(v.getIgnoredParams().stream().map(Parameter::getName).collect(Collectors.toSet()))
-                    .withStatusCodes(statusCodesProblem)
-                    .withIgnoredStatusCodes(v.getIgnoredStatusCodes())
+                    .setAllParamsCount(v.getOriginal().getParameters().size())
+                    .setIgnoredParamsCount(v.getIgnoredParams().size())
+                    .setParamsCount(v.getModified().getParameters().size())
+                    .setAllStatusCodesCount(v.getOriginal().getResponses().keySet().size())
+                    .setIgnoredStatusCodesCount(v.getIgnoredStatusCodes().size())
+                    .setStatusCodesCount(v.getModified().getResponses().keySet().size())
+                    .setParams(paramsProblem)
+                    .setIgnoredParams(v.getIgnoredParams().stream().map(Parameter::getName).collect(Collectors.toSet()))
+                    .setStatusCodes(statusCodesProblem)
+                    .setIgnoredStatusCodes(v.getIgnoredStatusCodes())
             );
         });
 
-        output.withEmpty(coverage.getEmpty().keySet())
-                .withFull(coverage.getFull().keySet())
-                .withPartial(partialOutput);
+        output.setEmpty(coverage.getEmpty().keySet())
+                .setFull(coverage.getFull().keySet())
+                .setPartial(partialOutput)
+                .setStatistics(statistics);
 
         return output;
     }
