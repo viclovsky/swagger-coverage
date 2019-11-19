@@ -1,7 +1,7 @@
 package ru.viclovsky.swagger.coverage.core;
 
 import org.junit.Test;
-import ru.viclovsky.swagger.coverage.config.Config;
+import ru.viclovsky.swagger.coverage.config.Configuration;
 
 import java.io.File;
 
@@ -15,15 +15,9 @@ public class SwaggerCoverageExecTest {
 
     @Test
     public void shouldExecute() {
-        SwaggerCoverageExec.swaggerCoverage(Config.conf()
-                .setInputPath(reqDir.toPath()).setSpecPath(spec.toPath())).execute();
-    }
-
-    @Test
-    public void shouldExecuteWithIgnoredAllStatusCodesAndParams() {
-        SwaggerCoverageExec.swaggerCoverage(Config.conf()
-                .setInputPath(reqDir.toPath()).setSpecPath(spec.toPath())
-                .setIgnoreParams("x-.*").setIgnoreStatusCodes("^[4].*"))
-                .execute();
+        SwaggerCoverageExec.swaggerCoverage(Configuration.conf()
+                .setSimpleResults(true)
+                .setSwaggerResults(true)
+                .setOutputPath(reqDir.toPath()).setSpecPath(spec.toPath())).execute();
     }
 }

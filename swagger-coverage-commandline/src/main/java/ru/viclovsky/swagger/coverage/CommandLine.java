@@ -5,7 +5,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.viclovsky.swagger.coverage.config.Config;
+import ru.viclovsky.swagger.coverage.config.Configuration;
 import ru.viclovsky.swagger.coverage.core.SwaggerCoverageExec;
 import ru.viclovsky.swagger.coverage.option.MainOptions;
 import ru.viclovsky.swagger.coverage.option.VerboseOptions;
@@ -67,13 +67,11 @@ public class CommandLine {
             return ExitCode.NO_ERROR;
         }
 
-        Config config = Config.conf()
-                .setInputPath(mainOptions.getInputPath())
-                .setSpecPath(mainOptions.getSpecPath())
-                .setIgnoreParams(mainOptions.getIgnoreParams())
-                .setIgnoreStatusCodes(mainOptions.getIgnoreStatusCodes());
+        Configuration configuration = Configuration.conf()
+                .setOutputPath(mainOptions.getInputPath())
+                .setSpecPath(mainOptions.getSpecPath());
 
-        SwaggerCoverageExec.swaggerCoverage(config).execute();
+        SwaggerCoverageExec.swaggerCoverage(configuration).execute();
         return ExitCode.NO_ERROR;
     }
 

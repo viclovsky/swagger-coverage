@@ -4,6 +4,8 @@ plugins {
 
 version = "1.0-SNAPSHOT"
 
+description = "Swagger Coverage Model"
+
 repositories {
     mavenCentral()
 }
