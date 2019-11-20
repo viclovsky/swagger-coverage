@@ -7,10 +7,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.viclovsky.swagger.coverage.config.Configuration;
 import ru.viclovsky.swagger.coverage.core.SwaggerCoverageExec;
+import ru.viclovsky.swagger.coverage.core.filter.IgnoreParamsFilter;
+import ru.viclovsky.swagger.coverage.core.filter.StatusOkFilter;
+import ru.viclovsky.swagger.coverage.core.filter.SwaggerCoverageFilter;
 import ru.viclovsky.swagger.coverage.option.MainOptions;
 import ru.viclovsky.swagger.coverage.option.VerboseOptions;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+
+import static io.swagger.models.ParamType.HEADER;
 
 @Parameters(commandNames = "swagger-coverage", commandDescription = "Swagger-coverage Commandline")
 public class CommandLine {
@@ -67,12 +74,23 @@ public class CommandLine {
             return ExitCode.NO_ERROR;
         }
 
+        List<SwaggerCoverageFilter> filters = new ArrayList<>();
+        if (mainOptions.isIgnoreNotOkStatusCodes()) {
+            filters.add(new StatusOkFilter());
+        }
+
+        if (!mainOptions.getIgnoreHeaders().isEmpty()) {
+            filters.add(new IgnoreParamsFilter(mainOptions.getIgnoreHeaders(), HEADER));
+        }
+
         Configuration configuration = Configuration.conf()
                 .setSwaggerResults(mainOptions.isSwaggerOutput())
                 .setOutputPath(mainOptions.getInputPath())
                 .setSpecPath(mainOptions.getSpecPath());
 
-        SwaggerCoverageExec.swaggerCoverage(configuration).execute();
+        SwaggerCoverageExec.swaggerCoverage(configuration)
+                .setFilters(filters)
+                .execute();
         return ExitCode.NO_ERROR;
     }
 

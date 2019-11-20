@@ -3,6 +3,7 @@ package ru.viclovsky.swagger.coverage.core;
 import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
 import org.apache.log4j.Logger;
+import ru.viclovsky.swagger.coverage.core.filter.SwaggerCoverageFilter;
 import ru.viclovsky.swagger.coverage.model.OperationCoverage;
 import ru.viclovsky.swagger.coverage.model.Statistics;
 import ru.viclovsky.swagger.coverage.model.SwaggerCoverageResults;

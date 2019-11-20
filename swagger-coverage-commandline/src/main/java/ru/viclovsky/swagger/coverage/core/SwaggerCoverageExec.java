@@ -8,6 +8,7 @@ import ru.viclovsky.swagger.coverage.CoverageResultsWriter;
 import ru.viclovsky.swagger.coverage.FileSystemOutputReader;
 import ru.viclovsky.swagger.coverage.FileSystemResultsWriter;
 import ru.viclovsky.swagger.coverage.config.Configuration;
+import ru.viclovsky.swagger.coverage.core.filter.SwaggerCoverageFilter;
 
 import java.util.*;
 
@@ -51,9 +52,9 @@ public final class SwaggerCoverageExec {
         LOGGER.info("Read swagger specification...");
         SwaggerParser parser = new SwaggerParser();
         Swagger spec = parser.read(configuration.getSpecPath().toString());
-        calculator = new OperationSwaggerCoverageCalculator(spec);
+        calculator = new OperationSwaggerCoverageCalculator(filters, spec);
         if (configuration.isSwaggerResults()) {
-            calculator = new DefaultSwaggerCoverageCalculator(spec);
+            calculator = new DefaultSwaggerCoverageCalculator(filters, spec);
         }
         reader.getOutputs()
                 .forEach(o -> calculator.addOutput(parser.read(o.toString())));

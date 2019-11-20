@@ -4,6 +4,7 @@ import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
 import io.swagger.models.parameters.Parameter;
 import org.apache.log4j.Logger;
+import ru.viclovsky.swagger.coverage.core.filter.SwaggerCoverageFilter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +71,7 @@ abstract class SwaggerCoverageCalculator {
         return expected;
     }
 
-   public static Predicate<Parameter> equalsParam(Parameter parameter) {
+    public static Predicate<Parameter> equalsParam(Parameter parameter) {
         return p -> (p.getName().equals(parameter.getName()) && p.getIn().equals(parameter.getIn()));
     }
 

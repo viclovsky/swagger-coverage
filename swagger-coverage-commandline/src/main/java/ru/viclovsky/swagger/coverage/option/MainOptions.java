@@ -3,11 +3,12 @@ package ru.viclovsky.swagger.coverage.option;
 import com.beust.jcommander.Parameter;
 
 import java.nio.file.Path;
+import java.util.List;
 
 public class MainOptions {
 
     @Parameter(
-            names = "--spec",
+            names = {"-s", "--spec"},
             description = "Path to swagger specification.",
             required = true,
             order = 0
@@ -15,7 +16,7 @@ public class MainOptions {
     private Path specPath;
 
     @Parameter(
-            names = "--input",
+            names = {"-i", "--input"},
             description = "Path to files with coverage.",
             required = true,
             order = 1
@@ -23,26 +24,26 @@ public class MainOptions {
     private Path inputPath;
 
     @Parameter(
-            names = "--output-swagger",
-            description = "Return mode",
-            required = false,
+            names = "--outputSwagger",
+            description = "Return swagger.",
             order = 2
     )
     private boolean isSwaggerOutput;
 
     @Parameter(
             names = "--ignoreHeaders",
-            description = "Ignore headers by regexp.",
-            order = 3
+            description = "Ignore headers by name.",
+            order = 3,
+            variableArity = true
     )
-    private String ignoreHeaders;
+    private List<String> ignoreHeaders;
 
     @Parameter(
-            names = "--ignoreStatusCodes",
-            description = "Ignore status codes by regexp",
+            names = "--ignoreNotOkStatusCodes",
+            description = "Ignore all status codes != 200.",
             order = 4
     )
-    private String ignoreStatusCodes;
+    private boolean ignoreNotOkStatusCodes;
 
     @Parameter(
             names = "--help",
@@ -60,17 +61,19 @@ public class MainOptions {
         return specPath;
     }
 
-    public Path getInputPath() { return inputPath; }
+    public Path getInputPath() {
+        return inputPath;
+    }
 
     public boolean isSwaggerOutput() {
         return isSwaggerOutput;
     }
 
-    public String getIgnoreParams() {
+    public List<String> getIgnoreHeaders() {
         return ignoreHeaders;
     }
 
-    public String getIgnoreStatusCodes() {
-        return ignoreStatusCodes;
+    public boolean isIgnoreNotOkStatusCodes() {
+        return ignoreNotOkStatusCodes;
     }
 }
