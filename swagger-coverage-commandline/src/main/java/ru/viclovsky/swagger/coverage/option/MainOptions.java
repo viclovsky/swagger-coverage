@@ -23,16 +23,24 @@ public class MainOptions {
     private Path inputPath;
 
     @Parameter(
+            names = "--output-swagger",
+            description = "Return mode",
+            required = false,
+            order = 2
+    )
+    private boolean isSwaggerOutput;
+
+    @Parameter(
             names = "--ignoreHeaders",
             description = "Ignore headers by regexp.",
-            order = 2
+            order = 3
     )
     private String ignoreHeaders;
 
     @Parameter(
             names = "--ignoreStatusCodes",
             description = "Ignore status codes by regexp",
-            order = 3
+            order = 4
     )
     private String ignoreStatusCodes;
 
@@ -40,7 +48,7 @@ public class MainOptions {
             names = "--help",
             description = "Print commandline help.",
             help = true,
-            order = 4
+            order = 5
     )
     private boolean help;
 
@@ -52,8 +60,10 @@ public class MainOptions {
         return specPath;
     }
 
-    public Path getInputPath() {
-        return inputPath;
+    public Path getInputPath() { return inputPath; }
+
+    public boolean isSwaggerOutput() {
+        return isSwaggerOutput;
     }
 
     public String getIgnoreParams() {
