@@ -6,9 +6,7 @@ public class Configuration {
 
     private Path specPath;
     private Path inputPath;
-
     private boolean swaggerResults;
-    private boolean simpleResults;
 
     private Configuration() {
     }
@@ -41,15 +39,6 @@ public class Configuration {
 
     public Configuration setSwaggerResults(boolean swaggerResults) {
         this.swaggerResults = swaggerResults;
-        return this;
-    }
-
-    public boolean isSimpleResults() {
-        return simpleResults;
-    }
-
-    public Configuration setSimpleResults(boolean simpleResults) {
-        this.simpleResults = simpleResults;
         return this;
     }
 }

@@ -16,7 +16,12 @@ public class SwaggerCoverageExecTest {
     @Test
     public void shouldExecute() {
         SwaggerCoverageExec.swaggerCoverage(Configuration.conf()
-                .setSimpleResults(true)
+                .setOutputPath(reqDir.toPath()).setSpecPath(spec.toPath())).execute();
+    }
+
+    @Test
+    public void shouldExecuteSwaggerResults() {
+        SwaggerCoverageExec.swaggerCoverage(Configuration.conf()
                 .setSwaggerResults(true)
                 .setOutputPath(reqDir.toPath()).setSpecPath(spec.toPath())).execute();
     }

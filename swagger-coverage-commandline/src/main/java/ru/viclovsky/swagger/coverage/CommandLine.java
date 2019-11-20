@@ -68,6 +68,7 @@ public class CommandLine {
         }
 
         Configuration configuration = Configuration.conf()
+                .setSwaggerResults(mainOptions.isSwaggerOutput())
                 .setOutputPath(mainOptions.getInputPath())
                 .setSpecPath(mainOptions.getSpecPath());
 
