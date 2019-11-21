@@ -42,9 +42,9 @@ public class SwaggerCoverageRestAssured implements OrderedFilter {
     @Override
     public Response filter(FilterableRequestSpecification requestSpec, FilterableResponseSpecification responseSpec, FilterContext ctx) {
         Operation operation = new Operation();
-        requestSpec.getPathParams().forEach((n, v) -> operation.addParameter(new PathParameter().name(n).example(v)));
-        requestSpec.getQueryParams().forEach((n, v) -> operation.addParameter(new QueryParameter().name(n).example(v)));
-        requestSpec.getFormParams().forEach((n, v) -> operation.addParameter(new FormParameter().name(n).example(v)));
+        requestSpec.getPathParams().keySet().forEach(n -> operation.addParameter(new PathParameter().name(n)));
+        requestSpec.getQueryParams().keySet().forEach(n -> operation.addParameter(new QueryParameter().name(n)));
+        requestSpec.getFormParams().keySet().forEach((n -> operation.addParameter(new FormParameter().name(n))));
         requestSpec.getHeaders().forEach(header -> operation.addParameter(new HeaderParameter().name(header.getName()).example(header.getValue())));
 
         if (Objects.nonNull(requestSpec.getBody())) {

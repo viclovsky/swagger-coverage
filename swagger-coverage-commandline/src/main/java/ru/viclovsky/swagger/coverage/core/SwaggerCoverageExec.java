@@ -2,7 +2,6 @@ package ru.viclovsky.swagger.coverage.core;
 
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
-import org.apache.log4j.Logger;
 import ru.viclovsky.swagger.coverage.CoverageOutputReader;
 import ru.viclovsky.swagger.coverage.CoverageResultsWriter;
 import ru.viclovsky.swagger.coverage.FileSystemOutputReader;
@@ -46,10 +45,7 @@ public final class SwaggerCoverageExec {
         return new SwaggerCoverageExec(configuration);
     }
 
-    private final static Logger LOGGER = Logger.getLogger(SwaggerCoverageExec.class);
-
     public void execute() {
-        LOGGER.info("Read swagger specification...");
         SwaggerParser parser = new SwaggerParser();
         Swagger spec = parser.read(configuration.getSpecPath().toString());
         calculator = new OperationSwaggerCoverageCalculator(filters, spec);

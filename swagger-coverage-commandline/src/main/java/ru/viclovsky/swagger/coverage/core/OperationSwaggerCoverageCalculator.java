@@ -36,7 +36,7 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
     public OperationSwaggerCoverageCalculator addOutput(Swagger coverageSpec) {
         Map<String, Operation> coverage = getOperationMap(coverageSpec);
         coverage.forEach((k, operation) -> {
-            LOGGER.info("Process operation " + k);
+            LOGGER.debug("Process operation " + k);
             if (fullCoverage.containsKey(k)) {
                 return;
             }

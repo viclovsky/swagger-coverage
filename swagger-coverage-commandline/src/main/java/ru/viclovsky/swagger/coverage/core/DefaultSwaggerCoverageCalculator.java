@@ -25,7 +25,7 @@ final class DefaultSwaggerCoverageCalculator extends SwaggerCoverageCalculator {
             if (spec.getPaths().containsKey(k)) {
                 path.getOperationMap().keySet().forEach(httpMethod -> {
                     if (spec.getPaths().get(k).getOperationMap().containsKey(httpMethod)) {
-                        LOGGER.info(String.format("Process %s %s...", httpMethod, k));
+                        LOGGER.debug(String.format("Process %s %s...", httpMethod, k));
                         Operation operationActual = path.getOperationMap().get(httpMethod);
                         Operation operationExpected = spec.getPaths().get(k).getOperationMap().get(httpMethod);
                         processOperation(operationActual, operationExpected);

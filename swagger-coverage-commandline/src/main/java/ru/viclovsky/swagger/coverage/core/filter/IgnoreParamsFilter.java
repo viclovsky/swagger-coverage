@@ -25,11 +25,16 @@ public class IgnoreParamsFilter implements SwaggerCoverageFilter {
 
     @Override
     public void apply(Operation operation) {
-        LOGGER.debug(String.format("Ignore %s: %s", type, names));
         if (Objects.nonNull(operation.getParameters())) {
-           Set<Parameter> ignore = operation.getParameters().stream()
+            Set<Parameter> params = operation.getParameters().stream()
                     .filter(equalsParam(names, type)).collect(Collectors.toSet());
-           operation.getParameters().removeAll(ignore);
+
+            params.forEach(p -> {
+                LOGGER.debug(String.format("Remove %s: [%s]", p.getIn(),
+                        p.getName()));
+                operation.getParameters().remove(p);
+            });
+
         }
     }
 

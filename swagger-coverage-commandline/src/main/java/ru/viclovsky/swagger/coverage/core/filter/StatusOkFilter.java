@@ -17,12 +17,14 @@ public class StatusOkFilter implements SwaggerCoverageFilter {
 
     @Override
     public void apply(Operation operation) {
-        LOGGER.debug("Ignore all status codes != 200");
         if (Objects.nonNull(operation.getResponses())) {
-           Set<String> ignore = operation.getResponses().keySet().stream()
+           Set<String> statusCodes = operation.getResponses().keySet().stream()
                     .filter(not200Ok()).collect(Collectors.toSet());
 
-            ignore.forEach(k -> operation.getResponses().remove(k));
+            statusCodes.forEach(s -> {
+                LOGGER.debug(String.format("Remove status code: [%s]", s));
+                operation.getResponses().remove(s);
+            });
         }
     }
 

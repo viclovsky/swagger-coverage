@@ -47,7 +47,6 @@ abstract class SwaggerCoverageCalculator {
 
     public Operation processOperation(Operation current, Operation expected) {
         if (!filters.isEmpty()) {
-            LOGGER.info("Apply filters...");
             filters.forEach(filter -> filter.apply(expected));
         }
 
