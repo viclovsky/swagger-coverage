@@ -15,8 +15,8 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 public class OperationSwaggerCoverageCalculatorTest {
 
     private static final String SWAGGER_FILE_NAME = "petstory.json";
-    private static final String PARTIAL_COVERAGE_FILE_NAME = "one_partial_coverage.json";
-    private static final String ONE_COVERAGE_FILE_NAME = "one_coverage.json";
+    private static final String PARTIAL_COVERAGE_FILE_NAME = "swagger-coverage-output/one_partial_coverage.json";
+    private static final String ONE_COVERAGE_FILE_NAME = "swagger-coverage-output/one_coverage.json";
     private Swagger swagger;
     private Swagger swagger2;
     private Swagger partialCoverage;

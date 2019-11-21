@@ -21,8 +21,12 @@ public final class SwaggerCoverageUtils {
         return uuid + COVERAGE_OUTPUT_FILE_SUFFIX;
     }
 
+    public static String generateCoverageResultsName(String uuid) {
+        return ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME) + "-" + uuid + COVERAGE_RESULTS_FILE_SUFFIX;
+    }
+
     public static String generateCoverageResultsName() {
-        return ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME) + COVERAGE_RESULTS_FILE_SUFFIX;
+        return generateCoverageResultsName(UUID.randomUUID().toString());
     }
 }
 

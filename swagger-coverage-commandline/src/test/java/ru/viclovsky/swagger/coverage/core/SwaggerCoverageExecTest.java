@@ -13,8 +13,8 @@ import java.util.List;
 
 public class SwaggerCoverageExecTest {
 
-    private static final String OUTPUT_SWAGGER_COVERAGE_DIR = "swagger-coverage-realty-v1";
-    private static final String SPEC_FILE = "realty3-api-swagger-v1.json";
+    private static final String OUTPUT_SWAGGER_COVERAGE_DIR = "swagger-coverage-output";
+    private static final String SPEC_FILE = "petstory.json";
 
     private File spec = new File(getClass().getClassLoader().getResource(SPEC_FILE).getFile());
     private File reqDir = new File(getClass().getClassLoader().getResource(OUTPUT_SWAGGER_COVERAGE_DIR).getFile());
