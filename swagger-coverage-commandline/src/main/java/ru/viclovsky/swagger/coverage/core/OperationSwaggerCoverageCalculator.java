@@ -88,7 +88,37 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
                 .setPartialCoverage(partialCoverage)
                 .setStatistics(statistics);
 
+        printResults(results);
         return results;
+    }
+
+    private void printResults(SwaggerCoverageResults results) {
+        if (!results.getEmptyCoverage().isEmpty()) {
+            LOGGER.info("Empty coverage: ");
+            results.getEmptyCoverage().forEach(k -> LOGGER.info("   " + k));
+        }
+
+        if (!results.getPartialCoverage().isEmpty()) {
+            LOGGER.info("Partial coverage (status code or parameter absent): ");
+            results.getPartialCoverage().forEach(
+                    (k, v) -> {
+                        LOGGER.info("   " + k);
+                        if (!v.getParams().isEmpty()) {
+                            LOGGER.info("       " + v.getParams());
+                        }
+
+                        if (!v.getStatusCodes().isEmpty()) {
+                            LOGGER.info("       " + v.getStatusCodes());
+                        }
+                    }
+            );
+        }
+        if (!results.getFullCoverage().isEmpty()) {
+            LOGGER.info("Full coverage: ");
+            results.getFullCoverage().forEach(k -> LOGGER.info("   " + k));
+        }
+        float percentage = ((results.getStatistics().getFull() + results.getStatistics().getPartial()) * 100 / results.getStatistics().getAll());
+        LOGGER.info(percentage + " % coverage");
     }
 
     /**
