@@ -32,7 +32,7 @@ configure(subprojects) {
             dependency("com.beust:jcommander:1.78")
             dependency("junit:junit:4.12")
             dependency("org.hamcrest:hamcrest-all:1.3")
-            dependency("io.rest-assured:rest-assured:4.0.0")
+            dependency("io.rest-assured:rest-assured:4.1.2")
             dependency("com.github.tomakehurst:wiremock:2.24.1")
             dependency("com.fasterxml.jackson.core:jackson-core:2.10.1")
             dependency("com.fasterxml.jackson.core:jackson-databind:2.10.1")
