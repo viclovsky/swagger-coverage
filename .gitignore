@@ -1,12 +1,13 @@
-.DS_Store
-
 # IDEA files
 .idea
 *.iml
 
+# Gradle
+.gradle
+build
+
+# Mac OS
+.DS_Store
+
 # Allure
 allure-results
-
-# Maven files
-target
-
