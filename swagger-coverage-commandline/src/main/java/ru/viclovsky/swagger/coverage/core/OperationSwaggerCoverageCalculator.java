@@ -73,6 +73,8 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
             fullCoverage.put(k, problem
                     .setCoveredParams(v.getCoverage().getCoveredParams())
                     .setCoveredStatusCodes(v.getCoverage().getCoveredStatusCodes())
+                    .setIgnoredParams(v.getCoverage().getIgnoredParams())
+                    .setIgnoredStatusCodes(v.getCoverage().getIgnoredStatusCodes())
             );
         });
 
@@ -92,6 +94,8 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
                     .setStatusCodes(statusCodesProblem)
                     .setCoveredParams(v.getCoverage().getCoveredParams())
                     .setCoveredStatusCodes(v.getCoverage().getCoveredStatusCodes())
+                    .setIgnoredParams(v.getCoverage().getIgnoredParams())
+                    .setIgnoredStatusCodes(v.getCoverage().getIgnoredStatusCodes())
             );
         });
 
@@ -147,7 +151,7 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
 
     public OperationCoverage processOperation(OperationCoverage current, OperationCoverage expected) {
         if (!filters.isEmpty()) {
-            filters.forEach(filter -> filter.apply(expected.getOperation()));
+            filters.forEach(filter -> filter.apply(expected));
         }
 
         if (Objects.nonNull(current.getOperation().getResponses())) {

@@ -2,6 +2,7 @@ package ru.viclovsky.swagger.coverage.core.filter;
 
 import io.swagger.models.Operation;
 import org.apache.log4j.Logger;
+import ru.viclovsky.swagger.coverage.model.OperationCoverage;
 
 import java.util.Objects;
 import java.util.Set;
@@ -16,14 +17,17 @@ public class StatusOkFilter implements SwaggerCoverageFilter {
     private final static Logger LOGGER = Logger.getLogger(StatusOkFilter.class);
 
     @Override
-    public void apply(Operation operation) {
-        if (Objects.nonNull(operation.getResponses())) {
-           Set<String> statusCodes = operation.getResponses().keySet().stream()
+    public void apply(OperationCoverage operation) {
+        Operation op = operation.getOperation();
+
+        if (Objects.nonNull(op.getResponses())) {
+           Set<String> statusCodes = op.getResponses().keySet().stream()
                     .filter(not200Ok()).collect(Collectors.toSet());
 
             statusCodes.forEach(s -> {
                 LOGGER.debug(String.format("Remove status code: [%s]", s));
-                operation.getResponses().remove(s);
+                op.getResponses().remove(s);
+                operation.addIgnoredStatusCode(s);
             });
         }
     }

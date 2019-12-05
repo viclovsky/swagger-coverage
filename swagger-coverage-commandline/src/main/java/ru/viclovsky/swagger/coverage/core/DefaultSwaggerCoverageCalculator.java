@@ -4,6 +4,7 @@ import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
 import org.apache.log4j.Logger;
 import ru.viclovsky.swagger.coverage.core.filter.SwaggerCoverageFilter;
+import ru.viclovsky.swagger.coverage.model.OperationCoverage;
 
 import java.util.*;
 
@@ -39,7 +40,7 @@ final class DefaultSwaggerCoverageCalculator extends SwaggerCoverageCalculator {
 
     public Operation processOperation(Operation current, Operation expected) {
         if (!filters.isEmpty()) {
-            filters.forEach(filter -> filter.apply(expected));
+            filters.forEach(filter -> filter.apply(new OperationCoverage(expected)));
         }
 
         if (Objects.nonNull(current.getResponses())) {
