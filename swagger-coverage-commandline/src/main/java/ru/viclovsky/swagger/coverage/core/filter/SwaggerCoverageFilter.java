@@ -1,11 +1,11 @@
 package ru.viclovsky.swagger.coverage.core.filter;
 
-import io.swagger.models.Operation;
+import ru.viclovsky.swagger.coverage.model.OperationCoverage;
 
 public interface SwaggerCoverageFilter {
 
     /**
      * @param operation
      */
-    void apply(Operation operation);
+    void apply(OperationCoverage operation);
 }

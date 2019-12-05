@@ -1,9 +1,9 @@
 package ru.viclovsky.swagger.coverage.core;
 
-import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
 import org.apache.log4j.Logger;
 import ru.viclovsky.swagger.coverage.core.filter.SwaggerCoverageFilter;
+import ru.viclovsky.swagger.coverage.model.Coverage;
 import ru.viclovsky.swagger.coverage.model.OperationCoverage;
 import ru.viclovsky.swagger.coverage.model.Statistics;
 import ru.viclovsky.swagger.coverage.model.SwaggerCoverageResults;
@@ -14,9 +14,9 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
 
     private final static Logger LOGGER = Logger.getLogger(OperationSwaggerCoverageCalculator.class);
 
-    private Map<String, Operation> emptyCoverage;
-    private Map<String, Operation> partialCoverage;
-    private Map<String, Operation> fullCoverage;
+    private Map<String, OperationCoverage> emptyCoverage;
+    private Map<String, OperationCoverage> partialCoverage;
+    private Map<String, OperationCoverage> fullCoverage;
 
     public OperationSwaggerCoverageCalculator(List<SwaggerCoverageFilter> filters, Swagger spec) {
         super(filters, spec);
@@ -34,13 +34,13 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
 
     @Override
     public OperationSwaggerCoverageCalculator addOutput(Swagger coverageSpec) {
-        Map<String, Operation> coverage = getOperationMap(coverageSpec);
+        Map<String, OperationCoverage> coverage = getOperationMap(coverageSpec);
         coverage.forEach((k, operation) -> {
             LOGGER.debug("Process operation " + k);
             if (fullCoverage.containsKey(k)) {
                 return;
             }
-            Operation op = null;
+            OperationCoverage op = null;
             if (emptyCoverage.containsKey(k)) {
                 op = processOperation(operation, emptyCoverage.get(k));
                 emptyCoverage.remove(k);
@@ -51,7 +51,7 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
                 partialCoverage.remove(k);
             }
 
-            if (isEmptyOperation(Objects.requireNonNull(op))) {
+            if (isEmptyOperation(Objects.requireNonNull(op).getOperation())) {
                 fullCoverage.put(k, op);
                 return;
             }
@@ -64,27 +64,43 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
     Object getResults() {
         Statistics statistics = getStatistics();
         SwaggerCoverageResults results = new SwaggerCoverageResults();
-        Map<String, OperationCoverage> partialCoverage = new TreeMap<>();
+        Map<String, Coverage> partialCoverage = new TreeMap<>();
+        Map<String, Coverage> fullCoverage = new TreeMap<>();
+
+        this.fullCoverage.forEach((k, v) ->
+        {
+            Coverage problem = new Coverage();
+            fullCoverage.put(k, problem
+                    .setCoveredParams(v.getCoverage().getCoveredParams())
+                    .setCoveredStatusCodes(v.getCoverage().getCoveredStatusCodes())
+                    .setIgnoredParams(v.getCoverage().getIgnoredParams())
+                    .setIgnoredStatusCodes(v.getCoverage().getIgnoredStatusCodes())
+            );
+        });
 
         this.partialCoverage.forEach((k, v) ->
         {
-            OperationCoverage problem = new OperationCoverage();
-            Set<String> paramsProblem = new TreeSet<>();
+            Coverage problem = new Coverage();
             Set<String> statusCodesProblem = new TreeSet<>();
+            Set<String> paramsProblem = new TreeSet<>();
 
-            this.partialCoverage.get(k).getParameters().forEach(parameter ->
+            this.partialCoverage.get(k).getOperation().getParameters().forEach(parameter ->
                     paramsProblem.add(parameter.getName()));
-            this.partialCoverage.get(k).getResponses().forEach((status, resp) ->
+            this.partialCoverage.get(k).getOperation().getResponses().forEach((status, resp) ->
                     statusCodesProblem.add(status));
 
             partialCoverage.put(k, problem
                     .setParams(paramsProblem)
                     .setStatusCodes(statusCodesProblem)
+                    .setCoveredParams(v.getCoverage().getCoveredParams())
+                    .setCoveredStatusCodes(v.getCoverage().getCoveredStatusCodes())
+                    .setIgnoredParams(v.getCoverage().getIgnoredParams())
+                    .setIgnoredStatusCodes(v.getCoverage().getIgnoredStatusCodes())
             );
         });
 
         results.setEmptyCoverage(emptyCoverage.keySet())
-                .setFullCoverage(fullCoverage.keySet())
+                .setFullCoverage(fullCoverage)
                 .setPartialCoverage(partialCoverage)
                 .setStatistics(statistics);
 
@@ -115,7 +131,7 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
         }
         if (!results.getFullCoverage().isEmpty()) {
             LOGGER.info("Full coverage: ");
-            results.getFullCoverage().forEach(k -> LOGGER.info("   " + k));
+            results.getFullCoverage().forEach((k, v) -> LOGGER.info("   " + k));
         }
         float percentage = ((results.getStatistics().getFull() + results.getStatistics().getPartial()) * 100 / results.getStatistics().getAll());
         LOGGER.info(percentage + " % coverage");
@@ -124,15 +140,41 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
     /**
      * path + HTTP method = Operation
      */
-    private Map<String, Operation> getOperationMap(Swagger swagger) {
-        Map<String, Operation> coverage = new TreeMap<>();
+    private Map<String, OperationCoverage> getOperationMap(Swagger swagger) {
+        Map<String, OperationCoverage> coverage = new TreeMap<>();
         swagger.getPaths().keySet().forEach(path
                 -> swagger.getPaths().get(path).getOperationMap().forEach((httpMethod, operation)
-                -> coverage.put(String.format("%s %s", path, httpMethod), operation)
+                -> coverage.put(String.format("%s %s", path, httpMethod), new OperationCoverage(operation))
         ));
         return coverage;
     }
 
+    public OperationCoverage processOperation(OperationCoverage current, OperationCoverage expected) {
+        if (!filters.isEmpty()) {
+            filters.forEach(filter -> filter.apply(expected));
+        }
+
+        if (Objects.nonNull(current.getOperation().getResponses())) {
+            current.getOperation().getResponses().forEach((status, resp) -> {
+                LOGGER.debug(String.format("Remove status code: [%s]", status));
+                expected.getOperation().getResponses().remove(status);
+                expected.addCoveredStatusCode(status);
+            });
+        }
+
+        if (Objects.nonNull(current.getOperation().getParameters())) {
+            current.getOperation().getParameters().forEach(parameter ->
+                    expected.getOperation().getParameters().stream()
+                            .filter(equalsParam(parameter).or(isBody(parameter))).findFirst()
+                            .ifPresent(presentParam -> {
+                                LOGGER.debug(String.format("Remove %s: [%s]", presentParam.getIn(),
+                                        presentParam.getName()));
+                                expected.getOperation().getParameters().remove(presentParam);
+                                expected.addCoveredParameter(presentParam.getName());
+                            }));
+        }
+        return expected;
+    }
 
     private Statistics getStatistics() {
         int emptyCount = emptyCoverage.size();
