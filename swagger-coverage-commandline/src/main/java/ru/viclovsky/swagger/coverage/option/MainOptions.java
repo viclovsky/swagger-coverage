@@ -3,7 +3,9 @@ package ru.viclovsky.swagger.coverage.option;
 import com.beust.jcommander.Parameter;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class MainOptions {
 
@@ -70,7 +72,8 @@ public class MainOptions {
     }
 
     public List<String> getIgnoreHeaders() {
-        return ignoreHeaders;
+        return Optional.ofNullable(ignoreHeaders)
+                .orElseGet(ArrayList::new);
     }
 
     public boolean isIgnoreNotOkStatusCodes() {
