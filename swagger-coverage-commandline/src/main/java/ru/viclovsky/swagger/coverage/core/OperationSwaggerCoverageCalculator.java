@@ -65,6 +65,16 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
         Statistics statistics = getStatistics();
         SwaggerCoverageResults results = new SwaggerCoverageResults();
         Map<String, Coverage> partialCoverage = new TreeMap<>();
+        Map<String, Coverage> fullCoverage = new TreeMap<>();
+
+        this.fullCoverage.forEach((k, v) ->
+        {
+            Coverage problem = new Coverage();
+            fullCoverage.put(k, problem
+                    .setCoveredParams(v.getCoverage().getCoveredParams())
+                    .setCoveredStatusCodes(v.getCoverage().getCoveredStatusCodes())
+            );
+        });
 
         this.partialCoverage.forEach((k, v) ->
         {
@@ -86,7 +96,7 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
         });
 
         results.setEmptyCoverage(emptyCoverage.keySet())
-                .setFullCoverage(fullCoverage.keySet())
+                .setFullCoverage(fullCoverage)
                 .setPartialCoverage(partialCoverage)
                 .setStatistics(statistics);
 
@@ -117,7 +127,7 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
         }
         if (!results.getFullCoverage().isEmpty()) {
             LOGGER.info("Full coverage: ");
-            results.getFullCoverage().forEach(k -> LOGGER.info("   " + k));
+            results.getFullCoverage().forEach((k, v) -> LOGGER.info("   " + k));
         }
         float percentage = ((results.getStatistics().getFull() + results.getStatistics().getPartial()) * 100 / results.getStatistics().getAll());
         LOGGER.info(percentage + " % coverage");

@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class SwaggerCoverageResults {
     private Set<String> emptyCoverage;
-    private Set<String> fullCoverage;
+    private Map<String, Coverage> fullCoverage;
     private Map<String, Coverage> partialCoverage;
     private Statistics statistics;
 
@@ -18,11 +18,11 @@ public class SwaggerCoverageResults {
         return this;
     }
 
-    public Set<String> getFullCoverage() {
+    public Map<String, Coverage> getFullCoverage() {
         return fullCoverage;
     }
 
-    public SwaggerCoverageResults setFullCoverage(Set<String> fullCoverage) {
+    public SwaggerCoverageResults setFullCoverage(Map<String, Coverage> fullCoverage) {
         this.fullCoverage = fullCoverage;
         return this;
     }
