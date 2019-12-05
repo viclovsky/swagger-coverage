@@ -16,7 +16,6 @@ public final class SwaggerCoverageExec {
     private Configuration configuration;
     private List<SwaggerCoverageFilter> filters;
     private CoverageOutputReader reader;
-    private SwaggerCoverageCalculator calculator;
     private CoverageResultsWriter writer;
 
     private SwaggerCoverageExec(Configuration configuration) {
@@ -48,10 +47,9 @@ public final class SwaggerCoverageExec {
     public void execute() {
         SwaggerParser parser = new SwaggerParser();
         Swagger spec = parser.read(configuration.getSpecPath().toString());
-        calculator = new OperationSwaggerCoverageCalculator(filters, spec);
-        if (configuration.isSwaggerResults()) {
-            calculator = new DefaultSwaggerCoverageCalculator(filters, spec);
-        }
+        final SwaggerCoverageCalculator calculator = configuration.isSwaggerResults()
+                ? new DefaultSwaggerCoverageCalculator(filters, spec)
+                : new OperationSwaggerCoverageCalculator(filters, spec);
         reader.getOutputs()
                 .forEach(o -> calculator.addOutput(parser.read(o.toString())));
         writer.write(calculator.getResults());
