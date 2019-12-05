@@ -37,6 +37,31 @@ final class DefaultSwaggerCoverageCalculator extends SwaggerCoverageCalculator {
         return this;
     }
 
+    public Operation processOperation(Operation current, Operation expected) {
+        if (!filters.isEmpty()) {
+            filters.forEach(filter -> filter.apply(expected));
+        }
+
+        if (Objects.nonNull(current.getResponses())) {
+            current.getResponses().forEach((status, resp) -> {
+                LOGGER.debug(String.format("Remove status code: [%s]", status));
+                expected.getResponses().remove(status);
+            });
+        }
+
+        if (Objects.nonNull(current.getParameters())) {
+            current.getParameters().forEach(parameter ->
+                    expected.getParameters().stream()
+                            .filter(equalsParam(parameter).or(isBody(parameter))).findFirst()
+                            .ifPresent(presentParam -> {
+                                LOGGER.debug(String.format("Remove %s: [%s]", presentParam.getIn(),
+                                        presentParam.getName()));
+                                expected.getParameters().remove(presentParam);
+                            }));
+        }
+        return expected;
+    }
+
     @Override
     public Object getResults() {
         return spec;

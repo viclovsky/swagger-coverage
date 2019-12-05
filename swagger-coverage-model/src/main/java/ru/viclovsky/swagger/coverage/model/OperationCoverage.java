@@ -1,27 +1,37 @@
 package ru.viclovsky.swagger.coverage.model;
 
-import java.util.Set;
+import io.swagger.models.Operation;
 
 public class OperationCoverage {
-    
-    private Set<String> params;
-    private Set<String> statusCodes;
 
-    public Set<String> getParams() {
-        return params;
+    private Coverage coverage;
+    private Operation operation;
+
+    public OperationCoverage(Operation operation) {
+        this.operation = operation;
+        this.coverage = new Coverage();
     }
 
-    public OperationCoverage setParams(Set<String> params) {
-        this.params = params;
+    public OperationCoverage addCoveredStatusCode(String status) {
+        coverage.getCoveredStatusCodes().add(status);
         return this;
     }
 
-    public Set<String> getStatusCodes() {
-        return statusCodes;
+    public OperationCoverage addCoveredParameter(String parameter) {
+        coverage.getCoveredParams().add(parameter);
+        return this;
     }
 
-    public OperationCoverage setStatusCodes(Set<String> statusCodes) {
-        this.statusCodes = statusCodes;
+    public Coverage getCoverage() {
+        return coverage;
+    }
+
+    public Operation getOperation() {
+        return operation;
+    }
+
+    public OperationCoverage setOperation(Operation operation) {
+        this.operation = operation;
         return this;
     }
 }
