@@ -133,8 +133,12 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
             LOGGER.info("Full coverage: ");
             results.getFullCoverage().forEach((k, v) -> LOGGER.info("   " + k));
         }
-        float percentage = ((results.getStatistics().getFull() + results.getStatistics().getPartial()) * 100 / results.getStatistics().getAll());
-        LOGGER.info(percentage + " % coverage");
+        float emptyPercentage = (results.getStatistics().getEmpty() * 100) / results.getStatistics().getAll();
+        float partialPercentage = (results.getStatistics().getPartial() * 100) / results.getStatistics().getAll();
+        float fullPercentage = (results.getStatistics().getFull() * 100) / results.getStatistics().getAll();
+        LOGGER.info("Empty coverage " + emptyPercentage + " %");
+        LOGGER.info("Partial coverage " + partialPercentage + " %");
+        LOGGER.info("Full coverage " + fullPercentage + " %");
     }
 
     /**
