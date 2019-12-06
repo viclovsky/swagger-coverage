@@ -4,16 +4,16 @@ import java.util.Map;
 import java.util.Set;
 
 public class SwaggerCoverageResults {
-    private Set<String> emptyCoverage;
+    private Map<String, Coverage> emptyCoverage;
     private Map<String, Coverage> fullCoverage;
     private Map<String, Coverage> partialCoverage;
     private Statistics statistics;
 
-    public Set<String> getEmptyCoverage() {
+    public Map<String, Coverage> getEmptyCoverage() {
         return emptyCoverage;
     }
 
-    public SwaggerCoverageResults setEmptyCoverage(Set<String> emptyCoverage) {
+    public SwaggerCoverageResults setEmptyCoverage(Map<String, Coverage> emptyCoverage) {
         this.emptyCoverage = emptyCoverage;
         return this;
     }

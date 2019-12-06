@@ -37,7 +37,7 @@ public class OperationSwaggerCoverageCalculatorTest {
     @Test
     public void shouldSeeAllEmpty() {
         SwaggerCoverageResults results = (SwaggerCoverageResults) new OperationSwaggerCoverageCalculator(swagger).getResults();
-        assertThat(results.getEmptyCoverage(), hasSize(20));
+        assertThat(results.getEmptyCoverage().keySet(), hasSize(20));
         assertThat(results.getPartialCoverage().keySet(), hasSize(0));
         assertThat(results.getFullCoverage().keySet(), hasSize(0));
     }
@@ -45,7 +45,7 @@ public class OperationSwaggerCoverageCalculatorTest {
     @Test
     public void shouldSeeKey() {
         SwaggerCoverageResults results = (SwaggerCoverageResults) new OperationSwaggerCoverageCalculator(swagger).getResults();
-        assertThat(results.getEmptyCoverage(), hasItems("/pet/{petId} GET", "/pet/{petId} POST", "/pet/{petId} DELETE",
+        assertThat(results.getEmptyCoverage().keySet(), hasItems("/pet/{petId} GET", "/pet/{petId} POST", "/pet/{petId} DELETE",
                 "/pet/{petId}/uploadImage POST"));
     }
 
@@ -54,7 +54,7 @@ public class OperationSwaggerCoverageCalculatorTest {
     public void shouldSeeAllFull() {
         SwaggerCoverageResults results = (SwaggerCoverageResults) new OperationSwaggerCoverageCalculator(swagger)
                 .addOutput(swagger2).getResults();
-        assertThat(results.getEmptyCoverage(), hasSize(0));
+        assertThat(results.getEmptyCoverage().keySet(), hasSize(0));
         assertThat(results.getPartialCoverage().keySet(), hasSize(0));
         assertThat(results.getFullCoverage().keySet(), hasSize(20));
     }
@@ -63,7 +63,7 @@ public class OperationSwaggerCoverageCalculatorTest {
     public void shouldAddPartial() {
         SwaggerCoverageResults results = (SwaggerCoverageResults) new OperationSwaggerCoverageCalculator(swagger)
                 .addOutput(partialCoverage).getResults();
-        assertThat(results.getEmptyCoverage(), hasSize(19));
+        assertThat(results.getEmptyCoverage().keySet(), hasSize(19));
         assertThat(results.getPartialCoverage().keySet(), hasSize(1));
         assertThat(results.getFullCoverage().keySet(), hasSize(0));
     }
@@ -72,7 +72,7 @@ public class OperationSwaggerCoverageCalculatorTest {
     public void shouldAddFull() {
         SwaggerCoverageResults results = (SwaggerCoverageResults) new OperationSwaggerCoverageCalculator(swagger)
                 .addOutput(fullCoverage).getResults();
-        assertThat(results.getEmptyCoverage(), hasSize(19));
+        assertThat(results.getEmptyCoverage().keySet(), hasSize(19));
         assertThat(results.getPartialCoverage().keySet(), hasSize(0));
         assertThat(results.getFullCoverage().keySet(), hasSize(1));
     }
