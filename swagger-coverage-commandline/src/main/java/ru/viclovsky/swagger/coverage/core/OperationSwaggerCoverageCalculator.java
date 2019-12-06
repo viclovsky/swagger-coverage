@@ -66,9 +66,9 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
         SwaggerCoverageResults results = new SwaggerCoverageResults();
         Map<String, Coverage> partialCoverage = new TreeMap<>();
         Map<String, Coverage> fullCoverage = new TreeMap<>();
+        Map<String, Coverage> emptyCoverage = new TreeMap<>();
 
-        this.fullCoverage.forEach((k, v) ->
-        {
+        this.fullCoverage.forEach((k, v) -> {
             Coverage problem = new Coverage();
             fullCoverage.put(k, problem
                     .setCoveredParams(v.getCoverage().getCoveredParams())
@@ -78,8 +78,7 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
             );
         });
 
-        this.partialCoverage.forEach((k, v) ->
-        {
+        this.partialCoverage.forEach((k, v) -> {
             Coverage problem = new Coverage();
             Set<String> statusCodesProblem = new TreeSet<>();
             Set<String> paramsProblem = new TreeSet<>();
@@ -99,7 +98,26 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
             );
         });
 
-        results.setEmptyCoverage(emptyCoverage.keySet())
+        this.emptyCoverage.forEach((k, v) -> {
+            Coverage problem = new Coverage();
+            Set<String> statusCodesProblem = new TreeSet<>();
+            Set<String> paramsProblem = new TreeSet<>();
+
+            this.emptyCoverage.get(k).getOperation().getParameters().forEach(parameter ->
+                    paramsProblem.add(parameter.getName()));
+            this.emptyCoverage.get(k).getOperation().getResponses().forEach((status, resp) ->
+                    statusCodesProblem.add(status));
+
+            emptyCoverage.put(k, problem
+                    .setParams(paramsProblem)
+                    .setStatusCodes(statusCodesProblem)
+                    .setIgnoredParams(v.getCoverage().getIgnoredParams())
+                    .setIgnoredStatusCodes(v.getCoverage().getIgnoredStatusCodes())
+            );
+
+        });
+
+        results.setEmptyCoverage(emptyCoverage)
                 .setFullCoverage(fullCoverage)
                 .setPartialCoverage(partialCoverage)
                 .setStatistics(statistics);
@@ -111,7 +129,7 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
     private void printResults(SwaggerCoverageResults results) {
         if (!results.getEmptyCoverage().isEmpty()) {
             LOGGER.info("Empty coverage: ");
-            results.getEmptyCoverage().forEach(k -> LOGGER.info("   " + k));
+            results.getEmptyCoverage().keySet().forEach(k -> LOGGER.info("   " + k));
         }
 
         if (!results.getPartialCoverage().isEmpty()) {
