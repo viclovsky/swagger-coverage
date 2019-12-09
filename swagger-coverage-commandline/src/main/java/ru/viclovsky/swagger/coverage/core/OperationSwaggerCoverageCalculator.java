@@ -61,7 +61,7 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
     }
 
     @Override
-    public Object getResults() {
+    Object getResults() {
         Statistics statistics = getStatistics();
         SwaggerCoverageResults results = new SwaggerCoverageResults();
         Map<String, Coverage> partialCoverage = new TreeMap<>();
