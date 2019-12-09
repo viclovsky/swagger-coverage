@@ -25,6 +25,7 @@ configure(subprojects) {
             mavenBom("com.fasterxml.jackson:jackson-bom:2.9.8")
         }
         dependencies {
+            dependency("org.freemarker:freemarker:2.3.29")
             dependency("io.swagger:swagger-models:1.5.20")
             dependency("io.swagger:swagger-compat-spec-parser:1.0.36")
             dependency("org.slf4j:slf4j-simple:1.7.12")
