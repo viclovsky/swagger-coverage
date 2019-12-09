@@ -283,9 +283,9 @@
                         </div>
                         <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                             <ul class="list-group list-group-flush">
-                                <#list data.emptyCoverage as line>
+                                <#list data.emptyCoverage as key, value>
                                     <li class="list-group-item">
-                                        ${line}
+                                        ${key}
                                     </li>
                                 </#list>
                             </ul>

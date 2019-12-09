@@ -2,10 +2,7 @@ package ru.viclovsky.swagger.coverage.core;
 
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
-import ru.viclovsky.swagger.coverage.CoverageOutputReader;
-import ru.viclovsky.swagger.coverage.CoverageResultsWriter;
-import ru.viclovsky.swagger.coverage.FileSystemOutputReader;
-import ru.viclovsky.swagger.coverage.FileSystemResultsWriter;
+import ru.viclovsky.swagger.coverage.*;
 import ru.viclovsky.swagger.coverage.config.Configuration;
 import ru.viclovsky.swagger.coverage.core.filter.SwaggerCoverageFilter;
 
@@ -22,7 +19,8 @@ public final class SwaggerCoverageExec {
         this.configuration = configuration;
         this.filters = new ArrayList<>();
         this.reader = new FileSystemOutputReader(configuration.getOutputPath());
-        this.writer = new FileSystemResultsWriter();
+        this.writer = configuration.isSwaggerResults()? new FileSystemResultsWriter() :
+                new HtmlReportResultsWriter();
     }
 
     public SwaggerCoverageExec setCoverageOutputReader(CoverageOutputReader reader) {
