@@ -1,5 +1,16 @@
 import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension
 
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+    }
+
+    dependencies {
+        classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4")
+    }
+}
+
 plugins {
     java
     id("io.spring.dependency-management") version "1.0.6.RELEASE"
@@ -7,6 +18,9 @@ plugins {
 
 group = "ru.viclovsky.swagger.coverage"
 version = "1.0-SNAPSHOT"
+
+val root = rootProject.projectDir
+val gradleScriptDir by extra("$root/gradle")
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -19,6 +33,7 @@ configure(subprojects) {
     apply(plugin = "io.spring.dependency-management")
     apply(plugin = "java")
     apply(plugin = "java-library")
+    apply(from = "$gradleScriptDir/bintray.gradle")
 
     configure<DependencyManagementExtension> {
         imports {
