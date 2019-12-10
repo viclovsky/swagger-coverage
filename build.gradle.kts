@@ -17,7 +17,7 @@ plugins {
 }
 
 group = "ru.viclovsky.swagger.coverage"
-version = "1.0-SNAPSHOT"
+version = version
 
 val root = rootProject.projectDir
 val gradleScriptDir by extra("$root/gradle")
@@ -34,6 +34,7 @@ configure(subprojects) {
     apply(plugin = "java")
     apply(plugin = "java-library")
     apply(from = "$gradleScriptDir/bintray.gradle")
+    apply(from = "$gradleScriptDir/maven.gradle")
 
     configure<DependencyManagementExtension> {
         imports {
