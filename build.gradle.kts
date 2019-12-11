@@ -16,7 +16,7 @@ plugins {
     id("io.spring.dependency-management") version "1.0.6.RELEASE"
 }
 
-group = "ru.viclovsky.swagger.coverage"
+group = "com.github.viclovsky.swagger.coverage"
 version = version
 
 val root = rootProject.projectDir
@@ -27,7 +27,7 @@ java {
 }
 
 configure(subprojects) {
-    group = "ru.viclovsky.swagger.coverage"
+    group = "com.github.viclovsky.swagger.coverage"
     version = version
 
     apply(plugin = "io.spring.dependency-management")
@@ -54,6 +54,11 @@ configure(subprojects) {
             dependency("com.fasterxml.jackson.core:jackson-core:2.10.1")
             dependency("com.fasterxml.jackson.core:jackson-databind:2.10.1")
         }
+    }
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
 

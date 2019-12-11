@@ -1,5 +1,5 @@
 <#ftl output_format="HTML">
-<#-- @ftlvariable ftlvariable name="data" type="ru.viclovsky.swagger.coverage.model.SwaggerCoverageResults" -->
+<#-- @ftlvariable ftlvariable name="data" type="com.github.viclovsky.swagger.coverage.model.SwaggerCoverageResults" -->
 <#macro success text>
     <svg class="bi bi-check-circle text-success" width="24px"
          height="24px"

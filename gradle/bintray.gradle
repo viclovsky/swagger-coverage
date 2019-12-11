@@ -13,7 +13,7 @@ bintray {
         name = 'swagger-coverage'
         desc = 'Swagger coverage'
         websiteUrl = 'https://github.com/viclovsky/swagger-coverage'
-        issueTrackerUrl = 'https://github.com/viclovsky/swagger-coverage'
+        issueTrackerUrl = 'https://github.com/viclovsky/swagger-coverage/issues'
         vcsUrl = 'https://github.com/viclovsky/swagger-coverage.git'
         licenses = ['Apache-2.0']
 
