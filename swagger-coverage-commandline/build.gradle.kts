@@ -1,15 +1,13 @@
 plugins {
     java
+    `java-library`
     application
 }
-
-group = "ru.viclovsky.swagger.coverage"
-version = "1.0-SNAPSHOT"
 
 description = "Swagger-coverage Commandline"
 
 application {
-    mainClassName = "ru.viclovsky.swagger.coverage.CommandLine"
+    mainClassName = "com.github.viclovsky.swagger.coverage.CommandLine"
 }
 
 java {

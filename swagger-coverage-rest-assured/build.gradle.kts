@@ -1,9 +1,7 @@
 plugins {
     java
+    `java-library`
 }
-
-group = "ru.viclovsky.swagger.coverage"
-version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()

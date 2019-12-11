@@ -1,8 +1,7 @@
 plugins {
     java
+    `java-library`
 }
-
-version = "1.0-SNAPSHOT"
 
 description = "Swagger Coverage Model"
 
