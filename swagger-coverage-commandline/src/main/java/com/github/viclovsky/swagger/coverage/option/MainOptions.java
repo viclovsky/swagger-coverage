@@ -19,7 +19,7 @@ public class MainOptions {
 
     @Parameter(
             names = {"-i", "--input"},
-            description = "Path to files with coverage.",
+            description = "Path to folder with generated files with coverage.",
             required = true,
             order = 1
     )
@@ -27,14 +27,14 @@ public class MainOptions {
 
     @Parameter(
             names = "--outputSwagger",
-            description = "Return swagger.",
+            description = "Return swagger specification which represents uncoveraged items.",
             order = 2
     )
     private boolean isSwaggerOutput;
 
     @Parameter(
             names = "--ignoreHeaders",
-            description = "Ignore headers by name.",
+            description = "Ignored header names separated by comma.",
             order = 3,
             variableArity = true
     )
@@ -42,7 +42,7 @@ public class MainOptions {
 
     @Parameter(
             names = "--ignoreNotOkStatusCodes",
-            description = "Ignore all status codes != 200.",
+            description = "Ignore all status codes not equal 200.",
             order = 4
     )
     private boolean ignoreNotOkStatusCodes;
