@@ -8,11 +8,11 @@ By saying coverage we mean not a broad theme functionality, but presence (or abs
 
 ![Swagger Coverage Report](.github/swagger-coverage.png)
 
-## How it work
+## How it works
 Producing coverage report consists of two parts. Firstly, during test execution, filter/interceptor save information of calls in swagger format in specific folder on executing tests.
 The next stage is to compare saved result with current API specification and builds report.  
 
-## How it used and examples
+## How to use and examples
 * Add dependencies and filter to your test client
 Add repository to pom.xml
 ```xml
