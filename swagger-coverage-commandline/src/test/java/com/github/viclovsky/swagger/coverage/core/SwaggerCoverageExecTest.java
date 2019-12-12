@@ -36,7 +36,7 @@ public class SwaggerCoverageExecTest {
     public void shouldExecuteFilters() {
         List<SwaggerCoverageFilter> filters = Arrays.asList(
                 new StatusOkFilter(), new IgnoreParamsFilter(
-                        Arrays.asList("X-Uid", "Authorization"), ParamType.HEADER));
+                        Arrays.asList("api_key", "x-some-header"), ParamType.HEADER));
         SwaggerCoverageExec.swaggerCoverage(Configuration.conf()
                 .setOutputPath(reqDir.toPath()).setSpecPath(spec.toPath()))
                 .setFilters(filters).execute();
