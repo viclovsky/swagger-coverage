@@ -6,7 +6,7 @@
 Swagger-coverage gives a full picture about coverage of API tests (regression) based on OAS 2 (Swagger). 
 By saying coverage we mean not a broad theme functionality, but presence (or absence) of calls defined by API methods, parameters and return codes which corresponds specification of API.
 
-![Swagger Coverage Report](.github/swagger-coverage-video.mov)
+![Swagger Coverage Report](.github/swagger-coverage.png)
 
 ## How it work
 Producing coverage report consists of two parts. Firstly, during test execution, filter/interceptor save information of calls in swagger format in specific folder on executing tests.
