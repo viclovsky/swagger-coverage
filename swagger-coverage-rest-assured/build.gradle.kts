@@ -3,6 +3,8 @@ plugins {
     `java-library`
 }
 
+description = "Swagger Coverage Rest-Assured"
+
 repositories {
     mavenCentral()
 }
