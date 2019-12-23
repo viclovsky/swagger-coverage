@@ -97,9 +97,9 @@ Output of the command:
 ...
 19:21:21 INFO  OperationSwaggerCoverageCalculator - Full coverage:
 ...
-19:21:21 INFO  OperationSwaggerCoverageCalculator - Empty coverage 49.0 %
-19:21:21 INFO  OperationSwaggerCoverageCalculator - Partial coverage 34.0 %
-19:21:21 INFO  OperationSwaggerCoverageCalculator - Full coverage 16.0 %
+19:21:21 INFO  OperationSwaggerCoverageCalculator - Empty coverage 49.284 %
+19:21:21 INFO  OperationSwaggerCoverageCalculator - Partial coverage 12.034 %
+19:21:21 INFO  OperationSwaggerCoverageCalculator - Full coverage 38.682 %
 19:21:21 INFO  FileSystemResultsWriter - Write html report in file '.../swagger-coverage-report.html'
 ```
 
