@@ -1,14 +1,20 @@
 package com.github.viclovsky.swagger.coverage.core;
 
-import io.swagger.models.Swagger;
-import org.apache.log4j.Logger;
 import com.github.viclovsky.swagger.coverage.core.filter.SwaggerCoverageFilter;
 import com.github.viclovsky.swagger.coverage.model.Coverage;
 import com.github.viclovsky.swagger.coverage.model.OperationCoverage;
 import com.github.viclovsky.swagger.coverage.model.Statistics;
 import com.github.viclovsky.swagger.coverage.model.SwaggerCoverageResults;
+import io.swagger.models.Swagger;
+import org.apache.log4j.Logger;
 
-import java.util.*;
+import java.text.DecimalFormat;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculator {
 
@@ -151,12 +157,13 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
             LOGGER.info("Full coverage: ");
             results.getFullCoverage().forEach((k, v) -> LOGGER.info("   " + k));
         }
-        float emptyPercentage = (results.getStatistics().getEmpty() * 100) / results.getStatistics().getAll();
-        float partialPercentage = (results.getStatistics().getPartial() * 100) / results.getStatistics().getAll();
-        float fullPercentage = (results.getStatistics().getFull() * 100) / results.getStatistics().getAll();
-        LOGGER.info("Empty coverage " + emptyPercentage + " %");
-        LOGGER.info("Partial coverage " + partialPercentage + " %");
-        LOGGER.info("Full coverage " + fullPercentage + " %");
+        DecimalFormat df = new DecimalFormat("###.###");
+        float emptyPercentage = (float) (results.getStatistics().getEmpty() * 100) / results.getStatistics().getAll();
+        float partialPercentage = (float) (results.getStatistics().getPartial() * 100) / results.getStatistics().getAll();
+        float fullPercentage = (float) (results.getStatistics().getFull() * 100) / results.getStatistics().getAll();
+        LOGGER.info("Empty coverage " + df.format(emptyPercentage) + " %");
+        LOGGER.info("Partial coverage " + df.format(partialPercentage) + " %");
+        LOGGER.info("Full coverage " + df.format(fullPercentage) + " %");
     }
 
     /**
