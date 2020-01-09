@@ -10,8 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static java.nio.file.StandardOpenOption.CREATE_NEW;
-import static com.github.viclovsky.swagger.coverage.SwaggerCoverageUtils.generateCoverageResultsName;
+import static com.github.viclovsky.swagger.coverage.SwaggerCoverageConstants.COVERAGE_RESULTS_NAME;
 
 public class FileSystemResultsWriter implements CoverageResultsWriter {
 
@@ -24,10 +23,10 @@ public class FileSystemResultsWriter implements CoverageResultsWriter {
 
     @Override
     public void write(Object results) {
-        final String swaggerResultName = generateCoverageResultsName();
+        final String swaggerResultName = COVERAGE_RESULTS_NAME;
         Path path = Paths.get(swaggerResultName);
         LOGGER.info(String.format("Write results in file '%s'", path.toAbsolutePath()));
-        try (OutputStream os = Files.newOutputStream(Paths.get(swaggerResultName), CREATE_NEW)) {
+        try (OutputStream os = Files.newOutputStream(Paths.get(swaggerResultName))) {
             mapper.writeValue(os, results);
         } catch (IOException e) {
             throw new SwaggerCoverageWriteException("Could not write results", e);
