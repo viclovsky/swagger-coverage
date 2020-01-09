@@ -102,6 +102,7 @@ Output of the command:
 19:21:21 INFO  OperationSwaggerCoverageCalculator - Full coverage 38.682 %
 19:21:21 INFO  FileSystemResultsWriter - Write html report in file '.../swagger-coverage-report.html'
 ```
+Results (swagger-coverage-report.html/swagger-coverage-results.json) will be created after running of swagger-coverage.
 
 ## Important remark
 Swagger-coverage works fine with clients which were generated from swagger (for example: https://github.com/OpenAPITools/openapi-generator). 
