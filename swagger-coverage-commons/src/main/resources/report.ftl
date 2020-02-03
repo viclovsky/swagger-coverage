@@ -194,14 +194,14 @@
                 <div class="col-12">
                     <ul class="nav nav-pills nav-fill" id="detail-tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link disabled" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
                                aria-controls="home" aria-selected="true">
                                 All: ${data.statistics.all}
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
-                               aria-controls="home" aria-selected="true">
+                            <a class="nav-link" id="full-tab" data-toggle="tab" href="#full" role="tab"
+                               aria-controls="full" aria-selected="false">
                                 Full: ${data.statistics.full}
                             </a>
                         </li>
@@ -217,6 +217,12 @@
                                 Empty: ${data.statistics.empty}
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="missed-tab" data-toggle="tab" href="#missed" role="tab"
+                               aria-controls="contact" aria-selected="false">
+                                Missed: ${data.statistics.missed}
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -226,12 +232,20 @@
                     <div class="tab-content" id="details-content">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                             <@details coverage=data.fullCoverage/>
+                            <@details coverage=data.partialCoverage/>
+                            <@details coverage=data.emptyCoverage/>
+                        </div>
+                        <div class="tab-pane fade" id="full" role="tabpanel" aria-labelledby="full-tab">
+                            <@details coverage=data.fullCoverage/>
                         </div>
                         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                             <@details coverage=data.partialCoverage/>
                         </div>
                         <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                             <@details coverage=data.emptyCoverage/>
+                        </div>
+                        <div class="tab-pane fade" id="missed" role="tabpanel" aria-labelledby="missed-tab">
+                            <@details coverage=data.missedCoverage/>
                         </div>
                     </div>
                 </div>

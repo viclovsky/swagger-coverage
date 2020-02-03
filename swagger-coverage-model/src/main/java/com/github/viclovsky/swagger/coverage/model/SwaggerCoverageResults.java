@@ -6,6 +6,7 @@ public class SwaggerCoverageResults {
     private Map<String, Coverage> emptyCoverage;
     private Map<String, Coverage> fullCoverage;
     private Map<String, Coverage> partialCoverage;
+    private Map<String, Coverage> missedCoverage;
     private Statistics statistics;
 
     public Map<String, Coverage> getEmptyCoverage() {
@@ -32,6 +33,15 @@ public class SwaggerCoverageResults {
 
     public SwaggerCoverageResults setPartialCoverage(Map<String, Coverage> partialCoverage) {
         this.partialCoverage = partialCoverage;
+        return this;
+    }
+
+    public Map<String, Coverage> getMissedCoverage() {
+        return missedCoverage;
+    }
+
+    public SwaggerCoverageResults setMissedCoverage(Map<String, Coverage> missedCoverage) {
+        this.missedCoverage = missedCoverage;
         return this;
     }
 
