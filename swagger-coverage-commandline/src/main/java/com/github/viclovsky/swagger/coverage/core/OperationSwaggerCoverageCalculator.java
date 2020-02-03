@@ -57,6 +57,11 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
                 partialCoverage.remove(k);
             }
 
+            if (op == null){
+                LOGGER.debug("Operation missed in swagger.json");
+                return;
+            }
+
             if (isEmptyOperation(Objects.requireNonNull(op).getOperation())) {
                 fullCoverage.put(k, op);
                 return;
