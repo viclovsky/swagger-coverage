@@ -5,6 +5,7 @@ import com.github.viclovsky.swagger.coverage.model.Coverage;
 import com.github.viclovsky.swagger.coverage.model.OperationCoverage;
 import com.github.viclovsky.swagger.coverage.model.Statistics;
 import com.github.viclovsky.swagger.coverage.model.SwaggerCoverageResults;
+import com.github.viclovsky.swagger.coverage.option.MainOptions;
 import io.swagger.models.Swagger;
 import org.apache.log4j.Logger;
 
@@ -175,7 +176,12 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
      * path + HTTP method = Operation
      */
     private Map<String, OperationCoverage> getOperationMap(Swagger swagger) {
-        Map<String, OperationCoverage> coverage = new TreeMap<>();
+        Map<String, OperationCoverage> coverage;
+        if (MainOptions.getIgnoreRestCase()) {
+            coverage = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        } else {
+            coverage = new TreeMap<>();
+        }
         swagger.getPaths().keySet().forEach(path
                 -> swagger.getPaths().get(path).getOperationMap().forEach((httpMethod, operation)
                 -> coverage.put(String.format("%s %s", path, httpMethod), new OperationCoverage(operation))

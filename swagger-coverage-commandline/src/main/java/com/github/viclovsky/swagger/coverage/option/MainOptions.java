@@ -48,6 +48,13 @@ public class MainOptions {
     private boolean ignoreNotOkStatusCodes;
 
     @Parameter(
+            names = "--ignoreRestCase",
+            description = "Ignore case for swagger operation.",
+            order = 6
+    )
+    private static boolean ignoreRestCase;
+
+    @Parameter(
             names = "--help",
             description = "Print commandline help.",
             help = true,
@@ -78,5 +85,9 @@ public class MainOptions {
 
     public boolean isIgnoreNotOkStatusCodes() {
         return ignoreNotOkStatusCodes;
+    }
+
+    public static boolean getIgnoreRestCase() {
+        return ignoreRestCase;
     }
 }
