@@ -38,14 +38,14 @@
     </svg>
     ${text}
 </#macro>
-<#macro details coverage>
-    <div class="accordion" id="accordionExample">
+<#macro details coverage prefix>
+    <div class="accordion" id="${prefix}-accordion">
         <#list coverage as key, value>
             <div class="card">
                 <div class="card-header">
                     <div class="row"
                          data-toggle="collapse"
-                         data-target="#empty-${key?index}"
+                         data-target="#${prefix}-${key?index}"
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-6">
@@ -77,8 +77,8 @@
                         </div>
                     </div>
                 </div>
-                <div id="empty-${key?index}" class="collapse" aria-labelledby="headingOne"
-                     data-parent="#accordionExample">
+                <div id="${prefix}-${key?index}" class="collapse" aria-labelledby="headingOne"
+                     data-parent="#${prefix}-accordion">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-2">
@@ -211,13 +211,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#partial" role="tab"
+                            <a class="nav-link" id="partial-tab" data-toggle="tab" href="#partial" role="tab"
                                aria-controls="partial" aria-selected="false">
                                 Partial: ${data.statistics.partial}
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#empty" role="tab"
+                            <a class="nav-link" id="empty-tab" data-toggle="tab" href="#empty" role="tab"
                                aria-controls="empty" aria-selected="false">
                                 Empty: ${data.statistics.empty}
                             </a>
@@ -236,21 +236,21 @@
                 <div class="col-12">
                     <div class="tab-content" id="details-content">
                         <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
-                            <@details coverage=data.fullCoverage/>
-                            <@details coverage=data.partialCoverage/>
-                            <@details coverage=data.emptyCoverage/>
+                            <@details coverage=data.fullCoverage prefix="all-full"/>
+                            <@details coverage=data.partialCoverage prefix="all-partial"/>
+                            <@details coverage=data.emptyCoverage prefix="all-empty"/>
                         </div>
                         <div class="tab-pane fade" id="full" role="tabpanel" aria-labelledby="full-tab">
-                            <@details coverage=data.fullCoverage/>
+                            <@details coverage=data.fullCoverage  prefix="full"/>
                         </div>
                         <div class="tab-pane fade" id="partial" role="tabpanel" aria-labelledby="partial-tab">
-                            <@details coverage=data.partialCoverage/>
+                            <@details coverage=data.partialCoverage prefix="partial"/>
                         </div>
                         <div class="tab-pane fade" id="empty" role="tabpanel" aria-labelledby="empty-tab">
-                            <@details coverage=data.emptyCoverage/>
+                            <@details coverage=data.emptyCoverage prefix="empty"/>
                         </div>
                         <div class="tab-pane fade" id="missed" role="tabpanel" aria-labelledby="missed-tab">
-                            <@details coverage=data.missedCoverage/>
+                            <@details coverage=data.missedCoverage prefix="missed"/>
                         </div>
                     </div>
                 </div>
