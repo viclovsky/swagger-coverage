@@ -5,6 +5,7 @@ public class Statistics {
     private int empty;
     private int partial;
     private int full;
+    private int missed;
 
     public int getAll() {
         return all;
@@ -39,6 +40,14 @@ public class Statistics {
 
     public Statistics setFullCount(int fullCount) {
         this.full = fullCount;
+        return this;
+    }
+    public int getMissed() {
+        return missed;
+    }
+
+    public Statistics setMissed(int missed) {
+        this.missed = missed;
         return this;
     }
 }

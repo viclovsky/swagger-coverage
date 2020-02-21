@@ -5,16 +5,12 @@ import com.github.viclovsky.swagger.coverage.model.Coverage;
 import com.github.viclovsky.swagger.coverage.model.OperationCoverage;
 import com.github.viclovsky.swagger.coverage.model.Statistics;
 import com.github.viclovsky.swagger.coverage.model.SwaggerCoverageResults;
+import com.github.viclovsky.swagger.coverage.option.MainOptions;
 import io.swagger.models.Swagger;
 import org.apache.log4j.Logger;
 
 import java.text.DecimalFormat;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
 
 public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculator {
 
@@ -23,12 +19,14 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
     private Map<String, OperationCoverage> emptyCoverage;
     private Map<String, OperationCoverage> partialCoverage;
     private Map<String, OperationCoverage> fullCoverage;
+    private Map<String, OperationCoverage> missedCoverage;
 
     public OperationSwaggerCoverageCalculator(List<SwaggerCoverageFilter> filters, Swagger spec) {
         super(filters, spec);
         this.emptyCoverage = getOperationMap(spec);
         this.partialCoverage = new TreeMap<>();
         this.fullCoverage = new TreeMap<>();
+        this.missedCoverage = new TreeMap<>();
     }
 
     public OperationSwaggerCoverageCalculator(Swagger spec) {
@@ -36,6 +34,7 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
         this.emptyCoverage = getOperationMap(spec);
         this.partialCoverage = new TreeMap<>();
         this.fullCoverage = new TreeMap<>();
+        this.missedCoverage = new TreeMap<>();
     }
 
     @Override
@@ -57,6 +56,12 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
                 partialCoverage.remove(k);
             }
 
+            if (op == null){
+                LOGGER.debug("Operation missed in swagger.json");
+                missedCoverage.put(k, operation);
+                return;
+            }
+
             if (isEmptyOperation(Objects.requireNonNull(op).getOperation())) {
                 fullCoverage.put(k, op);
                 return;
@@ -73,6 +78,7 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
         Map<String, Coverage> partialCoverage = new TreeMap<>();
         Map<String, Coverage> fullCoverage = new TreeMap<>();
         Map<String, Coverage> emptyCoverage = new TreeMap<>();
+        Map<String, Coverage> missedCoverage = new TreeMap<>();
 
         this.fullCoverage.forEach((k, v) -> {
             Coverage problem = new Coverage();
@@ -123,9 +129,29 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
 
         });
 
+        this.missedCoverage.forEach((k, v) -> {
+            Coverage problem = new Coverage();
+            Set<String> statusCodesProblem = new TreeSet<>();
+            Set<String> paramsProblem = new TreeSet<>();
+
+            this.missedCoverage.get(k).getOperation().getParameters().forEach(parameter ->
+                    paramsProblem.add(parameter.getName()));
+            this.missedCoverage.get(k).getOperation().getResponses().forEach((status, resp) ->
+                    statusCodesProblem.add(status));
+
+            missedCoverage.put(k, problem
+                    .setParams(paramsProblem)
+                    .setStatusCodes(statusCodesProblem)
+                    .setIgnoredParams(v.getCoverage().getIgnoredParams())
+                    .setIgnoredStatusCodes(v.getCoverage().getIgnoredStatusCodes())
+            );
+
+        });
+
         results.setEmptyCoverage(emptyCoverage)
                 .setFullCoverage(fullCoverage)
                 .setPartialCoverage(partialCoverage)
+                .setMissedCoverage(missedCoverage)
                 .setStatistics(statistics);
 
         printResults(results);
@@ -157,6 +183,10 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
             LOGGER.info("Full coverage: ");
             results.getFullCoverage().forEach((k, v) -> LOGGER.info("   " + k));
         }
+        if (!results.getMissedCoverage().isEmpty()) {
+            LOGGER.info("Operation missed in swagger: ");
+            results.getMissedCoverage().forEach((k, v) -> LOGGER.info("   " + k));
+        }
         DecimalFormat df = new DecimalFormat("###.###");
         float emptyPercentage = (float) (results.getStatistics().getEmpty() * 100) / results.getStatistics().getAll();
         float partialPercentage = (float) (results.getStatistics().getPartial() * 100) / results.getStatistics().getAll();
@@ -164,13 +194,19 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
         LOGGER.info("Empty coverage " + df.format(emptyPercentage) + " %");
         LOGGER.info("Partial coverage " + df.format(partialPercentage) + " %");
         LOGGER.info("Full coverage " + df.format(fullPercentage) + " %");
-    }
+        LOGGER.info("Missed in swagger " + results.getStatistics().getMissed() + " operation");
+}
 
     /**
      * path + HTTP method = Operation
      */
     private Map<String, OperationCoverage> getOperationMap(Swagger swagger) {
-        Map<String, OperationCoverage> coverage = new TreeMap<>();
+        Map<String, OperationCoverage> coverage;
+        if (MainOptions.getIgnoreRestCase()) {
+            coverage = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        } else {
+            coverage = new TreeMap<>();
+        }
         swagger.getPaths().keySet().forEach(path
                 -> swagger.getPaths().get(path).getOperationMap().forEach((httpMethod, operation)
                 -> coverage.put(String.format("%s %s", path, httpMethod), new OperationCoverage(operation))
@@ -209,9 +245,10 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
         int emptyCount = emptyCoverage.size();
         int partialCount = partialCoverage.size();
         int fullCount = fullCoverage.size();
+        int missedCount = missedCoverage.size();
         int allCount = emptyCount + partialCount + fullCount;
         return new Statistics().setAllCount(allCount).setEmptyCount(emptyCount)
-                .setPartialCount(partialCount).setFullCount(fullCount);
+                .setPartialCount(partialCount).setFullCount(fullCount).setMissed(missedCount);
     }
 
 
