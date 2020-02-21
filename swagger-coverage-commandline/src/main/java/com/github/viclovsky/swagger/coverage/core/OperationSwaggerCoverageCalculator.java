@@ -184,7 +184,7 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
             results.getFullCoverage().forEach((k, v) -> LOGGER.info("   " + k));
         }
         if (!results.getMissedCoverage().isEmpty()) {
-            LOGGER.info("Operation missed in swagger: ");
+            LOGGER.info("Operation(s) missed in swagger: ");
             results.getMissedCoverage().forEach((k, v) -> LOGGER.info("   " + k));
         }
         DecimalFormat df = new DecimalFormat("###.###");
@@ -194,7 +194,7 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
         LOGGER.info("Empty coverage " + df.format(emptyPercentage) + " %");
         LOGGER.info("Partial coverage " + df.format(partialPercentage) + " %");
         LOGGER.info("Full coverage " + df.format(fullPercentage) + " %");
-        LOGGER.info("Missed in swagger " + results.getStatistics().getMissed() + " operation");
+        LOGGER.info("Missed in swagger " + results.getStatistics().getMissed() + " operation(s)");
 }
 
     /**

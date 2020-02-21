@@ -182,6 +182,11 @@
                         Empty: ${data.statistics.empty * 100 / data.statistics.all}%
                     </div>
                 </div>
+                <div class="col-sm">
+                    <div class="alert alert-secondary" role="alert">
+                        Missed: ${data.statistics.missed}
+                    </div>
+                </div>
             </div>
         </section>
         <section id="details">
@@ -194,8 +199,8 @@
                 <div class="col-12">
                     <ul class="nav nav-pills nav-fill" id="detail-tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
-                               aria-controls="home" aria-selected="true">
+                            <a class="nav-link active" id="all-tab" data-toggle="tab" href="#all" role="tab"
+                               aria-controls="all" aria-selected="true">
                                 All: ${data.statistics.all}
                             </a>
                         </li>
@@ -206,20 +211,20 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                               aria-controls="profile" aria-selected="false">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#partial" role="tab"
+                               aria-controls="partial" aria-selected="false">
                                 Partial: ${data.statistics.partial}
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
-                               aria-controls="contact" aria-selected="false">
+                            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#empty" role="tab"
+                               aria-controls="empty" aria-selected="false">
                                 Empty: ${data.statistics.empty}
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="missed-tab" data-toggle="tab" href="#missed" role="tab"
-                               aria-controls="contact" aria-selected="false">
+                               aria-controls="missed" aria-selected="false">
                                 Missed: ${data.statistics.missed}
                             </a>
                         </li>
@@ -230,7 +235,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="tab-content" id="details-content">
-                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
                             <@details coverage=data.fullCoverage/>
                             <@details coverage=data.partialCoverage/>
                             <@details coverage=data.emptyCoverage/>
@@ -238,10 +243,10 @@
                         <div class="tab-pane fade" id="full" role="tabpanel" aria-labelledby="full-tab">
                             <@details coverage=data.fullCoverage/>
                         </div>
-                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="tab-pane fade" id="partial" role="tabpanel" aria-labelledby="partial-tab">
                             <@details coverage=data.partialCoverage/>
                         </div>
-                        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                        <div class="tab-pane fade" id="empty" role="tabpanel" aria-labelledby="empty-tab">
                             <@details coverage=data.emptyCoverage/>
                         </div>
                         <div class="tab-pane fade" id="missed" role="tabpanel" aria-labelledby="missed-tab">
