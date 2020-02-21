@@ -1,14 +1,14 @@
 package com.github.viclovsky.swagger.coverage.core;
 
+import com.github.viclovsky.swagger.coverage.model.SwaggerCoverageResults;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
 import org.junit.Before;
 import org.junit.Test;
-import com.github.viclovsky.swagger.coverage.model.SwaggerCoverageResults;
 
 import java.io.File;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
@@ -70,6 +70,15 @@ public class OperationSwaggerCoverageCalculatorTest {
         assertThat(results.getEmptyCoverage().keySet(), hasSize(19));
         assertThat(results.getPartialCoverage().keySet(), hasSize(1));
         assertThat(results.getFullCoverage().keySet(), hasSize(0));
+    }
+
+    @Test
+    public void shouldAddFull() {
+        SwaggerCoverageResults results = (SwaggerCoverageResults) new OperationSwaggerCoverageCalculator(swagger)
+                .addOutput(fullCoverage).getResults();
+        assertThat(results.getEmptyCoverage().keySet(), hasSize(19));
+        assertThat(results.getPartialCoverage().keySet(), hasSize(0));
+        assertThat(results.getFullCoverage().keySet(), hasSize(1));
     }
 
     @Test
