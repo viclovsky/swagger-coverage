@@ -77,8 +77,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="${prefix}-${key?index}" class="collapse" aria-labelledby="headingOne"
-                     data-parent="#${prefix}-accordion">
+                <div id="${prefix}-${key?index}" class="collapse" aria-labelledby="headingOne">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-2">
