@@ -120,9 +120,6 @@ For a moment it is available such output formats:
 For a moment swagger-coverage  is compatible only with OpenApi specification v2. It is possible that swagger-coverage will support other versions.
 
 ## Pull Requests
-I welcome and encourage all pull requests.
-
-## Pull Requests
 My project is open for any enhancement. So, your help is much appreciated. Please, feel free to open your pull request or issue and I will consider it in several days.
 
 ## Created & Maintained By
