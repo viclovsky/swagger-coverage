@@ -75,6 +75,9 @@ Here is help of unzip swagger-commandline
       Default: false
     --help
       Print commandline help.
+    --ignoreRestCase
+      Ignore case for swagger operation.
+      Default: false
     -q, --quiet
       Switch on the quiet mode.
       Default: false
@@ -115,6 +118,15 @@ For a moment it is available such output formats:
 
 ## Requirements 
 For a moment swagger-coverage  is compatible only with OpenApi specification v2. It is possible that swagger-coverage will support other versions.
+
+## Pull Requests
+I welcome and encourage all pull requests.
+
+## Pull Requests
+My project is open for any enhancement. So, your help is much appreciated. Please, feel free to open your pull request or issue and I will consider it in several days.
+
+## Created & Maintained By
+[Victor Orlovsky](https://github.com/viclovsky/swagger-coverage)
 
 ## License
 Swagger coverage is released under version 2.0 of the [Apache License](http://www.apache.org/licenses/LICENSE-2.0)
