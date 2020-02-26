@@ -123,7 +123,7 @@ For a moment swagger-coverage  is compatible only with OpenApi specification v2.
 My project is open for any enhancement. So, your help is much appreciated. Please, feel free to open your pull request or issue and I will consider it in several days.
 
 ## Created & Maintained By
-[Victor Orlovsky](https://github.com/viclovsky/swagger-coverage)
+[Victor Orlovsky](https://github.com/viclovsky)
 
 ## License
 Swagger coverage is released under version 2.0 of the [Apache License](http://www.apache.org/licenses/LICENSE-2.0)
