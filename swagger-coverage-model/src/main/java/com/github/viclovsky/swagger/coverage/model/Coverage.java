@@ -5,6 +5,9 @@ import java.util.TreeSet;
 
 public class Coverage {
 
+    private String httpMethod;
+    private String path;
+
     private Set<String> params = new TreeSet<>();
     private Set<String> statusCodes = new TreeSet<>();
 
@@ -50,7 +53,6 @@ public class Coverage {
         return this;
     }
 
-
     public Set<String> getIgnoredParams() {
         return ignoredParams;
     }
@@ -69,4 +71,21 @@ public class Coverage {
         return this;
     }
 
+    public Coverage setHttpMethod(String httpMethod) {
+        this.httpMethod = httpMethod;
+        return this;
+    }
+
+    public String getHttpMethod() {
+        return httpMethod;
+    }
+
+    public Coverage setPath(String path) {
+        this.path = path;
+        return this;
+    }
+
+    public String getPath() {
+        return path;
+    }
 }

@@ -38,6 +38,7 @@
     </svg>
     ${text}
 </#macro>
+
 <#macro details coverage prefix>
     <div class="accordion" id="${prefix}-accordion">
         <#list coverage as key, value>
@@ -48,82 +49,93 @@
                          data-target="#${prefix}-${key?index}"
                          aria-expanded="true"
                          aria-controls="collapseOne">
-                        <div class="col-6">
-                            ${key}
+                        <div class="col-1">
+                            <button type="button" class="btn btn-sm">${value.httpMethod}</button>
+                        </div>
+                        <div class="col-5">
+                            ${value.path}
                         </div>
                         <div class="col-3">
-                            parameters:
-                            <#if value.coveredParams?size gt 0>
-                                <@success text=value.coveredParams?size/>
-                            </#if>
-                            <#if value.params?size gt 0 >
-                                <@danger text=value.params?size/>
-                            </#if>
-                            <#if value.ignoredParams?size gt 0 >
-                                <@question text=value.ignoredParams?size/>
+                            <#if value.coveredParams?size gt 0 || value.params?size gt 0 || value.ignoredParams?size gt 0>
+                                parameters:
+                                <#if value.coveredParams?size gt 0>
+                                    <@success text=value.coveredParams?size/>
+                                </#if>
+                                <#if value.params?size gt 0 >
+                                    <@danger text=value.params?size/>
+                                </#if>
+                                <#if value.ignoredParams?size gt 0 >
+                                    <@question text=value.ignoredParams?size/>
+                                </#if>
                             </#if>
                         </div>
                         <div class="col-3">
-                            statuses:
-                            <#if value.coveredStatusCodes?size gt 0>
-                                <@success text=value.coveredStatusCodes?size/>
-                            </#if>
-                            <#if value.statusCodes?size gt 0 >
-                                <@danger text=value.statusCodes?size/>
-                            </#if>
-                            <#if value.ignoredStatusCodes?size gt 0>
-                                <@question text=value.ignoredStatusCodes?size/>
+                            <#if value.coveredStatusCodes?size gt 0 || value.statusCodes?size gt 0 || value.ignoredStatusCodes?size gt 0>
+                                statuses:
+                                <#if value.coveredStatusCodes?size gt 0>
+                                    <@success text=value.coveredStatusCodes?size/>
+                                </#if>
+                                <#if value.statusCodes?size gt 0 >
+                                    <@danger text=value.statusCodes?size/>
+                                </#if>
+                                <#if value.ignoredStatusCodes?size gt 0>
+                                    <@question text=value.ignoredStatusCodes?size/>
+                                </#if>
                             </#if>
                         </div>
                     </div>
                 </div>
                 <div id="${prefix}-${key?index}" class="collapse" aria-labelledby="headingOne">
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-2">
-                                Parameters:
-                            </div>
-                            <div class="col-10">
-                                <#list value.coveredParams as param>
-                                    <span>
+                        <#if value.coveredParams?size gt 0 || value.params?size gt 0 || value.ignoredParams?size gt 0>
+                            <div class="row">
+                                <div class="col-2">
+                                    Parameters:
+                                </div>
+                                <div class="col-10">
+                                    <#list value.coveredParams as param>
+                                        <span>
                                         <@success text = param/>
                                     </span>
-                                </#list>
-                                <#list value.params as param>
-                                    <span>
+                                    </#list>
+                                    <#list value.params as param>
+                                        <span>
                                          <@danger text = param/>
                                     </span>
-                                </#list>
-                                <#list value.ignoredParams as param>
-                                    <span>
+                                    </#list>
+                                    <#list value.ignoredParams as param>
+                                        <span>
                                          <@question text = param/>
                                     </span>
-                                </#list>
+                                    </#list>
+                                </div>
                             </div>
-                        </div>
-                        <br/>
-                        <div class="row">
-                            <div class="col-2">
-                                Statuses:
-                            </div>
-                            <div class="col-10">
-                                <#list value.coveredStatusCodes as status>
-                                    <span>
+                            <br/>
+                        </#if>
+                        <#if value.coveredStatusCodes?size gt 0 || value.statusCodes?size gt 0 || value.ignoredStatusCodes?size gt 0>
+                            <div class="row">
+                                <div class="col-2">
+                                    Statuses:
+                                </div>
+                                <div class="col-10">
+                                    <#list value.coveredStatusCodes as status>
+                                        <span>
                                         <@success text = status/>
                                     </span>
-                                </#list>
-                                <#list value.statusCodes as status>
-                                    <span>
+                                    </#list>
+                                    <#list value.statusCodes as status>
+                                        <span>
                                         <@danger text = status/>
                                     </span>
-                                </#list>
-                                <#list value.ignoredStatusCodes as status>
-                                    <span>
+                                    </#list>
+                                    <#list value.ignoredStatusCodes as status>
+                                        <span>
                                          <@question text = status/>
                                     </span>
-                                </#list>
+                                    </#list>
+                                </div>
                             </div>
-                        </div>
+                        </#if>
                     </div>
                 </div>
             </div>
@@ -133,7 +145,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Swagger Coverage</title>
+    <title>${data.title} ${data.version} Coverage</title>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
             integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
             crossorigin="anonymous"></script>
@@ -157,7 +169,7 @@
         <section id="summary">
             <div class="row">
                 <div class="col-12">
-                    <h1 class="title">Swagger Coverage</h1>
+                    <h1 class="title">${data.title} ${data.version} Coverage</h1>
                 </div>
             </div>
             <div class="row">

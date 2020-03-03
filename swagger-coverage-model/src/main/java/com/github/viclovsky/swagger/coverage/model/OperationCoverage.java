@@ -4,6 +4,9 @@ import io.swagger.models.Operation;
 
 public class OperationCoverage {
 
+    private String httpMethod;
+    private String path;
+
     private Coverage coverage;
     private Operation operation;
 
@@ -43,5 +46,23 @@ public class OperationCoverage {
     public OperationCoverage setOperation(Operation operation) {
         this.operation = operation;
         return this;
+    }
+
+    public OperationCoverage setHttpMethod(String httpMethod) {
+        this.httpMethod = httpMethod;
+        return this;
+    }
+
+    public String getHttpMethod() {
+        return httpMethod;
+    }
+
+    public OperationCoverage setPath(String path) {
+        this.path = path;
+        return this;
+    }
+
+    public String getPath() {
+        return path;
     }
 }
