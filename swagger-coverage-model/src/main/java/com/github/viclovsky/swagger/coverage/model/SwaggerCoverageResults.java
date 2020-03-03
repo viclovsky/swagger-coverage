@@ -3,6 +3,8 @@ package com.github.viclovsky.swagger.coverage.model;
 import java.util.Map;
 
 public class SwaggerCoverageResults {
+    private String title;
+    private String version;
     private Map<String, Coverage> emptyCoverage;
     private Map<String, Coverage> fullCoverage;
     private Map<String, Coverage> partialCoverage;
@@ -52,5 +54,23 @@ public class SwaggerCoverageResults {
 
     public Statistics getStatistics() {
         return statistics;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public SwaggerCoverageResults setTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public SwaggerCoverageResults setVersion(String version) {
+        this.version = version;
+        return this;
     }
 }

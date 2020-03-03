@@ -50,7 +50,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-1">
-                            <button type="button" class="btn">${value.httpMethod}</button>
+                            <button type="button" class="btn btn-sm">${value.httpMethod}</button>
                         </div>
                         <div class="col-5">
                             ${value.path}
@@ -137,7 +137,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Swagger Coverage</title>
+    <title>Swagger Coverage ${data.title} ${data.version}</title>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
             integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
             crossorigin="anonymous"></script>
@@ -161,7 +161,7 @@
         <section id="summary">
             <div class="row">
                 <div class="col-12">
-                    <h1 class="title">Swagger Coverage</h1>
+                    <h1 class="title">${data.title} ${data.version}</h1>
                 </div>
             </div>
             <div class="row">

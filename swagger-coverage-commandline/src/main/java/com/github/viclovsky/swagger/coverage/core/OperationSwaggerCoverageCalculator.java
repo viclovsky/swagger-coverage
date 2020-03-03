@@ -156,7 +156,9 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
 
         });
 
-        results.setEmptyCoverage(emptyCoverage)
+        results.setTitle(spec.getInfo().getTitle())
+                .setVersion(spec.getInfo().getVersion())
+                .setEmptyCoverage(emptyCoverage)
                 .setFullCoverage(fullCoverage)
                 .setPartialCoverage(partialCoverage)
                 .setMissedCoverage(missedCoverage)
