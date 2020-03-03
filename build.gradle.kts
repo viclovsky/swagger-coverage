@@ -60,6 +60,43 @@ configure(subprojects) {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    val sourceJar by tasks.creating(Jar::class) {
+        from(sourceSets.getByName("main").allSource)
+        archiveClassifier.set("sources")
+    }
+
+    val javadocJar by tasks.creating(Jar::class) {
+        from(tasks.getByName("javadoc"))
+        archiveClassifier.set("javadoc")
+    }
+
+    tasks.withType(Javadoc::class) {
+        (options as StandardJavadocDocletOptions).addStringOption("Xdoclint:none", "-quiet")
+    }
+
+    artifacts.add("archives", sourceJar)
+    artifacts.add("archives", javadocJar)
+
+
+    tasks.compileJava {
+        options.encoding = "UTF-8"
+    }
+
+    tasks.compileTestJava {
+        options.encoding = "UTF-8"
+        options.compilerArgs.add("-parameters")
+    }
+
+    tasks.jar {
+        manifest {
+            attributes(mapOf(
+                    "Implementation-Title" to project.name,
+                    "Implementation-Version" to project.version
+
+            ))
+        }
+    }
 }
 
 repositories {
