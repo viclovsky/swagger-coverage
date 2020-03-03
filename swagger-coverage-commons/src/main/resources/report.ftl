@@ -38,6 +38,7 @@
     </svg>
     ${text}
 </#macro>
+
 <#macro details coverage prefix>
     <div class="accordion" id="${prefix}-accordion">
         <#list coverage as key, value>
@@ -48,8 +49,11 @@
                          data-target="#${prefix}-${key?index}"
                          aria-expanded="true"
                          aria-controls="collapseOne">
-                        <div class="col-6">
-                            ${key}
+                        <div class="col-1">
+                            <button type="button" class="btn">${value.httpMethod}</button>
+                        </div>
+                        <div class="col-5">
+                            ${value.path}
                         </div>
                         <div class="col-3">
                             parameters:

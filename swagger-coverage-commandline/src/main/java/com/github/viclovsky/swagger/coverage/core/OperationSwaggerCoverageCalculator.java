@@ -83,6 +83,8 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
         this.fullCoverage.forEach((k, v) -> {
             Coverage problem = new Coverage();
             fullCoverage.put(k, problem
+                    .setHttpMethod(v.getHttpMethod())
+                    .setPath(v.getPath())
                     .setCoveredParams(v.getCoverage().getCoveredParams())
                     .setCoveredStatusCodes(v.getCoverage().getCoveredStatusCodes())
                     .setIgnoredParams(v.getCoverage().getIgnoredParams())
@@ -101,6 +103,8 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
                     statusCodesProblem.add(status));
 
             partialCoverage.put(k, problem
+                    .setHttpMethod(v.getHttpMethod())
+                    .setPath(v.getPath())
                     .setParams(paramsProblem)
                     .setStatusCodes(statusCodesProblem)
                     .setCoveredParams(v.getCoverage().getCoveredParams())
@@ -121,6 +125,8 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
                     statusCodesProblem.add(status));
 
             emptyCoverage.put(k, problem
+                    .setHttpMethod(v.getHttpMethod())
+                    .setPath(v.getPath())
                     .setParams(paramsProblem)
                     .setStatusCodes(statusCodesProblem)
                     .setIgnoredParams(v.getCoverage().getIgnoredParams())
@@ -140,6 +146,8 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
                     statusCodesProblem.add(status));
 
             missedCoverage.put(k, problem
+                    .setHttpMethod(v.getHttpMethod())
+                    .setPath(v.getPath())
                     .setParams(paramsProblem)
                     .setStatusCodes(statusCodesProblem)
                     .setIgnoredParams(v.getCoverage().getIgnoredParams())
@@ -209,7 +217,8 @@ public class OperationSwaggerCoverageCalculator extends SwaggerCoverageCalculato
         }
         swagger.getPaths().keySet().forEach(path
                 -> swagger.getPaths().get(path).getOperationMap().forEach((httpMethod, operation)
-                -> coverage.put(String.format("%s %s", path, httpMethod), new OperationCoverage(operation))
+                -> coverage.put(String.format("%s %s", path, httpMethod), new OperationCoverage(operation)
+                .setHttpMethod(httpMethod.name()).setPath(path))
         ));
         return coverage;
     }
