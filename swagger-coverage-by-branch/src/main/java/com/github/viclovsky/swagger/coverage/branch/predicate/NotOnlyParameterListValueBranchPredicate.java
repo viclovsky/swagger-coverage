@@ -19,7 +19,7 @@ public class NotOnlyParameterListValueBranchPredicate extends BranchPredicate {
         this.name = name;
         this.expectedValue.addAll(value);
 
-        reason = "Missed values: " + String.join(",",expectedValue);
+        reason = "Checked values: ...";
     }
 
     @Override
@@ -34,7 +34,7 @@ public class NotOnlyParameterListValueBranchPredicate extends BranchPredicate {
 
     @Override
     public boolean postCheck() {
-        reason = "Current values: " + String.join(",",currentValue);
+        reason = "Checked values: " + String.join(",",currentValue);
 
         currentValue.removeAll(expectedValue);
         boolean covered = !currentValue.isEmpty();
