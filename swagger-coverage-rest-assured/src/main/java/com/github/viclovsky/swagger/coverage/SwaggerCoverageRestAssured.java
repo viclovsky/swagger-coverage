@@ -50,7 +50,7 @@ public class SwaggerCoverageRestAssured implements OrderedFilter {
         return mapper;
     }
 
-    protected String writeAdJSON(Object object){
+    protected String writeAsJSON(Object object){
         try {
             return getMapper().writeValueAsString(object);
         } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
@@ -68,11 +68,11 @@ public class SwaggerCoverageRestAssured implements OrderedFilter {
         requestSpec.getHeaders().forEach(header -> operation.addParameter(new HeaderParameter().name(header.getName()).example(header.getValue())));
 
         requestSpec.getMultiPartParams().forEach(multiPartSpecification ->
-                operation.addParameter(
-                        new FormParameter()
-                                .name(multiPartSpecification.getControlName())
-                                .example(writeAdJSON(multiPartSpecification))
-                )
+            operation.addParameter(
+                new FormParameter()
+                    .name(multiPartSpecification.getControlName())
+                    .example(writeAsJSON(multiPartSpecification))
+            )
         );
 
         if (Objects.nonNull(requestSpec.getBody())) {
