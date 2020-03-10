@@ -8,9 +8,7 @@ import com.github.viclovsky.swagger.coverage.branch.results.GenerationStatistics
 import com.github.viclovsky.swagger.coverage.branch.results.Results;
 import com.github.viclovsky.swagger.coverage.branch.predicate.BranchPredicate;
 import com.github.viclovsky.swagger.coverage.branch.rule.core.BranchRule;
-import com.github.viclovsky.swagger.coverage.branch.rule.parameter.EmptyHeaderBranchRule;
-import com.github.viclovsky.swagger.coverage.branch.rule.parameter.NotEmptyBodyBranchRule;
-import com.github.viclovsky.swagger.coverage.branch.rule.parameter.SimpleParameterBranchRule;
+import com.github.viclovsky.swagger.coverage.branch.rule.parameter.*;
 import com.github.viclovsky.swagger.coverage.branch.rule.status.HTTPStatusBranchRule;
 import com.github.viclovsky.swagger.coverage.branch.rule.status.OnlyDeclaretedHTTPStatuses;
 import com.github.viclovsky.swagger.coverage.branch.writer.HtmlBranchReportResultsWriter;
@@ -53,6 +51,8 @@ public class Generator {
         rules.add(new NotEmptyBodyBranchRule());
         rules.add(new HTTPStatusBranchRule());
         rules.add(new OnlyDeclaretedHTTPStatuses());
+        rules.add(new EnumValuesBranchRule());
+        rules.add(new NotOnlyEnumValuesBranchRule());
 
         mainCoverageData = OperationBranchGenerator.getOperationMap(spec,rules);
 
@@ -71,18 +71,6 @@ public class Generator {
                 )
             ;
         writer.write(result);
-    }
-
-    public static String extractValue(Parameter p){
-        if (p.getVendorExtensions() == null) {
-            return p.getName();
-        }
-
-        if (p.getVendorExtensions().containsKey("x-example")) {
-            return (String) p.getVendorExtensions().get("x-example");
-        }
-
-        return p.getName();
     }
 
     public void processResult(Swagger swagger) {
