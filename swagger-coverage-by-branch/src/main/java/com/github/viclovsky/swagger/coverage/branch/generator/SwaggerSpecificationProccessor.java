@@ -1,8 +1,6 @@
 package com.github.viclovsky.swagger.coverage.branch.generator;
 
-import com.github.viclovsky.swagger.coverage.branch.model.BranchOperationCoverage;
 import com.github.viclovsky.swagger.coverage.branch.model.OperationsHolder;
-import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
 import io.swagger.models.parameters.Parameter;
 import io.swagger.models.parameters.SerializableParameter;
@@ -10,8 +8,6 @@ import io.swagger.models.properties.Property;
 import io.swagger.models.properties.StringProperty;
 
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class SwaggerSpecificationProccessor {
 

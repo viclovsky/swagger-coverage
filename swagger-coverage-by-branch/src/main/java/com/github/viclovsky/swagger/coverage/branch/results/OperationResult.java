@@ -9,6 +9,7 @@ public class OperationResult {
     protected List<Branch> branches;
     protected long allBrancheCount;
     protected long coveredBrancheCount;
+    protected long processCount;
 
     public OperationResult(List<Branch> branches) {
         this.branches = branches;
@@ -40,6 +41,15 @@ public class OperationResult {
 
     public OperationResult setCoveredBrancheCount(long coveredBrancheCount) {
         this.coveredBrancheCount = coveredBrancheCount;
+        return this;
+    }
+
+    public long getProcessCount() {
+        return processCount;
+    }
+
+    public OperationResult setProcessCount(long processCount) {
+        this.processCount = processCount;
         return this;
     }
 }

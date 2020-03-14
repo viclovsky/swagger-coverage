@@ -1,29 +1,35 @@
 package com.github.viclovsky.swagger.coverage.branch.model;
 
 import com.github.viclovsky.swagger.coverage.branch.predicate.BranchPredicate;
+import io.swagger.models.Response;
+import io.swagger.models.parameters.Parameter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class Branch {
+public abstract class Branch {
 
     protected String name;
     protected String description;
-    protected List<String> reasons = new ArrayList<>();
-    protected boolean covered;
-    protected List<BranchPredicate> predicateList;
+    protected boolean covered = false;
 
     public Branch(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
-    public void postCheck(){
-        predicateList.stream().filter(BranchPredicate::hasPostCheck).forEach(branchPredicate -> {
-            covered = covered && branchPredicate.postCheck();
-            reasons.add(branchPredicate.getReason());
-        });
-    }
+    public abstract void postCheck();
+
+    public abstract boolean isHasPostCheck();
+
+    public abstract boolean isNeedCheck();
+
+    public abstract boolean check(Map<String, Parameter> params, Map<String, Response> responses);
+
+    public abstract String getReason();
+
+    public abstract String getType();
 
     public String getName() {
         return name;
@@ -49,38 +55,12 @@ public class Branch {
         this.covered = covered;
     }
 
-    public List<BranchPredicate> getPredicateList() {
-        return predicateList;
-    }
-
-    public void setPredicateList(List<BranchPredicate> predicateList) {
-        this.predicateList = predicateList;
-    }
-
-    public void addPredicate(BranchPredicate predicate){
-        if(predicateList == null) {
-            predicateList = new ArrayList<>();
-        }
-
-        predicateList.add(predicate);
-    }
-
-    public List<String> getReasons() {
-        return reasons;
-    }
-
-    public Branch setReasons(List<String> reasons) {
-        this.reasons = reasons;
-        return this;
-    }
-
     @Override
     public String toString() {
         return "Branch{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", covered=" + covered +
-                ", predicateList=" + predicateList +
                 '}';
     }
 }

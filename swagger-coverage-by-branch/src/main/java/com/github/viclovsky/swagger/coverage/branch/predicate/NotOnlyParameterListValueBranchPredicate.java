@@ -1,14 +1,19 @@
 package com.github.viclovsky.swagger.coverage.branch.predicate;
 
+import com.github.viclovsky.swagger.coverage.branch.generator.OperationBranchGenerator;
 import com.github.viclovsky.swagger.coverage.branch.generator.SwaggerSpecificationProccessor;
 import io.swagger.models.Response;
 import io.swagger.models.parameters.Parameter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class NotOnlyParameterListValueBranchPredicate extends BranchPredicate {
+
+    private static final Logger log = LoggerFactory.getLogger(OperationBranchGenerator.class);
 
     protected String name;
     protected String reason;
@@ -26,7 +31,10 @@ public class NotOnlyParameterListValueBranchPredicate extends BranchPredicate {
     public boolean check(Map<String, Parameter> params, Map<String, Response> responses) {
         if (params.containsKey(name)) {
             String val = SwaggerSpecificationProccessor.extractValue(params.get(name));
-            currentValue.add(val);
+            log.info("read value " + val + " for " + name);
+            if (!currentValue.contains(val)) {
+                currentValue.add(val);
+            }
         }
 
         return true;
@@ -38,6 +46,10 @@ public class NotOnlyParameterListValueBranchPredicate extends BranchPredicate {
 
         currentValue.removeAll(expectedValue);
         boolean covered = !currentValue.isEmpty();
+
+        if (covered){
+            reason = reason + "<br>" + "Not enum value: " + String.join(",",currentValue);
+        }
 
         return covered;
     }

@@ -26,11 +26,7 @@
                         </#if>
                     </td>
                     <td>${branch.name}</td>
-                    <td>
-                        <#list branch.reasons as reason>
-                            ${(reason)!}
-                        </#list>
-                    </td>
+                    <td>${branch.reason}</td>
                 </tr>
             </#list>
             </tbody>

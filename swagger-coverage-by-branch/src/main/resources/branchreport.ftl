@@ -48,6 +48,9 @@
                 </div>
             </div>
         </#list>
+        <#if coverage?size == 0>
+            No data...
+        </#if>
     </div>
 </#macro>
 
@@ -61,8 +64,11 @@
                          data-target="#${prefix}-${key?index}"
                          aria-expanded="true"
                          aria-controls="collapseOne">
-                        <div class="col-5">
+                        <div class="col-4">
                             ${key}
+                        </div>
+                        <div class="col-2">
+                            ${value.processCount} calls
                         </div>
                         <div class="col-2">
                             ${value.coveredBrancheCount}/${value.allBrancheCount}
@@ -74,7 +80,7 @@
                                 (--)
                             </#if>
                         </div>
-                        <div class="col-3">
+                        <div class="col-2">
                             <#if value.branches?size gt 0 >
                                 <@ui.progress current = value.coveredBrancheCount full = value.allBrancheCount />
                             </#if>
@@ -105,17 +111,56 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <style>
         .title {
-            margin: 20px 0;
+            margin-top: 55px;
         }
     </style>
 </head>
 <body>
-<div class="content">
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="container">
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#summary">Summary</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#details">Operation details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#branchs">Branch details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#system">Generation info</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main role="main" class="container">
     <div class="container">
         <section id="summary">
             <div class="row">
                 <div class="col-12">
-                    <h1 class="title">Swagger Coverage</h1>
+                    <h1 class="title" id="summary">Swagger Coverage</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="alert alert-success" role="alert">
+                        Full coverage: ${data.fullOperationCount * 100 / data.allOperationCount}%
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="alert alert-warning" role="alert">
+                        Partial coverage: ${data.partOperationCount * 100 / data.allOperationCount}%
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="alert alert-danger" role="alert">
+                        Empty coverage: ${data.emptyOperationCount * 100 / data.allOperationCount}%
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -125,18 +170,8 @@
                     </div>
                 </div>
                 <div class="col-sm">
-                    <div class="alert alert-success" role="alert">
-                        Full: ${data.fullOperationCount * 100 / data.allOperationCount}%
-                    </div>
-                </div>
-                <div class="col-sm">
-                    <div class="alert alert-warning" role="alert">
-                        Partial: ${data.partOperationCount * 100 / data.allOperationCount}%
-                    </div>
-                </div>
-                <div class="col-sm">
-                    <div class="alert alert-danger" role="alert">
-                        Empty: ${data.emptyOperationCount * 100 / data.allOperationCount}%
+                    <div class="alert alert-secondary" role="alert">
+                        No calls: ${data.zeroCall?size}
                     </div>
                 </div>
                 <div class="col-sm">
@@ -169,7 +204,7 @@
         <section id="details">
             <div class="row">
                 <div class="col-12">
-                    <h2 class="title">Coverage Details</h2>
+                    <h2 class="title" id="details">Coverage Details</h2>
                 </div>
             </div>
             <div class="row">
@@ -200,15 +235,15 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="missed-tab" data-toggle="tab" href="#missed" role="tab"
-                               aria-controls="missed" aria-selected="false">
-                                Missed: ${data.missed?size}
+                            <a class="nav-link" id="zero-tab" data-toggle="tab" href="#zero" role="tab"
+                               aria-controls="zero" aria-selected="true">
+                                No calls: ${data.zeroCall?size}
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="info-tab" data-toggle="tab" href="#info" role="tab"
-                               aria-controls="info" aria-selected="false">
-                                System info
+                            <a class="nav-link" id="missed-tab" data-toggle="tab" href="#missed" role="tab"
+                               aria-controls="missed" aria-selected="false">
+                                Missed: ${data.missed?size}
                             </a>
                         </li>
                     </ul>
@@ -230,18 +265,109 @@
                         <div class="tab-pane fade" id="empty" role="tabpanel" aria-labelledby="empty-tab">
                             <@branchdetails coverage=data.empty  prefix="empty"/>
                         </div>
+                        <div class="tab-pane fade" id="zero" role="tabpanel" aria-labelledby="zero-tab">
+                            <@branchdetails coverage=data.zeroCall  prefix="zero"/>
+                        </div>
                         <div class="tab-pane fade" id="missed" role="tabpanel" aria-labelledby="missed-tab">
                             <@details coverage=data.missed prefix="missed"/>
-                        </div>
-                        <div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
-                            Parsed result files: ${data.generationStatistics.resultFileCount}<br>
-                            Generation time: ${data.generationStatistics.generationTime} ms
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <section id="branchs">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="title" id="branchs">Branches</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="accordion col-12" id="branches-by-type-accordion">
+                    <#list data.branchStatisticsMap as key, value>
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row"
+                                     data-toggle="collapse"
+                                     data-target="#branches-by-type-${key?index}"
+                                     aria-expanded="true"
+                                     aria-controls="collapseOne">
+                                    <div class="col-5">
+                                        ${key}
+                                    </div>
+                                    <div class="col-2">
+                                        ${value.coveredCount}/${value.allCount}
+                                    </div>
+                                    <div class="col-2">
+                                        <#if value.allCount gt 0 >
+                                            (${100*value.coveredCount/(value.allCount)}%)
+                                        <#else>
+                                            (--)
+                                        </#if>
+                                    </div>
+                                    <div class="col-2">
+                                        <#if value.allCount gt 0 >
+                                            <@ui.progress current = value.coveredCount full = value.allCount />
+                                        </#if>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="branches-by-type-${key?index}" class="collapse" aria-labelledby="headingOne">
+                                <div class="card-body">
+                                    <table class="table table-sm">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Operation name</th>
+                                            <th scope="col">Branch name</th>
+                                            <th scope="col">Details</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <#list value.coveredOperation as operation,branch>
+                                            <tr class="table-success">
+                                                <td><@ui.success text=operation/></td>
+                                                <td>${branch.name}</td>
+                                                <td>${branch.reason?no_esc}</td>
+                                            </tr>
+                                        </#list>
+                                        <#list value.uncoveredOperation as operation,branch>
+                                            <tr class="table-danger">
+                                                <td><@ui.danger text=operation/></td>
+                                                <td>${branch.name}</td>
+                                                <td>${branch.reason?no_esc}</td>
+                                            </tr>
+                                        </#list>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </#list>
+                </div>
+            </div>
+        </section>
+
+        <section id="system">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="title" id="system">Generation info</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    Parsed result files: ${data.generationStatistics.resultFileCount}<br>
+                    Generation time: ${data.generationStatistics.generationTime} ms<br>
+                    Result file create interval: ${data.generationStatistics.fileResultDateInterval}<br>
+                    Generation report date: ${data.generationStatistics.generateDate}<br>
+                </div>
+            </div>
+        </section>
+
+        <footer class="page-footer font-small mdb-color lighten-3 pt-4">
+            <div class="footer-copyright text-center py-3"></div>
+        </footer>
+
     </div>
-</div>
+</main>
 
 </body>

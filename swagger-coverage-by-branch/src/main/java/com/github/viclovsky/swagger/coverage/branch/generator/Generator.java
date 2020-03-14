@@ -1,30 +1,38 @@
 package com.github.viclovsky.swagger.coverage.branch.generator;
 
-import com.github.viclovsky.swagger.coverage.*;
+import com.github.viclovsky.swagger.coverage.CoverageOutputReader;
+import com.github.viclovsky.swagger.coverage.CoverageResultsWriter;
+import com.github.viclovsky.swagger.coverage.FileSystemOutputReader;
 import com.github.viclovsky.swagger.coverage.branch.model.Branch;
 import com.github.viclovsky.swagger.coverage.branch.model.BranchOperationCoverage;
 import com.github.viclovsky.swagger.coverage.branch.model.OperationsHolder;
 import com.github.viclovsky.swagger.coverage.branch.results.GenerationStatistics;
 import com.github.viclovsky.swagger.coverage.branch.results.Results;
-import com.github.viclovsky.swagger.coverage.branch.predicate.BranchPredicate;
 import com.github.viclovsky.swagger.coverage.branch.rule.core.BranchRule;
 import com.github.viclovsky.swagger.coverage.branch.rule.parameter.*;
 import com.github.viclovsky.swagger.coverage.branch.rule.status.HTTPStatusBranchRule;
 import com.github.viclovsky.swagger.coverage.branch.rule.status.OnlyDeclaretedHTTPStatuses;
 import com.github.viclovsky.swagger.coverage.branch.writer.HtmlBranchReportResultsWriter;
 import io.swagger.models.Operation;
+import io.swagger.models.Swagger;
 import io.swagger.models.parameters.Parameter;
+import io.swagger.parser.SwaggerParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import io.swagger.models.Swagger;
-import io.swagger.parser.SwaggerParser;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Generator {
@@ -38,9 +46,19 @@ public class Generator {
 
     protected long fileCounter = 0;
 
+    SwaggerParser parser = new SwaggerParser();
+
+    protected FileTime minResultTime = null;
+    protected FileTime maxResultTime = null;
+
+
     public void run(){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter
+            .ofPattern("yyyy-MM-dd HH:mm:ss")
+            .withZone(ZoneId.systemDefault())
+            ;
+
         long startTime = System.currentTimeMillis();
-        SwaggerParser parser = new SwaggerParser();
         Swagger spec = parser.read(getSpecPath().toString());
 
         log.info("spec is {}",spec);
@@ -58,7 +76,7 @@ public class Generator {
 
         CoverageOutputReader reader = new FileSystemOutputReader(getInputPath());
         reader.getOutputs()
-                .forEach(o -> processResult(parser.read(o.toString())));
+                .forEach(o -> processFile(o.toString()));
 
         CoverageResultsWriter writer = new HtmlBranchReportResultsWriter();
 
@@ -68,9 +86,33 @@ public class Generator {
                 new GenerationStatistics()
                     .setResultFileCount(fileCounter)
                     .setGenerationTime(System.currentTimeMillis() - startTime)
+                    .setFileResultDateInterval(dateTimeFormatter.format(minResultTime.toInstant()) + " - " + dateTimeFormatter.format(maxResultTime.toInstant()))
+                    .setGenerateDate(dateTimeFormatter.format(Instant.now()))
                 )
             ;
         writer.write(result);
+    }
+
+    public void processFile(String path) {
+        Path file = Paths.get(path);
+
+        try {
+            BasicFileAttributes attr = Files.readAttributes(file, BasicFileAttributes.class);
+            if (minResultTime == null || minResultTime.toMillis() > attr.lastModifiedTime().toMillis() ) {
+                minResultTime = attr.lastModifiedTime();
+            }
+
+            if (maxResultTime == null || maxResultTime.toMillis() < attr.lastModifiedTime().toMillis() ) {
+                maxResultTime = attr.lastModifiedTime();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+        processResult(parser.read(path));
     }
 
     public void processResult(Swagger swagger) {
@@ -91,24 +133,11 @@ public class Generator {
             if (mainCoverageData.containsKey(entry.getKey())) {
                 mainCoverageData
                     .get(entry.getKey())
+                    .increaseProcessCount()
                     .getBranches()
                     .stream()
-                    .filter(Predicate.not(Branch::isCovered))
-                    .forEach(branch -> {
-                        boolean isCover = true;
-                        for(BranchPredicate bp:  branch.getPredicateList()){
-                            isCover = isCover
-                                && bp.check(
-                                    currentParams,
-                                    entry.getValue().getResponses()
-                                )
-                            ;
-
-                            log.info(String.format(" === predicate [%s] is [%s]",branch.getName(),isCover));
-                        }
-
-                        branch.setCovered(isCover);
-                    })
+                    .filter(Branch::isNeedCheck)
+                    .forEach(branch -> branch.check(currentParams,entry.getValue().getResponses()))
                 ;
             } else {
                 missed.put(
