@@ -1,4 +1,4 @@
-package com.github.viclovsky.swagger.coverage.branch.results;
+package com.github.viclovsky.swagger.coverage.branch.results.data;
 
 public class GenerationStatistics {
 

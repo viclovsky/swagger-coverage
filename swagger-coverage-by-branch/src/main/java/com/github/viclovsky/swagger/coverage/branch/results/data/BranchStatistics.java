@@ -1,11 +1,9 @@
-package com.github.viclovsky.swagger.coverage.branch.results;
+package com.github.viclovsky.swagger.coverage.branch.results.data;
 
 import com.github.viclovsky.swagger.coverage.branch.model.Branch;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class BranchStatistics {
 

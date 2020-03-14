@@ -5,7 +5,6 @@
         <table class="table table-sm">
             <thead>
             <tr>
-                <th scope="col">#</th>
                 <th scope="col">Branch name</th>
                 <th scope="col">Details</th>
             </tr>
@@ -20,12 +19,16 @@
                 <tr class="${trStyle}">
                     <td>
                         <#if branch.covered>
-                            <@ui.success text=""/>
+                            <span>
+                                <i class="fas fa-check"></i>
+                            </span>
                         <#else>
-                            <@ui.danger text=""/>
+                            <span>
+                                <i class="fas fa-bug"></i>
+                            </span>
                         </#if>
+                        &nbsp;${branch.name}
                     </td>
-                    <td>${branch.name}</td>
                     <td>${branch.reason}</td>
                 </tr>
             </#list>

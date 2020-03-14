@@ -14,14 +14,13 @@ public class SwaggerSpecificationProccessor {
     public static OperationsHolder extractOperation(Swagger swagger){
         OperationsHolder operations = new OperationsHolder();
 
-        swagger.getPaths().keySet().forEach(path
-                -> swagger.getPaths().get(path).getOperationMap().forEach((httpMethod, operation)
-                        -> {
-
-                operations.addOperation(String.format("%s %s", path, httpMethod), operation);
-
+        swagger.getPaths().keySet().forEach(
+            path -> swagger.getPaths().get(path).getOperationMap().forEach(
+                (httpMethod, operation) -> {
+                    operations.addOperation(String.format("%s %s", path, httpMethod), operation);
                 }
-        ));
+            )
+        );
         return operations;
     }
 

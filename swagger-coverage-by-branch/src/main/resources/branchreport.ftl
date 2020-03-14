@@ -2,6 +2,8 @@
 <#-- @ftlvariable ftlvariable name="data" type="com.github.viclovsky.swagger.coverage.model.SwaggerCoverageResults" -->
 <#import "operationData.ftl" as operationData/>
 <#import "ui.ftl" as ui/>
+<#import "sections/summary.ftl" as summary />
+<#import "sections/generation.ftl" as generation>
 
 <#macro details coverage prefix>
     <div class="accordion" id="${prefix}-accordion">
@@ -54,44 +56,93 @@
     </div>
 </#macro>
 
-<#macro branchdetails coverage prefix>
+<#macro branchdetails coverage operations prefix>
     <div class="accordion" id="${prefix}-accordion">
-        <#list coverage as key, value>
+        <#list coverage as key>
+            <@operationDetails
+            name=key
+            operationResult=operations[key]
+            target=prefix + "-" + key?counter
+            />
+        </#list>
+    </div>
+</#macro>
+
+<#macro taglist tags operations>
+    <div class="accordion" id="tags-accordion">
+        <#list tags as tag, tagCoverage>
             <div class="card">
                 <div class="card-header">
                     <div class="row"
                          data-toggle="collapse"
-                         data-target="#${prefix}-${key?index}"
+                         data-target="#tag-${tag}"
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-4">
-                            ${key}
+                            <strong>${tagCoverage.description}</strong>
                         </div>
                         <div class="col-2">
-                            ${value.processCount} calls
+                            ${tagCoverage.operations?size} operations
                         </div>
                         <div class="col-2">
-                            ${value.coveredBrancheCount}/${value.allBrancheCount}
+                            ${tagCoverage.callCounts} calls
                         </div>
-                        <div class="col-2">
-                            <#if value.branches?size gt 0 >
-                                (${100*value.coveredBrancheCount/(value.allBrancheCount)}%)
-                            <#else>
-                                (--)
-                            </#if>
-                        </div>
-                        <div class="col-2">
-                            <#if value.branches?size gt 0 >
-                                <@ui.progress current = value.coveredBrancheCount full = value.allBrancheCount />
-                            </#if>
+                        <div class="col-4">
+                            <@ui.progress
+                            full=tagCoverage.branchCounter.all
+                            current=tagCoverage.branchCounter.covered
+                            postfix="branches covered"
+                            />
                         </div>
                     </div>
                 </div>
-                <div id="${prefix}-${key?index}" class="collapse" aria-labelledby="headingOne">
-                    <@operationData.branchList list=value.branches />
+                <div id="tag-${tag}" class="collapse" aria-labelledby="headingOne">
+                    <div class="card-body">
+                        <@ui.coverageBadget counter=tagCoverage.coverageCounter />
+                        <#list tagCoverage.operations as operation >
+                            <@operationDetails
+                                name=operation
+                                operationResult=operations[operation]
+                                target="tag-" + tag + "-" + operation?counter
+                            />
+                        </#list>
+                    </div>
                 </div>
             </div>
         </#list>
+    </div>
+</#macro>
+
+<#macro operationDetails name operationResult target>
+    <div class="card">
+        <div class="card-header">
+            <div class="row"
+                 data-toggle="collapse"
+                 data-target="#${target}"
+                 aria-expanded="true"
+                 aria-controls="collapseOne">
+                <div class="col-6">
+                    <p>
+                        <@ui.coverageStateBadget operationResult=operationResult />
+                        <span><strong>${name}</strong></span>
+                    </p>
+                    <span><small>${operationResult.description}</small></span>
+                </div>
+                <div class="col-2">
+                    ${operationResult.processCount} calls
+                </div>
+                <div class="col-4">
+                    <@ui.progress
+                        full=operationResult.allBrancheCount
+                        current=operationResult.coveredBrancheCount
+                        postfix="branches covered"
+                    />
+                </div>
+            </div>
+        </div>
+        <div id="${target}" class="collapse" aria-labelledby="headingOne">
+            <@operationData.branchList list=operationResult.branches />
+        </div>
     </div>
 </#macro>
 
@@ -109,9 +160,21 @@
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/0b83173bdb.js" crossorigin="anonymous"></script>
     <style>
         .title {
-            margin-top: 55px;
+            margin-top: 60px;
+        }
+
+        .progress {
+            position: relative;
+        }
+
+        .progress span {
+            position: absolute;
+            display: block;
+            width: 100%;
+            color: black;
         }
     </style>
 </head>
@@ -126,6 +189,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#details">Operation details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#tag-section">Tag details</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#branchs">Branch details</a>
@@ -143,68 +209,19 @@
         <section id="summary">
             <div class="row">
                 <div class="col-12">
-                    <h1 class="title" id="summary">Swagger Coverage</h1>
+                    <h1 class="title" id="summary">Summary</h1>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm">
-                    <div class="alert alert-success" role="alert">
-                        Full coverage: ${data.fullOperationCount * 100 / data.allOperationCount}%
-                    </div>
-                </div>
-                <div class="col-sm">
-                    <div class="alert alert-warning" role="alert">
-                        Partial coverage: ${data.partOperationCount * 100 / data.allOperationCount}%
-                    </div>
-                </div>
-                <div class="col-sm">
-                    <div class="alert alert-danger" role="alert">
-                        Empty coverage: ${data.emptyOperationCount * 100 / data.allOperationCount}%
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm">
-                    <div class="alert alert-primary" role="alert">
-                        All: ${data.allOperationCount}
-                    </div>
-                </div>
-                <div class="col-sm">
-                    <div class="alert alert-secondary" role="alert">
-                        No calls: ${data.zeroCall?size}
-                    </div>
-                </div>
-                <div class="col-sm">
-                    <div class="alert alert-secondary" role="alert">
-                        Missed: ${data.missed?size}
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-2">
-                    Branches covered:
-                </div>
-                <div class="col-2">
-                    ${data.coveredBrancheCount} / ${data.allBrancheCount}
-                </div>
-                <div class="col-2">
-                    <#if data.allBrancheCount gt 0 >
-                        (${100*data.coveredBrancheCount/(data.allBrancheCount)}%)
-                    <#else>
-                        (--)
-                    </#if>
-                </div>
-                <div class="col-6">
-                    <#if data.allBrancheCount gt 0 >
-                        <@ui.progress current = data.coveredBrancheCount full = data.allBrancheCount />
-                    </#if>
-                </div>
-            </div>
+            <@summary.operations operationCoveredMap=data.coverageOperationMap />
+            <@summary.calls data=data />
+            <@summary.tags tagsDetail=data.tagCoverageMap tagCounter=data.tagCounter />
+            <@summary.branchs counter=data.branchCounter />
         </section>
+
         <section id="details">
             <div class="row">
                 <div class="col-12">
-                    <h2 class="title" id="details">Coverage Details</h2>
+                    <h2 class="title" id="details">Operation details</h2>
                 </div>
             </div>
             <div class="row">
@@ -219,19 +236,19 @@
                         <li class="nav-item">
                             <a class="nav-link" id="full-tab" data-toggle="tab" href="#full" role="tab"
                                aria-controls="full" aria-selected="true">
-                                Full: ${data.full?size}
+                                Full: ${data.coverageOperationMap.full?size}
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="party-tab" data-toggle="tab" href="#party" role="tab"
                                aria-controls="party" aria-selected="true">
-                                Partial: ${data.party?size}
+                                Partial: ${data.coverageOperationMap.party?size}
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="empty-tab" data-toggle="tab" href="#empty" role="tab"
                                aria-controls="empty" aria-selected="true">
-                                Empty: ${data.empty?size}
+                                Empty: ${data.coverageOperationMap.empty?size}
                             </a>
                         </li>
                         <li class="nav-item">
@@ -254,19 +271,22 @@
                 <div class="col-12">
                     <div class="tab-content" id="details-content">
                         <div class="tab-pane fade show active" id="branch" role="tabpanel" aria-labelledby="branch-tab">
-                            <@branchdetails coverage=data.operations  prefix="branch"/>
+                            <@branchdetails
+                                coverage=data.coverageOperationMap.full + data.coverageOperationMap.party + data.coverageOperationMap.empty
+                                operations=data.operations
+                                prefix="branch"/>
                         </div>
                         <div class="tab-pane fade" id="full" role="tabpanel" aria-labelledby="full-tab">
-                            <@branchdetails coverage=data.full  prefix="full"/>
+                            <@branchdetails coverage=data.coverageOperationMap.full operations=data.operations prefix="full"/>
                         </div>
                         <div class="tab-pane fade" id="party" role="tabpanel" aria-labelledby="party-tab">
-                            <@branchdetails coverage=data.party  prefix="party"/>
+                            <@branchdetails coverage=data.coverageOperationMap.party operations=data.operations prefix="party"/>
                         </div>
                         <div class="tab-pane fade" id="empty" role="tabpanel" aria-labelledby="empty-tab">
-                            <@branchdetails coverage=data.empty  prefix="empty"/>
+                            <@branchdetails coverage=data.coverageOperationMap.empty operations=data.operations prefix="empty"/>
                         </div>
                         <div class="tab-pane fade" id="zero" role="tabpanel" aria-labelledby="zero-tab">
-                            <@branchdetails coverage=data.zeroCall  prefix="zero"/>
+                            <@branchdetails coverage=data.zeroCall operations=data.operations prefix="zero"/>
                         </div>
                         <div class="tab-pane fade" id="missed" role="tabpanel" aria-labelledby="missed-tab">
                             <@details coverage=data.missed prefix="missed"/>
@@ -274,6 +294,15 @@
                     </div>
                 </div>
             </div>
+        </section>
+
+        <section id="tag-section">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="title" id="tags">Tag details</h2>
+                </div>
+            </div>
+            <@taglist tags=data.tagCoverageMap operations=data.operations/>
         </section>
 
         <section id="branchs">
@@ -292,23 +321,15 @@
                                      data-target="#branches-by-type-${key?index}"
                                      aria-expanded="true"
                                      aria-controls="collapseOne">
-                                    <div class="col-5">
+                                    <div class="col-8">
                                         ${key}
                                     </div>
-                                    <div class="col-2">
-                                        ${value.coveredCount}/${value.allCount}
-                                    </div>
-                                    <div class="col-2">
-                                        <#if value.allCount gt 0 >
-                                            (${100*value.coveredCount/(value.allCount)}%)
-                                        <#else>
-                                            (--)
-                                        </#if>
-                                    </div>
-                                    <div class="col-2">
-                                        <#if value.allCount gt 0 >
-                                            <@ui.progress current = value.coveredCount full = value.allCount />
-                                        </#if>
+                                    <div class="col-4">
+                                        <@ui.progress
+                                            full=value.allCount
+                                            current=value.coveredCount
+                                            postfix="branches covered"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -325,14 +346,24 @@
                                         <tbody>
                                         <#list value.coveredOperation as operation,branch>
                                             <tr class="table-success">
-                                                <td><@ui.success text=operation/></td>
+                                                <td>
+                                                    <span>
+                                                        <i class="fas fa-check"></i>
+                                                    </span>
+                                                    &nbsp;${operation}
+                                                </td>
                                                 <td>${branch.name}</td>
                                                 <td>${branch.reason?no_esc}</td>
                                             </tr>
                                         </#list>
                                         <#list value.uncoveredOperation as operation,branch>
                                             <tr class="table-danger">
-                                                <td><@ui.danger text=operation/></td>
+                                                <td>
+                                                    <span>
+                                                        <i class="fas fa-bug"></i>
+                                                    </span>
+                                                    &nbsp;${operation}
+                                                </td>
                                                 <td>${branch.name}</td>
                                                 <td>${branch.reason?no_esc}</td>
                                             </tr>
@@ -353,14 +384,7 @@
                     <h2 class="title" id="system">Generation info</h2>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12">
-                    Parsed result files: ${data.generationStatistics.resultFileCount}<br>
-                    Generation time: ${data.generationStatistics.generationTime} ms<br>
-                    Result file create interval: ${data.generationStatistics.fileResultDateInterval}<br>
-                    Generation report date: ${data.generationStatistics.generateDate}<br>
-                </div>
-            </div>
+            <@generation.data statistic=data.generationStatistics/>
         </section>
 
         <footer class="page-footer font-small mdb-color lighten-3 pt-4">
