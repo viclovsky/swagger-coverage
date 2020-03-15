@@ -20,6 +20,8 @@ public class Results {
     protected Map<String,TagCoverage> tagCoverageMap = new TreeMap<>();
     protected CoverageCounter tagCounter;
 
+    protected String prettyConfiguration;
+
     public Results(){
 
     }
@@ -102,6 +104,15 @@ public class Results {
 
     public Results setTagCounter(CoverageCounter tagCounter) {
         this.tagCounter = tagCounter;
+        return this;
+    }
+
+    public String getPrettyConfiguration() {
+        return prettyConfiguration;
+    }
+
+    public Results setPrettyConfiguration(String prettyConfiguration) {
+        this.prettyConfiguration = prettyConfiguration;
         return this;
     }
 }

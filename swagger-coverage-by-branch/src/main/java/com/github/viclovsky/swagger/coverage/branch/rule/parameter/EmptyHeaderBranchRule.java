@@ -25,4 +25,9 @@ public class EmptyHeaderBranchRule extends ParameterRule {
 
         return null;
     }
+
+    @Override
+    public String getId() {
+        return null;
+    }
 }

@@ -22,9 +22,10 @@ public class GenerationStatisticsBuilder extends StatisticsPreBuilder {
     protected FileTime maxResultTime = null;
     protected long startTime;
 
-    public GenerationStatisticsBuilder(Swagger swagger, List<BranchRule> rules) {
-        super(swagger,rules);
+    @Override
+    public GenerationStatisticsBuilder configure(Swagger swagger, List<BranchRule> rules) {
         startTime = System.currentTimeMillis();
+        return this;
     }
 
     @Override

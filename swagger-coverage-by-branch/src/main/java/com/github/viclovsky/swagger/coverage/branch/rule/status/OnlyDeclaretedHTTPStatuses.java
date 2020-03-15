@@ -12,6 +12,11 @@ import java.util.List;
 
 public class OnlyDeclaretedHTTPStatuses extends BranchRule {
     @Override
+    public String getId() {
+        return "only-declareted-status";
+    }
+
+    @Override
     public List<Branch> createBranch(Operation operation) {
         BranchPredicate predicate = new FullStatusBranchPredicate(operation.getResponses().keySet());
         Branch branch = new SinglePredicateBranch(

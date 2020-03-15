@@ -12,12 +12,20 @@ import java.util.List;
 public class SwaggerSpecificationProccessor {
 
     public static OperationsHolder extractOperation(Swagger swagger){
+        return extractOperation(swagger,false);
+    }
+
+    public static OperationsHolder extractOperation(Swagger swagger, boolean operationCaseIgnore){
         OperationsHolder operations = new OperationsHolder();
 
         swagger.getPaths().keySet().forEach(
             path -> swagger.getPaths().get(path).getOperationMap().forEach(
                 (httpMethod, operation) -> {
-                    operations.addOperation(String.format("%s %s", path, httpMethod), operation);
+                    String operationPath = path;
+                    if (operationCaseIgnore){
+                        operationPath = operationPath.toLowerCase();
+                    }
+                    operations.addOperation(String.format("%s %s", operationPath, httpMethod), operation);
                 }
             )
         );

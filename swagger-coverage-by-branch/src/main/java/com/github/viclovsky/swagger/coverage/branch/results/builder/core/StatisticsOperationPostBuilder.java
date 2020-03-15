@@ -9,8 +9,9 @@ import java.util.List;
 
 public abstract class StatisticsOperationPostBuilder extends StatisticsPostBuilder {
 
-    public StatisticsOperationPostBuilder(Swagger swagger, List<BranchRule> rules) {
-        super(swagger, rules);
+    @Override
+    public StatisticsBuilder configure(Swagger swagger, List<BranchRule> rules) {
+        return this;
     }
 
     @Override

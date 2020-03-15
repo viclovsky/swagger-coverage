@@ -27,10 +27,12 @@ public class TagStatisticsBuilder extends StatisticsOperationPostBuilder {
     protected Map<String,TagCoverage> tagCoverageMap;
     protected CoverageCounter tagCounter = new CoverageCounter();
 
-    public TagStatisticsBuilder(Swagger swagger, List<BranchRule> rules) {
-        super(swagger, rules);
+    @Override
+    public TagStatisticsBuilder configure(Swagger swagger, List<BranchRule> rules) {
         this.swagger = swagger;
-        OperationsHolder operations = SwaggerSpecificationProccessor.extractOperation(swagger);
+        OperationsHolder operations = SwaggerSpecificationProccessor.extractOperation(
+            swagger,options.getGeneral().isPathCaseIgnore()
+        );
 
         tagCoverageMap = swagger
             .getTags()
@@ -64,6 +66,8 @@ public class TagStatisticsBuilder extends StatisticsOperationPostBuilder {
                         tag ->  tagCoverageMap.get(tag).addOperation(entry.getKey())
                     )
             ) ;
+
+        return this;
     }
 
     @Override

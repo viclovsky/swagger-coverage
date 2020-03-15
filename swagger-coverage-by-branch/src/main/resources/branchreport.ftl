@@ -246,6 +246,18 @@
                 </div>
             </div>
             <@generation.data statistic=data.generationStatistics/>
+            <div class="row">
+                <div class="col-12">
+                    <h4>Configuration</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="alert alert-secondary" role="alert">
+                        <pre>${data.prettyConfiguration} </pre>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <footer class="page-footer font-small mdb-color lighten-3 pt-4">

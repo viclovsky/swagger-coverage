@@ -25,4 +25,8 @@ public class SimpleParameterBranchRule extends ParameterRule {
         return branch;
     }
 
+    @Override
+    public String getId() {
+        return null;
+    }
 }

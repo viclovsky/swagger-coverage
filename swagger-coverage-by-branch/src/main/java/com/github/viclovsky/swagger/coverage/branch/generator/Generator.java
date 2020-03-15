@@ -1,8 +1,12 @@
 package com.github.viclovsky.swagger.coverage.branch.generator;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.viclovsky.swagger.coverage.CoverageOutputReader;
 import com.github.viclovsky.swagger.coverage.CoverageResultsWriter;
 import com.github.viclovsky.swagger.coverage.FileSystemOutputReader;
+import com.github.viclovsky.swagger.coverage.branch.configuration.Configuration;
+import com.github.viclovsky.swagger.coverage.branch.configuration.ConfigurationBuilder;
+import com.github.viclovsky.swagger.coverage.branch.configuration.options.ConfigurationOptions;
 import com.github.viclovsky.swagger.coverage.branch.results.Results;
 import com.github.viclovsky.swagger.coverage.branch.results.builder.core.StatisticsBuilder;
 import com.github.viclovsky.swagger.coverage.branch.results.builder.postbuilder.*;
@@ -17,6 +21,8 @@ import io.swagger.parser.SwaggerParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +34,8 @@ public class Generator {
     private Path specPath;
     private Path inputPath;
 
+    private Path configurationPath;
+
     SwaggerParser parser = new SwaggerParser();
 
     List<StatisticsBuilder> statisticsBuilders = new ArrayList<>();
@@ -37,21 +45,8 @@ public class Generator {
 
         log.info("spec is {}",spec);
 
-        List<BranchRule> rules = new ArrayList<>();
-        rules.add(new SimpleParameterBranchRule());
-        rules.add(new EmptyHeaderBranchRule());
-        rules.add(new NotEmptyBodyBranchRule());
-        rules.add(new HTTPStatusBranchRule());
-        rules.add(new OnlyDeclaretedHTTPStatuses());
-        rules.add(new EnumValuesBranchRule());
-        rules.add(new NotOnlyEnumValuesBranchRule());
-
-        statisticsBuilders.add(new CoverageStatisticsBuilder(spec,rules));
-        statisticsBuilders.add(new GenerationStatisticsBuilder(spec,rules));
-        statisticsBuilders.add(new BranchStatisticsBuilder(spec,rules));
-        statisticsBuilders.add(new ZeroCallStatisticsBuilder(spec,rules));
-        statisticsBuilders.add(new TagStatisticsBuilder(spec,rules));
-
+        Configuration configuration = ConfigurationBuilder.build(configurationPath);
+        statisticsBuilders = configuration.getStatisticsBuilders(spec);
 
         CoverageOutputReader reader = new FileSystemOutputReader(getInputPath());
         reader.getOutputs()
@@ -95,6 +90,15 @@ public class Generator {
 
     public Generator setInputPath(Path inputPath) {
         this.inputPath = inputPath;
+        return this;
+    }
+
+    public Path getConfigurationPath() {
+        return configurationPath;
+    }
+
+    public Generator setConfigurationPath(Path configurationPath) {
+        this.configurationPath = configurationPath;
         return this;
     }
 }

@@ -5,19 +5,11 @@ import com.github.viclovsky.swagger.coverage.branch.results.builder.core.Statist
 import com.github.viclovsky.swagger.coverage.branch.results.data.BranchCounter;
 import com.github.viclovsky.swagger.coverage.branch.results.data.CoverageOperationMap;
 import com.github.viclovsky.swagger.coverage.branch.results.data.OperationResult;
-import com.github.viclovsky.swagger.coverage.branch.rule.core.BranchRule;
-import io.swagger.models.Swagger;
-
-import java.util.List;
 
 public class BranchStatisticsBuilder extends StatisticsOperationPostBuilder {
 
     protected CoverageOperationMap coverageOperationMap = new CoverageOperationMap();
     protected BranchCounter branchCounter = new BranchCounter();
-
-    public BranchStatisticsBuilder(Swagger swagger, List<BranchRule> rules) {
-        super(swagger, rules);
-    }
 
     @Override
     public void buildResult(Results results) {

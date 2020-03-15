@@ -25,14 +25,19 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
     protected Map<String, BranchOperationCoverage> mainCoverageData;
     protected Map<String, Operation> missed  = new TreeMap<>();
 
-    public CoverageStatisticsBuilder(Swagger swagger, List<BranchRule> rules) {
-        super(swagger,rules);
-        mainCoverageData = OperationBranchGenerator.getOperationMap(swagger,rules);
+    @Override
+    public CoverageStatisticsBuilder configure(Swagger swagger, List<BranchRule> rules) {
+        mainCoverageData = OperationBranchGenerator.getOperationMap(
+            swagger,rules,options.getGeneral().isPathCaseIgnore()
+        );
+        return this;
     }
 
     @Override
     public CoverageStatisticsBuilder add(Swagger swagger){
-        OperationsHolder operations = SwaggerSpecificationProccessor.extractOperation(swagger);
+        OperationsHolder operations = SwaggerSpecificationProccessor.extractOperation(
+            swagger,options.getGeneral().isPathCaseIgnore()
+        );
 
         operations.getOperations().entrySet().stream().forEach(entry -> {
             log.info(String.format("==  process result [%s]", entry.getKey()));
