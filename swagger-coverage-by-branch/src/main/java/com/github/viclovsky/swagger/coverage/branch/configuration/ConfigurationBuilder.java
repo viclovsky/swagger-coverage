@@ -1,6 +1,7 @@
 package com.github.viclovsky.swagger.coverage.branch.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.viclovsky.swagger.coverage.CoverageResultsWriter;
 import com.github.viclovsky.swagger.coverage.branch.configuration.options.ConfigurationOptions;
 import com.github.viclovsky.swagger.coverage.branch.results.builder.core.StatisticsBuilder;
 import com.github.viclovsky.swagger.coverage.branch.results.builder.postbuilder.*;
@@ -8,6 +9,7 @@ import com.github.viclovsky.swagger.coverage.branch.results.builder.prebuilder.*
 import com.github.viclovsky.swagger.coverage.branch.rule.core.BranchRule;
 import com.github.viclovsky.swagger.coverage.branch.rule.parameter.*;
 import com.github.viclovsky.swagger.coverage.branch.rule.status.*;
+import com.github.viclovsky.swagger.coverage.branch.writer.HtmlBranchReportResultsWriter;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -35,9 +37,37 @@ public class ConfigurationBuilder {
             .setOptions(options)
             .setDefaultRules(getDefaultList())
             .setRegisteredBuilders(getDefaultBuilderList())
+            .setConfiguredResultsWriters(getResultsWriters(options))
         ;
 
         return configuration;
+    }
+
+    protected static List<CoverageResultsWriter> getResultsWriters(ConfigurationOptions options){
+        List<CoverageResultsWriter> configuredResultsWriters = new ArrayList<>();
+
+        if (options.getWriters().isEmpty()) {
+            configuredResultsWriters.add(
+                    new HtmlBranchReportResultsWriter()
+            );
+        } else {
+            options
+                .getWriters()
+                .entrySet()
+                .forEach(
+                    entry -> {
+                        switch (entry.getKey().toLowerCase()){
+                            case "html":
+                                configuredResultsWriters.add(
+                                    new HtmlBranchReportResultsWriter(entry.getValue())
+                                );
+                                break;
+                        }
+                    }
+                );
+        }
+
+        return configuredResultsWriters;
     }
 
     protected static List<BranchRule> getDefaultList(){
