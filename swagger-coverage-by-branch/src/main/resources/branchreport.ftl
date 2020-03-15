@@ -1,4 +1,7 @@
 <#ftl output_format="HTML">
+
+<#global i18=messages>
+
 <#-- @ftlvariable ftlvariable name="data" type="com.github.viclovsky.swagger.coverage.model.SwaggerCoverageResults" -->
 <#import "ui.ftl" as ui/>
 <#import "sections/summary.ftl" as summary />
@@ -46,19 +49,19 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#summary">Summary</a>
+                    <a class="nav-link" href="#summary">${i18["menu.summary"]}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#details">Operation details</a>
+                    <a class="nav-link" href="#details">${i18["menu.operations"]}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#tag-section">Tag details</a>
+                    <a class="nav-link" href="#tag-section">${i18["menu.tags"]}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#branchs">Branch details</a>
+                    <a class="nav-link" href="#branchs">${i18["menu.branch"]}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#system">Generation info</a>
+                    <a class="nav-link" href="#system">${i18["menu.generation"]}</a>
                 </li>
             </ul>
         </div>
@@ -70,7 +73,7 @@
         <section id="summary">
             <div class="row">
                 <div class="col-12">
-                    <h1 class="title" id="summary">Summary</h1>
+                    <h1 class="title" id="summary">${i18["menu.summary"]}</h1>
                 </div>
             </div>
             <@summary.operations operationCoveredMap=data.coverageOperationMap />
@@ -82,7 +85,7 @@
         <section id="details">
             <div class="row">
                 <div class="col-12">
-                    <h2 class="title" id="details">Operation details</h2>
+                    <h2 class="title" id="details">${i18["menu.operations"]}</h2>
                 </div>
             </div>
             <div class="row">
@@ -91,37 +94,37 @@
                         <li class="nav-item">
                             <a class="nav-link active" id="branch-tab" data-toggle="tab" href="#branch" role="tab"
                                aria-controls="branch" aria-selected="true">
-                                All: ${data.operations?size}
+                                ${i18["operations.all"]}: ${data.operations?size}
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="full-tab" data-toggle="tab" href="#full" role="tab"
                                aria-controls="full" aria-selected="true">
-                                Full: ${data.coverageOperationMap.full?size}
+                                ${i18["operations.full"]}: ${data.coverageOperationMap.full?size}
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="party-tab" data-toggle="tab" href="#party" role="tab"
                                aria-controls="party" aria-selected="true">
-                                Partial: ${data.coverageOperationMap.party?size}
+                                ${i18["operations.partial"]}: ${data.coverageOperationMap.party?size}
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="empty-tab" data-toggle="tab" href="#empty" role="tab"
                                aria-controls="empty" aria-selected="true">
-                                Empty: ${data.coverageOperationMap.empty?size}
+                                ${i18["operations.empty"]}: ${data.coverageOperationMap.empty?size}
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="zero-tab" data-toggle="tab" href="#zero" role="tab"
                                aria-controls="zero" aria-selected="true">
-                                No calls: ${data.zeroCall?size}
+                                ${i18["operations.no_call"]}: ${data.zeroCall?size}
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="missed-tab" data-toggle="tab" href="#missed" role="tab"
                                aria-controls="missed" aria-selected="false">
-                                Missed: ${data.missed?size}
+                                ${i18["operations.missed"]}: ${data.missed?size}
                             </a>
                         </li>
                     </ul>
@@ -160,7 +163,7 @@
         <section id="tag-section">
             <div class="row">
                 <div class="col-12">
-                    <h2 class="title" id="tags">Tag details</h2>
+                    <h2 class="title" id="tags">${i18["menu.tags"]}</h2>
                 </div>
             </div>
             <@tag.list tags=data.tagCoverageMap operations=data.operations/>
@@ -169,7 +172,7 @@
         <section id="branchs">
             <div class="row">
                 <div class="col-12">
-                    <h2 class="title" id="branchs">Branches</h2>
+                    <h2 class="title" id="branchs">${i18["menu.branch"]}</h2>
                 </div>
             </div>
             <div class="row">
@@ -189,7 +192,7 @@
                                         <@ui.progress
                                             full=value.allCount
                                             current=value.coveredCount
-                                            postfix="branches covered"
+                                            postfix=i18["details.branchprogress.postfix"]
                                         />
                                     </div>
                                 </div>
@@ -199,9 +202,9 @@
                                     <table class="table table-sm">
                                         <thead>
                                         <tr>
-                                            <th scope="col">Operation name</th>
-                                            <th scope="col">Branch name</th>
-                                            <th scope="col">Details</th>
+                                            <th scope="col">${i18["details.branch.operation"]}</th>
+                                            <th scope="col">${i18["details.branch.branchname"]}e</th>
+                                            <th scope="col">${i18["details.branch.details"]}</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -242,13 +245,13 @@
         <section id="system">
             <div class="row">
                 <div class="col-12">
-                    <h2 class="title" id="system">Generation info</h2>
+                    <h2 class="title" id="system">${i18["menu.generation"]}</h2>
                 </div>
             </div>
             <@generation.data statistic=data.generationStatistics/>
             <div class="row">
                 <div class="col-12">
-                    <h4>Configuration</h4>
+                    <h4>${i18["generation.configuration"]}</h4>
                 </div>
             </div>
             <div class="row">

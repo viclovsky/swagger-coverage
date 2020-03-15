@@ -15,16 +15,16 @@
                             <strong>${tagCoverage.description}</strong>
                         </div>
                         <div class="col-2">
-                            ${tagCoverage.operations?size} operations
+                            ${tagCoverage.operations?size} ${i18["details.tag.operations"]}
                         </div>
                         <div class="col-2">
-                            ${tagCoverage.callCounts} calls
+                            ${tagCoverage.callCounts} ${i18["details.operation.calls"]}
                         </div>
                         <div class="col-4">
                             <@ui.progress
                             full=tagCoverage.branchCounter.all
                             current=tagCoverage.branchCounter.covered
-                            postfix="branches covered"
+                            postfix=i18["details.branchprogress.postfix"]
                             />
                         </div>
                     </div>

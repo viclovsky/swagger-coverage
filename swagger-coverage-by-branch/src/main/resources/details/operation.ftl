@@ -14,7 +14,7 @@
                             ${key}
                         </div>
                         <div class="col-3">
-                            Response status: ${value.responses?keys?join(",")}
+                            ${i18["details.operation.status"]}: ${value.responses?keys?join(",")}
                         </div>
                     </div>
                 </div>
@@ -22,7 +22,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12">
-                                Parameters
+                                ${i18["details.operation.parameters"]}
                             </div>
                         </div>
                         <div class="row">
@@ -30,9 +30,9 @@
                                 <table class="table table-sm">
                                     <thead>
                                     <tr>
-                                        <th scope="col">Type</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Value</th>
+                                        <th scope="col">${i18["details.operation.parameter.type"]}</th>
+                                        <th scope="col">${i18["details.operation.parameter.name"]}</th>
+                                        <th scope="col">${i18["details.operation.parameter.value"]}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -52,7 +52,7 @@
             </div>
         </#list>
         <#if coverage?size == 0>
-            No data...
+            ${i18["details.operation.no_data"]}
         </#if>
     </div>
 </#macro>
@@ -73,13 +73,13 @@
                     <span><small>${operationResult.description}</small></span>
                 </div>
                 <div class="col-2">
-                    ${operationResult.processCount} calls
+                    ${operationResult.processCount} ${i18["details.operation.calls"]}
                 </div>
                 <div class="col-4">
                     <@ui.progress
                     full=operationResult.allBrancheCount
                     current=operationResult.coveredBrancheCount
-                    postfix="branches covered"
+                    postfix=i18["details.branchprogress.postfix"]
                     />
                 </div>
             </div>
@@ -95,8 +95,8 @@
         <table class="table table-sm">
             <thead>
             <tr>
-                <th scope="col">Branch name</th>
-                <th scope="col">Details</th>
+                <th scope="col">${i18["details.branchlist.name"]}</th>
+                <th scope="col">${i18["details.branchlist.details"]}</th>
             </tr>
             </thead>
             <tbody>

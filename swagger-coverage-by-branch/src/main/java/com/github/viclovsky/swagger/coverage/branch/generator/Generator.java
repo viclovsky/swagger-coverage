@@ -1,28 +1,16 @@
 package com.github.viclovsky.swagger.coverage.branch.generator;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.viclovsky.swagger.coverage.CoverageOutputReader;
-import com.github.viclovsky.swagger.coverage.CoverageResultsWriter;
 import com.github.viclovsky.swagger.coverage.FileSystemOutputReader;
 import com.github.viclovsky.swagger.coverage.branch.configuration.Configuration;
 import com.github.viclovsky.swagger.coverage.branch.configuration.ConfigurationBuilder;
-import com.github.viclovsky.swagger.coverage.branch.configuration.options.ConfigurationOptions;
 import com.github.viclovsky.swagger.coverage.branch.results.Results;
 import com.github.viclovsky.swagger.coverage.branch.results.builder.core.StatisticsBuilder;
-import com.github.viclovsky.swagger.coverage.branch.results.builder.postbuilder.*;
-import com.github.viclovsky.swagger.coverage.branch.results.builder.prebuilder.*;
-import com.github.viclovsky.swagger.coverage.branch.rule.core.BranchRule;
-import com.github.viclovsky.swagger.coverage.branch.rule.parameter.*;
-import com.github.viclovsky.swagger.coverage.branch.rule.status.HTTPStatusBranchRule;
-import com.github.viclovsky.swagger.coverage.branch.rule.status.OnlyDeclaretedHTTPStatuses;
-import com.github.viclovsky.swagger.coverage.branch.writer.HtmlBranchReportResultsWriter;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +40,6 @@ public class Generator {
         reader.getOutputs()
                 .forEach(o -> processFile(o.toString()));
 
-        CoverageResultsWriter writer = new HtmlBranchReportResultsWriter();
-
         Results result = new Results();
 
         statisticsBuilders.stream().filter(StatisticsBuilder::isPreBuilder).forEach(
@@ -64,7 +50,15 @@ public class Generator {
             statisticsBuilder -> statisticsBuilder.build(result)
         );
 
-        writer.write(result);
+        System.out.println(configuration.getConfiguredResultsWriters().toString());
+
+        configuration
+            .getConfiguredResultsWriters()
+            .stream()
+            .forEach(
+                writer -> writer.write(result)
+            )
+            ;
     }
 
     public void processFile(String path) {

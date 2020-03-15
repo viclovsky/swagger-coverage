@@ -47,17 +47,17 @@
     <div class="row">
         <div class="col-sm">
             <div class="alert alert-success" role="alert">
-                Full coverage: ${counter.full * 100 / counter.all}%
+                ${i18["badged.full"]}: ${counter.full * 100 / counter.all}%
             </div>
         </div>
         <div class="col-sm">
             <div class="alert alert-warning" role="alert">
-                Partial coverage: ${counter.party * 100 / counter.all}%
+                ${i18["badged.partial"]}: ${counter.party * 100 / counter.all}%
             </div>
         </div>
         <div class="col-sm">
             <div class="alert alert-danger" role="alert">
-                Empty coverage: ${counter.empty * 100 / counter.all}%
+                ${i18["badged.empty"]}: ${counter.empty * 100 / counter.all}%
             </div>
         </div>
     </div>
@@ -65,17 +65,17 @@
 
 <#macro coverageStateBadget operationResult>
     <#if operationResult.processCount == 0>
-        <span class="badge badge-dark">No call</span>
+        <span class="badge badge-dark">${i18["common.state.no_call"]}</span>
     <#else>
         <#switch operationResult.state>
             <#case "FULL">
-                <span class="badge badge-success">Full</span>
+                <span class="badge badge-success">${i18["common.state.full"]}</span>
                 <#break>
             <#case "PARTY">
-                <span class="badge badge-warning">Partial</span>
+                <span class="badge badge-warning">${i18["common.state.partial"]}</span>
                 <#break>
             <#case "EMPTY">
-                <span class="badge badge-danger">Empty</span>
+                <span class="badge badge-danger">${i18["common.state.empty"]}</span>
                 <#break>
             <#default>
         </#switch>

@@ -1,11 +1,14 @@
 package com.github.viclovsky.swagger.coverage.branch.configuration;
 
+import com.github.viclovsky.swagger.coverage.CoverageResultsWriter;
 import com.github.viclovsky.swagger.coverage.branch.configuration.options.ConfigurationOptions;
 import com.github.viclovsky.swagger.coverage.branch.configuration.options.RuleConfigurationOptions;
 import com.github.viclovsky.swagger.coverage.branch.results.builder.core.StatisticsBuilder;
 import com.github.viclovsky.swagger.coverage.branch.rule.core.BranchRule;
+import com.github.viclovsky.swagger.coverage.branch.writer.HtmlBranchReportResultsWriter;
 import io.swagger.models.Swagger;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +21,7 @@ public class Configuration {
     protected List<BranchRule> configuredRules = null;
     protected List<StatisticsBuilder> configuredBuilders = null;
 
+    protected List<CoverageResultsWriter> configuredResultsWriters = null;
 
     public Configuration() {
     }
@@ -80,6 +84,24 @@ public class Configuration {
 
     public Configuration setRegisteredBuilders(List<StatisticsBuilder> registeredBuilders) {
         this.registeredBuilders = registeredBuilders;
+        return this;
+    }
+
+    public List<StatisticsBuilder> getConfiguredBuilders() {
+        return configuredBuilders;
+    }
+
+    public Configuration setConfiguredBuilders(List<StatisticsBuilder> configuredBuilders) {
+        this.configuredBuilders = configuredBuilders;
+        return this;
+    }
+
+    public List<CoverageResultsWriter> getConfiguredResultsWriters() {
+        return configuredResultsWriters;
+    }
+
+    public Configuration setConfiguredResultsWriters(List<CoverageResultsWriter> configuredResultsWriters) {
+        this.configuredResultsWriters = configuredResultsWriters;
         return this;
     }
 }

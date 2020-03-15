@@ -3,7 +3,7 @@
 <#macro operations operationCoveredMap>
     <div class="row">
         <div class="col-12">
-            <h4>Operation coverage summary</h4>
+            <h4>${i18["summary.operations"]}</h4>
         </div>
     </div>
     <@ui.coverageBadget counter=operationCoveredMap.counter />
@@ -13,17 +13,17 @@
     <div class="row">
         <div class="col-sm">
             <div class="alert alert-primary" role="alert">
-                All operation: ${data.operations?size}
+                ${i18["summary.operations.all"]}: ${data.operations?size}
             </div>
         </div>
         <div class="col-sm">
             <div class="alert alert-secondary" role="alert">
-                Operation without calls: ${data.zeroCall?size}
+                ${i18["summary.operations.no_call"]}: ${data.zeroCall?size}
             </div>
         </div>
         <div class="col-sm">
             <div class="alert alert-secondary" role="alert">
-                Missed request: ${data.missed?size}
+                ${i18["summary.operations.missed"]}: ${data.missed?size}
             </div>
         </div>
     </div>
@@ -32,7 +32,7 @@
 <#macro branchs counter>
     <div class="row">
         <div class="col-12">
-            <h4>Branches coverage summary</h4>
+            <h4>${i18["summary.branches"]}</h4>
         </div>
     </div>
     <div class="row">
@@ -40,7 +40,7 @@
             <div class="alert alert-primary" role="alert">
                 <div class="row">
                     <div class="col-4">
-                        <strong>Total</strong>
+                        <strong>${i18["summary.branches.total"]}</strong>
                     </div>
                     <div class="col-4">
                         <strong>${counter.all}</strong>
@@ -54,7 +54,7 @@
             <div class="alert alert-success" role="alert">
                 <div class="row">
                     <div class="col-4">
-                        <strong>Covered</strong>
+                        <strong>${i18["summary.branches.covered"]}</strong>
                     </div>
                     <div class="col-4">
                         <strong> ${counter.covered * 100 / counter.all}%</strong>
@@ -69,7 +69,7 @@
             <div class="alert alert-danger" role="alert">
                 <div class="row">
                     <div class="col-4">
-                        <strong>Uncovered</strong>
+                        <strong>${i18["summary.branches.uncovered"]}</strong>
                     </div>
                     <div class="col-4">
                         <strong> ${(counter.all-counter.covered) * 100 / counter.all}%</strong>
@@ -93,19 +93,19 @@
 <#macro tags tagsDetail tagCounter>
     <div class="row">
         <div class="col-12">
-            <h4>Tags coverage summary</h4>
+            <h4>${i18["summary.tags"]}</h4>
         </div>
     </div>
     <@ui.coverageBadget counter=tagCounter />
     <div class="row">
         <div class="col-sm">
             <div class="alert alert-primary" role="alert">
-                All tags: ${tagCounter.all}
+                ${i18["summary.tags.all"]}: ${tagCounter.all}
             </div>
         </div>
         <div class="col-sm">
             <div class="alert alert-secondary" role="alert">
-                Tag without calls: ${tagsDetail?values?filter(x -> x.callCounts = 0)?size}
+                ${i18["summary.tags.no_call"]}: ${tagsDetail?values?filter(x -> x.callCounts = 0)?size}
             </div>
         </div>
         <div class="col-sm"></div>

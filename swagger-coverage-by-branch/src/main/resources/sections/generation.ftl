@@ -1,10 +1,10 @@
 <#macro data statistic>
     <div class="row">
         <div class="col-12">
-            Parsed result files: ${statistic.resultFileCount}<br>
-            Generation time: ${statistic.generationTime} ms<br>
-            Result file create interval: ${statistic.fileResultDateInterval}<br>
-            Generation report date: ${statistic.generateDate}<br>
+            ${i18["generation.parsed_file_count"]}: ${statistic.resultFileCount}<br>
+            ${i18["generation.time"]}: ${statistic.generationTime} ms<br>
+            ${i18["generation.result_file_created_interval"]}: ${statistic.fileResultDateInterval}<br>
+            ${i18["generation.report.date"]}: ${statistic.generateDate}<br>
         </div>
     </div>
 </#macro>
