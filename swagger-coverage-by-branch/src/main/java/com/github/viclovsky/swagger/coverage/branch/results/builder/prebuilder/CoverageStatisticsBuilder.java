@@ -35,7 +35,7 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
         OperationsHolder operations = SwaggerSpecificationProccessor.extractOperation(swagger);
 
         operations.getOperations().entrySet().stream().forEach(entry -> {
-            log.info(String.format("==  process result %s", entry.getKey()));
+            log.info(String.format("==  process result [%s]", entry.getKey()));
 
             Map<String, Parameter> currentParams = entry.getValue().getParameters().stream().collect(Collectors.toMap(
                     Parameter::getName,
@@ -54,6 +54,8 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
                     .forEach(branch -> branch.check(currentParams,entry.getValue().getResponses()))
                 ;
             } else {
+                log.info(String.format("oops. Missed request [%s]", entry.getKey()));
+
                 missed.put(
                     entry.getKey(),
                     entry.getValue()
@@ -67,8 +69,6 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
     @Override
     public void build(Results results){
         Map<String, OperationResult> operations = new TreeMap<>();
-        Map<String, Operation> missed  = new TreeMap<>();
-
         Map<String, BranchStatistics> branchStatisticsMap = new HashMap<>();
 
         mainCoverageData.entrySet().stream().forEach(entry -> {

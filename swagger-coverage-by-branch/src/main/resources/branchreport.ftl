@@ -1,150 +1,11 @@
 <#ftl output_format="HTML">
 <#-- @ftlvariable ftlvariable name="data" type="com.github.viclovsky.swagger.coverage.model.SwaggerCoverageResults" -->
-<#import "operationData.ftl" as operationData/>
 <#import "ui.ftl" as ui/>
 <#import "sections/summary.ftl" as summary />
-<#import "sections/generation.ftl" as generation>
-
-<#macro details coverage prefix>
-    <div class="accordion" id="${prefix}-accordion">
-        <#list coverage as key, value>
-            <div class="card">
-                <div class="card-header">
-                    <div class="row"
-                         data-toggle="collapse"
-                         data-target="#${prefix}-${key?index}"
-                         aria-expanded="true"
-                         aria-controls="collapseOne">
-                        <div class="col-6">
-                            ${key}
-                        </div>
-                        <div class="col-3">
-                            parameters:
-                        </div>
-                        <div class="col-3">
-                            statuses:
-
-                        </div>
-                    </div>
-                </div>
-                <div id="${prefix}-${key?index}" class="collapse" aria-labelledby="headingOne">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-2">
-                                Parameters:
-                            </div>
-                            <div class="col-10">
-
-                            </div>
-                        </div>
-                        <br/>
-                        <div class="row">
-                            <div class="col-2">
-                                Statuses:
-                            </div>
-                            <div class="col-10">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </#list>
-        <#if coverage?size == 0>
-            No data...
-        </#if>
-    </div>
-</#macro>
-
-<#macro branchdetails coverage operations prefix>
-    <div class="accordion" id="${prefix}-accordion">
-        <#list coverage as key>
-            <@operationDetails
-            name=key
-            operationResult=operations[key]
-            target=prefix + "-" + key?counter
-            />
-        </#list>
-    </div>
-</#macro>
-
-<#macro taglist tags operations>
-    <div class="accordion" id="tags-accordion">
-        <#list tags as tag, tagCoverage>
-            <div class="card">
-                <div class="card-header">
-                    <div class="row"
-                         data-toggle="collapse"
-                         data-target="#tag-${tag}"
-                         aria-expanded="true"
-                         aria-controls="collapseOne">
-                        <div class="col-4">
-                            <strong>${tagCoverage.description}</strong>
-                        </div>
-                        <div class="col-2">
-                            ${tagCoverage.operations?size} operations
-                        </div>
-                        <div class="col-2">
-                            ${tagCoverage.callCounts} calls
-                        </div>
-                        <div class="col-4">
-                            <@ui.progress
-                            full=tagCoverage.branchCounter.all
-                            current=tagCoverage.branchCounter.covered
-                            postfix="branches covered"
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div id="tag-${tag}" class="collapse" aria-labelledby="headingOne">
-                    <div class="card-body">
-                        <@ui.coverageBadget counter=tagCoverage.coverageCounter />
-                        <#list tagCoverage.operations as operation >
-                            <@operationDetails
-                                name=operation
-                                operationResult=operations[operation]
-                                target="tag-" + tag + "-" + operation?counter
-                            />
-                        </#list>
-                    </div>
-                </div>
-            </div>
-        </#list>
-    </div>
-</#macro>
-
-<#macro operationDetails name operationResult target>
-    <div class="card">
-        <div class="card-header">
-            <div class="row"
-                 data-toggle="collapse"
-                 data-target="#${target}"
-                 aria-expanded="true"
-                 aria-controls="collapseOne">
-                <div class="col-6">
-                    <p>
-                        <@ui.coverageStateBadget operationResult=operationResult />
-                        <span><strong>${name}</strong></span>
-                    </p>
-                    <span><small>${operationResult.description}</small></span>
-                </div>
-                <div class="col-2">
-                    ${operationResult.processCount} calls
-                </div>
-                <div class="col-4">
-                    <@ui.progress
-                        full=operationResult.allBrancheCount
-                        current=operationResult.coveredBrancheCount
-                        postfix="branches covered"
-                    />
-                </div>
-            </div>
-        </div>
-        <div id="${target}" class="collapse" aria-labelledby="headingOne">
-            <@operationData.branchList list=operationResult.branches />
-        </div>
-    </div>
-</#macro>
+<#import "sections/generation.ftl" as generation />
+<#import "details/operation.ftl" as operations />
+<#import "details/branch.ftl" as branch />
+<#import "details/tag.ftl" as tag />
 
 <head>
     <meta charset="utf-8">
@@ -271,25 +132,25 @@
                 <div class="col-12">
                     <div class="tab-content" id="details-content">
                         <div class="tab-pane fade show active" id="branch" role="tabpanel" aria-labelledby="branch-tab">
-                            <@branchdetails
+                            <@branch.list
                                 coverage=data.coverageOperationMap.full + data.coverageOperationMap.party + data.coverageOperationMap.empty
                                 operations=data.operations
                                 prefix="branch"/>
                         </div>
                         <div class="tab-pane fade" id="full" role="tabpanel" aria-labelledby="full-tab">
-                            <@branchdetails coverage=data.coverageOperationMap.full operations=data.operations prefix="full"/>
+                            <@branch.list coverage=data.coverageOperationMap.full operations=data.operations prefix="full"/>
                         </div>
                         <div class="tab-pane fade" id="party" role="tabpanel" aria-labelledby="party-tab">
-                            <@branchdetails coverage=data.coverageOperationMap.party operations=data.operations prefix="party"/>
+                            <@branch.list coverage=data.coverageOperationMap.party operations=data.operations prefix="party"/>
                         </div>
                         <div class="tab-pane fade" id="empty" role="tabpanel" aria-labelledby="empty-tab">
-                            <@branchdetails coverage=data.coverageOperationMap.empty operations=data.operations prefix="empty"/>
+                            <@branch.list coverage=data.coverageOperationMap.empty operations=data.operations prefix="empty"/>
                         </div>
                         <div class="tab-pane fade" id="zero" role="tabpanel" aria-labelledby="zero-tab">
-                            <@branchdetails coverage=data.zeroCall operations=data.operations prefix="zero"/>
+                            <@branch.list coverage=data.zeroCall operations=data.operations prefix="zero"/>
                         </div>
                         <div class="tab-pane fade" id="missed" role="tabpanel" aria-labelledby="missed-tab">
-                            <@details coverage=data.missed prefix="missed"/>
+                            <@operations.list coverage=data.missed prefix="missed"/>
                         </div>
                     </div>
                 </div>
@@ -302,7 +163,7 @@
                     <h2 class="title" id="tags">Tag details</h2>
                 </div>
             </div>
-            <@taglist tags=data.tagCoverageMap operations=data.operations/>
+            <@tag.list tags=data.tagCoverageMap operations=data.operations/>
         </section>
 
         <section id="branchs">
