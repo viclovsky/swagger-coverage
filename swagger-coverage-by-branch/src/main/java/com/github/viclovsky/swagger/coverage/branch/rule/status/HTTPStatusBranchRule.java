@@ -13,6 +13,7 @@ import java.util.List;
 public class HTTPStatusBranchRule extends StatusBranchRule {
 
     protected List<String> filter;
+    protected List<String> ignore;
 
     @Override
     public String getId() {
@@ -29,6 +30,14 @@ public class HTTPStatusBranchRule extends StatusBranchRule {
             return null;
         }
 
+        if (
+            ignore != null
+            && !ignore.isEmpty()
+            && ignore.contains(status)
+        ) {
+            return null;
+        }
+
         BranchPredicate predicate = new StatusBranchPredicate(status);
         Branch branch = new SinglePredicateBranch(
             "HTTP status " + status,
@@ -41,6 +50,7 @@ public class HTTPStatusBranchRule extends StatusBranchRule {
     @Override
     public BranchRule configure(RuleConfigurationOptions options) {
         this.filter = options.getFilter();
+        this.ignore = options.getIgnore();
         return super.configure(options);
     }
 }
