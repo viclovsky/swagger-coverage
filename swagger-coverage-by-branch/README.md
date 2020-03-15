@@ -1,8 +1,9 @@
-##Configuration options
+## Configuration options
+
 Swagger coverage report can be configured by json-file. 
 You can control list of branch, which be generated and checked for results.
 
-##General configuration options
+## General configuration options
 
 General configuration options are placed in "general" section
 
@@ -21,11 +22,11 @@ Default value if *false*.
 }
 ````
 
-##Rules configuration options
+## Rules configuration options
 Options for different rules are placed in "rules" section. 
 You can disable some rules or change their behavior.
 
-####Checking response http-status
+#### Checking response http-status
 This rule create branch for every status from *responses*-section of swagger specification.
 Branch mark *covered* when report generator find specific status in results files.
 Options for this rules are placed in *status* subsection in *rules* sections.
@@ -54,7 +55,7 @@ You can setup next options:
 }
 ````
 
-####Checking the list of declared and received statuses
+#### Checking the list of declared and received statuses
 This rule create branch for comparing declared and received status. 
 Branch marked as *covered* when result not contains any of undeclared status.
 *Uncovered* state of this branch indicates missed status in original swagger-documentation 
@@ -81,10 +82,10 @@ You can setup next options:
 }
 ````
 
-##Result writer configuration
+## Result writer configuration
 Options for report generation setting are placed in *writers* sections.
 
-####HTML report writer
+#### HTML report writer
 Options for html-report placed in subsection *html* of *writers* sections.
 
 You can setup next options:
