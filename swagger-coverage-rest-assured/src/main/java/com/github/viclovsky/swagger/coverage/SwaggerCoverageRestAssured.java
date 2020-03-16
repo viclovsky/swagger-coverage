@@ -1,6 +1,5 @@
 package com.github.viclovsky.swagger.coverage;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.filter.FilterContext;
 import io.restassured.filter.OrderedFilter;
 import io.restassured.response.Response;
@@ -18,16 +17,14 @@ import java.net.URI;
 import java.nio.file.Paths;
 import java.util.Objects;
 
-import static io.swagger.models.Scheme.forValue;
-import static java.lang.String.valueOf;
 import static com.github.viclovsky.swagger.coverage.SwaggerCoverageConstants.BODY_PARAM_NAME;
 import static com.github.viclovsky.swagger.coverage.SwaggerCoverageConstants.OUTPUT_DIRECTORY;
+import static io.swagger.models.Scheme.forValue;
+import static java.lang.String.valueOf;
 
 public class SwaggerCoverageRestAssured implements OrderedFilter {
 
     private CoverageOutputWriter writer;
-
-    private ObjectMapper mapper;
 
     public SwaggerCoverageRestAssured(CoverageOutputWriter writer) {
         this.writer = writer;
@@ -42,22 +39,6 @@ public class SwaggerCoverageRestAssured implements OrderedFilter {
         return Integer.MAX_VALUE;
     }
 
-    protected ObjectMapper getMapper(){
-        if (mapper == null) {
-            mapper = new ObjectMapper();
-        }
-
-        return mapper;
-    }
-
-    protected String writeAsJSON(Object object){
-        try {
-            return getMapper().writeValueAsString(object);
-        } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
-            return "";
-        }
-    }
-
     @Override
     public Response filter(FilterableRequestSpecification requestSpec, FilterableResponseSpecification responseSpec, FilterContext ctx) {
         Operation operation = new Operation();
@@ -65,15 +46,11 @@ public class SwaggerCoverageRestAssured implements OrderedFilter {
         //https://github.com/rest-assured/rest-assured/issues/1232
         requestSpec.getQueryParams().keySet().forEach(n -> operation.addParameter(new QueryParameter().name(n)));
         requestSpec.getFormParams().keySet().forEach((n -> operation.addParameter(new FormParameter().name(n))));
-        requestSpec.getHeaders().forEach(header -> operation.addParameter(new HeaderParameter().name(header.getName()).example(header.getValue())));
+        requestSpec.getHeaders().forEach(header -> operation.addParameter(new HeaderParameter().name(header.getName())
+                .example(header.getValue())));
 
-        requestSpec.getMultiPartParams().forEach(multiPartSpecification ->
-            operation.addParameter(
-                new FormParameter()
-                    .name(multiPartSpecification.getControlName())
-                    .example(writeAsJSON(multiPartSpecification))
-            )
-        );
+        requestSpec.getMultiPartParams().forEach(multiPartSpecification -> operation.addParameter(new FormParameter()
+                .name(multiPartSpecification.getControlName())));
 
         if (Objects.nonNull(requestSpec.getBody())) {
             operation.addParameter(new BodyParameter().name(BODY_PARAM_NAME));
