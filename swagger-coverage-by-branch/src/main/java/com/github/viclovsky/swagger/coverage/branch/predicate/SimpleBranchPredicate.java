@@ -3,21 +3,26 @@ package com.github.viclovsky.swagger.coverage.branch.predicate;
 import io.swagger.models.Response;
 import io.swagger.models.parameters.Parameter;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class SimpleBranchPredicate extends BranchPredicate{
 
     protected boolean isEmpty;
-    protected String paramName;
+    protected String name;
+    protected String in;
 
-    public SimpleBranchPredicate(boolean isEmpty, String paramName) {
+    public SimpleBranchPredicate(boolean isEmpty, String name, String in) {
         this.isEmpty = isEmpty;
-        this.paramName = paramName;
+        this.name = name;
+        this.in = in;
     }
 
     @Override
-    public boolean check(Map<String, Parameter> params, Map<String, Response> responses) {
-        return (isEmpty() ^ params.containsKey(getParamName()));
+    public boolean check(List<Parameter> params, Map<String, Response> responses) {
+        Optional<Parameter> p = params.stream().filter(ParameterUtils.equalsParam(name, in)).findFirst();
+        return (isEmpty() ^ p.isPresent());
     }
 
     @Override
@@ -43,19 +48,19 @@ public class SimpleBranchPredicate extends BranchPredicate{
         isEmpty = empty;
     }
 
-    public String getParamName() {
-        return paramName;
+    public String getName() {
+        return name;
     }
 
     public void setParamName(String paramName) {
-        this.paramName = paramName;
+        this.name = name;
     }
 
     @Override
     public String toString() {
         return "BranchPredicate{" +
                 "isEmpty=" + isEmpty +
-                ", paramName='" + paramName + '\'' +
+                ", paramName='" + name + '\'' +
                 '}';
     }
 

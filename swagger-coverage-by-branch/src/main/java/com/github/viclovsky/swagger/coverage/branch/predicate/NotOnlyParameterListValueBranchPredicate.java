@@ -1,31 +1,35 @@
 package com.github.viclovsky.swagger.coverage.branch.predicate;
 
-import com.github.viclovsky.swagger.coverage.branch.generator.SwaggerSpecificationProccessor;
+import com.github.viclovsky.swagger.coverage.branch.generator.SwaggerSpecificationProcessor;
 import io.swagger.models.Response;
 import io.swagger.models.parameters.Parameter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class NotOnlyParameterListValueBranchPredicate extends BranchPredicate {
+    private String name;
+    private String in;
 
-    protected String name;
-    protected String reason;
-    protected List<String> expectedValue = new ArrayList<>();
-    protected List<String> currentValue = new ArrayList<>();
+    private String reason;
+    private List<String> expectedValue = new ArrayList<>();
+    private List<String> currentValue = new ArrayList<>();
 
-    public NotOnlyParameterListValueBranchPredicate(String name, List<String> value) {
+    public NotOnlyParameterListValueBranchPredicate(String name, String in, List<String> value) {
         this.name = name;
+        this.in = in;
         this.expectedValue.addAll(value);
 
         reason = "Checked values: ...";
     }
 
     @Override
-    public boolean check(Map<String, Parameter> params, Map<String, Response> responses) {
-        if (params.containsKey(name)) {
-            String val = SwaggerSpecificationProccessor.extractValue(params.get(name));
+    public boolean check(List<Parameter> params, Map<String, Response> responses) {
+         Optional<Parameter> p = params.stream().filter(ParameterUtils.equalsParam(name, in)).findFirst();
+         if (p.isPresent()) {
+            String val = SwaggerSpecificationProcessor.extractValue(p.get());
             currentValue.add(val);
         }
 

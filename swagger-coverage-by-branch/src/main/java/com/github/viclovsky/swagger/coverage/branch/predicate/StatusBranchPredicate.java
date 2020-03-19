@@ -3,18 +3,19 @@ package com.github.viclovsky.swagger.coverage.branch.predicate;
 import io.swagger.models.Response;
 import io.swagger.models.parameters.Parameter;
 
+import java.util.List;
 import java.util.Map;
 
 public class StatusBranchPredicate extends BranchPredicate {
 
-    protected String statusCode;
+    private String statusCode;
 
     public StatusBranchPredicate(String statusCode) {
         this.statusCode = statusCode;
     }
 
     @Override
-    public boolean check(Map<String, Parameter> params, Map<String, Response> responses) {
+    public boolean check(List<Parameter> params, Map<String, Response> responses) {
         return responses.containsKey(getStatusCode());
     }
 

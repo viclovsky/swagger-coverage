@@ -3,7 +3,6 @@ package com.github.viclovsky.swagger.coverage.branch.rule.status;
 import com.github.viclovsky.swagger.coverage.branch.model.Branch;
 import com.github.viclovsky.swagger.coverage.branch.rule.core.BranchRule;
 import io.swagger.models.Operation;
-import io.swagger.models.parameters.Parameter;
 
 import java.util.List;
 import java.util.Objects;
@@ -14,14 +13,12 @@ public abstract class StatusBranchRule extends BranchRule {
     public abstract Branch processStatus(String statusCode);
 
     public List<Branch> createBranch(Operation operation){
-        return operation
-                .getResponses()
-                .entrySet()
+        return operation.getResponses()
+                .keySet()
                 .stream()
-                .map(entry -> processStatus(entry.getKey()))
+                .map(this::processStatus)
                 .filter(Objects::nonNull)
-                .collect(Collectors.toList())
-                ;
+                .collect(Collectors.toList());
     }
 
 }

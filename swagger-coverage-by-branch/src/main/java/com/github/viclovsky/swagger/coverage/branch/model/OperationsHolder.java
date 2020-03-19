@@ -7,7 +7,7 @@ import java.util.TreeMap;
 
 public class OperationsHolder {
 
-    Map<String, Operation> operations = new TreeMap<>();
+    private Map<String, Operation> operations = new TreeMap<>();
 
     public Map<String, Operation> getOperations() {
         return operations;

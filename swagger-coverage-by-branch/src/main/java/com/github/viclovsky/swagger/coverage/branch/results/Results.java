@@ -13,8 +13,8 @@ public class Results {
     protected Map<String, OperationResult> party = new TreeMap<>();
     protected Map<String, OperationResult> empty = new TreeMap<>();
     protected Map<String, Operation> missed  = new TreeMap<>();
-    protected long allBrancheCount;
-    protected long coveredBrancheCount;
+    protected long allBranchCount;
+    protected long coveredBranchCount;
     protected long allOperationCount;
     protected long fullOperationCount;
     protected long partOperationCount;
@@ -34,20 +34,20 @@ public class Results {
 
         allOperationCount = operations.size();
 
-        operations.entrySet().forEach(entry -> {
-            allBrancheCount = allBrancheCount + entry.getValue().getAllBrancheCount();
-            coveredBrancheCount = coveredBrancheCount + entry.getValue().getCoveredBrancheCount();
+        operations.forEach((key, value) -> {
+            allBranchCount = allBranchCount + value.getAllBranchCount();
+            coveredBranchCount = coveredBranchCount + value.getCoveredBranchCount();
 
-            if (entry.getValue().getCoveredBrancheCount() == 0) {
+            if (value.getCoveredBranchCount() == 0) {
                 emptyOperationCount++;
-                empty.put(entry.getKey(),entry.getValue());
+                empty.put(key, value);
             } else {
-                if (entry.getValue().getAllBrancheCount() == entry.getValue().getCoveredBrancheCount()) {
+                if (value.getAllBranchCount() == value.getCoveredBranchCount()) {
                     fullOperationCount++;
-                    full.put(entry.getKey(),entry.getValue());
+                    full.put(key, value);
                 } else {
                     partOperationCount++;
-                    party.put(entry.getKey(),entry.getValue());
+                    party.put(key, value);
                 }
             }
         });
@@ -63,21 +63,21 @@ public class Results {
         return this;
     }
 
-    public long getAllBrancheCount() {
-        return allBrancheCount;
+    public long getAllBranchCount() {
+        return allBranchCount;
     }
 
-    public Results setAllBrancheCount(long allBrancheCount) {
-        this.allBrancheCount = allBrancheCount;
+    public Results setAllBranchCount(long allBranchCount) {
+        this.allBranchCount = allBranchCount;
         return this;
     }
 
-    public long getCoveredBrancheCount() {
-        return coveredBrancheCount;
+    public long getCoveredBranchCount() {
+        return coveredBranchCount;
     }
 
-    public Results setCoveredBrancheCount(long coveredBrancheCount) {
-        this.coveredBrancheCount = coveredBrancheCount;
+    public Results setCoveredBranchCount(long coveredBranchCount) {
+        this.coveredBranchCount = coveredBranchCount;
         return this;
     }
 
