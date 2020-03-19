@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class SimpleBranchPredicate extends BranchPredicate{
+public class DefaultBranchPredicate extends BranchPredicate{
 
     protected boolean isEmpty;
     protected String name;
     protected String in;
 
-    public SimpleBranchPredicate(boolean isEmpty, String name, String in) {
+    public DefaultBranchPredicate(boolean isEmpty, String name, String in) {
         this.isEmpty = isEmpty;
         this.name = name;
         this.in = in;

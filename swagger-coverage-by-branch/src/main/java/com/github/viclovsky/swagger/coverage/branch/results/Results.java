@@ -1,6 +1,8 @@
 package com.github.viclovsky.swagger.coverage.branch.results;
 
+import com.github.viclovsky.swagger.coverage.branch.model.Branch;
 import com.github.viclovsky.swagger.coverage.branch.model.BranchOperationCoverage;
+import io.swagger.models.Info;
 import io.swagger.models.Operation;
 
 import java.util.Map;
@@ -8,28 +10,25 @@ import java.util.TreeMap;
 
 public class Results {
 
-    protected Map<String, OperationResult> operations = new TreeMap<>();
-    protected Map<String, OperationResult> full = new TreeMap<>();
-    protected Map<String, OperationResult> party = new TreeMap<>();
-    protected Map<String, OperationResult> empty = new TreeMap<>();
-    protected Map<String, Operation> missed  = new TreeMap<>();
-    protected long allBranchCount;
-    protected long coveredBranchCount;
-    protected long allOperationCount;
-    protected long fullOperationCount;
-    protected long partOperationCount;
-    protected long emptyOperationCount;
+    private Map<String, OperationResult> operations = new TreeMap<>();
+    private Map<String, OperationResult> full = new TreeMap<>();
+    private Map<String, OperationResult> party = new TreeMap<>();
+    private Map<String, OperationResult> empty = new TreeMap<>();
+    private Map<String, Operation> missed  = new TreeMap<>();
+    private long allBranchCount;
+    private long coveredBranchCount;
+    private long allOperationCount;
+    private long fullOperationCount;
+    private long partOperationCount;
+    private long emptyOperationCount;
 
-    protected GenerationStatistics generationStatistics;
+    private GenerationStatistics generationStatistics;
+    private Info info;
 
     public Results(Map<String, BranchOperationCoverage> mainCoverageData){
-        mainCoverageData.entrySet().stream().forEach(entry -> {
-            entry.getValue().getBranches().stream().forEach(branch -> branch.postCheck());
-
-            operations.put(
-                entry.getKey(),
-                new OperationResult(entry.getValue().getBranches())
-            );
+        mainCoverageData.forEach((key, value) -> {
+            value.getBranches().forEach(Branch::postCheck);
+            operations.put(key, new OperationResult(value.getBranches()));
         });
 
         allOperationCount = operations.size();
@@ -159,6 +158,15 @@ public class Results {
 
     public Results setGenerationStatistics(GenerationStatistics generationStatistics) {
         this.generationStatistics = generationStatistics;
+        return this;
+    }
+
+    public Info getInfo() {
+        return info;
+    }
+
+    public Results setInfo(Info info) {
+        this.info = info;
         return this;
     }
 }

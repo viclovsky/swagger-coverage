@@ -7,11 +7,11 @@ import java.util.List;
 
 public class Branch {
 
-    protected String name;
-    protected String description;
-    protected List<String> reasons = new ArrayList<>();
-    protected boolean covered;
-    protected List<BranchPredicate> predicateList;
+    private String name;
+    private String description;
+    private List<String> reasons = new ArrayList<>();
+    private boolean covered;
+    private List<BranchPredicate> predicateList;
 
     public Branch(String name, String description) {
         this.name = name;

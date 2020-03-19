@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class ParameterValueBranchPredicate extends BranchPredicate {
+public class DefaultParameterValueBranchPredicate extends BranchPredicate {
 
     private String name;
     private String in;
@@ -18,7 +18,7 @@ public class ParameterValueBranchPredicate extends BranchPredicate {
     private List<String> expectedValue = new ArrayList<>();
     private List<String> currentValue = new ArrayList<>();
 
-    public ParameterValueBranchPredicate(String name, String in, List<String> value) {
+    public DefaultParameterValueBranchPredicate(String name, String in, List<String> value) {
         this.name = name;
         this.in = in;
         this.expectedValue.addAll(value);
@@ -64,7 +64,7 @@ public class ParameterValueBranchPredicate extends BranchPredicate {
         return name;
     }
 
-    public ParameterValueBranchPredicate setName(String name) {
+    public DefaultParameterValueBranchPredicate setName(String name) {
         this.name = name;
         return this;
     }
@@ -73,7 +73,7 @@ public class ParameterValueBranchPredicate extends BranchPredicate {
         return expectedValue;
     }
 
-    public ParameterValueBranchPredicate setValue(List<String> value) {
+    public DefaultParameterValueBranchPredicate setValue(List<String> value) {
         this.expectedValue = value;
         return this;
     }

@@ -19,7 +19,7 @@ public class OperationsHolder {
     }
 
     public OperationsHolder addOperation(String key, Operation operation) {
-        this.operations.put(key,operation);
+        this.operations.put(key, operation);
         return this;
     }
 }

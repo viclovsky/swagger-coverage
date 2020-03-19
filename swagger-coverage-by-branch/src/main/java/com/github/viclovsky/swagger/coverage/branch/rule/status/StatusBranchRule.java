@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Base rule for status
+ */
 public abstract class StatusBranchRule extends BranchRule {
 
     public abstract Branch processStatus(String statusCode);
@@ -20,5 +23,4 @@ public abstract class StatusBranchRule extends BranchRule {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
-
 }

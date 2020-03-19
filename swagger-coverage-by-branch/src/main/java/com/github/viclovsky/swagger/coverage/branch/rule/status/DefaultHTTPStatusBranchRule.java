@@ -2,10 +2,9 @@ package com.github.viclovsky.swagger.coverage.branch.rule.status;
 
 import com.github.viclovsky.swagger.coverage.branch.model.Branch;
 import com.github.viclovsky.swagger.coverage.branch.predicate.BranchPredicate;
-import com.github.viclovsky.swagger.coverage.branch.predicate.StatusBranchPredicate;
+import com.github.viclovsky.swagger.coverage.branch.predicate.DefaultStatusBranchPredicate;
 
-
-public class HTTPStatusBranchRule extends StatusBranchRule {
+public class DefaultHTTPStatusBranchRule extends StatusBranchRule {
 
     @Override
     public Branch processStatus(String status) {
@@ -14,7 +13,7 @@ public class HTTPStatusBranchRule extends StatusBranchRule {
                 ""
         );
 
-        BranchPredicate predicate = new StatusBranchPredicate(status);
+        BranchPredicate predicate = new DefaultStatusBranchPredicate(status);
         branch.addPredicate(predicate);
         return branch;
     }
