@@ -65,18 +65,18 @@
                             ${key}
                         </div>
                         <div class="col-2">
-                            ${value.coveredBrancheCount}/${value.allBrancheCount}
+                            ${value.coveredBranchCount}/${value.allBranchCount}
                         </div>
                         <div class="col-2">
                             <#if value.branches?size gt 0 >
-                                (${100*value.coveredBrancheCount/(value.allBrancheCount)}%)
+                                (${100*value.coveredBranchCount/(value.allBranchCount)}%)
                             <#else>
                                 (--)
                             </#if>
                         </div>
                         <div class="col-3">
                             <#if value.branches?size gt 0 >
-                                <@ui.progress current = value.coveredBrancheCount full = value.allBrancheCount />
+                                <@ui.progress current = value.coveredBranchCount full = value.allBranchCount />
                             </#if>
                         </div>
                     </div>
@@ -150,18 +150,18 @@
                     Branches covered:
                 </div>
                 <div class="col-2">
-                    ${data.coveredBrancheCount} / ${data.allBrancheCount}
+                    ${data.coveredBranchCount} / ${data.allBranchCount}
                 </div>
                 <div class="col-2">
-                    <#if data.allBrancheCount gt 0 >
-                        (${100*data.coveredBrancheCount/(data.allBrancheCount)}%)
+                    <#if data.allBranchCount gt 0 >
+                        (${100*data.coveredBranchCount/(data.allBranchCount)}%)
                     <#else>
                         (--)
                     </#if>
                 </div>
                 <div class="col-6">
-                    <#if data.allBrancheCount gt 0 >
-                        <@ui.progress current = data.coveredBrancheCount full = data.allBrancheCount />
+                    <#if data.allBranchCount gt 0 >
+                        <@ui.progress current = data.coveredBranchCount full = data.allBranchCount />
                     </#if>
                 </div>
             </div>

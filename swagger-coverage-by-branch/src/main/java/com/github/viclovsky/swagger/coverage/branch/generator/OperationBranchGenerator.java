@@ -12,25 +12,24 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class OperationBranchGenerator {
+class OperationBranchGenerator {
 
     private static final Logger log = LoggerFactory.getLogger(OperationBranchGenerator.class);
 
-    public static Map<String, BranchOperationCoverage> getOperationMap(Swagger swagger, List<BranchRule> rules) {
-        OperationsHolder operations = SwaggerSpecificationProccessor.extractOperation(swagger);
-
+    static Map<String, BranchOperationCoverage> getOperationMap(Swagger swagger, List<BranchRule> rules) {
+        OperationsHolder operations = SwaggerSpecificationProcessor.extractOperation(swagger);
         Map<String, BranchOperationCoverage> coverage = new TreeMap<>();
 
-        operations.getOperations().entrySet().stream().forEach(entry -> {
-            BranchOperationCoverage oc = buildBranchOperationCoverage(entry.getValue(),rules);
-            log.info(String.format("put operation %s", entry.getKey()));
-            coverage.put(entry.getKey(), oc);
+        operations.getOperations().forEach((key, value) -> {
+            BranchOperationCoverage oc = buildBranchOperationCoverage(value, rules);
+            log.info(String.format("put operation %s", key));
+            coverage.put(key, oc);
         });
 
         return coverage;
     }
 
-    public static BranchOperationCoverage buildBranchOperationCoverage(Operation operation, List<BranchRule> rules){
+    static BranchOperationCoverage buildBranchOperationCoverage(Operation operation, List<BranchRule> rules){
         BranchOperationCoverage operationCoverage = new BranchOperationCoverage();
         operationCoverage.setOperation(operation);
         operationCoverage.setBranches(generateBranchList(operation,rules));
@@ -38,8 +37,7 @@ public class OperationBranchGenerator {
         return operationCoverage;
     }
 
-    public static List<Branch> generateBranchList(Operation operation, List<BranchRule> rules){
-
+    static List<Branch> generateBranchList(Operation operation, List<BranchRule> rules){
         List<Branch> branches = rules
                 .stream()
                 .map(rule -> rule.createBranch(operation))

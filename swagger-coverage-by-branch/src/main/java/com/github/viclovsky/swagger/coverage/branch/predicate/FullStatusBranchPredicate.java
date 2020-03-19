@@ -3,23 +3,24 @@ package com.github.viclovsky.swagger.coverage.branch.predicate;
 import io.swagger.models.Response;
 import io.swagger.models.parameters.Parameter;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-public class FullStatusBranchPredicate extends BranchPredicate{
+public class FullStatusBranchPredicate extends BranchPredicate {
 
-    Set<String> expectedStatuses;
-    Set<String> currentStatuses = new HashSet<>();
-    protected String reason;
+    private Set<String> expectedStatuses;
+    private Set<String> currentStatuses = new HashSet<>();
+    private String reason;
 
     public FullStatusBranchPredicate(Set<String> expectedStatuses) {
         this.expectedStatuses = expectedStatuses;
     }
 
     @Override
-    public boolean check(Map<String, Parameter> params, Map<String, Response> responses) {
-        responses.entrySet().stream().forEach(entry -> {
-            currentStatuses.add(entry.getKey());
-        });
+    public boolean check(List<Parameter> params, Map<String, Response> responses) {
+        responses.forEach((key, value) -> currentStatuses.add(key));
         return true;
     }
 
@@ -29,7 +30,7 @@ public class FullStatusBranchPredicate extends BranchPredicate{
 
         if (!covered){
             currentStatuses.removeAll(expectedStatuses);
-            reason = "Undeclared status: " + String.join(",",currentStatuses);
+            reason = "Undeclared status: " + String.join(",", currentStatuses);
         }
 
         return covered;

@@ -4,17 +4,14 @@ import io.swagger.models.Response;
 import io.swagger.models.parameters.BodyParameter;
 import io.swagger.models.parameters.Parameter;
 
+import java.util.List;
 import java.util.Map;
 
 public class SimpleBodyBranchPredicate extends BranchPredicate {
 
     @Override
-    public boolean check(Map<String, Parameter> params, Map<String, Response> responses) {
-        long bodyParamsCount = params.entrySet()
-            .stream()
-            .filter(entry -> entry.getValue() instanceof BodyParameter).count()
-            ;
-
+    public boolean check(List<Parameter> params, Map<String, Response> responses) {
+        long bodyParamsCount = params.stream().filter(entry -> entry instanceof BodyParameter).count();
         return bodyParamsCount > 0;
     }
 

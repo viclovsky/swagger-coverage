@@ -4,7 +4,6 @@ import com.github.viclovsky.swagger.coverage.branch.model.Branch;
 import com.github.viclovsky.swagger.coverage.branch.predicate.BranchPredicate;
 import com.github.viclovsky.swagger.coverage.branch.predicate.SimpleBranchPredicate;
 import io.swagger.models.parameters.BodyParameter;
-import io.swagger.models.parameters.HeaderParameter;
 import io.swagger.models.parameters.Parameter;
 
 public class SimpleParameterBranchRule extends ParameterRule {
@@ -19,7 +18,7 @@ public class SimpleParameterBranchRule extends ParameterRule {
                 ""
         );
 
-        BranchPredicate predicate = new SimpleBranchPredicate(false,parameter.getName());
+        BranchPredicate predicate = new SimpleBranchPredicate(false, parameter.getName(), parameter.getIn());
         branch.addPredicate(predicate);
 
         return branch;

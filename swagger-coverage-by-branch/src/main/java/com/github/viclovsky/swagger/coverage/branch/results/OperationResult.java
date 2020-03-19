@@ -7,13 +7,13 @@ import java.util.List;
 public class OperationResult {
 
     protected List<Branch> branches;
-    protected long allBrancheCount;
-    protected long coveredBrancheCount;
+    protected long allBranchCount;
+    protected long coveredBranchCount;
 
     public OperationResult(List<Branch> branches) {
         this.branches = branches;
-        allBrancheCount = branches.size();
-        coveredBrancheCount = branches.stream().filter(Branch::isCovered).count();
+        allBranchCount = branches.size();
+        coveredBranchCount = branches.stream().filter(Branch::isCovered).count();
     }
 
     public List<Branch> getBranches() {
@@ -25,21 +25,21 @@ public class OperationResult {
         return this;
     }
 
-    public long getAllBrancheCount() {
-        return allBrancheCount;
+    public long getAllBranchCount() {
+        return allBranchCount;
     }
 
-    public OperationResult setAllBrancheCount(long allBrancheCount) {
-        this.allBrancheCount = allBrancheCount;
+    public OperationResult setAllBranchCount(long allBranchCount) {
+        this.allBranchCount = allBranchCount;
         return this;
     }
 
-    public long getCoveredBrancheCount() {
-        return coveredBrancheCount;
+    public long getCoveredBranchCount() {
+        return coveredBranchCount;
     }
 
-    public OperationResult setCoveredBrancheCount(long coveredBrancheCount) {
-        this.coveredBrancheCount = coveredBrancheCount;
+    public OperationResult setCoveredBranchCount(long coveredBranchCount) {
+        this.coveredBranchCount = coveredBranchCount;
         return this;
     }
 }

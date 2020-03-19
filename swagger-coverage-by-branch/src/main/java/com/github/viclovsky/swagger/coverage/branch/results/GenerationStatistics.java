@@ -2,8 +2,8 @@ package com.github.viclovsky.swagger.coverage.branch.results;
 
 public class GenerationStatistics {
 
-    protected long resultFileCount = 0;
-    protected long generationTime;
+    private long resultFileCount = 0;
+    private long generationTime;
 
     public GenerationStatistics() {
     }
