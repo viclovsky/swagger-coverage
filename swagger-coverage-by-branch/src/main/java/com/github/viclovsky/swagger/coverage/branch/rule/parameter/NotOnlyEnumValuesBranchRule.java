@@ -10,14 +10,14 @@ import java.util.List;
 
 public class NotOnlyEnumValuesBranchRule extends ParameterRule {
 
-
     @Override
     public Branch processParameter(Parameter parameter) {
         List<String> enumValues = SwaggerSpecificationProcessor.extractEnum(parameter);
 
         if (enumValues != null && !enumValues.isEmpty()) {
             Branch branch = new Branch(
-                    parameter.getIn() + " {" + parameter.getName() + "} contains values not only from enum " + enumValues,
+                    String.format("%s «%s» contains values not only from enum %s", parameter.getIn(),
+                            parameter.getName(), enumValues),
                     ""
             );
 

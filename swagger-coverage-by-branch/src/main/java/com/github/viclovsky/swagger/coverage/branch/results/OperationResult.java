@@ -6,9 +6,9 @@ import java.util.List;
 
 public class OperationResult {
 
-    protected List<Branch> branches;
-    protected long allBranchCount;
-    protected long coveredBranchCount;
+    private List<Branch> branches;
+    private long allBranchCount;
+    private long coveredBranchCount;
 
     public OperationResult(List<Branch> branches) {
         this.branches = branches;

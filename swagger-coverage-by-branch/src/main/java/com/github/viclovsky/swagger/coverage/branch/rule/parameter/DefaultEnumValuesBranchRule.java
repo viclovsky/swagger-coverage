@@ -3,13 +3,13 @@ package com.github.viclovsky.swagger.coverage.branch.rule.parameter;
 import com.github.viclovsky.swagger.coverage.branch.generator.SwaggerSpecificationProcessor;
 import com.github.viclovsky.swagger.coverage.branch.model.Branch;
 import com.github.viclovsky.swagger.coverage.branch.predicate.BranchPredicate;
-import com.github.viclovsky.swagger.coverage.branch.predicate.ParameterValueBranchPredicate;
+import com.github.viclovsky.swagger.coverage.branch.predicate.DefaultParameterValueBranchPredicate;
 import io.swagger.models.parameters.Parameter;
 
 
 import java.util.List;
 
-public class EnumValuesBranchRule extends ParameterRule {
+public class DefaultEnumValuesBranchRule extends ParameterRule {
 
     @Override
     public Branch processParameter(Parameter parameter) {
@@ -17,11 +17,11 @@ public class EnumValuesBranchRule extends ParameterRule {
 
         if (enumValues != null && !enumValues.isEmpty()) {
             Branch branch = new Branch(
-                    parameter.getIn() + " {" + parameter.getName() + "} contains all values from enum " + enumValues,
+                    String.format("%s «%s» contains all values from enum %s", parameter.getIn(), parameter.getName(), enumValues),
                     ""
             );
 
-            BranchPredicate predicate = new ParameterValueBranchPredicate(parameter.getName(), parameter.getIn(), enumValues);
+            BranchPredicate predicate = new DefaultParameterValueBranchPredicate(parameter.getName(), parameter.getIn(), enumValues);
             branch.addPredicate(predicate);
 
             return branch;

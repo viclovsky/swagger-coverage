@@ -2,6 +2,7 @@ package com.github.viclovsky.swagger.coverage.branch.generator;
 
 import com.github.viclovsky.swagger.coverage.branch.model.Branch;
 import com.github.viclovsky.swagger.coverage.branch.model.BranchOperationCoverage;
+import com.github.viclovsky.swagger.coverage.branch.model.OperationKey;
 import com.github.viclovsky.swagger.coverage.branch.model.OperationsHolder;
 import com.github.viclovsky.swagger.coverage.branch.rule.core.BranchRule;
 import io.swagger.models.Operation;
@@ -9,16 +10,19 @@ import io.swagger.models.Swagger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 class OperationBranchGenerator {
 
     private static final Logger log = LoggerFactory.getLogger(OperationBranchGenerator.class);
 
-    static Map<String, BranchOperationCoverage> getOperationMap(Swagger swagger, List<BranchRule> rules) {
+    static Map<OperationKey, BranchOperationCoverage> getOperationMap(Swagger swagger, List<BranchRule> rules) {
         OperationsHolder operations = SwaggerSpecificationProcessor.extractOperation(swagger);
-        Map<String, BranchOperationCoverage> coverage = new TreeMap<>();
+        Map<OperationKey, BranchOperationCoverage> coverage = new TreeMap<>();
 
         operations.getOperations().forEach((key, value) -> {
             BranchOperationCoverage oc = buildBranchOperationCoverage(value, rules);

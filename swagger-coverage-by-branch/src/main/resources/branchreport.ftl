@@ -13,8 +13,11 @@
                          data-target="#${prefix}-${key?index}"
                          aria-expanded="true"
                          aria-controls="collapseOne">
-                        <div class="col-6">
-                            ${key}
+                        <div class="col-1">
+                            <button type="button" class="btn btn-sm">${key.httpMethod}</button>
+                        </div>
+                        <div class="col-5">
+                            ${key.path}
                         </div>
                         <div class="col-3">
                             parameters:
@@ -61,8 +64,11 @@
                          data-target="#${prefix}-${key?index}"
                          aria-expanded="true"
                          aria-controls="collapseOne">
-                        <div class="col-5">
-                            ${key}
+                        <div class="col-1">
+                            <button type="button" class="btn btn-sm">${key.httpMethod}</button>
+                        </div>
+                        <div class="col-4">
+                            ${key.path}
                         </div>
                         <div class="col-2">
                             ${value.coveredBranchCount}/${value.allBranchCount}
@@ -115,7 +121,7 @@
         <section id="summary">
             <div class="row">
                 <div class="col-12">
-                    <h1 class="title">Swagger Coverage</h1>
+                    <h1 class="title">${data.info.getTitle()} ${data.info.getVersion()} Coverage</h1>
                 </div>
             </div>
             <div class="row">

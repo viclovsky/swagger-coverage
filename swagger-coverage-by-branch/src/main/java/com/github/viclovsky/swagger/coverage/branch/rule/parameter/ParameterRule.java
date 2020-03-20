@@ -9,17 +9,18 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Base rule for parameter
+ */
 public abstract class ParameterRule extends BranchRule {
 
     public abstract Branch processParameter(Parameter parameter);
 
-    public List<Branch> createBranch(Operation operation){
-        return operation
-            .getParameters()
-            .stream()
-            .map(this::processParameter)
-            .filter(Objects::nonNull)
-            .collect(Collectors.toList());
+    public List<Branch> createBranch(Operation operation) {
+        return operation.getParameters()
+                .stream()
+                .map(this::processParameter)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
-
 }

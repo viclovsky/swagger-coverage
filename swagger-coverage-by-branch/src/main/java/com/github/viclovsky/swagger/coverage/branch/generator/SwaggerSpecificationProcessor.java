@@ -1,6 +1,7 @@
 package com.github.viclovsky.swagger.coverage.branch.generator;
 
 import com.github.viclovsky.swagger.coverage.branch.model.OperationsHolder;
+import com.github.viclovsky.swagger.coverage.branch.model.OperationKey;
 import io.swagger.models.Swagger;
 import io.swagger.models.parameters.Parameter;
 import io.swagger.models.parameters.SerializableParameter;
@@ -18,7 +19,7 @@ public class SwaggerSpecificationProcessor {
 
         swagger.getPaths().keySet().forEach(path
                 -> swagger.getPaths().get(path).getOperationMap().forEach((httpMethod, operation)
-                        -> operations.addOperation(String.format("%s %s", path, httpMethod), operation)
+                        -> operations.addOperation(new OperationKey().setPath(path).setHttpMethod(httpMethod), operation)
         ));
         return operations;
     }

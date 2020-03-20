@@ -6,8 +6,8 @@ import java.util.List;
 
 public class BranchOperationCoverage {
 
-    protected Operation operation;
-    protected List<Branch> branches;
+    private Operation operation;
+    private List<Branch> branches;
 
     public Operation getOperation() {
         return operation;

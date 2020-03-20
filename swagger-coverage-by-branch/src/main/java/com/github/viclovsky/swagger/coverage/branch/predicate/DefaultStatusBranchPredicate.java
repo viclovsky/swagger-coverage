@@ -6,11 +6,11 @@ import io.swagger.models.parameters.Parameter;
 import java.util.List;
 import java.util.Map;
 
-public class StatusBranchPredicate extends BranchPredicate {
+public class DefaultStatusBranchPredicate extends BranchPredicate {
 
     private String statusCode;
 
-    public StatusBranchPredicate(String statusCode) {
+    public DefaultStatusBranchPredicate(String statusCode) {
         this.statusCode = statusCode;
     }
 
