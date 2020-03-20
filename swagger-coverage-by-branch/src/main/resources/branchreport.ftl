@@ -13,8 +13,11 @@
                          data-target="#${prefix}-${key?index}"
                          aria-expanded="true"
                          aria-controls="collapseOne">
-                        <div class="col-6">
-                            ${key}
+                        <div class="col-1">
+                            <button type="button" class="btn btn-sm">${key.httpMethod}</button>
+                        </div>
+                        <div class="col-5">
+                            ${key.path}
                         </div>
                         <div class="col-3">
                             parameters:
@@ -61,8 +64,11 @@
                          data-target="#${prefix}-${key?index}"
                          aria-expanded="true"
                          aria-controls="collapseOne">
-                        <div class="col-5">
-                            ${key}
+                        <div class="col-1">
+                            <button type="button" class="btn btn-sm">${key.httpMethod}</button>
+                        </div>
+                        <div class="col-4">
+                            ${key.path}
                         </div>
                         <div class="col-2">
                             ${value.coveredBranchCount}/${value.allBranchCount}

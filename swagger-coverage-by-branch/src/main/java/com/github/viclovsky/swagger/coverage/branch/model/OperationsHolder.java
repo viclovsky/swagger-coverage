@@ -7,19 +7,19 @@ import java.util.TreeMap;
 
 public class OperationsHolder {
 
-    private Map<String, Operation> operations = new TreeMap<>();
+    private Map<OperationKey, Operation> operations = new TreeMap<>();
 
-    public Map<String, Operation> getOperations() {
+    public Map<OperationKey, Operation> getOperations() {
         return operations;
     }
 
-    public OperationsHolder setOperations(Map<String, Operation> operations) {
+    public OperationsHolder setOperations(Map<OperationKey, Operation> operations) {
         this.operations = operations;
         return this;
     }
 
-    public OperationsHolder addOperation(String key, Operation operation) {
-        this.operations.put(key, operation);
+    public OperationsHolder addOperation(OperationKey operationKey, Operation operation) {
+        this.operations.put(operationKey, operation);
         return this;
     }
 }

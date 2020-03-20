@@ -2,6 +2,7 @@ package com.github.viclovsky.swagger.coverage.branch.results;
 
 import com.github.viclovsky.swagger.coverage.branch.model.Branch;
 import com.github.viclovsky.swagger.coverage.branch.model.BranchOperationCoverage;
+import com.github.viclovsky.swagger.coverage.branch.model.OperationKey;
 import io.swagger.models.Info;
 import io.swagger.models.Operation;
 
@@ -10,11 +11,11 @@ import java.util.TreeMap;
 
 public class Results {
 
-    private Map<String, OperationResult> operations = new TreeMap<>();
-    private Map<String, OperationResult> full = new TreeMap<>();
-    private Map<String, OperationResult> party = new TreeMap<>();
-    private Map<String, OperationResult> empty = new TreeMap<>();
-    private Map<String, Operation> missed  = new TreeMap<>();
+    private Map<OperationKey, OperationResult> operations = new TreeMap<>();
+    private Map<OperationKey, OperationResult> full = new TreeMap<>();
+    private Map<OperationKey, OperationResult> party = new TreeMap<>();
+    private Map<OperationKey, OperationResult> empty = new TreeMap<>();
+    private Map<OperationKey, Operation> missed  = new TreeMap<>();
     private long allBranchCount;
     private long coveredBranchCount;
     private long allOperationCount;
@@ -25,7 +26,7 @@ public class Results {
     private GenerationStatistics generationStatistics;
     private Info info;
 
-    public Results(Map<String, BranchOperationCoverage> mainCoverageData){
+    public Results(Map<OperationKey, BranchOperationCoverage> mainCoverageData){
         mainCoverageData.forEach((key, value) -> {
             value.getBranches().forEach(Branch::postCheck);
             operations.put(key, new OperationResult(value.getBranches()));
@@ -53,11 +54,11 @@ public class Results {
 
     }
 
-    public Map<String, OperationResult> getOperations() {
+    public Map<OperationKey, OperationResult> getOperations() {
         return operations;
     }
 
-    public Results setOperations(Map<String, OperationResult> operations) {
+    public Results setOperations(Map<OperationKey, OperationResult> operations) {
         this.operations = operations;
         return this;
     }
@@ -116,38 +117,38 @@ public class Results {
         return this;
     }
 
-    public Map<String, Operation> getMissed() {
+    public Map<OperationKey, Operation> getMissed() {
         return missed;
     }
 
-    public Results setMissed(Map<String, Operation> missed) {
+    public Results setMissed(Map<OperationKey, Operation> missed) {
         this.missed = missed;
         return this;
     }
 
-    public Map<String, OperationResult> getFull() {
+    public Map<OperationKey, OperationResult> getFull() {
         return full;
     }
 
-    public Results setFull(Map<String, OperationResult> full) {
+    public Results setFull(Map<OperationKey, OperationResult> full) {
         this.full = full;
         return this;
     }
 
-    public Map<String, OperationResult> getParty() {
+    public Map<OperationKey, OperationResult> getParty() {
         return party;
     }
 
-    public Results setParty(Map<String, OperationResult> party) {
+    public Results setParty(Map<OperationKey, OperationResult> party) {
         this.party = party;
         return this;
     }
 
-    public Map<String, OperationResult> getEmpty() {
+    public Map<OperationKey, OperationResult> getEmpty() {
         return empty;
     }
 
-    public Results setEmpty(Map<String, OperationResult> empty) {
+    public Results setEmpty(Map<OperationKey, OperationResult> empty) {
         this.empty = empty;
         return this;
     }

@@ -41,12 +41,12 @@
 
 <#macro details coverage prefix>
     <div class="accordion" id="${prefix}-accordion">
-        <#list coverage as key, value>
+        <#list coverage as operationKey, value>
             <div class="card">
                 <div class="card-header">
                     <div class="row"
                          data-toggle="collapse"
-                         data-target="#${prefix}-${key?index}"
+                         data-target="#${prefix}-${operationKey?index}"
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-1">
@@ -85,7 +85,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="${prefix}-${key?index}" class="collapse" aria-labelledby="headingOne">
+                <div id="${prefix}-${operationKey?index}" class="collapse" aria-labelledby="headingOne">
                     <div class="card-body">
                         <#if value.coveredParams?size gt 0 || value.params?size gt 0 || value.ignoredParams?size gt 0>
                             <div class="row">

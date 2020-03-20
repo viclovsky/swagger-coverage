@@ -4,6 +4,7 @@ import com.github.viclovsky.swagger.coverage.CoverageOutputReader;
 import com.github.viclovsky.swagger.coverage.CoverageResultsWriter;
 import com.github.viclovsky.swagger.coverage.FileSystemOutputReader;
 import com.github.viclovsky.swagger.coverage.branch.model.BranchOperationCoverage;
+import com.github.viclovsky.swagger.coverage.branch.model.OperationKey;
 import com.github.viclovsky.swagger.coverage.branch.model.OperationsHolder;
 import com.github.viclovsky.swagger.coverage.branch.predicate.BranchPredicate;
 import com.github.viclovsky.swagger.coverage.branch.results.GenerationStatistics;
@@ -37,8 +38,8 @@ public class Generator {
     private Path specPath;
     private Path inputPath;
 
-    private Map<String, BranchOperationCoverage> mainCoverageData;
-    private Map<String, Operation> missed = new TreeMap<>();
+    private Map<OperationKey, BranchOperationCoverage> mainCoverageData;
+    private Map<OperationKey, Operation> missed = new TreeMap<>();
     private long fileCounter = 0;
 
     public void run() {
