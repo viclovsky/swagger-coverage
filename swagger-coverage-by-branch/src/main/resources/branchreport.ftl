@@ -19,34 +19,6 @@
                         <div class="col-5">
                             ${key.path}
                         </div>
-                        <div class="col-3">
-                            parameters:
-                        </div>
-                        <div class="col-3">
-                            statuses:
-
-                        </div>
-                    </div>
-                </div>
-                <div id="${prefix}-${key?index}" class="collapse" aria-labelledby="headingOne">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-2">
-                                Parameters:
-                            </div>
-                            <div class="col-10">
-
-                            </div>
-                        </div>
-                        <br/>
-                        <div class="row">
-                            <div class="col-2">
-                                Statuses:
-                            </div>
-                            <div class="col-10">
-
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
