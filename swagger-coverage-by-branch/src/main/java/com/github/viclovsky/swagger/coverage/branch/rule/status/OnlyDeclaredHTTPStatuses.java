@@ -6,11 +6,12 @@ import com.github.viclovsky.swagger.coverage.branch.predicate.FullStatusBranchPr
 import com.github.viclovsky.swagger.coverage.branch.rule.core.BranchRule;
 import io.swagger.models.Operation;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
+import static java.util.Arrays.asList;
+
 public class OnlyDeclaredHTTPStatuses extends BranchRule {
+
     @Override
     public List<Branch> createBranch(Operation operation) {
         Branch branch = new Branch(
@@ -21,6 +22,6 @@ public class OnlyDeclaredHTTPStatuses extends BranchRule {
         BranchPredicate predicate = new FullStatusBranchPredicate(operation.getResponses().keySet());
         branch.addPredicate(predicate);
 
-        return Collections.singletonList(branch);
+        return asList(branch);
     }
 }
