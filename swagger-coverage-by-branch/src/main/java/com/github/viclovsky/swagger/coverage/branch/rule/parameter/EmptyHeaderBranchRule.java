@@ -6,20 +6,23 @@ import com.github.viclovsky.swagger.coverage.branch.predicate.DefaultBranchPredi
 import io.swagger.models.parameters.HeaderParameter;
 import io.swagger.models.parameters.Parameter;
 
+import java.util.List;
+
+import static java.util.Arrays.asList;
+
 public class EmptyHeaderBranchRule extends ParameterRule {
 
     @Override
-    public Branch processParameter(Parameter parameter) {
+    public List<Branch> processParameter(Parameter parameter) {
         if (parameter instanceof HeaderParameter) {
-            Branch branch = new Branch(
-                    "Empty header " + parameter.getName(),
+            Branch branch = new Branch(String.format("Empty header «%s»", parameter.getName()),
                     ""
             );
 
             BranchPredicate predicate = new DefaultBranchPredicate(true, parameter.getName(), parameter.getIn());
             branch.addPredicate(predicate);
 
-            return branch;
+            return asList(branch);
         }
 
         return null;

@@ -6,25 +6,29 @@ import com.github.viclovsky.swagger.coverage.branch.predicate.BranchPredicate;
 import com.github.viclovsky.swagger.coverage.branch.predicate.DefaultParameterValueBranchPredicate;
 import io.swagger.models.parameters.Parameter;
 
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class DefaultEnumValuesBranchRule extends ParameterRule {
 
     @Override
-    public Branch processParameter(Parameter parameter) {
+    public List<Branch> processParameter(Parameter parameter) {
         List<String> enumValues = SwaggerSpecificationProcessor.extractEnum(parameter);
+        List<Branch> branches = new ArrayList<>();
 
         if (enumValues != null && !enumValues.isEmpty()) {
-            Branch branch = new Branch(
-                    String.format("%s «%s» contains all values from enum %s", parameter.getIn(), parameter.getName(), enumValues),
-                    ""
-            );
 
-            BranchPredicate predicate = new DefaultParameterValueBranchPredicate(parameter.getName(), parameter.getIn(), enumValues);
-            branch.addPredicate(predicate);
+            enumValues.forEach(e -> {
+                Branch branch = new Branch(
+                        String.format("%s «%s» contains value from enum «%s»", parameter.getIn(), parameter.getName(), e),
+                        ""
+                );
 
-            return branch;
+                BranchPredicate predicate = new DefaultParameterValueBranchPredicate(parameter.getName(), parameter.getIn(), e);
+                branch.addPredicate(predicate);
+                branches.add(branch);
+            });
+            return branches;
         }
 
         return null;

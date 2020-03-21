@@ -14,13 +14,14 @@ import java.util.stream.Collectors;
  */
 public abstract class ParameterRule extends BranchRule {
 
-    public abstract Branch processParameter(Parameter parameter);
+    public abstract List<Branch> processParameter(Parameter parameter);
 
     public List<Branch> createBranch(Operation operation) {
         return operation.getParameters()
                 .stream()
                 .map(this::processParameter)
                 .filter(Objects::nonNull)
+                .flatMap(List::stream)
                 .collect(Collectors.toList());
     }
 }

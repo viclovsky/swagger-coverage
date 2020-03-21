@@ -15,15 +15,13 @@ public class DefaultParameterValueBranchPredicate extends BranchPredicate {
     private String in;
 
     private String reason;
-    private List<String> expectedValue = new ArrayList<>();
+    private String expectedValue;
     private List<String> currentValue = new ArrayList<>();
 
-    public DefaultParameterValueBranchPredicate(String name, String in, List<String> value) {
+    public DefaultParameterValueBranchPredicate(String name, String in, String value) {
         this.name = name;
         this.in = in;
-        this.expectedValue.addAll(value);
-
-        reason = "Missed values: " + String.join(",", expectedValue);
+        this.expectedValue = value;
     }
 
     @Override
@@ -35,24 +33,17 @@ public class DefaultParameterValueBranchPredicate extends BranchPredicate {
             currentValue.add(val);
         }
 
-        return true;
+        return currentValue.contains(expectedValue);
     }
 
     @Override
     public boolean postCheck() {
-        boolean covered = currentValue.containsAll(expectedValue);
-
-        if (!covered){
-            expectedValue.removeAll(currentValue);
-            reason = "Missed values: " + String.join(",", expectedValue);
-        }
-
-        return covered;
+        return false;
     }
 
     @Override
     public boolean hasPostCheck() {
-        return true;
+        return false;
     }
 
     @Override
@@ -69,11 +60,11 @@ public class DefaultParameterValueBranchPredicate extends BranchPredicate {
         return this;
     }
 
-    public List<String> getValue() {
+    public String getValue() {
         return expectedValue;
     }
 
-    public DefaultParameterValueBranchPredicate setValue(List<String> value) {
+    public DefaultParameterValueBranchPredicate setValue(String value) {
         this.expectedValue = value;
         return this;
     }

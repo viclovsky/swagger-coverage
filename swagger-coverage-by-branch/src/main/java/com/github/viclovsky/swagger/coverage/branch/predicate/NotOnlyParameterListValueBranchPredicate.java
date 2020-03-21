@@ -21,7 +21,7 @@ public class NotOnlyParameterListValueBranchPredicate extends BranchPredicate {
         this.name = name;
         this.in = in;
         this.expectedValue.addAll(value);
-        reason = "Checked values: ...";
+        reason = "Checked values: -";
     }
 
     @Override
