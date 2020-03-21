@@ -18,7 +18,7 @@ public class Branch {
         this.description = description;
     }
 
-    public void postCheck(){
+    public void postCheck() {
         predicateList.stream().filter(BranchPredicate::hasPostCheck).forEach(branchPredicate -> {
             covered = covered && branchPredicate.postCheck();
             reasons.add(branchPredicate.getReason());

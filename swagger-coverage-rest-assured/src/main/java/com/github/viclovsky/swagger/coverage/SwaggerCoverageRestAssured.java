@@ -43,9 +43,18 @@ public class SwaggerCoverageRestAssured implements OrderedFilter {
     public Response filter(FilterableRequestSpecification requestSpec, FilterableResponseSpecification responseSpec, FilterContext ctx) {
         Operation operation = new Operation();
         requestSpec.getPathParams().forEach((n, v) -> operation.addParameter(new PathParameter().name(n).example(v)));
-        //https://github.com/rest-assured/rest-assured/issues/1232
-        requestSpec.getQueryParams().keySet().forEach(n -> operation.addParameter(new QueryParameter().name(n)));
-        requestSpec.getFormParams().keySet().forEach((n -> operation.addParameter(new FormParameter().name(n))));
+        //Ignore ClassCastException for https://github.com/rest-assured/rest-assured/issues/1232
+        try {
+            requestSpec.getQueryParams().forEach((n, v) -> operation.addParameter(new QueryParameter().name(n).example(v)));
+        } catch (ClassCastException ex) {
+            requestSpec.getQueryParams().keySet().forEach(n -> operation.addParameter(new QueryParameter().name(n)));
+        }
+        try {
+            requestSpec.getFormParams().forEach((n, v) -> operation.addParameter(new FormParameter().name(n).example(v)));
+        } catch (ClassCastException ex) {
+            requestSpec.getFormParams().keySet().forEach((n -> operation.addParameter(new FormParameter().name(n))));
+        }
+        //end
         requestSpec.getHeaders().forEach(header -> operation.addParameter(new HeaderParameter().name(header.getName())
                 .example(header.getValue())));
 

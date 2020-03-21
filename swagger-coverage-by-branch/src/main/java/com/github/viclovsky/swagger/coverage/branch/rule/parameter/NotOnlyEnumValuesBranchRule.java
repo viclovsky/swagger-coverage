@@ -8,10 +8,12 @@ import io.swagger.models.parameters.Parameter;
 
 import java.util.List;
 
+import static java.util.Arrays.asList;
+
 public class NotOnlyEnumValuesBranchRule extends ParameterRule {
 
     @Override
-    public Branch processParameter(Parameter parameter) {
+    public List<Branch> processParameter(Parameter parameter) {
         List<String> enumValues = SwaggerSpecificationProcessor.extractEnum(parameter);
 
         if (enumValues != null && !enumValues.isEmpty()) {
@@ -25,7 +27,7 @@ public class NotOnlyEnumValuesBranchRule extends ParameterRule {
                     parameter.getIn(), enumValues);
             branch.addPredicate(predicate);
 
-            return branch;
+            return asList(branch);
         }
 
         return null;

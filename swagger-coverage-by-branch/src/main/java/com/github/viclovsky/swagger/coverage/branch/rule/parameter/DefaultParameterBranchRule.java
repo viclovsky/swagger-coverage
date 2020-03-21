@@ -6,10 +6,14 @@ import com.github.viclovsky.swagger.coverage.branch.predicate.DefaultBranchPredi
 import io.swagger.models.parameters.BodyParameter;
 import io.swagger.models.parameters.Parameter;
 
+import java.util.List;
+
+import static java.util.Arrays.asList;
+
 public class DefaultParameterBranchRule extends ParameterRule {
 
     @Override
-    public Branch processParameter(Parameter parameter) {
+    public List<Branch> processParameter(Parameter parameter) {
         if (parameter instanceof BodyParameter) {
             return null;
         }
@@ -22,7 +26,7 @@ public class DefaultParameterBranchRule extends ParameterRule {
         BranchPredicate predicate = new DefaultBranchPredicate(false, parameter.getName(), parameter.getIn());
         branch.addPredicate(predicate);
 
-        return branch;
+        return asList(branch);
     }
 
 }

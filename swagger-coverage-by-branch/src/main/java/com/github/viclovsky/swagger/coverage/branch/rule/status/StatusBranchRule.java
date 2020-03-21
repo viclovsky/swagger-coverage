@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  */
 public abstract class StatusBranchRule extends BranchRule {
 
-    public abstract Branch processStatus(String statusCode);
+    public abstract List<Branch> processStatus(String statusCode);
 
     public List<Branch> createBranch(Operation operation){
         return operation.getResponses()
@@ -21,6 +21,7 @@ public abstract class StatusBranchRule extends BranchRule {
                 .stream()
                 .map(this::processStatus)
                 .filter(Objects::nonNull)
+                .flatMap(List::stream)
                 .collect(Collectors.toList());
     }
 }
