@@ -10,7 +10,6 @@ repositories {
 }
 
 dependencies {
-    api(project(":swagger-coverage-model"))
     implementation("org.freemarker:freemarker")
     implementation("io.swagger:swagger-models")
     implementation("org.slf4j:slf4j-simple")

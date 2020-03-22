@@ -1,8 +1,8 @@
 package com.github.viclovsky.swagger.coverage;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.models.Swagger;
 import com.github.viclovsky.swagger.coverage.model.SwaggerCoverage2ModelJackson;
+import io.swagger.models.Swagger;
 
 import java.io.IOException;
 import java.io.OutputStream;
