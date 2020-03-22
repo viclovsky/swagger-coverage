@@ -23,7 +23,7 @@ public class HtmlReportResultsWriter implements CoverageResultsWriter {
         Path path = Paths.get(htmlResults);
         LOGGER.info(String.format("Write html report in file '%s'", path.toAbsolutePath()));
         try {
-            final String htmlReport = FreemarkerUtils.processTemplate("report.ftl", results);
+            final String htmlReport = FreemarkerUtils.processTemplate("branchreport.ftl", results);
             Files.write(Paths.get(htmlResults), htmlReport.getBytes());
         } catch (IOException e) {
             throw new SwaggerCoverageWriteException("Could not write results", e);

@@ -1,23 +1,18 @@
 package com.github.viclovsky.swagger.coverage;
 
-import com.beust.jcommander.*;
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.ParameterException;
+import com.beust.jcommander.Parameters;
+import com.beust.jcommander.ParametersDelegate;
+import com.github.viclovsky.swagger.coverage.core.generator.Generator;
+import com.github.viclovsky.swagger.coverage.option.MainOptions;
+import com.github.viclovsky.swagger.coverage.option.VerboseOptions;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.github.viclovsky.swagger.coverage.config.Configuration;
-import com.github.viclovsky.swagger.coverage.core.SwaggerCoverageExec;
-import com.github.viclovsky.swagger.coverage.core.filter.IgnoreParamsFilter;
-import com.github.viclovsky.swagger.coverage.core.filter.StatusOkFilter;
-import com.github.viclovsky.swagger.coverage.core.filter.SwaggerCoverageFilter;
-import com.github.viclovsky.swagger.coverage.option.MainOptions;
-import com.github.viclovsky.swagger.coverage.option.VerboseOptions;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-
-import static io.swagger.models.ParamType.HEADER;
 
 @Parameters(commandNames = "swagger-coverage", commandDescription = "Swagger-coverage Commandline")
 public class CommandLine {
@@ -60,37 +55,21 @@ public class CommandLine {
     }
 
     private ExitCode run() {
-
         if (verboseOptions.isQuiet()) {
             LogManager.getRootLogger().setLevel(Level.OFF);
         }
-
         if (verboseOptions.isVerbose()) {
             LogManager.getRootLogger().setLevel(Level.DEBUG);
         }
-
         if (mainOptions.isHelp()) {
             printUsage(commander);
             return ExitCode.NO_ERROR;
         }
+        Generator generator = new Generator();
+        generator.setInputPath(mainOptions.getInputPath())
+                .setSpecPath(mainOptions.getSpecPath())
+                .run();
 
-        List<SwaggerCoverageFilter> filters = new ArrayList<>();
-        if (mainOptions.isIgnoreNotOkStatusCodes()) {
-            filters.add(new StatusOkFilter());
-        }
-
-        if (!mainOptions.getIgnoreHeaders().isEmpty()) {
-            filters.add(new IgnoreParamsFilter(mainOptions.getIgnoreHeaders(), HEADER));
-        }
-
-        Configuration configuration = Configuration.conf()
-                .setSwaggerResults(mainOptions.isSwaggerOutput())
-                .setOutputPath(mainOptions.getInputPath())
-                .setSpecPath(mainOptions.getSpecPath());
-
-        SwaggerCoverageExec.swaggerCoverage(configuration)
-                .setFilters(filters)
-                .execute();
         return ExitCode.NO_ERROR;
     }
 
