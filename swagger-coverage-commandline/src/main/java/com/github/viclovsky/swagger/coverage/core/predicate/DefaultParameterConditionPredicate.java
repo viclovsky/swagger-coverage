@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class DefaultConditionPredicate extends ConditionPredicate {
+public class DefaultParameterConditionPredicate extends ConditionPredicate {
 
     private boolean isEmpty;
     private String name;
     private String in;
 
-    public DefaultConditionPredicate(boolean isEmpty, String name, String in) {
+    public DefaultParameterConditionPredicate(boolean isEmpty, String name, String in) {
         this.isEmpty = isEmpty;
         this.name = name;
         this.in = in;

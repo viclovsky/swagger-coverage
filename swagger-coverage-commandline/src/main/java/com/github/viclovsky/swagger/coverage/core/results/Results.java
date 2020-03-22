@@ -26,7 +26,7 @@ public class Results {
     private GenerationStatistics generationStatistics;
     private Info info;
 
-    public Results(Map<OperationKey, ConditionOperationCoverage> mainCoverageData){
+    public Results(Map<OperationKey, ConditionOperationCoverage> mainCoverageData) {
         mainCoverageData.forEach((key, value) -> {
             value.getConditions().forEach(Condition::postCheck);
             operations.put(key, new OperationResult(value.getConditions()));

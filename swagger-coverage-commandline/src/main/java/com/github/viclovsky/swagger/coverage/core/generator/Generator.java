@@ -11,6 +11,7 @@ import com.github.viclovsky.swagger.coverage.core.predicate.ConditionPredicate;
 import com.github.viclovsky.swagger.coverage.core.results.GenerationStatistics;
 import com.github.viclovsky.swagger.coverage.core.results.Results;
 import com.github.viclovsky.swagger.coverage.core.rule.ConditionRule;
+import com.github.viclovsky.swagger.coverage.core.rule.DefaultOperationConditionRule;
 import com.github.viclovsky.swagger.coverage.core.rule.parameter.DefaultBodyConditionRule;
 import com.github.viclovsky.swagger.coverage.core.rule.parameter.DefaultEnumValuesConditionRule;
 import com.github.viclovsky.swagger.coverage.core.rule.parameter.DefaultParameterConditionRule;
@@ -48,6 +49,7 @@ public class Generator {
 
         List<ConditionRule> rules = new ArrayList<>();
         //by default
+        rules.add(new DefaultOperationConditionRule());
         rules.add(new DefaultParameterConditionRule());
         rules.add(new DefaultBodyConditionRule());
         rules.add(new DefaultHTTPStatusConditionRule());

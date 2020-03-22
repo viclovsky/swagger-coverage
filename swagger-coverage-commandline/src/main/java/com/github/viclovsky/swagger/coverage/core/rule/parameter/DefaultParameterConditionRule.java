@@ -2,7 +2,7 @@ package com.github.viclovsky.swagger.coverage.core.rule.parameter;
 
 import com.github.viclovsky.swagger.coverage.core.model.Condition;
 import com.github.viclovsky.swagger.coverage.core.predicate.ConditionPredicate;
-import com.github.viclovsky.swagger.coverage.core.predicate.DefaultConditionPredicate;
+import com.github.viclovsky.swagger.coverage.core.predicate.DefaultParameterConditionPredicate;
 import io.swagger.models.parameters.BodyParameter;
 import io.swagger.models.parameters.Parameter;
 
@@ -23,7 +23,7 @@ public class DefaultParameterConditionRule extends ParameterRule {
                 ""
         );
 
-        ConditionPredicate predicate = new DefaultConditionPredicate(false, parameter.getName(), parameter.getIn());
+        ConditionPredicate predicate = new DefaultParameterConditionPredicate(false, parameter.getName(), parameter.getIn());
         condition.addPredicate(predicate);
 
         return asList(condition);
