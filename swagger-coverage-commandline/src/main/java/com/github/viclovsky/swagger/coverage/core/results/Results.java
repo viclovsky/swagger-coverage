@@ -13,14 +13,14 @@ public class Results {
 
     private Map<OperationKey, OperationResult> operations = new TreeMap<>();
     private Map<OperationKey, OperationResult> full = new TreeMap<>();
-    private Map<OperationKey, OperationResult> party = new TreeMap<>();
+    private Map<OperationKey, OperationResult> partial = new TreeMap<>();
     private Map<OperationKey, OperationResult> empty = new TreeMap<>();
     private Map<OperationKey, Operation> missed  = new TreeMap<>();
     private long allConditionCount;
     private long coveredConditionCount;
     private long allOperationCount;
     private long fullOperationCount;
-    private long partOperationCount;
+    private long partialOperationCount;
     private long emptyOperationCount;
 
     private GenerationStatistics generationStatistics;
@@ -46,8 +46,8 @@ public class Results {
                     fullOperationCount++;
                     full.put(key, value);
                 } else {
-                    partOperationCount++;
-                    party.put(key, value);
+                    partialOperationCount++;
+                    partial.put(key, value);
                 }
             }
         });
@@ -99,12 +99,12 @@ public class Results {
         return this;
     }
 
-    public long getPartOperationCount() {
-        return partOperationCount;
+    public long getPartialOperationCount() {
+        return partialOperationCount;
     }
 
-    public Results setPartOperationCount(long partOperationCount) {
-        this.partOperationCount = partOperationCount;
+    public Results setPartialOperationCount(long partialOperationCount) {
+        this.partialOperationCount = partialOperationCount;
         return this;
     }
 
@@ -135,12 +135,12 @@ public class Results {
         return this;
     }
 
-    public Map<OperationKey, OperationResult> getParty() {
-        return party;
+    public Map<OperationKey, OperationResult> getPartial() {
+        return partial;
     }
 
-    public Results setParty(Map<OperationKey, OperationResult> party) {
-        this.party = party;
+    public Results setPartial(Map<OperationKey, OperationResult> partial) {
+        this.partial = partial;
         return this;
     }
 

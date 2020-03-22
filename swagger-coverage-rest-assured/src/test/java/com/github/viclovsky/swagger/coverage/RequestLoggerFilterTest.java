@@ -43,7 +43,7 @@ public class RequestLoggerFilterTest {
 
 
     @Test
-    public void shouldCatchExceptionRAIssue1232() {
+    public void shouldCatchExceptionRestAssuredIssue1232() {
         RestAssured.given().filter(new SwaggerCoverageRestAssured())
                 .multiPart("file", "{}")
                 .header(new Header("X-Request-ID", "h"))

@@ -109,7 +109,7 @@
                 </div>
                 <div class="col-sm">
                     <div class="alert alert-warning" role="alert">
-                        Partial: ${data.partOperationCount * 100 / data.allOperationCount}%
+                        Partial: ${data.partialOperationCount * 100 / data.allOperationCount}%
                     </div>
                 </div>
                 <div class="col-sm">
@@ -166,9 +166,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="party-tab" data-toggle="tab" href="#party" role="tab"
-                               aria-controls="party" aria-selected="true">
-                                Partial: ${data.party?size}
+                            <a class="nav-link" id="partial-tab" data-toggle="tab" href="#partial" role="tab"
+                               aria-controls="partial" aria-selected="true">
+                                Partial: ${data.partial?size}
                             </a>
                         </li>
                         <li class="nav-item">
@@ -202,8 +202,8 @@
                         <div class="tab-pane fade" id="full" role="tabpanel" aria-labelledby="full-tab">
                             <@conditiondetails coverage=data.full  prefix="full"/>
                         </div>
-                        <div class="tab-pane fade" id="party" role="tabpanel" aria-labelledby="party-tab">
-                            <@conditiondetails coverage=data.party  prefix="party"/>
+                        <div class="tab-pane fade" id="partial" role="tabpanel" aria-labelledby="partial-tab">
+                            <@conditiondetails coverage=data.partial  prefix="partial"/>
                         </div>
                         <div class="tab-pane fade" id="empty" role="tabpanel" aria-labelledby="empty-tab">
                             <@conditiondetails coverage=data.empty  prefix="empty"/>
