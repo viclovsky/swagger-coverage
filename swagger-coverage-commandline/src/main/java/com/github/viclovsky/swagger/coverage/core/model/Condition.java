@@ -1,27 +1,27 @@
 package com.github.viclovsky.swagger.coverage.core.model;
 
-import com.github.viclovsky.swagger.coverage.core.predicate.BranchPredicate;
+import com.github.viclovsky.swagger.coverage.core.predicate.ConditionPredicate;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Branch {
+public class Condition {
 
     private String name;
     private String description;
     private List<String> reasons = new ArrayList<>();
     private boolean covered;
-    private List<BranchPredicate> predicateList;
+    private List<ConditionPredicate> predicateList;
 
-    public Branch(String name, String description) {
+    public Condition(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
     public void postCheck() {
-        predicateList.stream().filter(BranchPredicate::hasPostCheck).forEach(branchPredicate -> {
-            covered = covered && branchPredicate.postCheck();
-            reasons.add(branchPredicate.getReason());
+        predicateList.stream().filter(ConditionPredicate::hasPostCheck).forEach(conditionPredicate -> {
+            covered = covered && conditionPredicate.postCheck();
+            reasons.add(conditionPredicate.getReason());
         });
     }
 
@@ -49,15 +49,15 @@ public class Branch {
         this.covered = covered;
     }
 
-    public List<BranchPredicate> getPredicateList() {
+    public List<ConditionPredicate> getPredicateList() {
         return predicateList;
     }
 
-    public void setPredicateList(List<BranchPredicate> predicateList) {
+    public void setPredicateList(List<ConditionPredicate> predicateList) {
         this.predicateList = predicateList;
     }
 
-    public void addPredicate(BranchPredicate predicate){
+    public void addPredicate(ConditionPredicate predicate){
         if(predicateList == null) {
             predicateList = new ArrayList<>();
         }
@@ -69,14 +69,14 @@ public class Branch {
         return reasons;
     }
 
-    public Branch setReasons(List<String> reasons) {
+    public Condition setReasons(List<String> reasons) {
         this.reasons = reasons;
         return this;
     }
 
     @Override
     public String toString() {
-        return "Branch{" +
+        return "Condition{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", covered=" + covered +

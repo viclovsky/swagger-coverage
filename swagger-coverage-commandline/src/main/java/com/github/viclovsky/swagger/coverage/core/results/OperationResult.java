@@ -1,45 +1,45 @@
 package com.github.viclovsky.swagger.coverage.core.results;
 
-import com.github.viclovsky.swagger.coverage.core.model.Branch;
+import com.github.viclovsky.swagger.coverage.core.model.Condition;
 
 import java.util.List;
 
 public class OperationResult {
 
-    private List<Branch> branches;
-    private long allBranchCount;
-    private long coveredBranchCount;
+    private List<Condition> conditions;
+    private long allConditionCount;
+    private long coveredConditionCount;
 
-    public OperationResult(List<Branch> branches) {
-        this.branches = branches;
-        allBranchCount = branches.size();
-        coveredBranchCount = branches.stream().filter(Branch::isCovered).count();
+    public OperationResult(List<Condition> conditions) {
+        this.conditions = conditions;
+        allConditionCount = conditions.size();
+        coveredConditionCount = conditions.stream().filter(Condition::isCovered).count();
     }
 
-    public List<Branch> getBranches() {
-        return branches;
+    public List<Condition> getConditions() {
+        return conditions;
     }
 
-    public OperationResult setBranches(List<Branch> branches) {
-        this.branches = branches;
+    public OperationResult setConditions(List<Condition> conditions) {
+        this.conditions = conditions;
         return this;
     }
 
-    public long getAllBranchCount() {
-        return allBranchCount;
+    public long getAllConditionCount() {
+        return allConditionCount;
     }
 
-    public OperationResult setAllBranchCount(long allBranchCount) {
-        this.allBranchCount = allBranchCount;
+    public OperationResult setAllConditionCount(long allConditionCount) {
+        this.allConditionCount = allConditionCount;
         return this;
     }
 
-    public long getCoveredBranchCount() {
-        return coveredBranchCount;
+    public long getCoveredConditionCount() {
+        return coveredConditionCount;
     }
 
-    public OperationResult setCoveredBranchCount(long coveredBranchCount) {
-        this.coveredBranchCount = coveredBranchCount;
+    public OperationResult setCoveredConditionCount(long coveredConditionCount) {
+        this.coveredConditionCount = coveredConditionCount;
         return this;
     }
 }

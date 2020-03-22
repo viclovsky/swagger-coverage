@@ -4,6 +4,7 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
 import com.beust.jcommander.Parameters;
 import com.beust.jcommander.ParametersDelegate;
+import com.github.viclovsky.swagger.coverage.config.Configuration;
 import com.github.viclovsky.swagger.coverage.core.generator.Generator;
 import com.github.viclovsky.swagger.coverage.option.MainOptions;
 import com.github.viclovsky.swagger.coverage.option.VerboseOptions;
@@ -58,9 +59,11 @@ public class CommandLine {
         if (verboseOptions.isQuiet()) {
             LogManager.getRootLogger().setLevel(Level.OFF);
         }
+
         if (verboseOptions.isVerbose()) {
             LogManager.getRootLogger().setLevel(Level.DEBUG);
         }
+
         if (mainOptions.isHelp()) {
             printUsage(commander);
             return ExitCode.NO_ERROR;

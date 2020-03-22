@@ -1,7 +1,7 @@
 package com.github.viclovsky.swagger.coverage.core.results;
 
-import com.github.viclovsky.swagger.coverage.core.model.Branch;
-import com.github.viclovsky.swagger.coverage.core.model.BranchOperationCoverage;
+import com.github.viclovsky.swagger.coverage.core.model.Condition;
+import com.github.viclovsky.swagger.coverage.core.model.ConditionOperationCoverage;
 import com.github.viclovsky.swagger.coverage.core.model.OperationKey;
 import io.swagger.models.Info;
 import io.swagger.models.Operation;
@@ -16,8 +16,8 @@ public class Results {
     private Map<OperationKey, OperationResult> party = new TreeMap<>();
     private Map<OperationKey, OperationResult> empty = new TreeMap<>();
     private Map<OperationKey, Operation> missed  = new TreeMap<>();
-    private long allBranchCount;
-    private long coveredBranchCount;
+    private long allConditionCount;
+    private long coveredConditionCount;
     private long allOperationCount;
     private long fullOperationCount;
     private long partOperationCount;
@@ -26,23 +26,23 @@ public class Results {
     private GenerationStatistics generationStatistics;
     private Info info;
 
-    public Results(Map<OperationKey, BranchOperationCoverage> mainCoverageData){
+    public Results(Map<OperationKey, ConditionOperationCoverage> mainCoverageData){
         mainCoverageData.forEach((key, value) -> {
-            value.getBranches().forEach(Branch::postCheck);
-            operations.put(key, new OperationResult(value.getBranches()));
+            value.getConditions().forEach(Condition::postCheck);
+            operations.put(key, new OperationResult(value.getConditions()));
         });
 
         allOperationCount = operations.size();
 
         operations.forEach((key, value) -> {
-            allBranchCount = allBranchCount + value.getAllBranchCount();
-            coveredBranchCount = coveredBranchCount + value.getCoveredBranchCount();
+            allConditionCount = allConditionCount + value.getAllConditionCount();
+            coveredConditionCount = coveredConditionCount + value.getCoveredConditionCount();
 
-            if (value.getCoveredBranchCount() == 0) {
+            if (value.getCoveredConditionCount() == 0) {
                 emptyOperationCount++;
                 empty.put(key, value);
             } else {
-                if (value.getAllBranchCount() == value.getCoveredBranchCount()) {
+                if (value.getAllConditionCount() == value.getCoveredConditionCount()) {
                     fullOperationCount++;
                     full.put(key, value);
                 } else {
@@ -63,21 +63,21 @@ public class Results {
         return this;
     }
 
-    public long getAllBranchCount() {
-        return allBranchCount;
+    public long getAllConditionCount() {
+        return allConditionCount;
     }
 
-    public Results setAllBranchCount(long allBranchCount) {
-        this.allBranchCount = allBranchCount;
+    public Results setAllConditionCount(long allConditionCount) {
+        this.allConditionCount = allConditionCount;
         return this;
     }
 
-    public long getCoveredBranchCount() {
-        return coveredBranchCount;
+    public long getCoveredConditionCount() {
+        return coveredConditionCount;
     }
 
-    public Results setCoveredBranchCount(long coveredBranchCount) {
-        this.coveredBranchCount = coveredBranchCount;
+    public Results setCoveredConditionCount(long coveredConditionCount) {
+        this.coveredConditionCount = coveredConditionCount;
         return this;
     }
 

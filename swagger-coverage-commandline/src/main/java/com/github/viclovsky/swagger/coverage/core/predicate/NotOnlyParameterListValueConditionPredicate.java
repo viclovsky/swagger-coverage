@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class NotOnlyParameterListValueBranchPredicate extends BranchPredicate {
+public class NotOnlyParameterListValueConditionPredicate extends ConditionPredicate {
     private String name;
     private String in;
 
@@ -17,7 +17,7 @@ public class NotOnlyParameterListValueBranchPredicate extends BranchPredicate {
     private List<String> expectedValue = new ArrayList<>();
     private List<String> currentValue = new ArrayList<>();
 
-    public NotOnlyParameterListValueBranchPredicate(String name, String in, List<String> value) {
+    public NotOnlyParameterListValueConditionPredicate(String name, String in, List<String> value) {
         this.name = name;
         this.in = in;
         this.expectedValue.addAll(value);
@@ -56,7 +56,7 @@ public class NotOnlyParameterListValueBranchPredicate extends BranchPredicate {
         return name;
     }
 
-    public NotOnlyParameterListValueBranchPredicate setName(String name) {
+    public NotOnlyParameterListValueConditionPredicate setName(String name) {
         this.name = name;
         return this;
     }
@@ -65,7 +65,7 @@ public class NotOnlyParameterListValueBranchPredicate extends BranchPredicate {
         return expectedValue;
     }
 
-    public NotOnlyParameterListValueBranchPredicate setValue(List<String> value) {
+    public NotOnlyParameterListValueConditionPredicate setValue(List<String> value) {
         this.expectedValue = value;
         return this;
     }

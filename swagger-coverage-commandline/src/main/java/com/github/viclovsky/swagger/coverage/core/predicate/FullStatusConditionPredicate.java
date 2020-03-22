@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class FullStatusBranchPredicate extends BranchPredicate {
+public class FullStatusConditionPredicate extends ConditionPredicate {
 
     private Set<String> expectedStatuses;
     private Set<String> currentStatuses = new HashSet<>();
     private String reason;
 
-    public FullStatusBranchPredicate(Set<String> expectedStatuses) {
+    public FullStatusConditionPredicate(Set<String> expectedStatuses) {
         this.expectedStatuses = expectedStatuses;
     }
 
@@ -50,7 +50,7 @@ public class FullStatusBranchPredicate extends BranchPredicate {
         return expectedStatuses;
     }
 
-    public FullStatusBranchPredicate setExpectedStatuses(Set<String> expectedStatuses) {
+    public FullStatusConditionPredicate setExpectedStatuses(Set<String> expectedStatuses) {
         this.expectedStatuses = expectedStatuses;
         return this;
     }
@@ -59,7 +59,7 @@ public class FullStatusBranchPredicate extends BranchPredicate {
         return currentStatuses;
     }
 
-    public FullStatusBranchPredicate setCurrentStatuses(Set<String> currentStatuses) {
+    public FullStatusConditionPredicate setCurrentStatuses(Set<String> currentStatuses) {
         this.currentStatuses = currentStatuses;
         return this;
     }

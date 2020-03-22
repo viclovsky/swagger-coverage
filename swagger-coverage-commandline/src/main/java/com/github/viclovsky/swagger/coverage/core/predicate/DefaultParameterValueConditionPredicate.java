@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class DefaultParameterValueBranchPredicate extends BranchPredicate {
+public class DefaultParameterValueConditionPredicate extends ConditionPredicate {
 
     private String name;
     private String in;
@@ -18,7 +18,7 @@ public class DefaultParameterValueBranchPredicate extends BranchPredicate {
     private String expectedValue;
     private List<String> currentValue = new ArrayList<>();
 
-    public DefaultParameterValueBranchPredicate(String name, String in, String value) {
+    public DefaultParameterValueConditionPredicate(String name, String in, String value) {
         this.name = name;
         this.in = in;
         this.expectedValue = value;
@@ -55,7 +55,7 @@ public class DefaultParameterValueBranchPredicate extends BranchPredicate {
         return name;
     }
 
-    public DefaultParameterValueBranchPredicate setName(String name) {
+    public DefaultParameterValueConditionPredicate setName(String name) {
         this.name = name;
         return this;
     }
@@ -64,7 +64,7 @@ public class DefaultParameterValueBranchPredicate extends BranchPredicate {
         return expectedValue;
     }
 
-    public DefaultParameterValueBranchPredicate setValue(String value) {
+    public DefaultParameterValueConditionPredicate setValue(String value) {
         this.expectedValue = value;
         return this;
     }

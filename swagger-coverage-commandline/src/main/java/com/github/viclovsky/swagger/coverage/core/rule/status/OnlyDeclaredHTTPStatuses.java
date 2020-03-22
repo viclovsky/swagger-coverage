@@ -1,27 +1,27 @@
 package com.github.viclovsky.swagger.coverage.core.rule.status;
 
-import com.github.viclovsky.swagger.coverage.core.model.Branch;
-import com.github.viclovsky.swagger.coverage.core.predicate.BranchPredicate;
-import com.github.viclovsky.swagger.coverage.core.predicate.FullStatusBranchPredicate;
-import com.github.viclovsky.swagger.coverage.core.rule.BranchRule;
+import com.github.viclovsky.swagger.coverage.core.model.Condition;
+import com.github.viclovsky.swagger.coverage.core.predicate.ConditionPredicate;
+import com.github.viclovsky.swagger.coverage.core.predicate.FullStatusConditionPredicate;
+import com.github.viclovsky.swagger.coverage.core.rule.ConditionRule;
 import io.swagger.models.Operation;
 
 import java.util.List;
 
 import static java.util.Arrays.asList;
 
-public class OnlyDeclaredHTTPStatuses extends BranchRule {
+public class OnlyDeclaredHTTPStatuses extends ConditionRule {
 
     @Override
-    public List<Branch> createBranch(Operation operation) {
-        Branch branch = new Branch(
+    public List<Condition> createCondition(Operation operation) {
+        Condition condition = new Condition(
                 "Only declared status",
                 ""
         );
 
-        BranchPredicate predicate = new FullStatusBranchPredicate(operation.getResponses().keySet());
-        branch.addPredicate(predicate);
+        ConditionPredicate predicate = new FullStatusConditionPredicate(operation.getResponses().keySet());
+        condition.addPredicate(predicate);
 
-        return asList(branch);
+        return asList(condition);
     }
 }

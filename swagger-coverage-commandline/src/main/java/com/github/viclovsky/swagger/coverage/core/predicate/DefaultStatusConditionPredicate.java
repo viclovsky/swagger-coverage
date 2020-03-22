@@ -6,11 +6,11 @@ import io.swagger.models.parameters.Parameter;
 import java.util.List;
 import java.util.Map;
 
-public class DefaultStatusBranchPredicate extends BranchPredicate {
+public class DefaultStatusConditionPredicate extends ConditionPredicate {
 
     private String statusCode;
 
-    public DefaultStatusBranchPredicate(String statusCode) {
+    public DefaultStatusConditionPredicate(String statusCode) {
         this.statusCode = statusCode;
     }
 
@@ -44,7 +44,7 @@ public class DefaultStatusBranchPredicate extends BranchPredicate {
 
     @Override
     public String toString() {
-        return "StatusBranchPredicate{" +
+        return "StatusConditionPredicate{" +
                 "statusCode=" + statusCode +
                 '}';
     }

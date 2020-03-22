@@ -26,7 +26,7 @@
     </div>
 </#macro>
 
-<#macro branchdetails coverage prefix>
+<#macro conditiondetails coverage prefix>
     <div class="accordion" id="${prefix}-accordion">
         <#list coverage as key, value>
             <div class="card">
@@ -43,24 +43,24 @@
                             ${key.path}
                         </div>
                         <div class="col-2">
-                            ${value.coveredBranchCount}/${value.allBranchCount}
+                            ${value.coveredConditionCount}/${value.allConditionCount}
                         </div>
                         <div class="col-2">
-                            <#if value.branches?size gt 0 >
-                                (${100*value.coveredBranchCount/(value.allBranchCount)}%)
+                            <#if value.conditions?size gt 0 >
+                                (${100*value.coveredConditionCount/(value.allConditionCount)}%)
                             <#else>
                                 (--)
                             </#if>
                         </div>
                         <div class="col-3">
-                            <#if value.branches?size gt 0 >
-                                <@ui.progress current = value.coveredBranchCount full = value.allBranchCount />
+                            <#if value.conditions?size gt 0 >
+                                <@ui.progress current = value.coveredConditionCount full = value.allConditionCount />
                             </#if>
                         </div>
                     </div>
                 </div>
                 <div id="${prefix}-${key?index}" class="collapse" aria-labelledby="headingOne">
-                    <@operationData.branchList list=value.branches />
+                    <@operationData.conditionList list=value.conditions />
                 </div>
             </div>
         </#list>
@@ -125,21 +125,21 @@
             </div>
             <div class="row">
                 <div class="col-2">
-                    Branches covered:
+                    Conditions covered:
                 </div>
                 <div class="col-2">
-                    ${data.coveredBranchCount} / ${data.allBranchCount}
+                    ${data.coveredConditionCount} / ${data.allConditionCount}
                 </div>
                 <div class="col-2">
-                    <#if data.allBranchCount gt 0 >
-                        (${100*data.coveredBranchCount/(data.allBranchCount)}%)
+                    <#if data.allConditionCount gt 0 >
+                        (${100*data.coveredConditionCount/(data.allConditionCount)}%)
                     <#else>
                         (--)
                     </#if>
                 </div>
                 <div class="col-6">
-                    <#if data.allBranchCount gt 0 >
-                        <@ui.progress current = data.coveredBranchCount full = data.allBranchCount />
+                    <#if data.allConditionCount gt 0 >
+                        <@ui.progress current = data.coveredConditionCount full = data.allConditionCount />
                     </#if>
                 </div>
             </div>
@@ -154,8 +154,8 @@
                 <div class="col-12">
                     <ul class="nav nav-pills nav-fill" id="detail-tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="branch-tab" data-toggle="tab" href="#branch" role="tab"
-                               aria-controls="branch" aria-selected="true">
+                            <a class="nav-link active" id="condition-tab" data-toggle="tab" href="#condition" role="tab"
+                               aria-controls="condition" aria-selected="true">
                                 All: ${data.operations?size}
                             </a>
                         </li>
@@ -196,17 +196,17 @@
             <div class="row">
                 <div class="col-12">
                     <div class="tab-content" id="details-content">
-                        <div class="tab-pane fade show active" id="branch" role="tabpanel" aria-labelledby="branch-tab">
-                            <@branchdetails coverage=data.operations  prefix="branch"/>
+                        <div class="tab-pane fade show active" id="condition" role="tabpanel" aria-labelledby="condition-tab">
+                            <@conditiondetails coverage=data.operations  prefix="condition"/>
                         </div>
                         <div class="tab-pane fade" id="full" role="tabpanel" aria-labelledby="full-tab">
-                            <@branchdetails coverage=data.full  prefix="full"/>
+                            <@conditiondetails coverage=data.full  prefix="full"/>
                         </div>
                         <div class="tab-pane fade" id="party" role="tabpanel" aria-labelledby="party-tab">
-                            <@branchdetails coverage=data.party  prefix="party"/>
+                            <@conditiondetails coverage=data.party  prefix="party"/>
                         </div>
                         <div class="tab-pane fade" id="empty" role="tabpanel" aria-labelledby="empty-tab">
-                            <@branchdetails coverage=data.empty  prefix="empty"/>
+                            <@conditiondetails coverage=data.empty  prefix="empty"/>
                         </div>
                         <div class="tab-pane fade" id="missed" role="tabpanel" aria-labelledby="missed-tab">
                             <@details coverage=data.missed prefix="missed"/>

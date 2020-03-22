@@ -4,17 +4,17 @@ import com.github.viclovsky.swagger.coverage.CoverageOutputReader;
 import com.github.viclovsky.swagger.coverage.CoverageResultsWriter;
 import com.github.viclovsky.swagger.coverage.FileSystemOutputReader;
 import com.github.viclovsky.swagger.coverage.HtmlReportResultsWriter;
-import com.github.viclovsky.swagger.coverage.core.model.BranchOperationCoverage;
+import com.github.viclovsky.swagger.coverage.core.model.ConditionOperationCoverage;
 import com.github.viclovsky.swagger.coverage.core.model.OperationKey;
 import com.github.viclovsky.swagger.coverage.core.model.OperationsHolder;
-import com.github.viclovsky.swagger.coverage.core.predicate.BranchPredicate;
+import com.github.viclovsky.swagger.coverage.core.predicate.ConditionPredicate;
 import com.github.viclovsky.swagger.coverage.core.results.GenerationStatistics;
 import com.github.viclovsky.swagger.coverage.core.results.Results;
-import com.github.viclovsky.swagger.coverage.core.rule.BranchRule;
-import com.github.viclovsky.swagger.coverage.core.rule.parameter.DefaultBodyBranchRule;
-import com.github.viclovsky.swagger.coverage.core.rule.parameter.DefaultEnumValuesBranchRule;
-import com.github.viclovsky.swagger.coverage.core.rule.parameter.DefaultParameterBranchRule;
-import com.github.viclovsky.swagger.coverage.core.rule.status.DefaultHTTPStatusBranchRule;
+import com.github.viclovsky.swagger.coverage.core.rule.ConditionRule;
+import com.github.viclovsky.swagger.coverage.core.rule.parameter.DefaultBodyConditionRule;
+import com.github.viclovsky.swagger.coverage.core.rule.parameter.DefaultEnumValuesConditionRule;
+import com.github.viclovsky.swagger.coverage.core.rule.parameter.DefaultParameterConditionRule;
+import com.github.viclovsky.swagger.coverage.core.rule.status.DefaultHTTPStatusConditionRule;
 import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
 import io.swagger.models.parameters.Parameter;
@@ -35,7 +35,7 @@ public class Generator {
     private Path specPath;
     private Path inputPath;
 
-    private Map<OperationKey, BranchOperationCoverage> mainCoverageData;
+    private Map<OperationKey, ConditionOperationCoverage> mainCoverageData;
     private Map<OperationKey, Operation> missed = new TreeMap<>();
     private long fileCounter = 0;
 
@@ -46,14 +46,14 @@ public class Generator {
 
         log.info("spec is {}", spec);
 
-        List<BranchRule> rules = new ArrayList<>();
+        List<ConditionRule> rules = new ArrayList<>();
         //by default
-        rules.add(new DefaultParameterBranchRule());
-        rules.add(new DefaultBodyBranchRule());
-        rules.add(new DefaultHTTPStatusBranchRule());
-        rules.add(new DefaultEnumValuesBranchRule());
+        rules.add(new DefaultParameterConditionRule());
+        rules.add(new DefaultBodyConditionRule());
+        rules.add(new DefaultHTTPStatusConditionRule());
+        rules.add(new DefaultEnumValuesConditionRule());
 
-        mainCoverageData = OperationBranchGenerator.getOperationMap(spec, rules);
+        mainCoverageData = OperationConditionGenerator.getOperationMap(spec, rules);
 
         CoverageOutputReader reader = new FileSystemOutputReader(getInputPath());
         reader.getOutputs().forEach(o -> processResult(parser.read(o.toString())));
@@ -79,14 +79,14 @@ public class Generator {
             log.info(String.format("current param map is %s", currentParams));
 
             if (mainCoverageData.containsKey(key)) {
-                mainCoverageData.get(key).getBranches().stream().filter(t -> !t.isCovered())
-                        .forEach(branch -> {
+                mainCoverageData.get(key).getConditions().stream().filter(t -> !t.isCovered())
+                        .forEach(condition -> {
                             boolean isCover = true;
-                            for (BranchPredicate bp : branch.getPredicateList()) {
+                            for (ConditionPredicate bp : condition.getPredicateList()) {
                                 isCover = isCover && bp.check(currentParams, value.getResponses());
-                                log.info(String.format(" === predicate [%s] is [%s]", branch.getName(), isCover));
+                                log.info(String.format(" === predicate [%s] is [%s]", condition.getName(), isCover));
                             }
-                            branch.setCovered(isCover);
+                            condition.setCovered(isCover);
                         });
             } else {
                 missed.put(key, value);

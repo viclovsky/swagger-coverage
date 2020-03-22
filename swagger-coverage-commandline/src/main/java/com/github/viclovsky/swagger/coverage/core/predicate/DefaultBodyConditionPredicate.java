@@ -7,7 +7,7 @@ import io.swagger.models.parameters.Parameter;
 import java.util.List;
 import java.util.Map;
 
-public class DefaultBodyBranchPredicate extends BranchPredicate {
+public class DefaultBodyConditionPredicate extends ConditionPredicate {
 
     @Override
     public boolean check(List<Parameter> params, Map<String, Response> responses) {

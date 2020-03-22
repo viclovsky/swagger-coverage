@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class DefaultBranchPredicate extends BranchPredicate{
+public class DefaultConditionPredicate extends ConditionPredicate {
 
     private boolean isEmpty;
     private String name;
     private String in;
 
-    public DefaultBranchPredicate(boolean isEmpty, String name, String in) {
+    public DefaultConditionPredicate(boolean isEmpty, String name, String in) {
         this.isEmpty = isEmpty;
         this.name = name;
         this.in = in;
@@ -58,7 +58,7 @@ public class DefaultBranchPredicate extends BranchPredicate{
 
     @Override
     public String toString() {
-        return "BranchPredicate{" +
+        return "ConditionPredicate{" +
                 "isEmpty=" + isEmpty +
                 ", paramName='" + name + '\'' +
                 '}';

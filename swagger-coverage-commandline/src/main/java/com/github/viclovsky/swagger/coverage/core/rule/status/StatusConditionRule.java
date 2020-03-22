@@ -1,7 +1,7 @@
 package com.github.viclovsky.swagger.coverage.core.rule.status;
 
-import com.github.viclovsky.swagger.coverage.core.model.Branch;
-import com.github.viclovsky.swagger.coverage.core.rule.BranchRule;
+import com.github.viclovsky.swagger.coverage.core.model.Condition;
+import com.github.viclovsky.swagger.coverage.core.rule.ConditionRule;
 import io.swagger.models.Operation;
 
 import java.util.List;
@@ -11,11 +11,11 @@ import java.util.stream.Collectors;
 /**
  * Base rule for status
  */
-public abstract class StatusBranchRule extends BranchRule {
+public abstract class StatusConditionRule extends ConditionRule {
 
-    public abstract List<Branch> processStatus(String statusCode);
+    public abstract List<Condition> processStatus(String statusCode);
 
-    public List<Branch> createBranch(Operation operation){
+    public List<Condition> createCondition(Operation operation){
         return operation.getResponses()
                 .keySet()
                 .stream()
