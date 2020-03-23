@@ -1,8 +1,6 @@
 package com.github.viclovsky.swagger.coverage.branch.generator;
 
-import com.github.viclovsky.swagger.coverage.branch.model.BranchOperationCoverage;
 import com.github.viclovsky.swagger.coverage.branch.model.OperationsHolder;
-import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
 import io.swagger.models.parameters.Parameter;
 import io.swagger.models.parameters.SerializableParameter;
@@ -10,22 +8,27 @@ import io.swagger.models.properties.Property;
 import io.swagger.models.properties.StringProperty;
 
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class SwaggerSpecificationProccessor {
 
     public static OperationsHolder extractOperation(Swagger swagger){
+        return extractOperation(swagger,false);
+    }
+
+    public static OperationsHolder extractOperation(Swagger swagger, boolean operationCaseIgnore){
         OperationsHolder operations = new OperationsHolder();
 
-        swagger.getPaths().keySet().forEach(path
-                -> swagger.getPaths().get(path).getOperationMap().forEach((httpMethod, operation)
-                        -> {
-
-                operations.addOperation(String.format("%s %s", path, httpMethod), operation);
-
+        swagger.getPaths().keySet().forEach(
+            path -> swagger.getPaths().get(path).getOperationMap().forEach(
+                (httpMethod, operation) -> {
+                    String operationPath = path;
+                    if (operationCaseIgnore){
+                        operationPath = operationPath.toLowerCase();
+                    }
+                    operations.addOperation(String.format("%s %s", operationPath, httpMethod), operation);
                 }
-        ));
+            )
+        );
         return operations;
     }
 

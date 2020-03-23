@@ -1,31 +1,19 @@
 package com.github.viclovsky.swagger.coverage.branch.generator;
 
-import com.github.viclovsky.swagger.coverage.*;
-import com.github.viclovsky.swagger.coverage.branch.model.Branch;
-import com.github.viclovsky.swagger.coverage.branch.model.BranchOperationCoverage;
-import com.github.viclovsky.swagger.coverage.branch.model.OperationsHolder;
-import com.github.viclovsky.swagger.coverage.branch.results.GenerationStatistics;
+import com.github.viclovsky.swagger.coverage.CoverageOutputReader;
+import com.github.viclovsky.swagger.coverage.FileSystemOutputReader;
+import com.github.viclovsky.swagger.coverage.branch.configuration.Configuration;
+import com.github.viclovsky.swagger.coverage.branch.configuration.ConfigurationBuilder;
 import com.github.viclovsky.swagger.coverage.branch.results.Results;
-import com.github.viclovsky.swagger.coverage.branch.predicate.BranchPredicate;
-import com.github.viclovsky.swagger.coverage.branch.rule.core.BranchRule;
-import com.github.viclovsky.swagger.coverage.branch.rule.parameter.*;
-import com.github.viclovsky.swagger.coverage.branch.rule.status.HTTPStatusBranchRule;
-import com.github.viclovsky.swagger.coverage.branch.rule.status.OnlyDeclaretedHTTPStatuses;
-import com.github.viclovsky.swagger.coverage.branch.writer.HtmlBranchReportResultsWriter;
-import io.swagger.models.Operation;
-import io.swagger.models.parameters.Parameter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.github.viclovsky.swagger.coverage.branch.results.builder.core.StatisticsBuilder;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class Generator {
 
@@ -33,90 +21,52 @@ public class Generator {
 
     private Path specPath;
     private Path inputPath;
-    protected Map<String, BranchOperationCoverage> mainCoverageData;
-    protected Map<String, Operation> missed  = new TreeMap<>();
 
-    protected long fileCounter = 0;
+    private Path configurationPath;
+
+    SwaggerParser parser = new SwaggerParser();
+
+    List<StatisticsBuilder> statisticsBuilders = new ArrayList<>();
 
     public void run(){
-        long startTime = System.currentTimeMillis();
-        SwaggerParser parser = new SwaggerParser();
         Swagger spec = parser.read(getSpecPath().toString());
 
         log.info("spec is {}",spec);
 
-        List<BranchRule> rules = new ArrayList<>();
-        rules.add(new SimpleParameterBranchRule());
-        rules.add(new EmptyHeaderBranchRule());
-        rules.add(new NotEmptyBodyBranchRule());
-        rules.add(new HTTPStatusBranchRule());
-        rules.add(new OnlyDeclaretedHTTPStatuses());
-        rules.add(new EnumValuesBranchRule());
-        rules.add(new NotOnlyEnumValuesBranchRule());
-
-        mainCoverageData = OperationBranchGenerator.getOperationMap(spec,rules);
+        Configuration configuration = ConfigurationBuilder.build(configurationPath);
+        statisticsBuilders = configuration.getStatisticsBuilders(spec);
 
         CoverageOutputReader reader = new FileSystemOutputReader(getInputPath());
         reader.getOutputs()
-                .forEach(o -> processResult(parser.read(o.toString())));
+                .forEach(o -> processFile(o.toString()));
 
-        CoverageResultsWriter writer = new HtmlBranchReportResultsWriter();
+        Results result = new Results();
 
-        Results result = new Results(mainCoverageData)
-            .setMissed(missed)
-            .setGenerationStatistics(
-                new GenerationStatistics()
-                    .setResultFileCount(fileCounter)
-                    .setGenerationTime(System.currentTimeMillis() - startTime)
-                )
+        statisticsBuilders.stream().filter(StatisticsBuilder::isPreBuilder).forEach(
+            statisticsBuilder -> statisticsBuilder.build(result)
+        );
+
+        statisticsBuilders.stream().filter(StatisticsBuilder::isPostBuilder).forEach(
+            statisticsBuilder -> statisticsBuilder.build(result)
+        );
+
+        System.out.println(configuration.getConfiguredResultsWriters().toString());
+
+        configuration
+            .getConfiguredResultsWriters()
+            .stream()
+            .forEach(
+                writer -> writer.write(result)
+            )
             ;
-        writer.write(result);
     }
 
-    public void processResult(Swagger swagger) {
-        fileCounter++;
+    public void processFile(String path) {
+        final Swagger operationSwagger = parser.read(path);
 
-        OperationsHolder operations = SwaggerSpecificationProccessor.extractOperation(swagger);
-
-        operations.getOperations().entrySet().stream().forEach(entry -> {
-            log.info(String.format("==  process result %s", entry.getKey()));
-
-            Map<String,Parameter> currentParams = entry.getValue().getParameters().stream().collect(Collectors.toMap(
-                Parameter::getName,
-                p->p
-            ));
-
-            log.info(String.format("current param map is %s",currentParams));
-
-            if (mainCoverageData.containsKey(entry.getKey())) {
-                mainCoverageData
-                    .get(entry.getKey())
-                    .getBranches()
-                    .stream()
-                    .filter(Predicate.not(Branch::isCovered))
-                    .forEach(branch -> {
-                        boolean isCover = true;
-                        for(BranchPredicate bp:  branch.getPredicateList()){
-                            isCover = isCover
-                                && bp.check(
-                                    currentParams,
-                                    entry.getValue().getResponses()
-                                )
-                            ;
-
-                            log.info(String.format(" === predicate [%s] is [%s]",branch.getName(),isCover));
-                        }
-
-                        branch.setCovered(isCover);
-                    })
-                ;
-            } else {
-                missed.put(
-                    entry.getKey(),
-                    entry.getValue()
-                );
-            }
-        });
+        statisticsBuilders.stream().filter(StatisticsBuilder::isPreBuilder).forEach(builder ->
+            builder.add(path).add(operationSwagger)
+        );
     }
 
     public Path getSpecPath() {
@@ -134,6 +84,15 @@ public class Generator {
 
     public Generator setInputPath(Path inputPath) {
         this.inputPath = inputPath;
+        return this;
+    }
+
+    public Path getConfigurationPath() {
+        return configurationPath;
+    }
+
+    public Generator setConfigurationPath(Path configurationPath) {
+        this.configurationPath = configurationPath;
         return this;
     }
 }

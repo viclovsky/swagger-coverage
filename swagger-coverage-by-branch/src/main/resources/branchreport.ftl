@@ -1,93 +1,14 @@
 <#ftl output_format="HTML">
+
+<#global i18=messages>
+
 <#-- @ftlvariable ftlvariable name="data" type="com.github.viclovsky.swagger.coverage.model.SwaggerCoverageResults" -->
-<#import "operationData.ftl" as operationData/>
 <#import "ui.ftl" as ui/>
-
-<#macro details coverage prefix>
-    <div class="accordion" id="${prefix}-accordion">
-        <#list coverage as key, value>
-            <div class="card">
-                <div class="card-header">
-                    <div class="row"
-                         data-toggle="collapse"
-                         data-target="#${prefix}-${key?index}"
-                         aria-expanded="true"
-                         aria-controls="collapseOne">
-                        <div class="col-6">
-                            ${key}
-                        </div>
-                        <div class="col-3">
-                            parameters:
-                        </div>
-                        <div class="col-3">
-                            statuses:
-
-                        </div>
-                    </div>
-                </div>
-                <div id="${prefix}-${key?index}" class="collapse" aria-labelledby="headingOne">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-2">
-                                Parameters:
-                            </div>
-                            <div class="col-10">
-
-                            </div>
-                        </div>
-                        <br/>
-                        <div class="row">
-                            <div class="col-2">
-                                Statuses:
-                            </div>
-                            <div class="col-10">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </#list>
-    </div>
-</#macro>
-
-<#macro branchdetails coverage prefix>
-    <div class="accordion" id="${prefix}-accordion">
-        <#list coverage as key, value>
-            <div class="card">
-                <div class="card-header">
-                    <div class="row"
-                         data-toggle="collapse"
-                         data-target="#${prefix}-${key?index}"
-                         aria-expanded="true"
-                         aria-controls="collapseOne">
-                        <div class="col-5">
-                            ${key}
-                        </div>
-                        <div class="col-2">
-                            ${value.coveredBrancheCount}/${value.allBrancheCount}
-                        </div>
-                        <div class="col-2">
-                            <#if value.branches?size gt 0 >
-                                (${100*value.coveredBrancheCount/(value.allBrancheCount)}%)
-                            <#else>
-                                (--)
-                            </#if>
-                        </div>
-                        <div class="col-3">
-                            <#if value.branches?size gt 0 >
-                                <@ui.progress current = value.coveredBrancheCount full = value.allBrancheCount />
-                            </#if>
-                        </div>
-                    </div>
-                </div>
-                <div id="${prefix}-${key?index}" class="collapse" aria-labelledby="headingOne">
-                    <@operationData.branchList list=value.branches />
-                </div>
-            </div>
-        </#list>
-    </div>
-</#macro>
+<#import "sections/summary.ftl" as summary />
+<#import "sections/generation.ftl" as generation />
+<#import "details/operation.ftl" as operations />
+<#import "details/branch.ftl" as branch />
+<#import "details/tag.ftl" as tag />
 
 <head>
     <meta charset="utf-8">
@@ -103,73 +24,68 @@
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/0b83173bdb.js" crossorigin="anonymous"></script>
     <style>
         .title {
-            margin: 20px 0;
+            margin-top: 60px;
+        }
+
+        .progress {
+            position: relative;
+        }
+
+        .progress span {
+            position: absolute;
+            display: block;
+            width: 100%;
+            color: black;
         }
     </style>
 </head>
 <body>
-<div class="content">
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="container">
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#summary">${i18["menu.summary"]}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#details">${i18["menu.operations"]}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#tag-section">${i18["menu.tags"]}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#branchs">${i18["menu.branch"]}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#system">${i18["menu.generation"]}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main role="main" class="container">
     <div class="container">
         <section id="summary">
             <div class="row">
                 <div class="col-12">
-                    <h1 class="title">Swagger Coverage</h1>
+                    <h1 class="title" id="summary">${i18["menu.summary"]}</h1>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm">
-                    <div class="alert alert-primary" role="alert">
-                        All: ${data.allOperationCount}
-                    </div>
-                </div>
-                <div class="col-sm">
-                    <div class="alert alert-success" role="alert">
-                        Full: ${data.fullOperationCount * 100 / data.allOperationCount}%
-                    </div>
-                </div>
-                <div class="col-sm">
-                    <div class="alert alert-warning" role="alert">
-                        Partial: ${data.partOperationCount * 100 / data.allOperationCount}%
-                    </div>
-                </div>
-                <div class="col-sm">
-                    <div class="alert alert-danger" role="alert">
-                        Empty: ${data.emptyOperationCount * 100 / data.allOperationCount}%
-                    </div>
-                </div>
-                <div class="col-sm">
-                    <div class="alert alert-secondary" role="alert">
-                        Missed: ${data.missed?size}
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-2">
-                    Branches covered:
-                </div>
-                <div class="col-2">
-                    ${data.coveredBrancheCount} / ${data.allBrancheCount}
-                </div>
-                <div class="col-2">
-                    <#if data.allBrancheCount gt 0 >
-                        (${100*data.coveredBrancheCount/(data.allBrancheCount)}%)
-                    <#else>
-                        (--)
-                    </#if>
-                </div>
-                <div class="col-6">
-                    <#if data.allBrancheCount gt 0 >
-                        <@ui.progress current = data.coveredBrancheCount full = data.allBrancheCount />
-                    </#if>
-                </div>
-            </div>
+            <@summary.operations operationCoveredMap=data.coverageOperationMap />
+            <@summary.calls data=data />
+            <@summary.tags tagsDetail=data.tagCoverageMap tagCounter=data.tagCounter />
+            <@summary.branchs counter=data.branchCounter />
         </section>
+
         <section id="details">
             <div class="row">
                 <div class="col-12">
-                    <h2 class="title">Coverage Details</h2>
+                    <h2 class="title" id="details">${i18["menu.operations"]}</h2>
                 </div>
             </div>
             <div class="row">
@@ -178,37 +94,37 @@
                         <li class="nav-item">
                             <a class="nav-link active" id="branch-tab" data-toggle="tab" href="#branch" role="tab"
                                aria-controls="branch" aria-selected="true">
-                                All: ${data.operations?size}
+                                ${i18["operations.all"]}: ${data.operations?size}
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="full-tab" data-toggle="tab" href="#full" role="tab"
                                aria-controls="full" aria-selected="true">
-                                Full: ${data.full?size}
+                                ${i18["operations.full"]}: ${data.coverageOperationMap.full?size}
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="party-tab" data-toggle="tab" href="#party" role="tab"
                                aria-controls="party" aria-selected="true">
-                                Partial: ${data.party?size}
+                                ${i18["operations.partial"]}: ${data.coverageOperationMap.party?size}
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="empty-tab" data-toggle="tab" href="#empty" role="tab"
                                aria-controls="empty" aria-selected="true">
-                                Empty: ${data.empty?size}
+                                ${i18["operations.empty"]}: ${data.coverageOperationMap.empty?size}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="zero-tab" data-toggle="tab" href="#zero" role="tab"
+                               aria-controls="zero" aria-selected="true">
+                                ${i18["operations.no_call"]}: ${data.zeroCall?size}
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="missed-tab" data-toggle="tab" href="#missed" role="tab"
                                aria-controls="missed" aria-selected="false">
-                                Missed: ${data.missed?size}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="info-tab" data-toggle="tab" href="#info" role="tab"
-                               aria-controls="info" aria-selected="false">
-                                System info
+                                ${i18["operations.missed"]}: ${data.missed?size}
                             </a>
                         </li>
                     </ul>
@@ -219,29 +135,182 @@
                 <div class="col-12">
                     <div class="tab-content" id="details-content">
                         <div class="tab-pane fade show active" id="branch" role="tabpanel" aria-labelledby="branch-tab">
-                            <@branchdetails coverage=data.operations  prefix="branch"/>
+                            <@branch.list
+                                coverage=data.coverageOperationMap.full + data.coverageOperationMap.party + data.coverageOperationMap.empty
+                                operations=data.operations
+                                prefix="branch"/>
                         </div>
                         <div class="tab-pane fade" id="full" role="tabpanel" aria-labelledby="full-tab">
-                            <@branchdetails coverage=data.full  prefix="full"/>
+                            <@branch.list coverage=data.coverageOperationMap.full operations=data.operations prefix="full"/>
                         </div>
                         <div class="tab-pane fade" id="party" role="tabpanel" aria-labelledby="party-tab">
-                            <@branchdetails coverage=data.party  prefix="party"/>
+                            <@branch.list coverage=data.coverageOperationMap.party operations=data.operations prefix="party"/>
                         </div>
                         <div class="tab-pane fade" id="empty" role="tabpanel" aria-labelledby="empty-tab">
-                            <@branchdetails coverage=data.empty  prefix="empty"/>
+                            <@branch.list coverage=data.coverageOperationMap.empty operations=data.operations prefix="empty"/>
+                        </div>
+                        <div class="tab-pane fade" id="zero" role="tabpanel" aria-labelledby="zero-tab">
+                            <@branch.list coverage=data.zeroCall operations=data.operations prefix="zero"/>
                         </div>
                         <div class="tab-pane fade" id="missed" role="tabpanel" aria-labelledby="missed-tab">
-                            <@details coverage=data.missed prefix="missed"/>
-                        </div>
-                        <div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
-                            Parsed result files: ${data.generationStatistics.resultFileCount}<br>
-                            Generation time: ${data.generationStatistics.generationTime} ms
+                            <@operations.list coverage=data.missed prefix="missed"/>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <section id="tag-section">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="title" id="tags">${i18["menu.tags"]}</h2>
+                </div>
+            </div>
+            <@tag.list tags=data.tagCoverageMap operations=data.operations/>
+        </section>
+
+        <section id="branchs">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="title" id="branchs">${i18["menu.branch"]}</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="accordion col-12" id="branches-by-type-accordion">
+                    <#list data.branchStatisticsMap as key, value>
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row"
+                                     data-toggle="collapse"
+                                     data-target="#branches-by-type-${key?index}"
+                                     aria-expanded="true"
+                                     aria-controls="collapseOne">
+                                    <div class="col-8">
+                                        <#assign nameKey = "predicate.${key}.name">
+                                        <#assign descriptionKey = "predicate.${key}.description">
+                                        <p><strong>${i18[nameKey]}</strong></p>
+                                        <small>${i18[descriptionKey]}</small>
+                                    </div>
+                                    <div class="col-4">
+                                        <@ui.progress
+                                            full=value.allCount
+                                            current=value.coveredCount
+                                            postfix=i18["details.branchprogress.postfix"]
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="branches-by-type-${key?index}" class="collapse" aria-labelledby="headingOne">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <ul class="nav nav-pills nav-fill" id="branch-tabs-${key?index}" role="tablist">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" id="tab-branch-covered-${key?index}" data-toggle="tab" href="#branch-covered-${key?index}" role="tab"
+                                                       aria-controls="branch-covered-${key?index}" aria-selected="true">
+                                                        ${i18["summary.branches.covered"]}: ${value.coveredOperation?size}
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" id="tab-branch-uncovered-${key?index}" data-toggle="tab" href="#branch-uncovered-${key?index}" role="tab"
+                                                       aria-controls="branch-uncovered-${key?index}" aria-selected="true">
+                                                        ${i18["summary.branches.uncovered"]}: ${value.uncoveredOperation?size}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="tab-content" id="details-content-${key?index}">
+                                                <div class="tab-pane fade show active" id="branch-covered-${key?index}" role="tabpanel" aria-labelledby="tab-branch-covered-${key?index}">
+                                                    <table class="table table-sm">
+                                                        <thead>
+                                                        <tr>
+                                                            <th scope="col">${i18["details.branch.operation"]}</th>
+                                                            <th scope="col">${i18["details.branch.branchname"]}e</th>
+                                                            <th scope="col">${i18["details.branch.details"]}</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <#list value.coveredOperation as branchItem>
+                                                            <tr class="table-success">
+                                                                <td>
+                                                                    <span>
+                                                                        <i class="fas fa-check"></i>
+                                                                    </span>
+                                                                    &nbsp;${branchItem.operation}
+                                                                </td>
+                                                                <td>${branchItem.branch.name}</td>
+                                                                <td>${branchItem.branch.reason?no_esc}</td>
+                                                            </tr>
+                                                        </#list>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="tab-pane fade" id="branch-uncovered-${key?index}" role="tabpanel" aria-labelledby="tab-branch-uncovered-${key?index}">
+                                                    <table class="table table-sm">
+                                                        <thead>
+                                                        <tr>
+                                                            <th scope="col">${i18["details.branch.operation"]}</th>
+                                                            <th scope="col">${i18["details.branch.branchname"]}e</th>
+                                                            <th scope="col">${i18["details.branch.details"]}</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <#list value.uncoveredOperation as branchItem>
+                                                            <tr class="table-danger">
+                                                                <td>
+                                                                    <span>
+                                                                        <i class="fas fa-bug"></i>
+                                                                    </span>
+                                                                    &nbsp;${branchItem.operation}
+                                                                </td>
+                                                                <td>${branchItem.branch.name}</td>
+                                                                <td>${branchItem.branch.reason?no_esc}</td>
+                                                            </tr>
+                                                        </#list>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </#list>
+                </div>
+            </div>
+        </section>
+
+        <section id="system">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="title" id="system">${i18["menu.generation"]}</h2>
+                </div>
+            </div>
+            <@generation.data statistic=data.generationStatistics/>
+            <div class="row">
+                <div class="col-12">
+                    <h4>${i18["generation.configuration"]}</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="alert alert-secondary" role="alert">
+                        <pre>${data.prettyConfiguration} </pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="page-footer font-small mdb-color lighten-3 pt-4">
+            <div class="footer-copyright text-center py-3"></div>
+        </footer>
+
     </div>
-</div>
+</main>
 
 </body>

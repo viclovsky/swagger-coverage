@@ -8,6 +8,7 @@ public class BranchOperationCoverage {
 
     protected Operation operation;
     protected List<Branch> branches;
+    protected long processCount = 0;
 
     public Operation getOperation() {
         return operation;
@@ -24,6 +25,20 @@ public class BranchOperationCoverage {
 
     public BranchOperationCoverage setBranches(List<Branch> branches) {
         this.branches = branches;
+        return this;
+    }
+
+    public long getProcessCount() {
+        return processCount;
+    }
+
+    public BranchOperationCoverage setProcessCount(long processCount) {
+        this.processCount = processCount;
+        return this;
+    }
+
+    public BranchOperationCoverage increaseProcessCount(){
+        this.processCount++;
         return this;
     }
 }

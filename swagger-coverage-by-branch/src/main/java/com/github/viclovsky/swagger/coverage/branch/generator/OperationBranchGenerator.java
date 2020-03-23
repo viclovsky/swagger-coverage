@@ -16,8 +16,14 @@ public class OperationBranchGenerator {
 
     private static final Logger log = LoggerFactory.getLogger(OperationBranchGenerator.class);
 
-    public static Map<String, BranchOperationCoverage> getOperationMap(Swagger swagger, List<BranchRule> rules) {
-        OperationsHolder operations = SwaggerSpecificationProccessor.extractOperation(swagger);
+    public static Map<String, BranchOperationCoverage> getOperationMap(Swagger swagger, List<BranchRule> rules){
+        return getOperationMap(swagger, rules, false);
+    }
+
+    public static Map<String, BranchOperationCoverage> getOperationMap(
+        Swagger swagger, List<BranchRule> rules, boolean operationCaseIgnore
+    ) {
+        OperationsHolder operations = SwaggerSpecificationProccessor.extractOperation(swagger,operationCaseIgnore);
 
         Map<String, BranchOperationCoverage> coverage = new TreeMap<>();
 

@@ -18,8 +18,6 @@ public class ParameterValueBranchPredicate extends BranchPredicate {
     public ParameterValueBranchPredicate(String name, List<String> value) {
         this.name = name;
         this.expectedValue.addAll(value);
-
-        reason = "Missed values: " + String.join(",",expectedValue);
     }
 
     @Override

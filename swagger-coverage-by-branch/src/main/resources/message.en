@@ -1,0 +1,73 @@
+menu.summary=Summary
+menu.operations=Operation details
+menu.tags=Tag details
+menu.branch=Branch details
+menu.generation=Generation info
+
+common.state.full=Full
+common.state.partial=Partial
+common.state.empty=Empty
+common.state.no_call=No call
+
+operations.all=All
+operations.full=Full
+operations.partial=Partial
+operations.empty=Empty
+operations.no_call=No call
+operations.missed=Missed
+
+summary.operations=Operation coverage summary
+summary.operations.all=All operation
+summary.operations.no_call=Operation without calls
+summary.operations.missed=Missed request
+
+summary.branches=Branches coverage summary
+summary.branches.total=Total
+summary.branches.covered=Covered
+summary.branches.uncovered=Uncovered
+
+summary.tags=Tags coverage summary
+summary.tags.all=All tags
+summary.tags.no_call=Tag without calls
+
+badged.full=Full coverage
+badged.partial=Partial coverage
+badged.empty=Empty coverage
+
+details.operation.calls=calls
+details.operation.no_data=No data
+details.operation.status=Response status
+details.operation.parameters=Parameters
+details.operation.parameter.type=Type
+details.operation.parameter.name=Name
+details.operation.parameter.value=Value
+details.branchlist.name=Branch name
+details.branchlist.details=Details
+details.branchprogress.postfix=branches covered
+
+details.tag.operations=operations
+details.branch.operation=Operation name
+details.branch.branchname=Branch name
+details.branch.details=Details
+
+generation.configuration=Configuration
+generation.parsed_file_count=Parsed result files
+generation.time=Generation time
+generation.result_file_created_interval=Result file create interval
+generation.report.date=Generation report date
+
+summary.tag.legend=Partition of group's statuses
+summary.operations.legend=Partition of operations's statuses
+
+predicate.ParameterValueBranchPredicate.name=All parameter values
+predicate.ParameterValueBranchPredicate.description=Verification that the method is called with all parameters described in the enum
+predicate.NotOnlyParameterListValueBranchPredicate.name=Values not only from the list
+predicate.NotOnlyParameterListValueBranchPredicate.description = Verify that the method was called with a value that is not described in the parameter enum
+predicate.SimpleBodyBranchPredicate.name = Request Body Availability
+predicate.SimpleBodyBranchPredicate.description = Verify that the request body was not empty
+predicate.StatusBranchPredicate.name = Response Status
+predicate.StatusBranchPredicate.description = Check that there is an answer with the http status described in responses
+predicate.SimpleBranchPredicate.name = Check parameter value
+predicate.SimpleBranchPredicate.description = Check that the parameter is empty or not empty
+predicate.FullStatusBranchPredicate.name = Only the described statuses
+predicate.FullStatusBranchPredicate.description = Check that no status was received that was not described
