@@ -1,10 +1,14 @@
-package com.github.viclovsky.swagger.coverage.core;
+package com.github.viclovsky.swagger.coverage;
 
+import com.github.viclovsky.swagger.coverage.core.config.Configuration;
 import com.github.viclovsky.swagger.coverage.core.generator.Generator;
 import org.junit.Test;
 
 import java.io.File;
 import java.nio.file.Paths;
+
+import static com.github.viclovsky.swagger.coverage.CommandLine.defaultRules;
+import static com.github.viclovsky.swagger.coverage.CommandLine.defaultWriters;
 
 public class SimpleTest {
 
@@ -17,8 +21,9 @@ public class SimpleTest {
     @Test
     public void simpleTest() {
         Generator generator = new Generator();
-        generator.setInputPath(Paths.get(String.valueOf(reqDir.toPath())))
-            .setSpecPath(Paths.get(String.valueOf(spec.toPath())))
-            .run();
+        Configuration configuration = Configuration.conf().setInputPath(Paths.get(String.valueOf(reqDir.toPath())))
+                .setSpecPath(Paths.get(String.valueOf(spec.toPath())))
+                .setWriters(defaultWriters()).setRules(defaultRules());
+        generator.setConfiguration(configuration).run();
     }
 }
