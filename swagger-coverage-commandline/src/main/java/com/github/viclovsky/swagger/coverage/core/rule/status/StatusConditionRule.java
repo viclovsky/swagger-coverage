@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
+
 /**
  * Base rule for status
  */
@@ -22,6 +24,6 @@ public abstract class StatusConditionRule extends ConditionRule {
                 .map(this::processStatus)
                 .filter(Objects::nonNull)
                 .flatMap(List::stream)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 }

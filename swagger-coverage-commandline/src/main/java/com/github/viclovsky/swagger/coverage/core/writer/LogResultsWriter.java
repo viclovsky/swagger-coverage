@@ -18,11 +18,11 @@ public class LogResultsWriter implements CoverageResultsWriter {
 
     @Override
     public void write(Results results) {
-        log.warn("Empty coverage: ");
+        log.info("Empty coverage: ");
         logOperationCoverage(results.getEmpty());
-        log.warn("Partial coverage: ");
+        log.info("Partial coverage: ");
         logOperationCoverage(results.getPartial());
-        log.warn("Full coverage: ");
+        log.info("Full coverage: ");
         logOperationCoverage(results.getFull());
         logMissedCoverage(results.getMissed());
 
@@ -39,9 +39,9 @@ public class LogResultsWriter implements CoverageResultsWriter {
 
     private void logMissedCoverage(Map<OperationKey, Operation> missed) {
         if (!missed.isEmpty()) {
-            log.warn("Missed coverage: ");
+            log.info("Missed coverage: ");
             missed.keySet().forEach(
-                    m -> log.warn(m.getHttpMethod() + " " + m.getPath()));
+                    m -> log.info(m.getHttpMethod() + " " + m.getPath()));
         }
     }
 

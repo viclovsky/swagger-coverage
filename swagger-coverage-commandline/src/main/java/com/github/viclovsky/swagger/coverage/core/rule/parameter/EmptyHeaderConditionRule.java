@@ -6,9 +6,11 @@ import com.github.viclovsky.swagger.coverage.core.predicate.DefaultParameterCond
 import io.swagger.models.parameters.HeaderParameter;
 import io.swagger.models.parameters.Parameter;
 
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 
 public class EmptyHeaderConditionRule extends ParameterRule {
 
@@ -22,7 +24,7 @@ public class EmptyHeaderConditionRule extends ParameterRule {
             ConditionPredicate predicate = new DefaultParameterConditionPredicate(true, parameter.getName(), parameter.getIn());
             condition.addPredicate(predicate);
 
-            return asList(condition);
+            return singletonList(condition);
         }
 
         return null;

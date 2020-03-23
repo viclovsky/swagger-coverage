@@ -6,9 +6,11 @@ import com.github.viclovsky.swagger.coverage.core.predicate.ConditionPredicate;
 import com.github.viclovsky.swagger.coverage.core.predicate.NotOnlyParameterListValueConditionPredicate;
 import io.swagger.models.parameters.Parameter;
 
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 
 public class NotOnlyEnumValuesConditionRule extends ParameterRule {
 
@@ -27,7 +29,7 @@ public class NotOnlyEnumValuesConditionRule extends ParameterRule {
                     parameter.getIn(), enumValues);
             condition.addPredicate(predicate);
 
-            return asList(condition);
+            return singletonList(condition);
         }
 
         return null;

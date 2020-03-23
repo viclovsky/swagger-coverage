@@ -47,7 +47,7 @@ public class Generator {
         SwaggerParser parser = new SwaggerParser();
         Swagger spec = parser.read(getSpecPath().toString());
 
-        log.info("spec is {}", spec);
+        log.debug("spec is {}", spec);
 
         List<ConditionRule> rules = new ArrayList<>();
         //by default
@@ -79,19 +79,19 @@ public class Generator {
         fileCounter++;
         OperationsHolder operations = SwaggerSpecificationProcessor.extractOperation(swagger);
         operations.getOperations().forEach((key, value) -> {
-            log.info(String.format("==  process result %s", key));
+            log.debug(String.format("==  process result %s", key));
 
             List<Parameter> currentParams = value.getParameters();
 
-            log.info(String.format("current param map is %s", currentParams));
+            log.debug(String.format("current param map is %s", currentParams));
 
             if (mainCoverageData.containsKey(key)) {
                 mainCoverageData.get(key).getConditions().stream().filter(t -> !t.isCovered())
                         .forEach(condition -> {
                             boolean isCover = true;
-                            for (ConditionPredicate bp : condition.getPredicateList()) {
-                                isCover = isCover && bp.check(currentParams, value.getResponses());
-                                log.info(String.format(" === predicate [%s] is [%s]", condition.getName(), isCover));
+                            for (ConditionPredicate conditionPredicate : condition.getPredicateList()) {
+                                isCover = isCover && conditionPredicate.check(currentParams, value.getResponses());
+                                log.debug(String.format(" === predicate [%s] is [%s]", condition.getName(), isCover));
                             }
                             condition.setCovered(isCover);
                         });

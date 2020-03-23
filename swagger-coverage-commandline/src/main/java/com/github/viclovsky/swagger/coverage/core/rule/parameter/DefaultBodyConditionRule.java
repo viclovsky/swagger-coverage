@@ -6,9 +6,11 @@ import com.github.viclovsky.swagger.coverage.core.predicate.DefaultBodyCondition
 import io.swagger.models.parameters.BodyParameter;
 import io.swagger.models.parameters.Parameter;
 
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 
 public class DefaultBodyConditionRule extends ParameterRule {
 
@@ -23,7 +25,7 @@ public class DefaultBodyConditionRule extends ParameterRule {
             ConditionPredicate predicate = new DefaultBodyConditionPredicate();
             condition.addPredicate(predicate);
 
-            return asList(condition);
+            return singletonList(condition);
         }
 
         return null;
