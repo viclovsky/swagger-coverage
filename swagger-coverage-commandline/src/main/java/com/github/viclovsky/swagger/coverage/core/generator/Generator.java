@@ -1,9 +1,7 @@
 package com.github.viclovsky.swagger.coverage.core.generator;
 
 import com.github.viclovsky.swagger.coverage.CoverageOutputReader;
-import com.github.viclovsky.swagger.coverage.CoverageResultsWriter;
 import com.github.viclovsky.swagger.coverage.FileSystemOutputReader;
-import com.github.viclovsky.swagger.coverage.HtmlReportResultsWriter;
 import com.github.viclovsky.swagger.coverage.core.model.ConditionOperationCoverage;
 import com.github.viclovsky.swagger.coverage.core.model.OperationKey;
 import com.github.viclovsky.swagger.coverage.core.model.OperationsHolder;
@@ -16,6 +14,10 @@ import com.github.viclovsky.swagger.coverage.core.rule.parameter.DefaultBodyCond
 import com.github.viclovsky.swagger.coverage.core.rule.parameter.DefaultEnumValuesConditionRule;
 import com.github.viclovsky.swagger.coverage.core.rule.parameter.DefaultParameterConditionRule;
 import com.github.viclovsky.swagger.coverage.core.rule.status.DefaultHTTPStatusConditionRule;
+import com.github.viclovsky.swagger.coverage.core.writer.CoverageResultsWriter;
+import com.github.viclovsky.swagger.coverage.core.writer.FileSystemResultsWriter;
+import com.github.viclovsky.swagger.coverage.core.writer.HtmlReportResultsWriter;
+import com.github.viclovsky.swagger.coverage.core.writer.LogResultsWriter;
 import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
 import io.swagger.models.parameters.Parameter;
@@ -60,14 +62,17 @@ public class Generator {
         CoverageOutputReader reader = new FileSystemOutputReader(getInputPath());
         reader.getOutputs().forEach(o -> processResult(parser.read(o.toString())));
 
-        CoverageResultsWriter writer = new HtmlReportResultsWriter();
-
         Results result = new Results(mainCoverageData).setMissed(missed)
                 .setGenerationStatistics(new GenerationStatistics()
                         .setResultFileCount(fileCounter)
                         .setGenerationTime(System.currentTimeMillis() - startTime))
                 .setInfo(spec.getInfo());
-        writer.write(result);
+
+        List<CoverageResultsWriter> writers = new ArrayList<>();
+        writers.add(new LogResultsWriter());
+        writers.add(new HtmlReportResultsWriter());
+        writers.add(new FileSystemResultsWriter());
+        writers.forEach(w -> w.write(result));
     }
 
     private void processResult(Swagger swagger) {
