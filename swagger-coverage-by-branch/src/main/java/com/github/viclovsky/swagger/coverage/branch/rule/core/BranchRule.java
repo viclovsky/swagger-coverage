@@ -7,10 +7,13 @@ import io.swagger.models.Operation;
 import java.util.List;
 
 public abstract class BranchRule {
+    protected RuleConfigurationOptions options;
+
     public abstract String getId();
     public abstract List<Branch> createBranch(Operation operation);
 
     public BranchRule configure(RuleConfigurationOptions options){
+        this.options = options;
         return this;
     };
 }

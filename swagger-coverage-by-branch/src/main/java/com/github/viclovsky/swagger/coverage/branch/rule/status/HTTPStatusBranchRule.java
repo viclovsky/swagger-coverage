@@ -12,9 +12,6 @@ import java.util.List;
 
 public class HTTPStatusBranchRule extends StatusBranchRule {
 
-    protected List<String> filter;
-    protected List<String> ignore;
-
     @Override
     public String getId() {
         return "status";
@@ -22,19 +19,7 @@ public class HTTPStatusBranchRule extends StatusBranchRule {
 
     @Override
     public Branch processStatus(String status) {
-        if (
-            filter != null
-            && !filter.isEmpty()
-            && !filter.contains(status)
-        ) {
-            return null;
-        }
-
-        if (
-            ignore != null
-            && !ignore.isEmpty()
-            && ignore.contains(status)
-        ) {
+        if (skeep(status)) {
             return null;
         }
 
@@ -47,10 +32,26 @@ public class HTTPStatusBranchRule extends StatusBranchRule {
         return branch;
     }
 
-    @Override
-    public BranchRule configure(RuleConfigurationOptions options) {
-        this.filter = options.getFilter();
-        this.ignore = options.getIgnore();
-        return super.configure(options);
+    protected boolean skeep(String status){
+        if (this.options == null) {
+            return false;
+        }
+        if (
+            this.options.getFilter() != null
+            && !this.options.getFilter().isEmpty()
+            && !this.options.getFilter().contains(status)
+        ) {
+            return true;
+        }
+
+        if (
+            this.options.getIgnore() != null
+            && !this.options.getIgnore().isEmpty()
+            && this.options.getIgnore().contains(status)
+        ) {
+            return true;
+        }
+
+        return false;
     }
 }

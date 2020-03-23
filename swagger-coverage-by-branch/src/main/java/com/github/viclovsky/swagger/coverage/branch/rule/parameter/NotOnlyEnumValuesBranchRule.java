@@ -34,6 +34,6 @@ public class NotOnlyEnumValuesBranchRule extends ParameterRule {
 
     @Override
     public String getId() {
-        return null;
+        return "enum-another-value";
     }
 }

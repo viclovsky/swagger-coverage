@@ -27,6 +27,6 @@ public class SimpleParameterBranchRule extends ParameterRule {
 
     @Override
     public String getId() {
-        return null;
+        return "parameter-not-empty";
     }
 }

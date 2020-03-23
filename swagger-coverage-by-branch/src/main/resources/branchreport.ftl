@@ -186,7 +186,10 @@
                                      aria-expanded="true"
                                      aria-controls="collapseOne">
                                     <div class="col-8">
-                                        ${key}
+                                        <#assign nameKey = "predicate.${key}.name">
+                                        <#assign descriptionKey = "predicate.${key}.description">
+                                        <p><strong>${i18[nameKey]}</strong></p>
+                                        <small>${i18[descriptionKey]}</small>
                                     </div>
                                     <div class="col-4">
                                         <@ui.progress
@@ -199,41 +202,81 @@
                             </div>
                             <div id="branches-by-type-${key?index}" class="collapse" aria-labelledby="headingOne">
                                 <div class="card-body">
-                                    <table class="table table-sm">
-                                        <thead>
-                                        <tr>
-                                            <th scope="col">${i18["details.branch.operation"]}</th>
-                                            <th scope="col">${i18["details.branch.branchname"]}e</th>
-                                            <th scope="col">${i18["details.branch.details"]}</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <#list value.coveredOperation as operation,branch>
-                                            <tr class="table-success">
-                                                <td>
-                                                    <span>
-                                                        <i class="fas fa-check"></i>
-                                                    </span>
-                                                    &nbsp;${operation}
-                                                </td>
-                                                <td>${branch.name}</td>
-                                                <td>${branch.reason?no_esc}</td>
-                                            </tr>
-                                        </#list>
-                                        <#list value.uncoveredOperation as operation,branch>
-                                            <tr class="table-danger">
-                                                <td>
-                                                    <span>
-                                                        <i class="fas fa-bug"></i>
-                                                    </span>
-                                                    &nbsp;${operation}
-                                                </td>
-                                                <td>${branch.name}</td>
-                                                <td>${branch.reason?no_esc}</td>
-                                            </tr>
-                                        </#list>
-                                        </tbody>
-                                    </table>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <ul class="nav nav-pills nav-fill" id="branch-tabs-${key?index}" role="tablist">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" id="tab-branch-covered-${key?index}" data-toggle="tab" href="#branch-covered-${key?index}" role="tab"
+                                                       aria-controls="branch-covered-${key?index}" aria-selected="true">
+                                                        ${i18["summary.branches.covered"]}: ${value.coveredOperation?size}
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" id="tab-branch-uncovered-${key?index}" data-toggle="tab" href="#branch-uncovered-${key?index}" role="tab"
+                                                       aria-controls="branch-uncovered-${key?index}" aria-selected="true">
+                                                        ${i18["summary.branches.uncovered"]}: ${value.uncoveredOperation?size}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="tab-content" id="details-content-${key?index}">
+                                                <div class="tab-pane fade show active" id="branch-covered-${key?index}" role="tabpanel" aria-labelledby="tab-branch-covered-${key?index}">
+                                                    <table class="table table-sm">
+                                                        <thead>
+                                                        <tr>
+                                                            <th scope="col">${i18["details.branch.operation"]}</th>
+                                                            <th scope="col">${i18["details.branch.branchname"]}e</th>
+                                                            <th scope="col">${i18["details.branch.details"]}</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <#list value.coveredOperation as branchItem>
+                                                            <tr class="table-success">
+                                                                <td>
+                                                                    <span>
+                                                                        <i class="fas fa-check"></i>
+                                                                    </span>
+                                                                    &nbsp;${branchItem.operation}
+                                                                </td>
+                                                                <td>${branchItem.branch.name}</td>
+                                                                <td>${branchItem.branch.reason?no_esc}</td>
+                                                            </tr>
+                                                        </#list>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="tab-pane fade" id="branch-uncovered-${key?index}" role="tabpanel" aria-labelledby="tab-branch-uncovered-${key?index}">
+                                                    <table class="table table-sm">
+                                                        <thead>
+                                                        <tr>
+                                                            <th scope="col">${i18["details.branch.operation"]}</th>
+                                                            <th scope="col">${i18["details.branch.branchname"]}e</th>
+                                                            <th scope="col">${i18["details.branch.details"]}</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <#list value.uncoveredOperation as branchItem>
+                                                            <tr class="table-danger">
+                                                                <td>
+                                                                    <span>
+                                                                        <i class="fas fa-bug"></i>
+                                                                    </span>
+                                                                    &nbsp;${branchItem.operation}
+                                                                </td>
+                                                                <td>${branchItem.branch.name}</td>
+                                                                <td>${branchItem.branch.reason?no_esc}</td>
+                                                            </tr>
+                                                        </#list>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

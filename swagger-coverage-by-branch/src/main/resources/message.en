@@ -55,3 +55,19 @@ generation.parsed_file_count=Parsed result files
 generation.time=Generation time
 generation.result_file_created_interval=Result file create interval
 generation.report.date=Generation report date
+
+summary.tag.legend=Partition of group's statuses
+summary.operations.legend=Partition of operations's statuses
+
+predicate.ParameterValueBranchPredicate.name=All parameter values
+predicate.ParameterValueBranchPredicate.description=Verification that the method is called with all parameters described in the enum
+predicate.NotOnlyParameterListValueBranchPredicate.name=Values not only from the list
+predicate.NotOnlyParameterListValueBranchPredicate.description = Verify that the method was called with a value that is not described in the parameter enum
+predicate.SimpleBodyBranchPredicate.name = Request Body Availability
+predicate.SimpleBodyBranchPredicate.description = Verify that the request body was not empty
+predicate.StatusBranchPredicate.name = Response Status
+predicate.StatusBranchPredicate.description = Check that there is an answer with the http status described in responses
+predicate.SimpleBranchPredicate.name = Check parameter value
+predicate.SimpleBranchPredicate.description = Check that the parameter is empty or not empty
+predicate.FullStatusBranchPredicate.name = Only the described statuses
+predicate.FullStatusBranchPredicate.description = Check that no status was received that was not described

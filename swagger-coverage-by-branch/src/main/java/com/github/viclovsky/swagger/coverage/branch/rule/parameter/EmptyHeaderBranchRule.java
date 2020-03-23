@@ -28,6 +28,6 @@ public class EmptyHeaderBranchRule extends ParameterRule {
 
     @Override
     public String getId() {
-        return null;
+        return "empty-required-header";
     }
 }

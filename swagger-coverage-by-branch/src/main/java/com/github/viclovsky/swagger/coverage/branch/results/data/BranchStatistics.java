@@ -2,7 +2,9 @@ package com.github.viclovsky.swagger.coverage.branch.results.data;
 
 import com.github.viclovsky.swagger.coverage.branch.model.Branch;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BranchStatistics {
@@ -11,8 +13,8 @@ public class BranchStatistics {
     protected long coveredCount = 0;
     protected long uncoveredCount = 0;
 
-    protected Map<String, Branch> coveredOperation = new HashMap<>();
-    protected Map<String, Branch> uncoveredOperation = new HashMap<>();
+    protected List<BranchStatisticsItem> coveredOperation = new ArrayList<>();
+    protected List<BranchStatisticsItem> uncoveredOperation = new ArrayList<>();
 
     public long getAllCount() {
         return allCount;
@@ -41,20 +43,20 @@ public class BranchStatistics {
         return this;
     }
 
-    public Map<String, Branch> getCoveredOperation() {
+    public List<BranchStatisticsItem> getCoveredOperation() {
         return coveredOperation;
     }
 
-    public BranchStatistics setCoveredOperation(Map<String, Branch> coveredOperation) {
+    public BranchStatistics setCoveredOperation(List<BranchStatisticsItem> coveredOperation) {
         this.coveredOperation = coveredOperation;
         return this;
     }
 
-    public Map<String, Branch> getUncoveredOperation() {
+    public List<BranchStatisticsItem> getUncoveredOperation() {
         return uncoveredOperation;
     }
 
-    public BranchStatistics setUncoveredOperation(Map<String, Branch> uncoveredOperation) {
+    public BranchStatistics setUncoveredOperation(List<BranchStatisticsItem> uncoveredOperation) {
         this.uncoveredOperation = uncoveredOperation;
         return this;
     }
@@ -64,10 +66,10 @@ public class BranchStatistics {
 
         if (branch.isCovered()){
             this.coveredCount++;
-            this.coveredOperation.put(operation,branch);
+            this.coveredOperation.add(new BranchStatisticsItem(operation, branch));
         } else {
             this.uncoveredCount++;
-            this.uncoveredOperation.put(operation,branch);;
+            this.uncoveredOperation.add(new BranchStatisticsItem(operation, branch));;
         }
 
         return this;

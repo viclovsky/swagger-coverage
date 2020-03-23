@@ -5,10 +5,8 @@ import com.github.viclovsky.swagger.coverage.branch.configuration.options.Config
 import com.github.viclovsky.swagger.coverage.branch.configuration.options.RuleConfigurationOptions;
 import com.github.viclovsky.swagger.coverage.branch.results.builder.core.StatisticsBuilder;
 import com.github.viclovsky.swagger.coverage.branch.rule.core.BranchRule;
-import com.github.viclovsky.swagger.coverage.branch.writer.HtmlBranchReportResultsWriter;
 import io.swagger.models.Swagger;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

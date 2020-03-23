@@ -31,6 +31,6 @@ public class EnumValuesBranchRule extends ParameterRule {
 
     @Override
     public String getId() {
-        return null;
+        return "enum-all-value";
     }
 }

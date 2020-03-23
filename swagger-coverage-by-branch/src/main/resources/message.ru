@@ -55,3 +55,19 @@ generation.parsed_file_count=Проверено файлов с результа
 generation.time=Затраченое на отчёт время
 generation.result_file_created_interval=Файлы с результатами созданы
 generation.report.date=Дата генерации отчёта
+
+summary.tag.legend=Распределение статусов покрытия групп
+summary.operations.legend=Распределение статусов покрытия операций
+
+predicate.ParameterValueBranchPredicate.name=Все значения параметра
+predicate.ParameterValueBranchPredicate.description=Проверка, что метод вызван со всеми описанным в enum параметра
+predicate.NotOnlyParameterListValueBranchPredicate.name=Значения не только из списка
+predicate.NotOnlyParameterListValueBranchPredicate.description=Проверка, что метод вызывался со значением, которое не описано в enum параметра
+predicate.SimpleBodyBranchPredicate.name=Наличие тела запроса
+predicate.SimpleBodyBranchPredicate.description=Проверка, что тело запроса было не пустым
+predicate.StatusBranchPredicate.name=Статус ответа
+predicate.StatusBranchPredicate.description=Проверка, что есть ответ с описанным  в responses http-статусом
+predicate.SimpleBranchPredicate.name=Проверка значения параметра
+predicate.SimpleBranchPredicate.description=Проверка, что параметр пустой или не пустой
+predicate.FullStatusBranchPredicate.name=Только описанные статусы
+predicate.FullStatusBranchPredicate.description=Проверка, что не было получено статусов, которые не описаны
