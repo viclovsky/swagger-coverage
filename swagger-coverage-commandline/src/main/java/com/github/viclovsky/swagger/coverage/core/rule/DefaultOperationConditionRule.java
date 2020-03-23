@@ -9,7 +9,7 @@ import io.swagger.models.parameters.Parameter;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 
 public class DefaultOperationConditionRule extends ConditionRule {
 
@@ -37,6 +37,6 @@ public class DefaultOperationConditionRule extends ConditionRule {
                 return null;
             }
         });
-        return asList(condition);
+        return singletonList(condition);
     }
 }

@@ -1,9 +1,7 @@
 package com.github.viclovsky.swagger.coverage.core.generator;
 
 import com.github.viclovsky.swagger.coverage.CoverageOutputReader;
-import com.github.viclovsky.swagger.coverage.CoverageResultsWriter;
 import com.github.viclovsky.swagger.coverage.FileSystemOutputReader;
-import com.github.viclovsky.swagger.coverage.HtmlReportResultsWriter;
 import com.github.viclovsky.swagger.coverage.core.model.ConditionOperationCoverage;
 import com.github.viclovsky.swagger.coverage.core.model.OperationKey;
 import com.github.viclovsky.swagger.coverage.core.model.OperationsHolder;
@@ -16,6 +14,10 @@ import com.github.viclovsky.swagger.coverage.core.rule.parameter.DefaultBodyCond
 import com.github.viclovsky.swagger.coverage.core.rule.parameter.DefaultEnumValuesConditionRule;
 import com.github.viclovsky.swagger.coverage.core.rule.parameter.DefaultParameterConditionRule;
 import com.github.viclovsky.swagger.coverage.core.rule.status.DefaultHTTPStatusConditionRule;
+import com.github.viclovsky.swagger.coverage.core.writer.CoverageResultsWriter;
+import com.github.viclovsky.swagger.coverage.core.writer.FileSystemResultsWriter;
+import com.github.viclovsky.swagger.coverage.core.writer.HtmlReportResultsWriter;
+import com.github.viclovsky.swagger.coverage.core.writer.LogResultsWriter;
 import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
 import io.swagger.models.parameters.Parameter;
@@ -45,7 +47,7 @@ public class Generator {
         SwaggerParser parser = new SwaggerParser();
         Swagger spec = parser.read(getSpecPath().toString());
 
-        log.info("spec is {}", spec);
+        log.debug("spec is {}", spec);
 
         List<ConditionRule> rules = new ArrayList<>();
         //by default
@@ -60,33 +62,36 @@ public class Generator {
         CoverageOutputReader reader = new FileSystemOutputReader(getInputPath());
         reader.getOutputs().forEach(o -> processResult(parser.read(o.toString())));
 
-        CoverageResultsWriter writer = new HtmlReportResultsWriter();
-
         Results result = new Results(mainCoverageData).setMissed(missed)
                 .setGenerationStatistics(new GenerationStatistics()
                         .setResultFileCount(fileCounter)
                         .setGenerationTime(System.currentTimeMillis() - startTime))
                 .setInfo(spec.getInfo());
-        writer.write(result);
+
+        List<CoverageResultsWriter> writers = new ArrayList<>();
+        writers.add(new LogResultsWriter());
+        writers.add(new HtmlReportResultsWriter());
+        writers.add(new FileSystemResultsWriter());
+        writers.forEach(w -> w.write(result));
     }
 
     private void processResult(Swagger swagger) {
         fileCounter++;
         OperationsHolder operations = SwaggerSpecificationProcessor.extractOperation(swagger);
         operations.getOperations().forEach((key, value) -> {
-            log.info(String.format("==  process result %s", key));
+            log.debug(String.format("==  process result %s", key));
 
             List<Parameter> currentParams = value.getParameters();
 
-            log.info(String.format("current param map is %s", currentParams));
+            log.debug(String.format("current param map is %s", currentParams));
 
             if (mainCoverageData.containsKey(key)) {
                 mainCoverageData.get(key).getConditions().stream().filter(t -> !t.isCovered())
                         .forEach(condition -> {
                             boolean isCover = true;
-                            for (ConditionPredicate bp : condition.getPredicateList()) {
-                                isCover = isCover && bp.check(currentParams, value.getResponses());
-                                log.info(String.format(" === predicate [%s] is [%s]", condition.getName(), isCover));
+                            for (ConditionPredicate conditionPredicate : condition.getPredicateList()) {
+                                isCover = isCover && conditionPredicate.check(currentParams, value.getResponses());
+                                log.debug(String.format(" === predicate [%s] is [%s]", condition.getName(), isCover));
                             }
                             condition.setCovered(isCover);
                         });

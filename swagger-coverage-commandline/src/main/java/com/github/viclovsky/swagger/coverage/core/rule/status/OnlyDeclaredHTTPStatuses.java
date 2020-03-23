@@ -6,9 +6,11 @@ import com.github.viclovsky.swagger.coverage.core.predicate.FullStatusConditionP
 import com.github.viclovsky.swagger.coverage.core.rule.ConditionRule;
 import io.swagger.models.Operation;
 
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 
 public class OnlyDeclaredHTTPStatuses extends ConditionRule {
 
@@ -22,6 +24,6 @@ public class OnlyDeclaredHTTPStatuses extends ConditionRule {
         ConditionPredicate predicate = new FullStatusConditionPredicate(operation.getResponses().keySet());
         condition.addPredicate(predicate);
 
-        return asList(condition);
+        return singletonList(condition);
     }
 }

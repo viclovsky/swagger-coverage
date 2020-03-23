@@ -1,5 +1,7 @@
-package com.github.viclovsky.swagger.coverage;
+package com.github.viclovsky.swagger.coverage.core.writer;
 
+import com.github.viclovsky.swagger.coverage.SwaggerCoverageWriteException;
+import com.github.viclovsky.swagger.coverage.core.results.Results;
 import org.apache.log4j.Logger;
 import com.github.viclovsky.swagger.coverage.utils.FreemarkerUtils;
 
@@ -12,13 +14,13 @@ import static com.github.viclovsky.swagger.coverage.SwaggerCoverageConstants.COV
 
 public class HtmlReportResultsWriter implements CoverageResultsWriter {
 
-    private final static Logger LOGGER = Logger.getLogger(FileSystemResultsWriter.class);
+    private final static Logger LOGGER = Logger.getLogger(HtmlReportResultsWriter.class);
 
     public HtmlReportResultsWriter() {
     }
 
     @Override
-    public void write(Object results) {
+    public void write(Results results) {
         final String htmlResults = COVERAGE_HTML_REPORT_NAME;
         Path path = Paths.get(htmlResults);
         LOGGER.info(String.format("Write html report in file '%s'", path.toAbsolutePath()));
