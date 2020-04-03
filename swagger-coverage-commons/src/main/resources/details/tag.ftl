@@ -22,8 +22,8 @@
                         </div>
                         <div class="col-4">
                             <@ui.progress
-                            full=tagCoverage.branchCounter.all
-                            current=tagCoverage.branchCounter.covered
+                            full=tagCoverage.conditionCounter.all
+                            current=tagCoverage.conditionCounter.covered
                             postfix=i18["details.branchprogress.postfix"]
                             />
                         </div>

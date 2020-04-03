@@ -1,6 +1,5 @@
 package com.github.viclovsky.swagger.coverage.core.generator;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.viclovsky.swagger.coverage.CoverageOutputReader;
 import com.github.viclovsky.swagger.coverage.FileSystemOutputReader;
 import com.github.viclovsky.swagger.coverage.configuration.Configuration;
@@ -12,8 +11,6 @@ import io.swagger.parser.SwaggerParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;

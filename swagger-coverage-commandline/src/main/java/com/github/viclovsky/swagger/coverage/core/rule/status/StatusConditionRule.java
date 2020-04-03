@@ -8,6 +8,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+
+/**
+ * Base rule for status
+ */
 public abstract class StatusConditionRule extends ConditionRule {
 
     public abstract Condition processStatus(String statusCode);

@@ -21,13 +21,13 @@ public class NotOnlyEnumValuesRule extends ParameterConditionRule {
 
 
             ConditionPredicate predicate = new NotOnlyParameterListValueConditionPredicate(
-                parameter.getName(),parameter.getIn(),enumValues
+                    parameter.getName(),parameter.getIn(),enumValues
             );
 
             Condition branch = new SinglePredicateCondition(
-                parameter.getIn() + " {" + parameter.getName() + "} contains values not only from enum " + enumValues,
-                "",
-                predicate
+                    parameter.getIn() + " {" + parameter.getName() + "} contains values not only from enum " + enumValues,
+                    "",
+                    predicate
             );
 
             return branch;

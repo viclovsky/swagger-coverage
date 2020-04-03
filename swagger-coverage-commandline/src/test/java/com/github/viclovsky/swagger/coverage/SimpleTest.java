@@ -1,10 +1,9 @@
-package com.github.viclovsky.swagger.coverage.core;
+package com.github.viclovsky.swagger.coverage;
 
 import com.github.viclovsky.swagger.coverage.core.generator.Generator;
 import org.junit.Test;
 
 import java.io.File;
-import java.nio.file.Paths;
 
 public class SimpleTest {
 
@@ -19,7 +18,7 @@ public class SimpleTest {
     @Test
     public void simpleTest() {
         Generator generator = new Generator();
-        generator.setInputPath(reqDir.toPath())
+            generator.setInputPath(reqDir.toPath())
             .setSpecPath(spec.toPath())
             .run();
     }
@@ -31,5 +30,6 @@ public class SimpleTest {
             .setSpecPath(spec.toPath())
             .setConfigurationPath(configuration.toPath())
             .run();
+
     }
 }

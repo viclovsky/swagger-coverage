@@ -100,8 +100,8 @@ public class TagStatisticsBuilder extends StatisticsOperationPostBuilder {
                         tag -> tagCoverageMap
                             .get(tag)
                             .incrementByState(operationResult.getState())
-                            .updateAllBranchCount(operationResult.getAllBrancheCount())
-                            .updateCoveredBranchCount(operationResult.getCoveredBrancheCount())
+                            .updateAllBranchCount(operationResult.getAllConditionCount())
+                            .updateCoveredBranchCount(operationResult.getCoveredConditionCount())
                             .updateState()
                     );
             }

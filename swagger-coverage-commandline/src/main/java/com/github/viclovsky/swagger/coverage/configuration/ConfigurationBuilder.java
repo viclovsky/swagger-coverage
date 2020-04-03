@@ -1,8 +1,6 @@
 package com.github.viclovsky.swagger.coverage.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.viclovsky.swagger.coverage.CoverageResultsWriter;
-import com.github.viclovsky.swagger.coverage.HtmlBranchReportResultsWriter;
 import com.github.viclovsky.swagger.coverage.configuration.options.ConfigurationOptions;
 import com.github.viclovsky.swagger.coverage.core.results.builder.core.StatisticsBuilder;
 import com.github.viclovsky.swagger.coverage.core.results.builder.postbuilder.*;
@@ -10,6 +8,9 @@ import com.github.viclovsky.swagger.coverage.core.results.builder.prebuilder.*;
 import com.github.viclovsky.swagger.coverage.core.rule.core.ConditionRule;
 import com.github.viclovsky.swagger.coverage.core.rule.parameter.*;
 import com.github.viclovsky.swagger.coverage.core.rule.status.*;
+import com.github.viclovsky.swagger.coverage.core.writer.CoverageResultsWriter;
+import com.github.viclovsky.swagger.coverage.core.writer.HtmlExtendReportResultsWriter;
+import com.github.viclovsky.swagger.coverage.core.writer.LogResultsWriter;
 
 
 import java.io.IOException;
@@ -49,7 +50,10 @@ public class ConfigurationBuilder {
 
         if (options.getWriters().isEmpty()) {
             configuredResultsWriters.add(
-                    new HtmlBranchReportResultsWriter()
+                new HtmlExtendReportResultsWriter()
+            );
+            configuredResultsWriters.add(
+                new LogResultsWriter()
             );
         } else {
             options
@@ -60,7 +64,12 @@ public class ConfigurationBuilder {
                         switch (entry.getKey().toLowerCase()){
                             case "html":
                                 configuredResultsWriters.add(
-                                    new HtmlBranchReportResultsWriter(entry.getValue().getLocale(),entry.getValue().getFilename())
+                                    new HtmlExtendReportResultsWriter(entry.getValue().getLocale(),entry.getValue().getFilename())
+                                );
+                                break;
+                            case "log":
+                                configuredResultsWriters.add(
+                                    new LogResultsWriter()
                                 );
                                 break;
                         }

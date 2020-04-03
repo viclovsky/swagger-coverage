@@ -9,21 +9,21 @@ public class OperationResult {
 
     protected OperationKey operationKey;
     protected List<Condition> conditions;
-    protected long allBrancheCount;
-    protected long coveredBrancheCount;
+    protected long allConditionCount;
+    protected long coveredConditionCount;
     protected long processCount;
     protected String description;
     protected CoverageState state;
 
     public OperationResult(List<Condition> conditions) {
         this.conditions = conditions;
-        allBrancheCount = conditions.size();
-        coveredBrancheCount = conditions.stream().filter(Condition::isCovered).count();
+        allConditionCount = conditions.size();
+        coveredConditionCount = conditions.stream().filter(Condition::isCovered).count();
 
-        if (coveredBrancheCount == 0){
+        if (coveredConditionCount == 0){
             state = CoverageState.EMPTY;
         } else {
-            if (allBrancheCount == coveredBrancheCount){
+            if (allConditionCount == coveredConditionCount){
                 state = CoverageState.FULL;
             } else {
                 state = CoverageState.PARTY;
@@ -40,21 +40,21 @@ public class OperationResult {
         return this;
     }
 
-    public long getAllBrancheCount() {
-        return allBrancheCount;
+    public long getAllConditionCount() {
+        return allConditionCount;
     }
 
-    public OperationResult setAllBrancheCount(long allBrancheCount) {
-        this.allBrancheCount = allBrancheCount;
+    public OperationResult setAllConditionCount(long allConditionCount) {
+        this.allConditionCount = allConditionCount;
         return this;
     }
 
-    public long getCoveredBrancheCount() {
-        return coveredBrancheCount;
+    public long getCoveredConditionCount() {
+        return coveredConditionCount;
     }
 
-    public OperationResult setCoveredBrancheCount(long coveredBrancheCount) {
-        this.coveredBrancheCount = coveredBrancheCount;
+    public OperationResult setCoveredConditionCount(long coveredConditionCount) {
+        this.coveredConditionCount = coveredConditionCount;
         return this;
     }
 

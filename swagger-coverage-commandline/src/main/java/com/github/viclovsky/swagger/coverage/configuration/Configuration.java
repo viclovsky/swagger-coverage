@@ -1,11 +1,10 @@
 package com.github.viclovsky.swagger.coverage.configuration;
 
-import com.github.viclovsky.swagger.coverage.CoverageResultsWriter;
-
 import com.github.viclovsky.swagger.coverage.configuration.options.ConfigurationOptions;
 import com.github.viclovsky.swagger.coverage.configuration.options.RuleConfigurationOptions;
 import com.github.viclovsky.swagger.coverage.core.results.builder.core.StatisticsBuilder;
 import com.github.viclovsky.swagger.coverage.core.rule.core.ConditionRule;
+import com.github.viclovsky.swagger.coverage.core.writer.CoverageResultsWriter;
 import io.swagger.models.Swagger;
 
 import java.util.List;

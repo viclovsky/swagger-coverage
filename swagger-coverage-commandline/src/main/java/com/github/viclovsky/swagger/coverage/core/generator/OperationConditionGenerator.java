@@ -30,7 +30,7 @@ public class OperationConditionGenerator {
 
         operations.getOperations().forEach((key, value) -> {
             ConditionOperationCoverage oc = buildConditionOperationCoverage(value, rules);
-            log.info(String.format("put operation %s", key));
+            log.debug(String.format("put operation %s", key));
             coverage.put(key, oc);
         });
 
@@ -53,7 +53,7 @@ public class OperationConditionGenerator {
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
 
-        log.info(String.format("created list is %s", conditions));
+        log.debug(String.format("created list is %s", conditions));
         return conditions;
     }
 }

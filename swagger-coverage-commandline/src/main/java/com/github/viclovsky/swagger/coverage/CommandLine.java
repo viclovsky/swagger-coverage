@@ -4,7 +4,7 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
 import com.beust.jcommander.Parameters;
 import com.beust.jcommander.ParametersDelegate;
-import com.github.viclovsky.swagger.coverage.config.Configuration;
+
 import com.github.viclovsky.swagger.coverage.core.generator.Generator;
 import com.github.viclovsky.swagger.coverage.option.MainOptions;
 import com.github.viclovsky.swagger.coverage.option.VerboseOptions;
@@ -13,7 +13,9 @@ import org.apache.log4j.LogManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 import java.util.Optional;
+
 
 @Parameters(commandNames = "swagger-coverage", commandDescription = "Swagger-coverage Commandline")
 public class CommandLine {
@@ -68,14 +70,16 @@ public class CommandLine {
             printUsage(commander);
             return ExitCode.NO_ERROR;
         }
-        Generator generator = new Generator();
-        generator.setInputPath(mainOptions.getInputPath())
+
+        new Generator()
+                .setInputPath(mainOptions.getInputPath())
                 .setSpecPath(mainOptions.getSpecPath())
                 .setConfigurationPath(mainOptions.getConfguration())
                 .run();
 
         return ExitCode.NO_ERROR;
     }
+
 
     private void printUsage(final JCommander commander) {
         commander.usage();

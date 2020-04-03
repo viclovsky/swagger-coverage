@@ -10,7 +10,7 @@ public class TagCoverage {
     protected String description;
     protected Set<OperationKey> operations = new HashSet<>();
     protected CoverageCounter coverageCounter = new CoverageCounter();
-    protected BranchCounter branchCounter = new BranchCounter();
+    protected ConditionCounter conditionCounter = new ConditionCounter();
     protected long callCounts = 0;
     protected CoverageState state = CoverageState.EMPTY;
 
@@ -19,10 +19,10 @@ public class TagCoverage {
     }
 
     public TagCoverage updateState(){
-        if (branchCounter.getCovered() == 0){
+        if (conditionCounter.getCovered() == 0){
             state = CoverageState.EMPTY;
         } else {
-            if (branchCounter.getAll() == branchCounter.getCovered()){
+            if (conditionCounter.getAll() == conditionCounter.getCovered()){
                 state = CoverageState.FULL;
             } else {
                 state = CoverageState.PARTY;
@@ -44,12 +44,12 @@ public class TagCoverage {
     }
 
     public TagCoverage updateAllBranchCount(long count){
-        branchCounter.updateAll(count);
+        conditionCounter.updateAll(count);
         return this;
     }
 
     public TagCoverage updateCoveredBranchCount(long count){
-        branchCounter.updateCovered(count);
+        conditionCounter.updateCovered(count);
         return this;
     }
 
@@ -80,12 +80,12 @@ public class TagCoverage {
         return this;
     }
 
-    public BranchCounter getBranchCounter() {
-        return branchCounter;
+    public ConditionCounter getConditionCounter() {
+        return conditionCounter;
     }
 
-    public TagCoverage setBranchCounter(BranchCounter branchCounter) {
-        this.branchCounter = branchCounter;
+    public TagCoverage setConditionCounter(ConditionCounter conditionCounter) {
+        this.conditionCounter = conditionCounter;
         return this;
     }
 
@@ -113,7 +113,7 @@ public class TagCoverage {
                 "description='" + description + '\'' +
                 ", operations=" + operations.toString() +
                 ", coverageCounter=" + coverageCounter.toString() +
-                ", branchCounter=" + branchCounter.toString() +
+                ", branchCounter=" + conditionCounter.toString() +
                 '}';
     }
 }

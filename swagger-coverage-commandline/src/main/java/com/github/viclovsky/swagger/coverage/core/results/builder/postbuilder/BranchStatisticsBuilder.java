@@ -3,27 +3,27 @@ package com.github.viclovsky.swagger.coverage.core.results.builder.postbuilder;
 import com.github.viclovsky.swagger.coverage.core.model.OperationKey;
 import com.github.viclovsky.swagger.coverage.core.results.Results;
 import com.github.viclovsky.swagger.coverage.core.results.builder.core.StatisticsOperationPostBuilder;
-import com.github.viclovsky.swagger.coverage.core.results.data.BranchCounter;
+import com.github.viclovsky.swagger.coverage.core.results.data.ConditionCounter;
 import com.github.viclovsky.swagger.coverage.core.results.data.CoverageOperationMap;
 import com.github.viclovsky.swagger.coverage.core.results.data.OperationResult;
 
 public class BranchStatisticsBuilder extends StatisticsOperationPostBuilder {
 
     protected CoverageOperationMap coverageOperationMap = new CoverageOperationMap();
-    protected BranchCounter branchCounter = new BranchCounter();
+    protected ConditionCounter  conditionCounter= new ConditionCounter();
 
     @Override
     public void buildResult(Results results) {
         results
             .setCoverageOperationMap(coverageOperationMap)
-            .setBranchCounter(branchCounter)
+            .setConditionCounter(conditionCounter)
             ;
     }
 
     @Override
     public void buildOperation(OperationKey operation, OperationResult operationResult) {
-        branchCounter.updateAll(operationResult.getAllBrancheCount());
-        branchCounter.updateCovered(operationResult.getCoveredBrancheCount());
+        conditionCounter.updateAll(operationResult.getAllConditionCount());
+        conditionCounter.updateCovered(operationResult.getCoveredConditionCount());
 
         switch (operationResult.getState()){
             case PARTY:

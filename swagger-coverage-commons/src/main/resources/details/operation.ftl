@@ -80,8 +80,8 @@
                 </div>
                 <div class="col-4">
                     <@ui.progress
-                    full=operationResult.allBrancheCount
-                    current=operationResult.coveredBrancheCount
+                    full=operationResult.allConditionCount
+                    current=operationResult.coveredConditionCount
                     postfix=i18["details.branchprogress.postfix"]
                     />
                 </div>

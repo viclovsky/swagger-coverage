@@ -1,6 +1,8 @@
-package com.github.viclovsky.swagger.coverage;
+package com.github.viclovsky.swagger.coverage.core.writer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.viclovsky.swagger.coverage.SwaggerCoverageWriteException;
+import com.github.viclovsky.swagger.coverage.core.results.Results;
 import com.github.viclovsky.swagger.coverage.model.SwaggerCoverage2ModelJackson;
 import org.apache.log4j.Logger;
 
@@ -22,7 +24,7 @@ public class FileSystemResultsWriter implements CoverageResultsWriter {
     }
 
     @Override
-    public void write(Object results) {
+    public void write(Results results) {
         final String swaggerResultName = COVERAGE_RESULTS_NAME;
         Path path = Paths.get(swaggerResultName);
         LOGGER.info(String.format("Write results in file '%s'", path.toAbsolutePath()));

@@ -16,7 +16,7 @@ public class Results {
 
     protected GenerationStatistics generationStatistics;
     protected CoverageOperationMap coverageOperationMap = new CoverageOperationMap();
-    protected BranchCounter branchCounter = new BranchCounter();
+    protected ConditionCounter conditionCounter = new ConditionCounter();
 
     /** TAG STATISTICS **/
     protected Map<String, TagCoverage> tagCoverageMap = new TreeMap<>();
@@ -57,21 +57,21 @@ public class Results {
         return this;
     }
 
-    public BranchCounter getBranchCounter() {
-        return branchCounter;
-    }
-
-    public Results setBranchCounter(BranchCounter branchCounter) {
-        this.branchCounter = branchCounter;
-        return this;
-    }
-
     public GenerationStatistics getGenerationStatistics() {
         return generationStatistics;
     }
 
     public Results setGenerationStatistics(GenerationStatistics generationStatistics) {
         this.generationStatistics = generationStatistics;
+        return this;
+    }
+
+    public ConditionCounter getConditionCounter() {
+        return conditionCounter;
+    }
+
+    public Results setConditionCounter(ConditionCounter conditionCounter) {
+        this.conditionCounter = conditionCounter;
         return this;
     }
 

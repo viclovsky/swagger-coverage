@@ -16,9 +16,9 @@ public class DefaultParameterRule extends ParameterConditionRule {
 
         ConditionPredicate predicate = new DefaultParameterConditionPredicate(false,parameter.getName(),parameter.getIn());
         Condition branch = new SinglePredicateCondition(
-            parameter.getIn() + " {" + parameter.getName() + "} is not empty",
-            "",
-            predicate
+                parameter.getIn() + " {" + parameter.getName() + "} is not empty",
+                "",
+                predicate
         );
 
         return branch;

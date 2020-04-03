@@ -81,7 +81,7 @@
             <@summary.operations operationCoveredMap=data.coverageOperationMap />
             <@summary.calls data=data />
             <@summary.tags tagsDetail=data.tagCoverageMap tagCounter=data.tagCounter />
-            <@summary.branchs counter=data.branchCounter />
+            <@summary.branchs counter=data.conditionCounter />
         </section>
 
         <section id="details">
