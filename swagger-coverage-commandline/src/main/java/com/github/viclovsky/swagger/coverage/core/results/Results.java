@@ -22,7 +22,9 @@ public class Results {
     protected Map<String, TagCoverage> tagCoverageMap = new TreeMap<>();
     protected CoverageCounter tagCounter;
 
+    /** **/
     protected String prettyConfiguration;
+    protected ViewData viewData;
 
     public Results(){
 
@@ -124,6 +126,15 @@ public class Results {
 
     public Results setFlatOperations(Map<String, OperationResult> flatOperations) {
         this.flatOperations = flatOperations;
+        return this;
+    }
+
+    public ViewData getViewData() {
+        return viewData;
+    }
+
+    public Results setViewData(ViewData viewData) {
+        this.viewData = viewData;
         return this;
     }
 }

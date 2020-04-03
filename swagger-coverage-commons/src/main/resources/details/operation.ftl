@@ -68,7 +68,10 @@
                 <div class="col-6">
                     <p>
                         <@ui.coverageStateBadget operationResult=operationResult />
-                        <span><strong>${name}</strong></span>
+
+                        <button type="button" class="btn btn-sm">${operationResult.operationKey.httpMethod}</button>
+
+                        <span><strong>${operationResult.operationKey.path}</strong></span>
                     </p>
                     <span><small>${operationResult.description}</small></span>
                 </div>

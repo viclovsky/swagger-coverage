@@ -95,6 +95,7 @@ public class ConfigurationBuilder {
         registeredBuilders.add(new TagStatisticsBuilder());
         registeredBuilders.add(new ConfigurationStatisticsBuilder());
         registeredBuilders.add(new FlatOperationBuilder());
+        registeredBuilders.add(new ViewStatisticsBuilder());
 
         return registeredBuilders;
     }
