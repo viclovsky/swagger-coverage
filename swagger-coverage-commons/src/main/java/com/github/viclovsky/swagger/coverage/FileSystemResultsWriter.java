@@ -1,8 +1,8 @@
 package com.github.viclovsky.swagger.coverage;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.log4j.Logger;
 import com.github.viclovsky.swagger.coverage.model.SwaggerCoverage2ModelJackson;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.io.OutputStream;

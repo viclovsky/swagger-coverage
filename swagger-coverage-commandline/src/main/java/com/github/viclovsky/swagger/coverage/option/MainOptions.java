@@ -26,33 +26,12 @@ public class MainOptions {
     private Path inputPath;
 
     @Parameter(
-            names = "--outputSwagger",
-            description = "Return swagger specification which represents uncoveraged items.",
-            order = 2
+            names = {"-c", "--configuration"},
+            description = "Path to file with report configuration.",
+            required = true,
+            order = 1
     )
-    private boolean isSwaggerOutput;
-
-    @Parameter(
-            names = "--ignoreHeaders",
-            description = "Ignored header names separated by comma.",
-            order = 3,
-            variableArity = true
-    )
-    private List<String> ignoreHeaders;
-
-    @Parameter(
-            names = "--ignoreNotOkStatusCodes",
-            description = "Ignore all status codes not equal 200.",
-            order = 4
-    )
-    private boolean ignoreNotOkStatusCodes;
-
-    @Parameter(
-            names = "--ignoreRestCase",
-            description = "Ignore case for swagger operation.",
-            order = 6
-    )
-    private static boolean ignoreRestCase;
+    private Path confguration;
 
     @Parameter(
             names = "--help",
@@ -74,20 +53,7 @@ public class MainOptions {
         return inputPath;
     }
 
-    public boolean isSwaggerOutput() {
-        return isSwaggerOutput;
-    }
-
-    public List<String> getIgnoreHeaders() {
-        return Optional.ofNullable(ignoreHeaders)
-                .orElseGet(ArrayList::new);
-    }
-
-    public boolean isIgnoreNotOkStatusCodes() {
-        return ignoreNotOkStatusCodes;
-    }
-
-    public static boolean getIgnoreRestCase() {
-        return ignoreRestCase;
+    public Path getConfguration() {
+        return confguration;
     }
 }

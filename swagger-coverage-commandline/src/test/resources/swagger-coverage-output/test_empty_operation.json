@@ -1,0 +1,16 @@
+{
+  "swagger" : "2.0",
+  "host" : "localhost",
+  "schemes" : [ "http" ],
+  "consumes" : [ "application/json" ],
+  "produces" : [ "" ],
+  "paths" : {
+    "/store/inventory" : {
+      "get" : {
+        "responses" : {
+          "404" : { }
+        }
+      }
+    }
+  }
+}

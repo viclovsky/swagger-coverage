@@ -33,9 +33,22 @@ public class RequestLoggerFilterTest {
     @Test
     public void shouldDumpSwaggerFile() {
         RestAssured.given().filter(new SwaggerCoverageRestAssured())
+                .multiPart("file", "{}")
                 .header(new Header("X-Request-ID", "h"))
                 .formParam("form_param", "f")
                 .queryParam("query_param", "q")
+                .pathParam("path_param", "p")
+                .get(mock.url("/hello/{path_param}"));
+    }
+
+
+    @Test
+    public void shouldCatchExceptionRestAssuredIssue1232() {
+        RestAssured.given().filter(new SwaggerCoverageRestAssured())
+                .multiPart("file", "{}")
+                .header(new Header("X-Request-ID", "h"))
+                .formParam("form_param", "f", "f2")
+                .queryParam("query_param", "q", "q2")
                 .pathParam("path_param", "p")
                 .get(mock.url("/hello/{path_param}"));
     }
