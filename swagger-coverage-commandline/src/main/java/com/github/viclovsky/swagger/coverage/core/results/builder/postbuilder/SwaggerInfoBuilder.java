@@ -4,21 +4,19 @@ import com.github.viclovsky.swagger.coverage.core.model.OperationKey;
 import com.github.viclovsky.swagger.coverage.core.results.Results;
 import com.github.viclovsky.swagger.coverage.core.results.builder.core.StatisticsOperationPostBuilder;
 import com.github.viclovsky.swagger.coverage.core.results.data.OperationResult;
-import com.github.viclovsky.swagger.coverage.core.results.data.ViewData;
 import com.github.viclovsky.swagger.coverage.core.rule.core.ConditionRule;
+import io.swagger.models.Info;
 import io.swagger.models.Swagger;
 
 import java.util.List;
 
-public class ViewStatisticsBuilder extends StatisticsOperationPostBuilder  {
+public class SwaggerInfoBuilder extends StatisticsOperationPostBuilder  {
 
-    protected ViewData viewData;
+    protected Info info;
 
     @Override
-    public ViewStatisticsBuilder configure(Swagger swagger, List<ConditionRule> rules) {
-        viewData = new ViewData(
-            swagger.getInfo().getTitle() + swagger.getInfo().getVersion()
-        );
+    public SwaggerInfoBuilder configure(Swagger swagger, List<ConditionRule> rules) {
+        info =swagger.getInfo();
 
         return this;
     }
@@ -30,6 +28,6 @@ public class ViewStatisticsBuilder extends StatisticsOperationPostBuilder  {
 
     @Override
     public void buildResult(Results results) {
-        results.setViewData(viewData);
+        results.setInfo(info);
     }
 }

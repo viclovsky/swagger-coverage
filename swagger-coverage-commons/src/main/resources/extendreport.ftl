@@ -48,7 +48,7 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container">
         <div class="collapse navbar-collapse" id="navbarCollapse">
-            <a class="navbar-brand" href="#">${data.viewData.projectName}</a>
+            <a class="navbar-brand" href="#">${data.info.getTitle()} ${data.info.getVersion()}</a>
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="#summary">${i18["menu.summary"]}</a>

@@ -8,9 +8,7 @@ import com.github.viclovsky.swagger.coverage.core.results.builder.prebuilder.*;
 import com.github.viclovsky.swagger.coverage.core.rule.core.ConditionRule;
 import com.github.viclovsky.swagger.coverage.core.rule.parameter.*;
 import com.github.viclovsky.swagger.coverage.core.rule.status.*;
-import com.github.viclovsky.swagger.coverage.core.writer.CoverageResultsWriter;
-import com.github.viclovsky.swagger.coverage.core.writer.HtmlExtendReportResultsWriter;
-import com.github.viclovsky.swagger.coverage.core.writer.LogResultsWriter;
+import com.github.viclovsky.swagger.coverage.core.writer.*;
 
 
 import java.io.IOException;
@@ -55,14 +53,20 @@ public class ConfigurationBuilder {
             configuredResultsWriters.add(
                 new LogResultsWriter()
             );
+            configuredResultsWriters.add(
+                new FileSystemResultsWriter()
+            );
+            configuredResultsWriters.add(
+                new HtmlReportResultsWriter()
+            );
         } else {
             options
                 .getWriters()
                 .entrySet()
                 .forEach(
                     entry -> {
-                        switch (entry.getKey().toLowerCase()){
-                            case "html":
+                        switch (entry.getValue().getType()){
+                            case "extend-html":
                                 configuredResultsWriters.add(
                                     new HtmlExtendReportResultsWriter(entry.getValue().getLocale(),entry.getValue().getFilename())
                                 );
@@ -70,6 +74,16 @@ public class ConfigurationBuilder {
                             case "log":
                                 configuredResultsWriters.add(
                                     new LogResultsWriter()
+                                );
+                                break;
+                            case "html":
+                                configuredResultsWriters.add(
+                                    new HtmlReportResultsWriter()
+                                );
+                                break;
+                            case "json":
+                                configuredResultsWriters.add(
+                                    new FileSystemResultsWriter()
                                 );
                                 break;
                         }
@@ -104,7 +118,7 @@ public class ConfigurationBuilder {
         registeredBuilders.add(new TagStatisticsBuilder());
         registeredBuilders.add(new ConfigurationStatisticsBuilder());
         registeredBuilders.add(new FlatOperationBuilder());
-        registeredBuilders.add(new ViewStatisticsBuilder());
+        registeredBuilders.add(new SwaggerInfoBuilder());
 
         return registeredBuilders;
     }

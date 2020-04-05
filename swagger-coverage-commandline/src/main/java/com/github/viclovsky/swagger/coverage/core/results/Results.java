@@ -2,6 +2,7 @@ package com.github.viclovsky.swagger.coverage.core.results;
 
 import com.github.viclovsky.swagger.coverage.core.model.OperationKey;
 import com.github.viclovsky.swagger.coverage.core.results.data.*;
+import io.swagger.models.Info;
 import io.swagger.models.Operation;
 
 import java.util.*;
@@ -24,7 +25,7 @@ public class Results {
 
     /** **/
     protected String prettyConfiguration;
-    protected ViewData viewData;
+    protected Info info;
 
     public Results(){
 
@@ -129,12 +130,12 @@ public class Results {
         return this;
     }
 
-    public ViewData getViewData() {
-        return viewData;
+    public Info getInfo() {
+        return info;
     }
 
-    public Results setViewData(ViewData viewData) {
-        this.viewData = viewData;
+    public Results setInfo(Info info) {
+        this.info = info;
         return this;
     }
 }
