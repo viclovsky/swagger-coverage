@@ -88,7 +88,7 @@
             </div>
         </div>
         <div id="${target}" class="collapse" aria-labelledby="headingOne">
-            <@branchList list=operationResult.branches />
+            <@branchList list=operationResult.conditions />
         </div>
     </div>
 </#macro>

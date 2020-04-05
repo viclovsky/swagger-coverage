@@ -178,7 +178,7 @@
             </div>
             <div class="row">
                 <div class="accordion col-12" id="branches-by-type-accordion">
-                    <#list data.branchStatisticsMap as key, value>
+                    <#list data.conditionStatisticsMap as key, value>
                         <div class="card">
                             <div class="card-header">
                                 <div class="row"
@@ -243,8 +243,8 @@
                                                                     </span>
                                                                     &nbsp;${branchItem.operation}
                                                                 </td>
-                                                                <td>${branchItem.branch.name}</td>
-                                                                <td>${branchItem.branch.reason?no_esc}</td>
+                                                                <td>${branchItem.condition.name}</td>
+                                                                <td>${branchItem.condition.reason?no_esc}</td>
                                                             </tr>
                                                         </#list>
                                                         </tbody>
@@ -268,8 +268,8 @@
                                                                     </span>
                                                                     &nbsp;${branchItem.operation}
                                                                 </td>
-                                                                <td>${branchItem.branch.name}</td>
-                                                                <td>${branchItem.branch.reason?no_esc}</td>
+                                                                <td>${branchItem.condition.name}</td>
+                                                                <td>${branchItem.condition.reason?no_esc}</td>
                                                             </tr>
                                                         </#list>
                                                         </tbody>

@@ -31,15 +31,6 @@ public class OperationResult {
         }
     }
 
-    public List<Condition> getBranches() {
-        return conditions;
-    }
-
-    public OperationResult setBranches(List<Condition> branches) {
-        this.conditions = branches;
-        return this;
-    }
-
     public long getAllConditionCount() {
         return allConditionCount;
     }

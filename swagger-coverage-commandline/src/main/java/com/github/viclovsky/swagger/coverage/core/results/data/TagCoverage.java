@@ -43,12 +43,12 @@ public class TagCoverage {
         return this;
     }
 
-    public TagCoverage updateAllBranchCount(long count){
+    public TagCoverage updateAllConditionCount(long count){
         conditionCounter.updateAll(count);
         return this;
     }
 
-    public TagCoverage updateCoveredBranchCount(long count){
+    public TagCoverage updateCoveredConditionCount(long count){
         conditionCounter.updateCovered(count);
         return this;
     }
@@ -113,7 +113,7 @@ public class TagCoverage {
                 "description='" + description + '\'' +
                 ", operations=" + operations.toString() +
                 ", coverageCounter=" + coverageCounter.toString() +
-                ", branchCounter=" + conditionCounter.toString() +
+                ", conditionCounter=" + conditionCounter.toString() +
                 '}';
     }
 }

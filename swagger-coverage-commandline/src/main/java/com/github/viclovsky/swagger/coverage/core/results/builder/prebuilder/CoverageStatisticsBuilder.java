@@ -9,7 +9,7 @@ import com.github.viclovsky.swagger.coverage.core.model.OperationKey;
 import com.github.viclovsky.swagger.coverage.core.model.OperationsHolder;
 import com.github.viclovsky.swagger.coverage.core.results.Results;
 import com.github.viclovsky.swagger.coverage.core.results.builder.core.StatisticsPreBuilder;
-import com.github.viclovsky.swagger.coverage.core.results.data.BranchStatistics;
+import com.github.viclovsky.swagger.coverage.core.results.data.ConditionStatistics;
 import com.github.viclovsky.swagger.coverage.core.results.data.OperationResult;
 import com.github.viclovsky.swagger.coverage.core.rule.core.ConditionRule;
 import io.swagger.models.Operation;
@@ -61,7 +61,7 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
                     .getConditions()
                     .stream()
                     .filter(Condition::isNeedCheck)
-                    .forEach(branch -> branch.check(entry.getValue().getParameters(),entry.getValue().getResponses()))
+                    .forEach(condition -> condition.check(entry.getValue().getParameters(),entry.getValue().getResponses()))
                 ;
             } else {
                 log.info(String.format("oops. Missed request [%s]", entry.getKey()));
@@ -79,10 +79,10 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
     @Override
     public void build(Results results){
         Map<OperationKey, OperationResult> operations = new TreeMap<>();
-        Map<String, BranchStatistics> branchStatisticsMap = new HashMap<>();
+        Map<String, ConditionStatistics> conditionStatisticsMap = new HashMap<>();
 
         mainCoverageData.entrySet().stream().forEach(entry -> {
-            entry.getValue().getConditions().stream().filter(Condition::isHasPostCheck).forEach(branch -> branch.postCheck());
+            entry.getValue().getConditions().stream().filter(Condition::isHasPostCheck).forEach(condition -> condition.postCheck());
 
             operations.put(
                 entry.getKey(),
@@ -93,15 +93,15 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
             );
 
             entry.getValue().getConditions().stream().forEach(
-                    branch -> {
-                        if (!branchStatisticsMap.containsKey(branch.getType())){
-                            branchStatisticsMap.put(
-                                    branch.getType(),
-                                    new BranchStatistics()
+                    condition -> {
+                        if (!conditionStatisticsMap.containsKey(condition.getType())){
+                            conditionStatisticsMap.put(
+                                    condition.getType(),
+                                    new ConditionStatistics()
                             );
                         }
 
-                        branchStatisticsMap.get(branch.getType()).processBranch(entry.getKey(),branch);
+                        conditionStatisticsMap.get(condition.getType()).processCondition(entry.getKey(),condition);
                     }
             );
         });
@@ -109,7 +109,7 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
         results
             .setOperations(operations)
             .setMissed(missed)
-            .setBranchStatisticsMap(branchStatisticsMap)
+            .setConditionStatisticsMap(conditionStatisticsMap)
             ;
     }
 }

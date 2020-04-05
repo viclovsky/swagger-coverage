@@ -99,7 +99,7 @@ public class ConfigurationBuilder {
 
         registeredBuilders.add(new CoverageStatisticsBuilder());
         registeredBuilders.add(new GenerationStatisticsBuilder());
-        registeredBuilders.add(new BranchStatisticsBuilder());
+        registeredBuilders.add(new ConditionStatisticsBuilder());
         registeredBuilders.add(new ZeroCallStatisticsBuilder());
         registeredBuilders.add(new TagStatisticsBuilder());
         registeredBuilders.add(new ConfigurationStatisticsBuilder());

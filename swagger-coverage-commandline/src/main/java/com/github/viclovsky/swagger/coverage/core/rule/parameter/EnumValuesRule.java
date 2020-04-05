@@ -17,12 +17,12 @@ public class EnumValuesRule extends ParameterConditionRule {
 
         if (enumValues != null && !enumValues.isEmpty()) {
             ConditionPredicate predicate = new ParameterValueConditionPredicate(parameter.getName(),parameter.getIn(),enumValues);
-            Condition branch = new SinglePredicateCondition(
+            Condition condition = new SinglePredicateCondition(
                     parameter.getIn() + " {" + parameter.getName() + "} contains all values from enum " + enumValues,
                     "",
                     predicate
             );
-            return branch;
+            return condition;
         }
 
         return null;

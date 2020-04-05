@@ -3,12 +3,12 @@ package com.github.viclovsky.swagger.coverage.core.results.data;
 import com.github.viclovsky.swagger.coverage.core.model.Condition;
 import com.github.viclovsky.swagger.coverage.core.model.OperationKey;
 
-public class BranchStatisticsItem {
+public class ConditionStatisticsItem {
 
     protected OperationKey operation;
     protected Condition condition;
 
-    public BranchStatisticsItem(OperationKey operation, Condition condition) {
+    public ConditionStatisticsItem(OperationKey operation, Condition condition) {
         this.operation = operation;
         this.condition = condition;
     }
@@ -17,16 +17,16 @@ public class BranchStatisticsItem {
         return operation;
     }
 
-    public BranchStatisticsItem setOperation(OperationKey operation) {
+    public ConditionStatisticsItem setOperation(OperationKey operation) {
         this.operation = operation;
         return this;
     }
 
-    public Condition getBranch() {
+    public Condition getCondition() {
         return condition;
     }
 
-    public BranchStatisticsItem setBranch(Condition condition) {
+    public ConditionStatisticsItem setCondition(Condition condition) {
         this.condition = condition;
         return this;
     }

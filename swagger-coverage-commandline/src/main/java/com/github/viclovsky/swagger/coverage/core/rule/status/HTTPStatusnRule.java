@@ -14,20 +14,20 @@ public class HTTPStatusnRule extends StatusConditionRule {
 
     @Override
     public Condition processStatus(String status) {
-        if (skeep(status)) {
+        if (skip(status)) {
             return null;
         }
 
         ConditionPredicate predicate = new DefaultStatusConditionPredicate(status);
-        Condition branch = new SinglePredicateCondition(
+        Condition condition = new SinglePredicateCondition(
             "HTTP status " + status,
             "",
             predicate
         );
-        return branch;
+        return condition;
     }
 
-    protected boolean skeep(String status){
+    protected boolean skip(String status){
         if (this.options == null) {
             return false;
         }

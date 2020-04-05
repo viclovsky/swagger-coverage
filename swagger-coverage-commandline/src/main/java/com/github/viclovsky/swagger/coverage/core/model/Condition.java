@@ -55,7 +55,7 @@ public abstract class Condition {
 
     @Override
     public String toString() {
-        return "Branch{" +
+        return "Condition{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", covered=" + covered +

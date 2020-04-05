@@ -16,7 +16,7 @@ public class HtmlExtendReportResultsWriter implements CoverageResultsWriter {
 
     private static final Logger log = LoggerFactory.getLogger(HtmlExtendReportResultsWriter.class);
 
-    protected String filename = "swagger-coverage-by-branch-report.html";
+    protected String filename = "swagger-coverage-extend-report.html";
     protected String localeCode = "en";
 
     public HtmlExtendReportResultsWriter() {
@@ -36,7 +36,7 @@ public class HtmlExtendReportResultsWriter implements CoverageResultsWriter {
         Path path = Paths.get(filename);
         log.info(String.format("Write html report in file '%s'", path.toAbsolutePath()));
         try {
-            final String htmlReport = processTemplate("branchreport.ftl",localeCode, results);
+            final String htmlReport = processTemplate("extendreport.ftl",localeCode, results);
             Files.write(Paths.get(filename), htmlReport.getBytes());
         } catch (IOException e) {
             e.printStackTrace();

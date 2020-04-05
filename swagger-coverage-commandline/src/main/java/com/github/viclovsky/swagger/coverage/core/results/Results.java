@@ -11,7 +11,7 @@ public class Results {
     protected Map<OperationKey, OperationResult> operations = new TreeMap<>();
     protected Map<String, OperationResult> flatOperations = new TreeMap<>();
     protected Map<OperationKey, Operation> missed  = new TreeMap<>();
-    protected Map<String, BranchStatistics> branchStatisticsMap = new HashMap<>();
+    protected Map<String, ConditionStatistics> conditionStatisticsMap = new HashMap<>();
     protected Set<OperationKey> zeroCall  = new HashSet<>();
 
     protected GenerationStatistics generationStatistics;
@@ -75,12 +75,12 @@ public class Results {
         return this;
     }
 
-    public Map<String, BranchStatistics> getBranchStatisticsMap() {
-        return branchStatisticsMap;
+    public Map<String, ConditionStatistics> getConditionStatisticsMap() {
+        return conditionStatisticsMap;
     }
 
-    public Results setBranchStatisticsMap(Map<String, BranchStatistics> branchStatisticsMap) {
-        this.branchStatisticsMap = branchStatisticsMap;
+    public Results setConditionStatisticsMap(Map<String, ConditionStatistics> conditionStatisticsMap) {
+        this.conditionStatisticsMap = conditionStatisticsMap;
         return this;
     }
 

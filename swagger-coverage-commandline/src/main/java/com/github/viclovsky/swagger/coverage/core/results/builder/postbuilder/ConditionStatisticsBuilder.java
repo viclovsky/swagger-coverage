@@ -7,7 +7,7 @@ import com.github.viclovsky.swagger.coverage.core.results.data.ConditionCounter;
 import com.github.viclovsky.swagger.coverage.core.results.data.CoverageOperationMap;
 import com.github.viclovsky.swagger.coverage.core.results.data.OperationResult;
 
-public class BranchStatisticsBuilder extends StatisticsOperationPostBuilder {
+public class ConditionStatisticsBuilder extends StatisticsOperationPostBuilder {
 
     protected CoverageOperationMap coverageOperationMap = new CoverageOperationMap();
     protected ConditionCounter  conditionCounter= new ConditionCounter();
