@@ -10,6 +10,7 @@ import com.github.viclovsky.swagger.coverage.core.results.data.OperationResult;
 import com.github.viclovsky.swagger.coverage.core.results.data.TagCoverage;
 import com.github.viclovsky.swagger.coverage.core.rule.core.ConditionRule;
 import io.swagger.models.Swagger;
+import io.swagger.models.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,9 +22,8 @@ public class TagStatisticsBuilder extends StatisticsOperationPostBuilder {
 
     private static final Logger log = LoggerFactory.getLogger(TagStatisticsBuilder.class);
 
-
     protected Swagger swagger;
-    protected Map<OperationKey,List<String>> operationToTag;
+    protected Map<OperationKey, List<String>> operationToTag;
 
     protected Map<String, TagCoverage> tagCoverageMap;
     protected CoverageCounter tagCounter = new CoverageCounter();
@@ -32,78 +32,32 @@ public class TagStatisticsBuilder extends StatisticsOperationPostBuilder {
     public TagStatisticsBuilder configure(Swagger swagger, List<ConditionRule> rules) {
         this.swagger = swagger;
         OperationsHolder operations = SwaggerSpecificationProcessor.extractOperation(
-            swagger,options.getGeneral().isPathCaseIgnore()
+                swagger, options.getGeneral().isPathCaseIgnore()
         );
 
-        tagCoverageMap = swagger
-            .getTags()
-            .stream()
-            .collect(
-                Collectors.toMap(
-                    tag -> tag.getName(),
-                    tag -> new TagCoverage(tag.getDescription())
-                )
-            );
+        tagCoverageMap = swagger.getTags().stream()
+                .collect(Collectors.toMap(Tag::getName, TagCoverage::new));
 
-        operationToTag = operations
-            .getOperations()
-            .entrySet()
-            .stream()
-            .collect(
-                Collectors.toMap(
-                    entry -> entry.getKey(),
-                    entry -> entry.getValue().getTags()
-                )
-            );
+        operationToTag = operations.getOperations()
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getTags()));
 
-        operationToTag
-            .entrySet()
-            .stream()
-            .forEach(
-                entry -> entry
-                    .getValue()
-                    .stream()
-                    .forEach(
-                        tag ->  tagCoverageMap.get(tag).addOperation(entry.getKey())
-                    )
-            ) ;
+        operationToTag.forEach((key, value) -> value.forEach(tag -> tagCoverageMap.get(tag).addOperation(key)));
 
         return this;
     }
 
     @Override
     public void buildOperation(OperationKey operation, OperationResult operationResult) {
-       /* log.info("search operation {}",operation.toString());
-        if (!operationToTag.containsKey(operation)) {
-            return;
-        }
-
-        log.info("process operation {}",operation.toString());
-
-        operationToTag
-            .get(operation)
-            .stream()
-            .forEach(
-                tag -> tagCoverageMap
-                    .get(tag)
-                    .incrementByState(operationResult.getState())
-                    .updateAllBranchCount(operationResult.getAllBrancheCount())
-                    .updateCoveredBranchCount(operationResult.getCoveredBrancheCount())
-                    .updateState()
-            );
-        */
-
-        operationToTag.entrySet().forEach(entry -> {
-            if (operation.toString().equals(entry.getKey().toString())) {
-                entry.getValue().stream()
-                    .forEach(
-                        tag -> tagCoverageMap
-                            .get(tag)
-                            .incrementByState(operationResult.getState())
-                            .updateAllConditionCount(operationResult.getAllConditionCount())
-                            .updateCoveredConditionCount(operationResult.getCoveredConditionCount())
-                            .updateState()
-                    );
+        operationToTag.forEach((key, value) -> {
+            if (operation.toString().equals(key.toString())) {
+                value.forEach(tag -> tagCoverageMap.get(tag)
+                        .incrementByState(operationResult.getState())
+                        .updateAllConditionCount(operationResult.getAllConditionCount())
+                        .updateCoveredConditionCount(operationResult.getCoveredConditionCount())
+                        .updateState()
+                );
             }
         });
     }
@@ -111,17 +65,7 @@ public class TagStatisticsBuilder extends StatisticsOperationPostBuilder {
     @Override
     public void buildResult(Results results) {
         log.info(tagCoverageMap.toString());
-
-        tagCoverageMap
-            .entrySet()
-            .stream()
-            .forEach(
-                entry -> tagCounter.incrementByState(entry.getValue().getState())
-            );
-
-        results
-            .setTagCoverageMap(tagCoverageMap)
-            .setTagCounter(tagCounter)
-            ;
+        tagCoverageMap.forEach((key, value) -> tagCounter.incrementByState(value.getState()));
+        results.setTagCoverageMap(tagCoverageMap).setTagCounter(tagCounter);
     }
 }

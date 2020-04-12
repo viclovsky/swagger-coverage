@@ -28,7 +28,6 @@ public class MainOptions {
     @Parameter(
             names = {"-c", "--configuration"},
             description = "Path to file with report configuration.",
-            required = true,
             order = 1
     )
     private Path confguration;

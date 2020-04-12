@@ -24,9 +24,9 @@ public class Generator {
 
     private Path configurationPath;
 
-    SwaggerParser parser = new SwaggerParser();
+    private SwaggerParser parser = new SwaggerParser();
 
-    List<StatisticsBuilder> statisticsBuilders = new ArrayList<>();
+    private List<StatisticsBuilder> statisticsBuilders = new ArrayList<>();
 
     public void run() {
         Swagger spec = parser.read(getSpecPath().toString());
@@ -37,37 +37,23 @@ public class Generator {
         statisticsBuilders = configuration.getStatisticsBuilders(spec);
 
         CoverageOutputReader reader = new FileSystemOutputReader(getInputPath());
-        reader.getOutputs()
-                .forEach(o -> processFile(o.toString()));
+        reader.getOutputs().forEach(o -> processFile(o.toString()));
 
         Results result = new Results();
 
         statisticsBuilders.stream().filter(StatisticsBuilder::isPreBuilder).forEach(
-                statisticsBuilder -> statisticsBuilder.build(result)
-        );
+                statisticsBuilder -> statisticsBuilder.build(result));
 
         statisticsBuilders.stream().filter(StatisticsBuilder::isPostBuilder).forEach(
-                statisticsBuilder -> statisticsBuilder.build(result)
-        );
+                statisticsBuilder -> statisticsBuilder.build(result));
 
-        System.out.println(configuration.getConfiguredResultsWriters().toString());
-
-
-        configuration
-                .getConfiguredResultsWriters()
-                .stream()
-                .forEach(
-                        writer -> writer.write(result)
-                )
-        ;
+        configuration.getConfiguredResultsWriters().forEach(writer -> writer.write(result));
     }
 
     public void processFile(String path) {
         final Swagger operationSwagger = parser.read(path);
-
         statisticsBuilders.stream().filter(StatisticsBuilder::isPreBuilder).forEach(builder ->
-                builder.add(path).add(operationSwagger)
-        );
+                builder.add(path).add(operationSwagger));
     }
 
     public Path getSpecPath() {

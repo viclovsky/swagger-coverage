@@ -14,13 +14,12 @@ public class NotEmptyBodyRule extends ParameterConditionRule {
 
 
             ConditionPredicate predicate = new DefaultBodyConditionPredicate();
-            Condition condition = new SinglePredicateCondition(
-                    "Not empty body request",
+
+            return new SinglePredicateCondition(
+                    "not empty body request",
                     "",
                     predicate
             );
-
-            return condition;
         }
 
         return null;

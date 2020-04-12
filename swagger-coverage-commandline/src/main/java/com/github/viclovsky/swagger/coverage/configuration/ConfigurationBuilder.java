@@ -2,14 +2,31 @@ package com.github.viclovsky.swagger.coverage.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.viclovsky.swagger.coverage.configuration.options.ConfigurationOptions;
+import com.github.viclovsky.swagger.coverage.core.generator.Generator;
 import com.github.viclovsky.swagger.coverage.core.results.builder.core.StatisticsBuilder;
-import com.github.viclovsky.swagger.coverage.core.results.builder.postbuilder.*;
-import com.github.viclovsky.swagger.coverage.core.results.builder.prebuilder.*;
+import com.github.viclovsky.swagger.coverage.core.results.builder.postbuilder.ConditionStatisticsBuilder;
+import com.github.viclovsky.swagger.coverage.core.results.builder.postbuilder.ConfigurationStatisticsBuilder;
+import com.github.viclovsky.swagger.coverage.core.results.builder.postbuilder.FlatOperationBuilder;
+import com.github.viclovsky.swagger.coverage.core.results.builder.postbuilder.SwaggerInfoBuilder;
+import com.github.viclovsky.swagger.coverage.core.results.builder.postbuilder.TagStatisticsBuilder;
+import com.github.viclovsky.swagger.coverage.core.results.builder.postbuilder.ZeroCallStatisticsBuilder;
+import com.github.viclovsky.swagger.coverage.core.results.builder.prebuilder.CoverageStatisticsBuilder;
+import com.github.viclovsky.swagger.coverage.core.results.builder.prebuilder.GenerationStatisticsBuilder;
 import com.github.viclovsky.swagger.coverage.core.rule.core.ConditionRule;
-import com.github.viclovsky.swagger.coverage.core.rule.parameter.*;
-import com.github.viclovsky.swagger.coverage.core.rule.status.*;
-import com.github.viclovsky.swagger.coverage.core.writer.*;
-
+import com.github.viclovsky.swagger.coverage.core.rule.parameter.EnumAllValuesRule;
+import com.github.viclovsky.swagger.coverage.core.rule.parameter.NotEmptyParameterRule;
+import com.github.viclovsky.swagger.coverage.core.rule.parameter.EmptyHeaderRule;
+import com.github.viclovsky.swagger.coverage.core.rule.parameter.NotEmptyBodyRule;
+import com.github.viclovsky.swagger.coverage.core.rule.parameter.NotOnlyEnumValuesRule;
+import com.github.viclovsky.swagger.coverage.core.rule.status.HTTPStatusRule;
+import com.github.viclovsky.swagger.coverage.core.rule.status.OnlyDeclaredHTTPStatusesRule;
+import com.github.viclovsky.swagger.coverage.core.writer.CoverageResultsWriter;
+import com.github.viclovsky.swagger.coverage.core.writer.FileSystemResultsWriter;
+import com.github.viclovsky.swagger.coverage.core.writer.HtmlExtendReportResultsWriter;
+import com.github.viclovsky.swagger.coverage.core.writer.HtmlReportResultsWriter;
+import com.github.viclovsky.swagger.coverage.core.writer.LogResultsWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -18,27 +35,23 @@ import java.util.List;
 
 public class ConfigurationBuilder {
 
+    private static final Logger log = LoggerFactory.getLogger(Generator.class);
+
     public static Configuration build(Path path){
         Configuration configuration = new Configuration();
         ConfigurationOptions options = new ConfigurationOptions();
-        if (configuration != null){
-            ObjectMapper mapper = new ObjectMapper();
-
-            try {
-                if (path != null){
-                    options = mapper.readValue(path.toFile(), ConfigurationOptions.class);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            if (path != null) {
+                options = mapper.readValue(path.toFile(), ConfigurationOptions.class);
             }
+        } catch (IOException e) {
+            log.info("can't read configuration, use default configuration");
         }
-
-        configuration
-            .setOptions(options)
+        configuration.setOptions(options)
             .setDefaultRules(getDefaultList())
             .setRegisteredBuilders(getDefaultBuilderList())
-            .setConfiguredResultsWriters(getResultsWriters(options))
-        ;
+            .setConfiguredResultsWriters(getResultsWriters(options));
 
         return configuration;
     }
@@ -61,34 +74,31 @@ public class ConfigurationBuilder {
             );
         } else {
             options
-                .getWriters()
-                .entrySet()
-                .forEach(
-                    entry -> {
-                        switch (entry.getValue().getType()){
+                    .getWriters()
+                    .forEach((key, value) -> {
+                        switch (value.getType()) {
                             case "extend-html":
                                 configuredResultsWriters.add(
-                                    new HtmlExtendReportResultsWriter(entry.getValue().getLocale(),entry.getValue().getFilename())
+                                        new HtmlExtendReportResultsWriter(value.getLocale(), value.getFilename())
                                 );
                                 break;
                             case "log":
                                 configuredResultsWriters.add(
-                                    new LogResultsWriter()
+                                        new LogResultsWriter()
                                 );
                                 break;
                             case "html":
                                 configuredResultsWriters.add(
-                                    new HtmlReportResultsWriter()
+                                        new HtmlReportResultsWriter()
                                 );
                                 break;
                             case "json":
                                 configuredResultsWriters.add(
-                                    new FileSystemResultsWriter()
+                                        new FileSystemResultsWriter()
                                 );
                                 break;
                         }
-                    }
-                );
+                    });
         }
 
         return configuredResultsWriters;
@@ -97,13 +107,12 @@ public class ConfigurationBuilder {
     protected static List<ConditionRule> getDefaultList(){
         List<ConditionRule>  registeredRules = new ArrayList<>();
 
-        registeredRules.add(new OnlyDeclaretedHTTPStatusesRule());
-        registeredRules.add(new HTTPStatusnRule());
-
-        registeredRules.add(new DefaultParameterRule());
-        registeredRules.add(new EmptyHeaderRule());
-        registeredRules.add(new EnumValuesRule());
+        registeredRules.add(new HTTPStatusRule());
+        registeredRules.add(new NotEmptyParameterRule());
+        registeredRules.add(new EnumAllValuesRule());
         registeredRules.add(new NotEmptyBodyRule());
+        registeredRules.add(new OnlyDeclaredHTTPStatusesRule());
+        registeredRules.add(new EmptyHeaderRule());
         registeredRules.add(new NotOnlyEnumValuesRule());
         return registeredRules;
     }

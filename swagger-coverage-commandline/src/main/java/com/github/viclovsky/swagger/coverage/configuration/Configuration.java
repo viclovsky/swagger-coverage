@@ -18,30 +18,19 @@ public class Configuration {
     /** Configured data **/
     protected List<ConditionRule> configuredRules = null;
     protected List<StatisticsBuilder> configuredBuilders = null;
-
     protected List<CoverageResultsWriter> configuredResultsWriters = null;
 
     public Configuration() {
     }
 
-    public List<ConditionRule> getRulesList(){
+    public List<ConditionRule> getRulesList() {
         if (configuredRules == null) {
-            configuredRules = defaultRules
-                .stream()
-                .filter(rule -> enableByRuleOptions(rule.getId()))
-                .map(
-                    rule -> rule.configure(
-                        options
-                            .getRules()
-                            .getOrDefault(
-                                rule.getId(), new RuleConfigurationOptions()
-                            )
-                    )
-                )
-                .collect(Collectors.toList())
-            ;
+            configuredRules = defaultRules.stream()
+                    .filter(rule -> enableByRuleOptions(rule.getId()))
+                    .map(rule -> rule.configure(options.getRules().getOrDefault(rule.getId(),
+                            new RuleConfigurationOptions())))
+                    .collect(Collectors.toList());
         }
-
         return configuredRules;
     }
 
@@ -52,18 +41,17 @@ public class Configuration {
                 .map(
                     builder -> builder
                         .configure(options)
-                        .configure(specification,getRulesList())
+                        .configure(specification, getRulesList())
                 )
-                .collect(Collectors.toList())
-            ;
+                .collect(Collectors.toList());
         }
 
         return configuredBuilders;
     }
 
-    protected boolean enableByRuleOptions(String id){
+    protected boolean enableByRuleOptions(String id) {
         RuleConfigurationOptions option = options.getRules().get(id);
-        if(option != null){
+        if (option != null) {
             return option.isEnable();
         }
 

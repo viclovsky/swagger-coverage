@@ -15,7 +15,7 @@
   "writers": {
       "html": {
         "type" : "extend-html",
-        "locale": "ru"
+        "locale": "en"
       }
   }
 }

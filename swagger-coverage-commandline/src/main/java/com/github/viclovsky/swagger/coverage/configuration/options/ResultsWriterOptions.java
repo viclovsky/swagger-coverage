@@ -1,9 +1,9 @@
 package com.github.viclovsky.swagger.coverage.configuration.options;
 
 public class ResultsWriterOptions {
-    protected String type;
-    protected String filename;
-    protected String locale = "en";
+    private String type;
+    private String filename;
+    private String locale = "en";
 
     public String getFilename() {
         return filename;

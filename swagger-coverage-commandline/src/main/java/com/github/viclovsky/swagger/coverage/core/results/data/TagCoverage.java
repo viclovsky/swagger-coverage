@@ -1,21 +1,22 @@
 package com.github.viclovsky.swagger.coverage.core.results.data;
 
 import com.github.viclovsky.swagger.coverage.core.model.OperationKey;
+import io.swagger.models.Tag;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class TagCoverage {
 
-    protected String description;
+    protected Tag tag;
     protected Set<OperationKey> operations = new HashSet<>();
     protected CoverageCounter coverageCounter = new CoverageCounter();
     protected ConditionCounter conditionCounter = new ConditionCounter();
     protected long callCounts = 0;
     protected CoverageState state = CoverageState.EMPTY;
 
-    public TagCoverage(String description) {
-        this.description = description;
+    public TagCoverage(Tag tag) {
+        this.tag = tag;
     }
 
     public TagCoverage updateState(){
@@ -53,12 +54,12 @@ public class TagCoverage {
         return this;
     }
 
-    public String getDescription() {
-        return description;
+    public Tag getTag() {
+        return tag;
     }
 
-    public TagCoverage setDescription(String description) {
-        this.description = description;
+    public TagCoverage setTag(Tag tag) {
+        this.tag = tag;
         return this;
     }
 
@@ -110,7 +111,7 @@ public class TagCoverage {
     @Override
     public String toString() {
         return "TagCoverage{" +
-                "description='" + description + '\'' +
+                "tag='" + tag.getName() + '\'' +
                 ", operations=" + operations.toString() +
                 ", coverageCounter=" + coverageCounter.toString() +
                 ", conditionCounter=" + conditionCounter.toString() +
