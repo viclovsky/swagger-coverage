@@ -21,7 +21,7 @@ public class ConfigurationBuilder {
     public static Configuration build(Path path){
         Configuration configuration = new Configuration();
         ConfigurationOptions options = new ConfigurationOptions();
-        if (configuration != null){
+        if (configuration != null) {
             ObjectMapper mapper = new ObjectMapper();
 
             try {
@@ -37,8 +37,7 @@ public class ConfigurationBuilder {
             .setOptions(options)
             .setDefaultRules(getDefaultList())
             .setRegisteredBuilders(getDefaultBuilderList())
-            .setConfiguredResultsWriters(getResultsWriters(options))
-        ;
+            .setConfiguredResultsWriters(getResultsWriters(options));
 
         return configuration;
     }
@@ -61,34 +60,31 @@ public class ConfigurationBuilder {
             );
         } else {
             options
-                .getWriters()
-                .entrySet()
-                .forEach(
-                    entry -> {
-                        switch (entry.getValue().getType()){
+                    .getWriters()
+                    .forEach((key, value) -> {
+                        switch (value.getType()) {
                             case "extend-html":
                                 configuredResultsWriters.add(
-                                    new HtmlExtendReportResultsWriter(entry.getValue().getLocale(),entry.getValue().getFilename())
+                                        new HtmlExtendReportResultsWriter(value.getLocale(), value.getFilename())
                                 );
                                 break;
                             case "log":
                                 configuredResultsWriters.add(
-                                    new LogResultsWriter()
+                                        new LogResultsWriter()
                                 );
                                 break;
                             case "html":
                                 configuredResultsWriters.add(
-                                    new HtmlReportResultsWriter()
+                                        new HtmlReportResultsWriter()
                                 );
                                 break;
                             case "json":
                                 configuredResultsWriters.add(
-                                    new FileSystemResultsWriter()
+                                        new FileSystemResultsWriter()
                                 );
                                 break;
                         }
-                    }
-                );
+                    });
         }
 
         return configuredResultsWriters;
@@ -97,13 +93,12 @@ public class ConfigurationBuilder {
     protected static List<ConditionRule> getDefaultList(){
         List<ConditionRule>  registeredRules = new ArrayList<>();
 
-        registeredRules.add(new OnlyDeclaretedHTTPStatusesRule());
-        registeredRules.add(new HTTPStatusnRule());
-
+        registeredRules.add(new DefaultHTTPStatusRule());
         registeredRules.add(new DefaultParameterRule());
-        registeredRules.add(new EmptyHeaderRule());
-        registeredRules.add(new EnumValuesRule());
         registeredRules.add(new NotEmptyBodyRule());
+        registeredRules.add(new EnumValuesRule());
+        registeredRules.add(new OnlyDeclaredHTTPStatusesRule());
+        registeredRules.add(new EmptyHeaderRule());
         registeredRules.add(new NotOnlyEnumValuesRule());
         return registeredRules;
     }

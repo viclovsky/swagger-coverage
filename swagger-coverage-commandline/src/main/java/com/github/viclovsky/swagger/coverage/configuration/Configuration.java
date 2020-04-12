@@ -52,18 +52,17 @@ public class Configuration {
                 .map(
                     builder -> builder
                         .configure(options)
-                        .configure(specification,getRulesList())
+                        .configure(specification, getRulesList())
                 )
-                .collect(Collectors.toList())
-            ;
+                .collect(Collectors.toList());
         }
 
         return configuredBuilders;
     }
 
-    protected boolean enableByRuleOptions(String id){
+    protected boolean enableByRuleOptions(String id) {
         RuleConfigurationOptions option = options.getRules().get(id);
-        if(option != null){
+        if (option != null) {
             return option.isEnable();
         }
 

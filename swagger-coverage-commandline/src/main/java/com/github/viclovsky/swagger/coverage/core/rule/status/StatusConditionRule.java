@@ -17,14 +17,12 @@ public abstract class StatusConditionRule extends ConditionRule {
     public abstract Condition processStatus(String statusCode);
 
     public List<Condition> createCondition(Operation operation){
-        return operation
-                .getResponses()
-                .entrySet()
+        return operation.getResponses()
+                .keySet()
                 .stream()
-                .map(entry -> processStatus(entry.getKey()))
+                .map(this::processStatus)
                 .filter(Objects::nonNull)
-                .collect(Collectors.toList())
-                ;
+                .collect(Collectors.toList());
     }
 
 }

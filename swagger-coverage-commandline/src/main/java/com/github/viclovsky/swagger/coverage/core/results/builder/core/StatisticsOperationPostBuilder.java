@@ -19,8 +19,7 @@ public abstract class StatisticsOperationPostBuilder extends StatisticsPostBuild
     @Override
     public void build(Results results) {
         results.getOperations().entrySet().forEach(
-            entry -> buildOperation(entry.getKey(),entry.getValue())
-        );
+            entry -> buildOperation(entry.getKey(),entry.getValue()));
 
         buildResult(results);
     }

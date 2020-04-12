@@ -36,7 +36,7 @@ public class HtmlExtendReportResultsWriter implements CoverageResultsWriter {
         Path path = Paths.get(filename);
         log.info(String.format("Write html report in file '%s'", path.toAbsolutePath()));
         try {
-            final String htmlReport = processTemplate("extendreport.ftl",localeCode, results);
+            final String htmlReport = processTemplate("extendreport.ftl", localeCode, results);
             Files.write(Paths.get(filename), htmlReport.getBytes());
         } catch (IOException e) {
             e.printStackTrace();

@@ -5,7 +5,7 @@ import com.github.viclovsky.swagger.coverage.core.model.SinglePredicateCondition
 import com.github.viclovsky.swagger.coverage.core.predicate.ConditionPredicate;
 import com.github.viclovsky.swagger.coverage.core.predicate.DefaultStatusConditionPredicate;
 
-public class HTTPStatusnRule extends StatusConditionRule {
+public class DefaultHTTPStatusRule extends StatusConditionRule {
 
     @Override
     public String getId() {
@@ -39,14 +39,8 @@ public class HTTPStatusnRule extends StatusConditionRule {
             return true;
         }
 
-        if (
-            this.options.getIgnore() != null
-            && !this.options.getIgnore().isEmpty()
-            && this.options.getIgnore().contains(status)
-        ) {
-            return true;
-        }
-
-        return false;
+        return this.options.getIgnore() != null
+                && !this.options.getIgnore().isEmpty()
+                && this.options.getIgnore().contains(status);
     }
 }

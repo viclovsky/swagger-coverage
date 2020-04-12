@@ -14,7 +14,6 @@ import com.github.viclovsky.swagger.coverage.core.results.data.OperationResult;
 import com.github.viclovsky.swagger.coverage.core.rule.core.ConditionRule;
 import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
-import io.swagger.models.parameters.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
     private static final Logger log = LoggerFactory.getLogger(CoverageStatisticsBuilder.class);
@@ -47,28 +45,19 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
         operations.getOperations().entrySet().stream().forEach(entry -> {
             log.info(String.format("==  process result [%s]", entry.getKey()));
 
-            Map<String, Parameter> currentParams = entry.getValue().getParameters().stream().collect(Collectors.toMap(
-                Parameter::getName,
-                p->p
-            ));
-
-            log.info(String.format("current param map is %s",currentParams));
-
             if (mainCoverageData.containsKey(entry.getKey())) {
-                mainCoverageData
-                    .get(entry.getKey())
-                    .increaseProcessCount()
-                    .getConditions()
-                    .stream()
-                    .filter(Condition::isNeedCheck)
-                    .forEach(condition -> condition.check(entry.getValue().getParameters(),entry.getValue().getResponses()))
-                ;
+                mainCoverageData.get(entry.getKey())
+                        .increaseProcessCount()
+                        .getConditions()
+                        .stream()
+                        .filter(Condition::isNeedCheck)
+                        .forEach(condition -> condition.check(entry.getValue().getParameters(), entry.getValue().getResponses()));
             } else {
-                log.info(String.format("oops. Missed request [%s]", entry.getKey()));
+                log.info(String.format("Missed request [%s]", entry.getKey()));
 
                 missed.put(
-                    entry.getKey(),
-                    entry.getValue()
+                        entry.getKey(),
+                        entry.getValue()
                 );
             }
         });

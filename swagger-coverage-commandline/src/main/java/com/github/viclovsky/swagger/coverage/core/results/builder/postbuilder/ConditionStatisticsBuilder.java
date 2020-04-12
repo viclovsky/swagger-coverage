@@ -16,8 +16,7 @@ public class ConditionStatisticsBuilder extends StatisticsOperationPostBuilder {
     public void buildResult(Results results) {
         results
             .setCoverageOperationMap(coverageOperationMap)
-            .setConditionCounter(conditionCounter)
-            ;
+            .setConditionCounter(conditionCounter);
     }
 
     @Override

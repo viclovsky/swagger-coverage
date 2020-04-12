@@ -10,10 +10,10 @@ import io.swagger.models.Operation;
 import java.util.Arrays;
 import java.util.List;
 
-public class OnlyDeclaretedHTTPStatusesRule extends ConditionRule {
+public class OnlyDeclaredHTTPStatusesRule extends ConditionRule {
     @Override
     public String getId() {
-        return "only-declareted-status";
+        return "only-declared-status";
     }
 
     @Override
