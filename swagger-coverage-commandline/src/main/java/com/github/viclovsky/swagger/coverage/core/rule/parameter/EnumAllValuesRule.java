@@ -9,7 +9,7 @@ import io.swagger.models.parameters.Parameter;
 
 import java.util.List;
 
-public class EnumValuesRule extends ParameterConditionRule {
+public class EnumAllValuesRule extends ParameterConditionRule {
 
     @Override
     public Condition processParameter(Parameter parameter) {
@@ -17,12 +17,11 @@ public class EnumValuesRule extends ParameterConditionRule {
 
         if (enumValues != null && !enumValues.isEmpty()) {
             ConditionPredicate predicate = new ParameterValueConditionPredicate(parameter.getName(),parameter.getIn(),enumValues);
-            Condition condition = new SinglePredicateCondition(
-                    parameter.getIn() + " {" + parameter.getName() + "} contains all values from enum " + enumValues,
+            return new SinglePredicateCondition(
+                    String.format("%s «%s» contains all values from enum %s", parameter.getIn(), parameter.getName(), enumValues),
                     "",
                     predicate
             );
-            return condition;
         }
 
         return null;

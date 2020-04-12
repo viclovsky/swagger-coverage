@@ -9,14 +9,13 @@ import com.github.viclovsky.swagger.coverage.core.results.data.OperationResult;
 
 public class ConditionStatisticsBuilder extends StatisticsOperationPostBuilder {
 
-    protected CoverageOperationMap coverageOperationMap = new CoverageOperationMap();
-    protected ConditionCounter  conditionCounter= new ConditionCounter();
+    private CoverageOperationMap coverageOperationMap = new CoverageOperationMap();
+    private ConditionCounter conditionCounter = new ConditionCounter();
 
     @Override
     public void buildResult(Results results) {
-        results
-            .setCoverageOperationMap(coverageOperationMap)
-            .setConditionCounter(conditionCounter);
+        results.setCoverageOperationMap(coverageOperationMap)
+                .setConditionCounter(conditionCounter);
     }
 
     @Override
@@ -24,7 +23,7 @@ public class ConditionStatisticsBuilder extends StatisticsOperationPostBuilder {
         conditionCounter.updateAll(operationResult.getAllConditionCount());
         conditionCounter.updateCovered(operationResult.getCoveredConditionCount());
 
-        switch (operationResult.getState()){
+        switch (operationResult.getState()) {
             case PARTY:
                 coverageOperationMap.addParty(operation);
                 break;

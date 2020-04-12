@@ -18,7 +18,7 @@ public abstract class ParameterConditionRule extends ConditionRule {
         return operation
                 .getParameters()
                 .stream()
-                .map(parameter -> processParameter(parameter))
+                .map(this::processParameter)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }

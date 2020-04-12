@@ -18,19 +18,15 @@ public class NotOnlyEnumValuesRule extends ParameterConditionRule {
         List<String> enumValues = SwaggerSpecificationProcessor.extractEnum(parameter);
 
         if (enumValues != null && !enumValues.isEmpty()) {
-
-
             ConditionPredicate predicate = new NotOnlyParameterListValueConditionPredicate(
-                    parameter.getName(),parameter.getIn(),enumValues
+                    parameter.getName(), parameter.getIn(), enumValues
             );
 
-            Condition condition = new SinglePredicateCondition(
-                    parameter.getIn() + " {" + parameter.getName() + "} contains values not only from enum " + enumValues,
+            return new SinglePredicateCondition(
+                    String.format("%s «%s»  contains values not only from enum", parameter.getIn(), parameter.getName()),
                     "",
                     predicate
             );
-
-            return condition;
         }
 
         return null;

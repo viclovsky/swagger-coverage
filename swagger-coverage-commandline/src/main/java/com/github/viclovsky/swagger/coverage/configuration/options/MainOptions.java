@@ -1,7 +1,7 @@
 package com.github.viclovsky.swagger.coverage.configuration.options;
 
 public class MainOptions {
-    protected boolean pathCaseIgnore = false;
+    private boolean pathCaseIgnore = false;
 
     public boolean isPathCaseIgnore() {
         return pathCaseIgnore;

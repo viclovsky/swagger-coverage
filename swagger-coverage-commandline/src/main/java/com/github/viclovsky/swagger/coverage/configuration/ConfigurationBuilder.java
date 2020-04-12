@@ -13,12 +13,12 @@ import com.github.viclovsky.swagger.coverage.core.results.builder.postbuilder.Ze
 import com.github.viclovsky.swagger.coverage.core.results.builder.prebuilder.CoverageStatisticsBuilder;
 import com.github.viclovsky.swagger.coverage.core.results.builder.prebuilder.GenerationStatisticsBuilder;
 import com.github.viclovsky.swagger.coverage.core.rule.core.ConditionRule;
-import com.github.viclovsky.swagger.coverage.core.rule.parameter.DefaultParameterRule;
+import com.github.viclovsky.swagger.coverage.core.rule.parameter.EnumAllValuesRule;
+import com.github.viclovsky.swagger.coverage.core.rule.parameter.NotEmptyParameterRule;
 import com.github.viclovsky.swagger.coverage.core.rule.parameter.EmptyHeaderRule;
-import com.github.viclovsky.swagger.coverage.core.rule.parameter.EnumValuesRule;
 import com.github.viclovsky.swagger.coverage.core.rule.parameter.NotEmptyBodyRule;
 import com.github.viclovsky.swagger.coverage.core.rule.parameter.NotOnlyEnumValuesRule;
-import com.github.viclovsky.swagger.coverage.core.rule.status.DefaultHTTPStatusRule;
+import com.github.viclovsky.swagger.coverage.core.rule.status.HTTPStatusRule;
 import com.github.viclovsky.swagger.coverage.core.rule.status.OnlyDeclaredHTTPStatusesRule;
 import com.github.viclovsky.swagger.coverage.core.writer.CoverageResultsWriter;
 import com.github.viclovsky.swagger.coverage.core.writer.FileSystemResultsWriter;
@@ -107,10 +107,10 @@ public class ConfigurationBuilder {
     protected static List<ConditionRule> getDefaultList(){
         List<ConditionRule>  registeredRules = new ArrayList<>();
 
-        registeredRules.add(new DefaultHTTPStatusRule());
-        registeredRules.add(new DefaultParameterRule());
+        registeredRules.add(new HTTPStatusRule());
+        registeredRules.add(new NotEmptyParameterRule());
+        registeredRules.add(new EnumAllValuesRule());
         registeredRules.add(new NotEmptyBodyRule());
-        registeredRules.add(new EnumValuesRule());
         registeredRules.add(new OnlyDeclaredHTTPStatusesRule());
         registeredRules.add(new EmptyHeaderRule());
         registeredRules.add(new NotOnlyEnumValuesRule());

@@ -18,30 +18,19 @@ public class Configuration {
     /** Configured data **/
     protected List<ConditionRule> configuredRules = null;
     protected List<StatisticsBuilder> configuredBuilders = null;
-
     protected List<CoverageResultsWriter> configuredResultsWriters = null;
 
     public Configuration() {
     }
 
-    public List<ConditionRule> getRulesList(){
+    public List<ConditionRule> getRulesList() {
         if (configuredRules == null) {
-            configuredRules = defaultRules
-                .stream()
-                .filter(rule -> enableByRuleOptions(rule.getId()))
-                .map(
-                    rule -> rule.configure(
-                        options
-                            .getRules()
-                            .getOrDefault(
-                                rule.getId(), new RuleConfigurationOptions()
-                            )
-                    )
-                )
-                .collect(Collectors.toList())
-            ;
+            configuredRules = defaultRules.stream()
+                    .filter(rule -> enableByRuleOptions(rule.getId()))
+                    .map(rule -> rule.configure(options.getRules().getOrDefault(rule.getId(),
+                            new RuleConfigurationOptions())))
+                    .collect(Collectors.toList());
         }
-
         return configuredRules;
     }
 

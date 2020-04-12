@@ -7,7 +7,7 @@ import com.github.viclovsky.swagger.coverage.core.predicate.DefaultParameterCond
 import io.swagger.models.parameters.BodyParameter;
 import io.swagger.models.parameters.Parameter;
 
-public class DefaultParameterRule extends ParameterConditionRule {
+public class NotEmptyParameterRule extends ParameterConditionRule {
 
     @Override
     public Condition processParameter(Parameter parameter) {
@@ -17,7 +17,7 @@ public class DefaultParameterRule extends ParameterConditionRule {
 
         ConditionPredicate predicate = new DefaultParameterConditionPredicate(false, parameter.getName(), parameter.getIn());
         return new SinglePredicateCondition(
-                parameter.getIn() + " {" + parameter.getName() + "} is not empty",
+                String.format("%s «%s» is not empty", parameter.getIn(),  parameter.getName()),
                 "",
                 predicate
         );

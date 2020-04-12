@@ -5,9 +5,9 @@ import java.util.Map;
 
 public class ConfigurationOptions {
 
-    protected Map<String, RuleConfigurationOptions> rules = new HashMap<>();
-    protected Map<String, ResultsWriterOptions> writers = new HashMap<>();
-    protected MainOptions general = new MainOptions();
+    private Map<String, RuleConfigurationOptions> rules = new HashMap<>();
+    private Map<String, ResultsWriterOptions> writers = new HashMap<>();
+    private MainOptions general = new MainOptions();
 
     public Map<String, RuleConfigurationOptions> getRules() {
         return rules;
@@ -39,9 +39,9 @@ public class ConfigurationOptions {
     @Override
     public String toString() {
         return "ConfigurationOptions{" +
-            "rules=" + rules.toString() +
-            ", general=" + general.toString() +
-            ", writers=" + writers.toString() +
-            '}';
+                "rules=" + rules.toString() +
+                ", general=" + general.toString() +
+                ", writers=" + writers.toString() +
+                '}';
     }
 }

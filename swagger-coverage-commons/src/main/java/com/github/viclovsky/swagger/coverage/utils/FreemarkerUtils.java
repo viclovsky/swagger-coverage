@@ -3,16 +3,23 @@ package com.github.viclovsky.swagger.coverage.utils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * @author eroshenkoam (Artem Eroshenko).
  */
 public final class FreemarkerUtils {
+
+    private static final Logger log = LoggerFactory.getLogger(FreemarkerUtils.class);
 
     private final static String TEMPLATES = "templates";
 
@@ -50,13 +57,13 @@ public final class FreemarkerUtils {
         HashMap<String, String> mymap= new HashMap<String, String>();
 
         String resourceName = "message." + localeCode; // could also be a constant
-        System.out.println("read property from " + resourceName);
+        log.info("read locale from " + resourceName);
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         try(InputStream resourceStream = loader.getResourceAsStream(resourceName)) {
-            InputStreamReader isr = new InputStreamReader(resourceStream, "UTF-8");
+            InputStreamReader isr = new InputStreamReader(resourceStream, UTF_8);
             properties.load(isr);
         } catch (Exception e) {
-            System.out.println("oops");
+            log.error("can't read locale resource" + e);
         }
 
         for (String key : properties.stringPropertyNames()) {

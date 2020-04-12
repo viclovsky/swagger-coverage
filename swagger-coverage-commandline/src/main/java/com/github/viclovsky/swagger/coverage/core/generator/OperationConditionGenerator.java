@@ -20,8 +20,8 @@ public class OperationConditionGenerator {
 
     private static final Logger log = LoggerFactory.getLogger(OperationConditionGenerator.class);
 
-    public static Map<OperationKey, ConditionOperationCoverage> getOperationMap(Swagger swagger, List<ConditionRule> rules){
-        return getOperationMap(swagger,rules,false);
+    public static Map<OperationKey, ConditionOperationCoverage> getOperationMap(Swagger swagger, List<ConditionRule> rules) {
+        return getOperationMap(swagger, rules, false);
     }
 
     public static Map<OperationKey, ConditionOperationCoverage> getOperationMap(Swagger swagger, List<ConditionRule> rules, boolean ignoreCase) {
@@ -37,15 +37,15 @@ public class OperationConditionGenerator {
         return coverage;
     }
 
-    static ConditionOperationCoverage buildConditionOperationCoverage(Operation operation, List<ConditionRule> rules){
+    private static ConditionOperationCoverage buildConditionOperationCoverage(Operation operation, List<ConditionRule> rules) {
         ConditionOperationCoverage operationCoverage = new ConditionOperationCoverage();
         operationCoverage.setOperation(operation);
-        operationCoverage.setConditions(generateConditionList(operation,rules));
+        operationCoverage.setConditions(generateConditionList(operation, rules));
 
         return operationCoverage;
     }
 
-    static List<Condition> generateConditionList(Operation operation, List<ConditionRule> rules){
+    private static List<Condition> generateConditionList(Operation operation, List<ConditionRule> rules) {
         List<Condition> conditions = rules
                 .stream()
                 .map(rule -> rule.createCondition(operation))

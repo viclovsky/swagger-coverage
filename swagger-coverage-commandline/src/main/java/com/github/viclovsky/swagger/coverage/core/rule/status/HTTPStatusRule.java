@@ -5,7 +5,7 @@ import com.github.viclovsky.swagger.coverage.core.model.SinglePredicateCondition
 import com.github.viclovsky.swagger.coverage.core.predicate.ConditionPredicate;
 import com.github.viclovsky.swagger.coverage.core.predicate.DefaultStatusConditionPredicate;
 
-public class DefaultHTTPStatusRule extends StatusConditionRule {
+public class HTTPStatusRule extends StatusConditionRule {
 
     @Override
     public String getId() {
@@ -19,20 +19,18 @@ public class DefaultHTTPStatusRule extends StatusConditionRule {
         }
 
         ConditionPredicate predicate = new DefaultStatusConditionPredicate(status);
-        Condition condition = new SinglePredicateCondition(
+        return new SinglePredicateCondition(
             "HTTP status " + status,
             "",
             predicate
         );
-        return condition;
     }
 
     protected boolean skip(String status){
         if (this.options == null) {
             return false;
         }
-        if (
-            this.options.getFilter() != null
+        if (this.options.getFilter() != null
             && !this.options.getFilter().isEmpty()
             && !this.options.getFilter().contains(status)
         ) {

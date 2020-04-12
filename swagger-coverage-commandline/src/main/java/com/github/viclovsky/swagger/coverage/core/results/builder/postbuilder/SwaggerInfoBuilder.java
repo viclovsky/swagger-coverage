@@ -10,14 +10,13 @@ import io.swagger.models.Swagger;
 
 import java.util.List;
 
-public class SwaggerInfoBuilder extends StatisticsOperationPostBuilder  {
+public class SwaggerInfoBuilder extends StatisticsOperationPostBuilder {
 
     protected Info info;
 
     @Override
     public SwaggerInfoBuilder configure(Swagger swagger, List<ConditionRule> rules) {
-        info =swagger.getInfo();
-
+        info = swagger.getInfo();
         return this;
     }
 
