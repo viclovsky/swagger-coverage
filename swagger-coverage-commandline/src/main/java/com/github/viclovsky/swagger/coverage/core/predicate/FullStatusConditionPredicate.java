@@ -26,6 +26,10 @@ public class FullStatusConditionPredicate extends ConditionPredicate {
 
     @Override
     public boolean postCheck() {
+        if (currentStatuses.isEmpty() && expectedStatuses != null) {
+            reason = "No call - no statuses...";
+            return false;
+        }
         boolean covered = expectedStatuses.containsAll(currentStatuses);
 
         if (!covered){

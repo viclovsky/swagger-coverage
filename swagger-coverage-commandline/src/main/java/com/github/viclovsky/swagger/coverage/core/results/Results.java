@@ -1,56 +1,33 @@
 package com.github.viclovsky.swagger.coverage.core.results;
 
-import com.github.viclovsky.swagger.coverage.core.model.Condition;
-import com.github.viclovsky.swagger.coverage.core.model.ConditionOperationCoverage;
 import com.github.viclovsky.swagger.coverage.core.model.OperationKey;
+import com.github.viclovsky.swagger.coverage.core.results.data.*;
 import io.swagger.models.Info;
 import io.swagger.models.Operation;
 
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Results {
 
-    private Map<OperationKey, OperationResult> operations = new TreeMap<>();
-    private Map<OperationKey, OperationResult> full = new TreeMap<>();
-    private Map<OperationKey, OperationResult> partial = new TreeMap<>();
-    private Map<OperationKey, OperationResult> empty = new TreeMap<>();
-    private Map<OperationKey, Operation> missed  = new TreeMap<>();
-    private long allConditionCount;
-    private long coveredConditionCount;
-    private long allOperationCount;
-    private long fullOperationCount;
-    private long partialOperationCount;
-    private long emptyOperationCount;
+    protected Map<OperationKey, OperationResult> operations = new TreeMap<>();
+    protected Map<String, OperationResult> flatOperations = new TreeMap<>();
+    protected Map<OperationKey, Operation> missed  = new TreeMap<>();
+    protected Map<String, ConditionStatistics> conditionStatisticsMap = new HashMap<>();
+    protected Set<OperationKey> zeroCall  = new HashSet<>();
 
-    private GenerationStatistics generationStatistics;
-    private Info info;
+    protected GenerationStatistics generationStatistics;
+    protected CoverageOperationMap coverageOperationMap = new CoverageOperationMap();
+    protected ConditionCounter conditionCounter = new ConditionCounter();
 
-    public Results(Map<OperationKey, ConditionOperationCoverage> mainCoverageData) {
-        mainCoverageData.forEach((key, value) -> {
-            value.getConditions().forEach(Condition::postCheck);
-            operations.put(key, new OperationResult(value.getConditions()));
-        });
+    /** TAG STATISTICS **/
+    protected Map<String, TagCoverage> tagCoverageMap = new TreeMap<>();
+    protected CoverageCounter tagCounter;
 
-        allOperationCount = operations.size();
+    /** **/
+    protected String prettyConfiguration;
+    protected Info info;
 
-        operations.forEach((key, value) -> {
-            allConditionCount = allConditionCount + value.getAllConditionCount();
-            coveredConditionCount = coveredConditionCount + value.getCoveredConditionCount();
-
-            if (value.getCoveredConditionCount() == 0) {
-                emptyOperationCount++;
-                empty.put(key, value);
-            } else {
-                if (value.getAllConditionCount() == value.getCoveredConditionCount()) {
-                    fullOperationCount++;
-                    full.put(key, value);
-                } else {
-                    partialOperationCount++;
-                    partial.put(key, value);
-                }
-            }
-        });
+    public Results(){
 
     }
 
@@ -63,57 +40,12 @@ public class Results {
         return this;
     }
 
-    public long getAllConditionCount() {
-        return allConditionCount;
+    public Set<OperationKey> getZeroCall() {
+        return zeroCall;
     }
 
-    public Results setAllConditionCount(long allConditionCount) {
-        this.allConditionCount = allConditionCount;
-        return this;
-    }
-
-    public long getCoveredConditionCount() {
-        return coveredConditionCount;
-    }
-
-    public Results setCoveredConditionCount(long coveredConditionCount) {
-        this.coveredConditionCount = coveredConditionCount;
-        return this;
-    }
-
-    public long getAllOperationCount() {
-        return allOperationCount;
-    }
-
-    public Results setAllOperationCount(long allOperationCount) {
-        this.allOperationCount = allOperationCount;
-        return this;
-    }
-
-    public long getFullOperationCount() {
-        return fullOperationCount;
-    }
-
-    public Results setFullOperationCount(long fullOperationCount) {
-        this.fullOperationCount = fullOperationCount;
-        return this;
-    }
-
-    public long getPartialOperationCount() {
-        return partialOperationCount;
-    }
-
-    public Results setPartialOperationCount(long partialOperationCount) {
-        this.partialOperationCount = partialOperationCount;
-        return this;
-    }
-
-    public long getEmptyOperationCount() {
-        return emptyOperationCount;
-    }
-
-    public Results setEmptyOperationCount(long emptyOperationCount) {
-        this.emptyOperationCount = emptyOperationCount;
+    public Results setZeroCall(Set<OperationKey> zeroCall) {
+        this.zeroCall = zeroCall;
         return this;
     }
 
@@ -126,39 +58,75 @@ public class Results {
         return this;
     }
 
-    public Map<OperationKey, OperationResult> getFull() {
-        return full;
-    }
-
-    public Results setFull(Map<OperationKey, OperationResult> full) {
-        this.full = full;
-        return this;
-    }
-
-    public Map<OperationKey, OperationResult> getPartial() {
-        return partial;
-    }
-
-    public Results setPartial(Map<OperationKey, OperationResult> partial) {
-        this.partial = partial;
-        return this;
-    }
-
-    public Map<OperationKey, OperationResult> getEmpty() {
-        return empty;
-    }
-
-    public Results setEmpty(Map<OperationKey, OperationResult> empty) {
-        this.empty = empty;
-        return this;
-    }
-
     public GenerationStatistics getGenerationStatistics() {
         return generationStatistics;
     }
 
     public Results setGenerationStatistics(GenerationStatistics generationStatistics) {
         this.generationStatistics = generationStatistics;
+        return this;
+    }
+
+    public ConditionCounter getConditionCounter() {
+        return conditionCounter;
+    }
+
+    public Results setConditionCounter(ConditionCounter conditionCounter) {
+        this.conditionCounter = conditionCounter;
+        return this;
+    }
+
+    public Map<String, ConditionStatistics> getConditionStatisticsMap() {
+        return conditionStatisticsMap;
+    }
+
+    public Results setConditionStatisticsMap(Map<String, ConditionStatistics> conditionStatisticsMap) {
+        this.conditionStatisticsMap = conditionStatisticsMap;
+        return this;
+    }
+
+    public CoverageOperationMap getCoverageOperationMap() {
+        return coverageOperationMap;
+    }
+
+    public Results setCoverageOperationMap(CoverageOperationMap coverageOperationMap) {
+        this.coverageOperationMap = coverageOperationMap;
+        return this;
+    }
+
+    public Map<String, TagCoverage> getTagCoverageMap() {
+        return tagCoverageMap;
+    }
+
+    public Results setTagCoverageMap(Map<String, TagCoverage> tagCoverageMap) {
+        this.tagCoverageMap = tagCoverageMap;
+        return this;
+    }
+
+    public CoverageCounter getTagCounter() {
+        return tagCounter;
+    }
+
+    public Results setTagCounter(CoverageCounter tagCounter) {
+        this.tagCounter = tagCounter;
+        return this;
+    }
+
+    public String getPrettyConfiguration() {
+        return prettyConfiguration;
+    }
+
+    public Results setPrettyConfiguration(String prettyConfiguration) {
+        this.prettyConfiguration = prettyConfiguration;
+        return this;
+    }
+
+    public Map<String, OperationResult> getFlatOperations() {
+        return flatOperations;
+    }
+
+    public Results setFlatOperations(Map<String, OperationResult> flatOperations) {
+        this.flatOperations = flatOperations;
         return this;
     }
 

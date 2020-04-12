@@ -1,13 +1,14 @@
 package com.github.viclovsky.swagger.coverage.core.writer;
 
 import com.github.viclovsky.swagger.coverage.core.model.OperationKey;
-import com.github.viclovsky.swagger.coverage.core.results.OperationResult;
 import com.github.viclovsky.swagger.coverage.core.results.Results;
+import com.github.viclovsky.swagger.coverage.core.results.data.OperationResult;
 import io.swagger.models.Operation;
 import org.apache.log4j.Logger;
 
 import java.text.DecimalFormat;
 import java.util.Map;
+import java.util.Set;
 
 public class LogResultsWriter implements CoverageResultsWriter {
 
@@ -19,19 +20,19 @@ public class LogResultsWriter implements CoverageResultsWriter {
     @Override
     public void write(Results results) {
         log.info("Empty coverage: ");
-        logOperationCoverage(results.getEmpty());
+        logOperationCoverage(results.getOperations(),results.getCoverageOperationMap().getEmpty());
         log.info("Partial coverage: ");
-        logOperationCoverage(results.getPartial());
+        logOperationCoverage(results.getOperations(),results.getCoverageOperationMap().getParty());
         log.info("Full coverage: ");
-        logOperationCoverage(results.getFull());
+        logOperationCoverage(results.getOperations(),results.getCoverageOperationMap().getFull());
         logMissedCoverage(results.getMissed());
 
         DecimalFormat df = new DecimalFormat("###.###");
-        float emptyPercentage = (float) (results.getEmptyOperationCount() * 100) / results.getAllOperationCount();
-        float partialPercentage = (float) (results.getPartialOperationCount() * 100) / results.getAllOperationCount();
-        float fullPercentage = (float) (results.getFullOperationCount() * 100) / results.getAllOperationCount();
+        float emptyPercentage = (float) (results.getCoverageOperationMap().getEmpty().size() * 100) / results.getOperations().size();
+        float partialPercentage = (float) (results.getCoverageOperationMap().getParty().size() * 100) / results.getOperations().size();
+        float fullPercentage = (float) (results.getCoverageOperationMap().getFull().size() * 100) / results.getOperations().size();
 
-        log.info(String.format("Conditions: %s/%s", results.getCoveredConditionCount(), results.getAllConditionCount()));
+        log.info(String.format("Conditions: %s/%s", results.getConditionCounter().getCovered(), results.getConditionCounter().getAll()));
         log.info("Empty coverage " + df.format(emptyPercentage) + " %");
         log.info("Partial coverage " + df.format(partialPercentage) + " %");
         log.info("Full coverage " + df.format(fullPercentage) + " %");
@@ -45,21 +46,26 @@ public class LogResultsWriter implements CoverageResultsWriter {
         }
     }
 
-    private void logOperationCoverage(Map<OperationKey, OperationResult> operationResults) {
-        if (!operationResults.isEmpty()) {
-            operationResults.forEach(
-                    ((key, value) -> {
-                        log.info(String.format("%s %s (%s/%s)", key.getHttpMethod(), key.getPath(),
-                                value.getCoveredConditionCount(), value.getAllConditionCount()));
-                        value.getConditions().forEach(c -> {
-                            if (c.isCovered()) {
-                                log.info(String.format("✅ %s", c.getName()));
-                            } else {
-                                log.info(String.format("❌ %s", c.getName()));
-                            }
-
-                        });
-                    }));
-        }
+    private void logOperationCoverage(Map<OperationKey, OperationResult> operationResults, Set<OperationKey> keys) {
+        keys.forEach(operationKey -> {
+            if (operationResults.containsKey(operationKey)) {
+                printOperationCoverage(operationResults.get(operationKey));
+            }
+        });
     }
+
+    private void printOperationCoverage(OperationResult result){
+        log.info(String.format("%s %s (%s/%s)", result.getOperationKey().getHttpMethod(), result.getOperationKey().getPath(),
+                result.getCoveredConditionCount(), result.getAllConditionCount()));
+
+        result.getConditions().forEach(c -> {
+            if (c.isCovered()) {
+                log.info(String.format("✅ %s", c.getName()));
+            } else {
+                log.info(String.format("❌ %s", c.getName()));
+            }
+
+        });
+    }
+
 }

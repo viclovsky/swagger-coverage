@@ -1,5 +1,6 @@
 package com.github.viclovsky.swagger.coverage.core.generator;
 
+
 import com.github.viclovsky.swagger.coverage.core.model.OperationKey;
 import com.github.viclovsky.swagger.coverage.core.model.OperationsHolder;
 import io.swagger.models.Swagger;
@@ -14,7 +15,11 @@ public class SwaggerSpecificationProcessor {
 
     private static final String X_EXAMPLE = "x-example";
 
-    public static OperationsHolder extractOperation(Swagger swagger) {
+    public static OperationsHolder extractOperation(Swagger swagger){
+        return extractOperation(swagger,false);
+    }
+
+    public static OperationsHolder extractOperation(Swagger swagger, boolean ignoreCase) {
         OperationsHolder operations = new OperationsHolder();
 
         swagger.getPaths().keySet().forEach(path

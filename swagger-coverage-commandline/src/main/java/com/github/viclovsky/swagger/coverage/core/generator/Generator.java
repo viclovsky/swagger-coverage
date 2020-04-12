@@ -2,87 +2,98 @@ package com.github.viclovsky.swagger.coverage.core.generator;
 
 import com.github.viclovsky.swagger.coverage.CoverageOutputReader;
 import com.github.viclovsky.swagger.coverage.FileSystemOutputReader;
-import com.github.viclovsky.swagger.coverage.core.config.Configuration;
-import com.github.viclovsky.swagger.coverage.core.model.ConditionOperationCoverage;
-import com.github.viclovsky.swagger.coverage.core.model.OperationKey;
-import com.github.viclovsky.swagger.coverage.core.model.OperationsHolder;
-import com.github.viclovsky.swagger.coverage.core.predicate.ConditionPredicate;
-import com.github.viclovsky.swagger.coverage.core.results.GenerationStatistics;
+import com.github.viclovsky.swagger.coverage.configuration.Configuration;
+import com.github.viclovsky.swagger.coverage.configuration.ConfigurationBuilder;
 import com.github.viclovsky.swagger.coverage.core.results.Results;
-import io.swagger.models.Operation;
+import com.github.viclovsky.swagger.coverage.core.results.builder.core.StatisticsBuilder;
 import io.swagger.models.Swagger;
-import io.swagger.models.parameters.Parameter;
 import io.swagger.parser.SwaggerParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class Generator {
 
     private static final Logger log = LoggerFactory.getLogger(Generator.class);
 
-    private Configuration configuration;
+    private Path specPath;
+    private Path inputPath;
 
-    private Map<OperationKey, ConditionOperationCoverage> mainCoverageData;
-    private Map<OperationKey, Operation> missed = new TreeMap<>();
-    private long fileCounter = 0;
+    private Path configurationPath;
+
+    SwaggerParser parser = new SwaggerParser();
+
+    List<StatisticsBuilder> statisticsBuilders = new ArrayList<>();
 
     public void run() {
-        long startTime = System.currentTimeMillis();
-        SwaggerParser parser = new SwaggerParser();
-        Swagger spec = parser.read(configuration.getSpecPath().toString());
+        Swagger spec = parser.read(getSpecPath().toString());
 
-        log.debug("spec is {}", spec);
+        log.info("spec is {}",spec);
 
-        mainCoverageData = OperationConditionGenerator.getOperationMap(spec, configuration.getRules());
+        Configuration configuration = ConfigurationBuilder.build(configurationPath);
+        statisticsBuilders = configuration.getStatisticsBuilders(spec);
 
-        CoverageOutputReader reader = new FileSystemOutputReader(configuration.getInputPath());
-        reader.getOutputs().forEach(o -> processResult(parser.read(o.toString())));
+        CoverageOutputReader reader = new FileSystemOutputReader(getInputPath());
+        reader.getOutputs()
+                .forEach(o -> processFile(o.toString()));
 
-        Results result = new Results(mainCoverageData).setMissed(missed)
-                .setGenerationStatistics(new GenerationStatistics()
-                        .setResultFileCount(fileCounter)
-                        .setGenerationTime(System.currentTimeMillis() - startTime))
-                .setInfo(spec.getInfo());
+        Results result = new Results();
 
-        configuration.getWriters().forEach(w -> w.write(result));
+        statisticsBuilders.stream().filter(StatisticsBuilder::isPreBuilder).forEach(
+                statisticsBuilder -> statisticsBuilder.build(result)
+        );
+
+        statisticsBuilders.stream().filter(StatisticsBuilder::isPostBuilder).forEach(
+                statisticsBuilder -> statisticsBuilder.build(result)
+        );
+
+        System.out.println(configuration.getConfiguredResultsWriters().toString());
+
+
+        configuration
+                .getConfiguredResultsWriters()
+                .stream()
+                .forEach(
+                        writer -> writer.write(result)
+                )
+        ;
     }
 
-    private void processResult(Swagger swagger) {
-        fileCounter++;
-        OperationsHolder operations = SwaggerSpecificationProcessor.extractOperation(swagger);
-        operations.getOperations().forEach((key, value) -> {
-            log.debug(String.format("==  process result %s", key));
+    public void processFile(String path) {
+        final Swagger operationSwagger = parser.read(path);
 
-            List<Parameter> currentParams = value.getParameters();
-
-            log.debug(String.format("current param map is %s", currentParams));
-
-            if (mainCoverageData.containsKey(key)) {
-                mainCoverageData.get(key).getConditions().stream().filter(t -> !t.isCovered())
-                        .forEach(condition -> {
-                            boolean isCover = true;
-                            for (ConditionPredicate conditionPredicate : condition.getPredicateList()) {
-                                isCover = isCover && conditionPredicate.check(currentParams, value.getResponses());
-                                log.debug(String.format(" === predicate [%s] is [%s]", condition.getName(), isCover));
-                            }
-                            condition.setCovered(isCover);
-                        });
-            } else {
-                missed.put(key, value);
-            }
-        });
+        statisticsBuilders.stream().filter(StatisticsBuilder::isPreBuilder).forEach(builder ->
+                builder.add(path).add(operationSwagger)
+        );
     }
 
-    public Configuration getConfiguration() {
-        return configuration;
+    public Path getSpecPath() {
+        return specPath;
     }
 
-    public Generator setConfiguration(Configuration configuration) {
-        this.configuration = configuration;
+    public Generator setSpecPath(Path specPath) {
+        this.specPath = specPath;
+        return this;
+    }
+
+    public Path getInputPath() {
+        return inputPath;
+    }
+
+    public Generator setInputPath(Path inputPath) {
+        this.inputPath = inputPath;
+        return this;
+    }
+
+    public Path getConfigurationPath() {
+        return configurationPath;
+    }
+
+    public Generator setConfigurationPath(Path configurationPath) {
+        this.configurationPath = configurationPath;
         return this;
     }
 }

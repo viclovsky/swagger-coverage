@@ -1,29 +1,33 @@
 package com.github.viclovsky.swagger.coverage.core.model;
 
-import com.github.viclovsky.swagger.coverage.core.predicate.ConditionPredicate;
+import io.swagger.models.Response;
+import io.swagger.models.parameters.Parameter;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class Condition {
+public abstract class Condition {
 
-    private String name;
-    private String description;
-    private List<String> reasons = new ArrayList<>();
-    private boolean covered;
-    private List<ConditionPredicate> predicateList;
+    protected String name;
+    protected String description;
+    protected boolean covered = false;
 
     public Condition(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
-    public void postCheck() {
-        predicateList.stream().filter(ConditionPredicate::hasPostCheck).forEach(conditionPredicate -> {
-            covered = covered && conditionPredicate.postCheck();
-            reasons.add(conditionPredicate.getReason());
-        });
-    }
+    public abstract void postCheck();
+
+    public abstract boolean isHasPostCheck();
+
+    public abstract boolean isNeedCheck();
+
+    public abstract boolean check(List<Parameter> params, Map<String, Response> responses);
+
+    public abstract String getReason();
+
+    public abstract String getType();
 
     public String getName() {
         return name;
@@ -49,38 +53,12 @@ public class Condition {
         this.covered = covered;
     }
 
-    public List<ConditionPredicate> getPredicateList() {
-        return predicateList;
-    }
-
-    public void setPredicateList(List<ConditionPredicate> predicateList) {
-        this.predicateList = predicateList;
-    }
-
-    public void addPredicate(ConditionPredicate predicate){
-        if(predicateList == null) {
-            predicateList = new ArrayList<>();
-        }
-
-        predicateList.add(predicate);
-    }
-
-    public List<String> getReasons() {
-        return reasons;
-    }
-
-    public Condition setReasons(List<String> reasons) {
-        this.reasons = reasons;
-        return this;
-    }
-
     @Override
     public String toString() {
         return "Condition{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", covered=" + covered +
-                ", predicateList=" + predicateList +
                 '}';
     }
 }

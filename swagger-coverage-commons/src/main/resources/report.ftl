@@ -1,5 +1,8 @@
 <#ftl output_format="HTML">
 <#-- @ftlvariable ftlvariable name="data" type="com.github.viclovsky.swagger.coverage.model.SwaggerCoverageResults" -->
+
+<#global operationMap=data.flatOperations>
+
 <#import "operationData.ftl" as operationData/>
 <#import "ui.ftl" as ui/>
 
@@ -28,7 +31,8 @@
 
 <#macro conditiondetails coverage prefix>
     <div class="accordion" id="${prefix}-accordion">
-        <#list coverage as key, value>
+        <#list coverage as key>
+            <#assign value = operationMap[key]>
             <div class="card">
                 <div class="card-header">
                     <div class="row"
@@ -54,7 +58,7 @@
                         </div>
                         <div class="col-3">
                             <#if value.conditions?size gt 0 >
-                                <@ui.progress current = value.coveredConditionCount full = value.allConditionCount />
+                                <@ui.progress current = value.coveredConditionCount full = value.allConditionCount postfix=""/>
                             </#if>
                         </div>
                     </div>
@@ -99,22 +103,22 @@
             <div class="row">
                 <div class="col-sm">
                     <div class="alert alert-primary" role="alert">
-                        All: ${data.allOperationCount}
+                        All: ${data.operations?size}
                     </div>
                 </div>
                 <div class="col-sm">
                     <div class="alert alert-success" role="alert">
-                        Full: ${data.fullOperationCount * 100 / data.allOperationCount}%
+                        Full: ${data.coverageOperationMap.full?size * 100 / data.operations?size}%
                     </div>
                 </div>
                 <div class="col-sm">
                     <div class="alert alert-warning" role="alert">
-                        Partial: ${data.partialOperationCount * 100 / data.allOperationCount}%
+                        Partial: ${data.coverageOperationMap.party?size * 100 / data.operations?size}%
                     </div>
                 </div>
                 <div class="col-sm">
                     <div class="alert alert-danger" role="alert">
-                        Empty: ${data.emptyOperationCount * 100 / data.allOperationCount}%
+                        Empty: ${data.coverageOperationMap.empty?size * 100 / data.operations?size}%
                     </div>
                 </div>
                 <div class="col-sm">
@@ -128,18 +132,18 @@
                     Conditions covered:
                 </div>
                 <div class="col-2">
-                    ${data.coveredConditionCount} / ${data.allConditionCount}
+                    ${data.conditionCounter.covered} / ${data.conditionCounter.all}
                 </div>
                 <div class="col-2">
-                    <#if data.allConditionCount gt 0 >
-                        (${100*data.coveredConditionCount/(data.allConditionCount)}%)
+                    <#if data.conditionCounter.all gt 0 >
+                        (${100*data.conditionCounter.covered/(data.conditionCounter.all)}%)
                     <#else>
                         (--)
                     </#if>
                 </div>
                 <div class="col-6">
-                    <#if data.allConditionCount gt 0 >
-                        <@ui.progress current = data.coveredConditionCount full = data.allConditionCount />
+                    <#if data.conditionCounter.all gt 0 >
+                        <@ui.progress current = data.conditionCounter.covered full = data.conditionCounter.all postfix=""/>
                     </#if>
                 </div>
             </div>
@@ -162,19 +166,19 @@
                         <li class="nav-item">
                             <a class="nav-link" id="full-tab" data-toggle="tab" href="#full" role="tab"
                                aria-controls="full" aria-selected="true">
-                                Full: ${data.full?size}
+                                Full: ${data.coverageOperationMap.full?size}
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="partial-tab" data-toggle="tab" href="#partial" role="tab"
                                aria-controls="partial" aria-selected="true">
-                                Partial: ${data.partial?size}
+                                Partial: ${data.coverageOperationMap.party?size}
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="empty-tab" data-toggle="tab" href="#empty" role="tab"
                                aria-controls="empty" aria-selected="true">
-                                Empty: ${data.empty?size}
+                                Empty: ${data.coverageOperationMap.empty?size}
                             </a>
                         </li>
                         <li class="nav-item">
@@ -197,16 +201,19 @@
                 <div class="col-12">
                     <div class="tab-content" id="details-content">
                         <div class="tab-pane fade show active" id="condition" role="tabpanel" aria-labelledby="condition-tab">
-                            <@conditiondetails coverage=data.operations  prefix="condition"/>
+                            <@conditiondetails
+                                coverage=data.coverageOperationMap.full + data.coverageOperationMap.party + data.coverageOperationMap.empty
+                                prefix="condition"
+                            />
                         </div>
                         <div class="tab-pane fade" id="full" role="tabpanel" aria-labelledby="full-tab">
-                            <@conditiondetails coverage=data.full  prefix="full"/>
+                            <@conditiondetails coverage=data.coverageOperationMap.full  prefix="full"/>
                         </div>
                         <div class="tab-pane fade" id="partial" role="tabpanel" aria-labelledby="partial-tab">
-                            <@conditiondetails coverage=data.partial  prefix="partial"/>
+                            <@conditiondetails coverage=data.coverageOperationMap.party  prefix="partial"/>
                         </div>
                         <div class="tab-pane fade" id="empty" role="tabpanel" aria-labelledby="empty-tab">
-                            <@conditiondetails coverage=data.empty  prefix="empty"/>
+                            <@conditiondetails coverage=data.coverageOperationMap.empty  prefix="empty"/>
                         </div>
                         <div class="tab-pane fade" id="missed" role="tabpanel" aria-labelledby="missed-tab">
                             <@details coverage=data.missed prefix="missed"/>

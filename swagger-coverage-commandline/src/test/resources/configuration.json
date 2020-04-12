@@ -1,0 +1,21 @@
+{
+  "rules" : {
+    "status": {
+      "filter": ["200"]
+    },
+    "only-declareted-status" : {
+      "enable" : true
+    }
+  },
+
+  "general": {
+    "pathCaseIgnore": false
+  },
+
+  "writers": {
+      "html": {
+        "type" : "extend-html",
+        "locale": "ru"
+      }
+  }
+}

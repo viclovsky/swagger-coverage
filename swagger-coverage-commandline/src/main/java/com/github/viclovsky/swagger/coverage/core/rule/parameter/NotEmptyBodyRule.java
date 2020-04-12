@@ -1,33 +1,33 @@
 package com.github.viclovsky.swagger.coverage.core.rule.parameter;
 
 import com.github.viclovsky.swagger.coverage.core.model.Condition;
+import com.github.viclovsky.swagger.coverage.core.model.SinglePredicateCondition;
 import com.github.viclovsky.swagger.coverage.core.predicate.ConditionPredicate;
 import com.github.viclovsky.swagger.coverage.core.predicate.DefaultBodyConditionPredicate;
 import io.swagger.models.parameters.BodyParameter;
 import io.swagger.models.parameters.Parameter;
 
-import java.util.Collections;
-import java.util.List;
-
-import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
-
-public class DefaultBodyConditionRule extends ParameterRule {
-
+public class NotEmptyBodyRule extends ParameterConditionRule {
     @Override
-    public List<Condition> processParameter(Parameter parameter) {
+    public Condition processParameter(Parameter parameter) {
         if (parameter instanceof BodyParameter) {
-            Condition condition = new Condition(
-                    "Not empty «body» request",
-                    ""
-            );
+
 
             ConditionPredicate predicate = new DefaultBodyConditionPredicate();
-            condition.addPredicate(predicate);
+            Condition condition = new SinglePredicateCondition(
+                    "Not empty body request",
+                    "",
+                    predicate
+            );
 
-            return singletonList(condition);
+            return condition;
         }
 
         return null;
+    }
+
+    @Override
+    public String getId() {
+        return "not-empty-body";
     }
 }

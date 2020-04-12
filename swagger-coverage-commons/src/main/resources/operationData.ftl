@@ -26,11 +26,7 @@
                         </#if>
                     </td>
                     <td>${condition.name}</td>
-                    <td>
-                        <#list condition.reasons as reason>
-                            ${(reason)!}
-                        </#list>
-                    </td>
+                    <td>${condition.getReason()}</td>
                 </tr>
             </#list>
             </tbody>

@@ -24,7 +24,15 @@ public class MainOptions {
             order = 1
     )
     private Path inputPath;
-    
+
+    @Parameter(
+            names = {"-c", "--configuration"},
+            description = "Path to file with report configuration.",
+            required = true,
+            order = 1
+    )
+    private Path confguration;
+
     @Parameter(
             names = "--help",
             description = "Print commandline help.",
@@ -43,5 +51,9 @@ public class MainOptions {
 
     public Path getInputPath() {
         return inputPath;
+    }
+
+    public Path getConfguration() {
+        return confguration;
     }
 }

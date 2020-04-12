@@ -4,18 +4,15 @@ import com.github.viclovsky.swagger.coverage.core.generator.SwaggerSpecification
 import io.swagger.models.Response;
 import io.swagger.models.parameters.Parameter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class NotOnlyParameterListValueConditionPredicate extends ConditionPredicate {
     private String name;
     private String in;
 
     private String reason;
-    private List<String> expectedValue = new ArrayList<>();
-    private List<String> currentValue = new ArrayList<>();
+    private Set<String> expectedValue = new HashSet<>();
+    private Set<String> currentValue = new HashSet<>();
 
     public NotOnlyParameterListValueConditionPredicate(String name, String in, List<String> value) {
         this.name = name;
@@ -61,11 +58,11 @@ public class NotOnlyParameterListValueConditionPredicate extends ConditionPredic
         return this;
     }
 
-    public List<String> getValue() {
+    public Set<String> getValue() {
         return expectedValue;
     }
 
-    public NotOnlyParameterListValueConditionPredicate setValue(List<String> value) {
+    public NotOnlyParameterListValueConditionPredicate setValue(Set<String> value) {
         this.expectedValue = value;
         return this;
     }

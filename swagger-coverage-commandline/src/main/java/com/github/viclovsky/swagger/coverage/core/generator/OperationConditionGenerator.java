@@ -1,11 +1,10 @@
 package com.github.viclovsky.swagger.coverage.core.generator;
 
-
 import com.github.viclovsky.swagger.coverage.core.model.Condition;
 import com.github.viclovsky.swagger.coverage.core.model.ConditionOperationCoverage;
 import com.github.viclovsky.swagger.coverage.core.model.OperationKey;
 import com.github.viclovsky.swagger.coverage.core.model.OperationsHolder;
-import com.github.viclovsky.swagger.coverage.core.rule.ConditionRule;
+import com.github.viclovsky.swagger.coverage.core.rule.core.ConditionRule;
 import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
 import org.slf4j.Logger;
@@ -17,11 +16,15 @@ import java.util.Objects;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-class OperationConditionGenerator {
+public class OperationConditionGenerator {
 
     private static final Logger log = LoggerFactory.getLogger(OperationConditionGenerator.class);
 
-    static Map<OperationKey, ConditionOperationCoverage> getOperationMap(Swagger swagger, List<ConditionRule> rules) {
+    public static Map<OperationKey, ConditionOperationCoverage> getOperationMap(Swagger swagger, List<ConditionRule> rules){
+        return getOperationMap(swagger,rules,false);
+    }
+
+    public static Map<OperationKey, ConditionOperationCoverage> getOperationMap(Swagger swagger, List<ConditionRule> rules, boolean ignoreCase) {
         OperationsHolder operations = SwaggerSpecificationProcessor.extractOperation(swagger);
         Map<OperationKey, ConditionOperationCoverage> coverage = new TreeMap<>();
 
