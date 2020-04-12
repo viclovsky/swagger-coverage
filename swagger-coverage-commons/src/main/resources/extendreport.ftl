@@ -48,22 +48,22 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container">
         <div class="collapse navbar-collapse" id="navbarCollapse">
-            <a class="navbar-brand" href="#">${data.info.getTitle()} ${data.info.getVersion()}</a>
+            <a class="navbar-brand" href="#"><#if data.info.getTitle()??>${data.info.getTitle()}</#if> <#if data.info.getVersion()??>${data.info.getVersion()}</#if></a>
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#summary">${i18["menu.summary"]}</a>
+                    <a class="nav-link" href="#summary-section">${i18["menu.summary"]}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#details">${i18["menu.operations"]}</a>
+                    <a class="nav-link" href="#details-section">${i18["menu.operations"]}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#tag-section">${i18["menu.tags"]}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#branchs">${i18["menu.branch"]}</a>
+                    <a class="nav-link" href="#branch-section">${i18["menu.branch"]}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#system">${i18["menu.generation"]}</a>
+                    <a class="nav-link" href="#system-section">${i18["menu.generation"]}</a>
                 </li>
             </ul>
         </div>
@@ -72,7 +72,7 @@
 
 <main role="main" class="container">
     <div class="container">
-        <section id="summary">
+        <section id="summary-section">
             <div class="row">
                 <div class="col-12">
                     <h1 class="title" id="summary">${i18["menu.summary"]}</h1>
@@ -84,7 +84,7 @@
             <@summary.branchs counter=data.conditionCounter />
         </section>
 
-        <section id="details">
+        <section id="details-section">
             <div class="row">
                 <div class="col-12">
                     <h2 class="title" id="details">${i18["menu.operations"]}</h2>
@@ -170,7 +170,7 @@
             <@tag.list tags=data.tagCoverageMap/>
         </section>
 
-        <section id="branchs">
+        <section id="branch-section">
             <div class="row">
                 <div class="col-12">
                     <h2 class="title" id="branchs">${i18["menu.branch"]}</h2>
@@ -286,7 +286,7 @@
             </div>
         </section>
 
-        <section id="system">
+        <section id="system-section">
             <div class="row">
                 <div class="col-12">
                     <h2 class="title" id="system">${i18["menu.generation"]}</h2>

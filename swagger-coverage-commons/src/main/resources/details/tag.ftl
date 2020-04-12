@@ -12,7 +12,7 @@
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-4">
-                            <strong>${tagCoverage.description}</strong>
+                            <strong>${tag}<#if tagCoverage.tag.getDescription()??>: ${tagCoverage.tag.getDescription()}</#if></strong>
                         </div>
                         <div class="col-2">
                             ${tagCoverage.operations?size} ${i18["details.tag.operations"]}

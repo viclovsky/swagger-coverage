@@ -97,7 +97,7 @@
         <section id="summary">
             <div class="row">
                 <div class="col-12">
-                    <h1 class="title">${data.info.getTitle()} ${data.info.getVersion()} Coverage</h1>
+                    <h1 class="title"><#if data.info.getTitle()??>${data.info.getTitle()}</#if> <#if data.info.getVersion()??>${data.info.getVersion()}</#if> Coverage</h1>
                 </div>
             </div>
             <div class="row">
