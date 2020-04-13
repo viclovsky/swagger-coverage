@@ -45,6 +45,8 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
         operations.getOperations().entrySet().stream().forEach(entry -> {
             log.info(String.format("==  process result [%s]", entry.getKey()));
 
+            //todo: https://www.codota.com/code/java/classes/org.springframework.util.AntPathMatcher
+            //todo: https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/util/pattern/PathPattern.html
             if (mainCoverageData.containsKey(entry.getKey())) {
                 mainCoverageData.get(entry.getKey())
                         .increaseProcessCount()
@@ -66,39 +68,34 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
     }
 
     @Override
-    public void build(Results results){
+    public void build(Results results) {
         Map<OperationKey, OperationResult> operations = new TreeMap<>();
         Map<String, ConditionStatistics> conditionStatisticsMap = new HashMap<>();
 
-        mainCoverageData.entrySet().stream().forEach(entry -> {
-            entry.getValue().getConditions().stream().filter(Condition::isHasPostCheck).forEach(condition -> condition.postCheck());
+        mainCoverageData.forEach((key, value) -> {
+            value.getConditions().stream().filter(Condition::isHasPostCheck).forEach(Condition::postCheck);
 
-            operations.put(
-                entry.getKey(),
-                new OperationResult(entry.getValue().getConditions())
-                    .setProcessCount(entry.getValue().getProcessCount())
-                    .setDescription(entry.getValue().getOperation().getDescription())
-                    .setOperationKey(entry.getKey())
+            operations.put(key, new OperationResult(value.getConditions())
+                    .setProcessCount(value.getProcessCount())
+                    .setDescription(value.getOperation().getDescription())
+                    .setOperationKey(key)
             );
 
-            entry.getValue().getConditions().stream().forEach(
-                    condition -> {
-                        if (!conditionStatisticsMap.containsKey(condition.getType())){
+            value.getConditions().forEach(condition -> {
+                if (!conditionStatisticsMap.containsKey(condition.getType())) {
                             conditionStatisticsMap.put(
                                     condition.getType(),
                                     new ConditionStatistics()
                             );
                         }
 
-                        conditionStatisticsMap.get(condition.getType()).processCondition(entry.getKey(),condition);
+                conditionStatisticsMap.get(condition.getType()).processCondition(key, condition);
                     }
             );
         });
 
-        results
-            .setOperations(operations)
-            .setMissed(missed)
-            .setConditionStatisticsMap(conditionStatisticsMap)
-            ;
+        results.setOperations(operations)
+                .setMissed(missed)
+                .setConditionStatisticsMap(conditionStatisticsMap);
     }
 }

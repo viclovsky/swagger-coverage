@@ -8,7 +8,7 @@
                 <div class="card-header">
                     <div class="row"
                          data-toggle="collapse"
-                         data-target="#tag-${tag}"
+                         data-target="#tag-${tag?index}"
                          aria-expanded="true"
                          aria-controls="collapseOne">
                         <div class="col-4">
@@ -29,7 +29,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="tag-${tag}" class="collapse" aria-labelledby="headingOne">
+                <div id="tag-${tag?index}" class="collapse" aria-labelledby="headingOne">
                     <div class="card-body">
                         <@ui.coverageBadget counter=tagCoverage.coverageCounter legend=i18["summary.operations.legend"]/>
                         <#list tagCoverage.operations as op>

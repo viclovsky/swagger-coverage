@@ -34,16 +34,14 @@ public class Configuration {
         return configuredRules;
     }
 
-    public List<StatisticsBuilder> getStatisticsBuilders(Swagger specification){
-        if (configuredBuilders == null){
+    public List<StatisticsBuilder> getStatisticsBuilders(Swagger specification) {
+        if (configuredBuilders == null) {
             configuredBuilders = registeredBuilders
-                .stream()
-                .map(
-                    builder -> builder
-                        .configure(options)
-                        .configure(specification, getRulesList())
-                )
-                .collect(Collectors.toList());
+                    .stream().map(builder -> builder
+                            .configure(options)
+                            .configure(specification, getRulesList())
+                    )
+                    .collect(Collectors.toList());
         }
 
         return configuredBuilders;

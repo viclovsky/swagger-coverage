@@ -17,10 +17,10 @@ import java.time.Instant;
 import java.util.List;
 
 public class GenerationStatisticsBuilder extends StatisticsPreBuilder {
-    protected long fileCounter = 0;
-    protected FileTime minResultTime = null;
-    protected FileTime maxResultTime = null;
-    protected long startTime;
+    private long fileCounter = 0;
+    private FileTime minResultTime = null;
+    private FileTime maxResultTime = null;
+    private long startTime;
 
     @Override
     public GenerationStatisticsBuilder configure(Swagger swagger, List<ConditionRule> rules) {
@@ -29,17 +29,17 @@ public class GenerationStatisticsBuilder extends StatisticsPreBuilder {
     }
 
     @Override
-    public GenerationStatisticsBuilder add(String path){
+    public GenerationStatisticsBuilder add(String path) {
         Path file = Paths.get(path);
         this.fileCounter++;
 
         try {
             BasicFileAttributes attr = Files.readAttributes(file, BasicFileAttributes.class);
-            if (minResultTime == null || minResultTime.toMillis() > attr.lastModifiedTime().toMillis() ) {
+            if (minResultTime == null || minResultTime.toMillis() > attr.lastModifiedTime().toMillis()) {
                 minResultTime = attr.lastModifiedTime();
             }
 
-            if (maxResultTime == null || maxResultTime.toMillis() < attr.lastModifiedTime().toMillis() ) {
+            if (maxResultTime == null || maxResultTime.toMillis() < attr.lastModifiedTime().toMillis()) {
                 maxResultTime = attr.lastModifiedTime();
             }
 

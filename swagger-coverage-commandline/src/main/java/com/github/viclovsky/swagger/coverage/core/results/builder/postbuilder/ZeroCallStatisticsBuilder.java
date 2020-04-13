@@ -10,11 +10,11 @@ import java.util.Set;
 
 public class ZeroCallStatisticsBuilder extends StatisticsOperationPostBuilder {
 
-    protected Set<OperationKey> zeroCall  = new HashSet<>();
+    private Set<OperationKey> zeroCall = new HashSet<>();
 
     @Override
     public void buildOperation(OperationKey operation, OperationResult operationResult) {
-        if (operationResult.getProcessCount() == 0){
+        if (operationResult.getProcessCount() == 0) {
             zeroCall.add(operation);
         }
     }
