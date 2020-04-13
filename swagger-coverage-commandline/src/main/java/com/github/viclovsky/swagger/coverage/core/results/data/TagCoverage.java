@@ -38,8 +38,12 @@ public class TagCoverage {
         return this;
     }
 
+    public TagCoverage updateCallCount(long callCounts) {
+        this.callCounts += callCounts;
+        return this;
+    }
+
     public TagCoverage incrementByState(CoverageState state) {
-        this.callCounts++;
         this.coverageCounter.incrementByState(state);
         return this;
     }

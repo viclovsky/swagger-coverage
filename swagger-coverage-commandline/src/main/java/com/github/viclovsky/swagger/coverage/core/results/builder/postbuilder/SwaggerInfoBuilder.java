@@ -12,7 +12,7 @@ import java.util.List;
 
 public class SwaggerInfoBuilder extends StatisticsOperationPostBuilder {
 
-    protected Info info;
+    private Info info;
 
     @Override
     public SwaggerInfoBuilder configure(Swagger swagger, List<ConditionRule> rules) {

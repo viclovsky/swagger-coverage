@@ -16,12 +16,12 @@ public class FlatOperationBuilder extends StatisticsOperationPostBuilder {
 
     @Override
     public void buildResult(Results results) {
-         Map<String, OperationResult> flatOperations = new TreeMap<>();
+        Map<String, OperationResult> flatOperations = new TreeMap<>();
 
-         results.getOperations().forEach((operationKey, operationResult) -> flatOperations.put(
-             operationKey.toString(),operationResult)
-         );
+        results.getOperations().forEach((operationKey, operationResult) -> flatOperations.put(
+                operationKey.toString(), operationResult)
+        );
 
-         results.setFlatOperations(flatOperations);
+        results.setFlatOperations(flatOperations);
     }
 }

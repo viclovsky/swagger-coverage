@@ -45,6 +45,8 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
         operations.getOperations().entrySet().stream().forEach(entry -> {
             log.info(String.format("==  process result [%s]", entry.getKey()));
 
+            //todo: https://www.codota.com/code/java/classes/org.springframework.util.AntPathMatcher
+            //todo: https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/util/pattern/PathPattern.html
             if (mainCoverageData.containsKey(entry.getKey())) {
                 mainCoverageData.get(entry.getKey())
                         .increaseProcessCount()
