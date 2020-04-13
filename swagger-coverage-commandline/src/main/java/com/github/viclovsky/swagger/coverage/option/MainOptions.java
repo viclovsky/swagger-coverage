@@ -3,9 +3,6 @@ package com.github.viclovsky.swagger.coverage.option;
 import com.beust.jcommander.Parameter;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 public class MainOptions {
 
@@ -30,7 +27,7 @@ public class MainOptions {
             description = "Path to file with report configuration.",
             order = 1
     )
-    private Path confguration;
+    private Path configuration;
 
     @Parameter(
             names = "--help",
@@ -52,7 +49,7 @@ public class MainOptions {
         return inputPath;
     }
 
-    public Path getConfguration() {
-        return confguration;
+    public Path getConfiguration() {
+        return configuration;
     }
 }

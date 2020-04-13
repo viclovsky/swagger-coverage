@@ -34,7 +34,7 @@ public class NotOnlyParameterListValueConditionPredicate extends ConditionPredic
 
     @Override
     public boolean postCheck() {
-        reason = "Checked values: " + String.join(",", currentValue);
+        reason = "Checked values: " + currentValue.toString();
         currentValue.removeAll(expectedValue);
         return !currentValue.isEmpty();
     }

@@ -1,10 +1,10 @@
 package com.github.viclovsky.swagger.coverage.core.results.data;
 
 public class CoverageCounter {
-    long all = 0;
-    long full = 0;
-    long party = 0;
-    long empty = 0;
+    private long all = 0;
+    private long full = 0;
+    private long party = 0;
+    private long empty = 0;
 
     public CoverageCounter incrementByState(CoverageState state){
         switch (state){

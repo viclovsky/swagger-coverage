@@ -3,8 +3,14 @@
     "status": {
       "filter": ["200"]
     },
-    "only-declareted-status" : {
-      "enable" : true
+    "only-declared-status" : {
+      "enable" : false
+    },
+    "empty-required-header" : {
+      "enable" : false
+    },
+    "enum-another-value" : {
+      "enable" : false
     }
   },
 

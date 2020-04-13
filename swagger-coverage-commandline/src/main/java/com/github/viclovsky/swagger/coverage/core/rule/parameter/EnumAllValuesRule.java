@@ -16,7 +16,7 @@ public class EnumAllValuesRule extends ParameterConditionRule {
         List<String> enumValues = SwaggerSpecificationProcessor.extractEnum(parameter);
 
         if (enumValues != null && !enumValues.isEmpty()) {
-            ConditionPredicate predicate = new ParameterValueConditionPredicate(parameter.getName(),parameter.getIn(),enumValues);
+            ConditionPredicate predicate = new ParameterValueConditionPredicate(parameter.getName(), parameter.getIn(), enumValues);
             return new SinglePredicateCondition(
                     String.format("%s «%s» contains all values from enum %s", parameter.getIn(), parameter.getName(), enumValues),
                     "",

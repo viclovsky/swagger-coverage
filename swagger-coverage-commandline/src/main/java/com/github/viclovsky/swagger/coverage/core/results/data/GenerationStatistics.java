@@ -2,10 +2,10 @@ package com.github.viclovsky.swagger.coverage.core.results.data;
 
 public class GenerationStatistics {
 
-    protected long resultFileCount = 0;
-    protected long generationTime;
-    protected String fileResultDateInterval;
-    protected String generateDate;
+    private long resultFileCount = 0;
+    private long generationTime;
+    private String fileResultDateInterval;
+    private String generateDate;
 
     public GenerationStatistics() {
     }

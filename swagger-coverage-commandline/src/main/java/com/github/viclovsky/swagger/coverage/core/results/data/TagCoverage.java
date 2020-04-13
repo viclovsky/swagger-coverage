@@ -19,11 +19,11 @@ public class TagCoverage {
         this.tag = tag;
     }
 
-    public TagCoverage updateState(){
-        if (conditionCounter.getCovered() == 0){
+    public TagCoverage updateState() {
+        if (conditionCounter.getCovered() == 0) {
             state = CoverageState.EMPTY;
         } else {
-            if (conditionCounter.getAll() == conditionCounter.getCovered()){
+            if (conditionCounter.getAll() == conditionCounter.getCovered()) {
                 state = CoverageState.FULL;
             } else {
                 state = CoverageState.PARTY;
@@ -33,23 +33,23 @@ public class TagCoverage {
         return this;
     }
 
-    public TagCoverage addOperation(OperationKey operation){
+    public TagCoverage addOperation(OperationKey operation) {
         this.operations.add(operation);
         return this;
     }
 
-    public TagCoverage incrementByState(CoverageState state){
+    public TagCoverage incrementByState(CoverageState state) {
         this.callCounts++;
         this.coverageCounter.incrementByState(state);
         return this;
     }
 
-    public TagCoverage updateAllConditionCount(long count){
+    public TagCoverage updateAllConditionCount(long count) {
         conditionCounter.updateAll(count);
         return this;
     }
 
-    public TagCoverage updateCoveredConditionCount(long count){
+    public TagCoverage updateCoveredConditionCount(long count) {
         conditionCounter.updateCovered(count);
         return this;
     }
