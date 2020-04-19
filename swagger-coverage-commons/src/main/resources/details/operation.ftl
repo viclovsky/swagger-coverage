@@ -65,15 +65,15 @@
                  data-target="#${target}"
                  aria-expanded="true"
                  aria-controls="collapseOne">
-                <div class="col-6">
-                    <p>
+                <div class="col-1">
                         <@ui.coverageStateBadget operationResult=operationResult />
-
+                </div>
+                <div class="col-1">
                         <button type="button" class="btn btn-sm">${operationResult.operationKey.httpMethod}</button>
-
-                        <span><strong>${operationResult.operationKey.path}</strong></span>
-                    </p>
-                    <span><small>${operationResult.description}</small></span>
+                </div>
+                <div class="col-4">
+                    <span>${operationResult.operationKey.path}</span>
+<#--                    <span><small>${operationResult.description}</small></span>-->
                 </div>
                 <div class="col-2">
                     ${operationResult.processCount} ${i18["details.operation.calls"]}
