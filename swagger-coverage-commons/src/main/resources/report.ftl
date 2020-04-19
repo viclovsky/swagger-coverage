@@ -8,7 +8,7 @@
 <#import "sections/summary.ftl" as summary />
 <#import "sections/generation.ftl" as generation />
 <#import "details/operation.ftl" as operations />
-<#import "details/branch.ftl" as branch />
+<#import "details/condition.ftl" as condition />
 <#import "details/tag.ftl" as tag />
 
 <head>
@@ -60,7 +60,7 @@
                     <a class="nav-link" href="#tag-section">${i18["menu.tags"]}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#branch-section">${i18["menu.branch"]}</a>
+                    <a class="nav-link" href="#condition-section">${i18["menu.condition"]}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#system-section">${i18["menu.generation"]}</a>
@@ -94,8 +94,8 @@
                 <div class="col-12">
                     <ul class="nav nav-pills nav-fill" id="detail-tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="branch-tab" data-toggle="tab" href="#branch" role="tab"
-                               aria-controls="branch" aria-selected="true">
+                            <a class="nav-link active" id="condition-tab" data-toggle="tab" href="#condition" role="tab"
+                               aria-controls="condition" aria-selected="true">
                                 ${i18["operations.all"]}: ${data.operations?size}
                             </a>
                         </li>
@@ -136,22 +136,22 @@
             <div class="row">
                 <div class="col-12">
                     <div class="tab-content" id="details-content">
-                        <div class="tab-pane fade show active" id="branch" role="tabpanel" aria-labelledby="branch-tab">
-                            <@branch.list
+                        <div class="tab-pane fade show active" id="condition" role="tabpanel" aria-labelledby="condition-tab">
+                            <@condition.list
                                 coverage=data.coverageOperationMap.full + data.coverageOperationMap.party + data.coverageOperationMap.empty
-                                prefix="branch"/>
+                                prefix="condition"/>
                         </div>
                         <div class="tab-pane fade" id="full" role="tabpanel" aria-labelledby="full-tab">
-                            <@branch.list coverage=data.coverageOperationMap.full prefix="full"/>
+                            <@condition.list coverage=data.coverageOperationMap.full prefix="full"/>
                         </div>
                         <div class="tab-pane fade" id="party" role="tabpanel" aria-labelledby="party-tab">
-                            <@branch.list coverage=data.coverageOperationMap.party prefix="party"/>
+                            <@condition.list coverage=data.coverageOperationMap.party prefix="party"/>
                         </div>
                         <div class="tab-pane fade" id="empty" role="tabpanel" aria-labelledby="empty-tab">
-                            <@branch.list coverage=data.coverageOperationMap.empty prefix="empty"/>
+                            <@condition.list coverage=data.coverageOperationMap.empty prefix="empty"/>
                         </div>
                         <div class="tab-pane fade" id="zero" role="tabpanel" aria-labelledby="zero-tab">
-                            <@branch.list coverage=data.zeroCall prefix="zero"/>
+                            <@condition.list coverage=data.zeroCall prefix="zero"/>
                         </div>
                         <div class="tab-pane fade" id="missed" role="tabpanel" aria-labelledby="missed-tab">
                             <@operations.list coverage=data.missed prefix="missed"/>
@@ -170,20 +170,20 @@
             <@tag.list tags=data.tagCoverageMap/>
         </section>
 
-        <section id="branch-section">
+        <section id="condition-section">
             <div class="row">
                 <div class="col-12">
-                    <h2 class="title" id="branchs">${i18["menu.branch"]}</h2>
+                    <h2 class="title" id="branchs">${i18["menu.condition"]}</h2>
                 </div>
             </div>
             <div class="row">
-                <div class="accordion col-12" id="branches-by-type-accordion">
+                <div class="accordion col-12" id="conditions-by-type-accordion">
                     <#list data.conditionStatisticsMap as key, value>
                         <div class="card">
                             <div class="card-header">
                                 <div class="row"
                                      data-toggle="collapse"
-                                     data-target="#branches-by-type-${key?index}"
+                                     data-target="#conditions-by-type-${key?index}"
                                      aria-expanded="true"
                                      aria-controls="collapseOne">
                                     <div class="col-8">
@@ -196,26 +196,26 @@
                                         <@ui.progress
                                             full=value.allCount
                                             current=value.coveredCount
-                                            postfix=i18["details.branchprogress.postfix"]
+                                            postfix=i18["details.conditionprogress.postfix"]
                                         />
                                     </div>
                                 </div>
                             </div>
-                            <div id="branches-by-type-${key?index}" class="collapse" aria-labelledby="headingOne">
+                            <div id="conditions-by-type-${key?index}" class="collapse" aria-labelledby="headingOne">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-12">
-                                            <ul class="nav nav-pills nav-fill" id="branch-tabs-${key?index}" role="tablist">
+                                            <ul class="nav nav-pills nav-fill" id="condition-tabs-${key?index}" role="tablist">
                                                 <li class="nav-item">
-                                                    <a class="nav-link active" id="tab-branch-covered-${key?index}" data-toggle="tab" href="#branch-covered-${key?index}" role="tab"
-                                                       aria-controls="branch-covered-${key?index}" aria-selected="true">
-                                                        ${i18["summary.branches.covered"]}: ${value.coveredOperation?size}
+                                                    <a class="nav-link active" id="tab-condition-covered-${key?index}" data-toggle="tab" href="#condition-covered-${key?index}" role="tab"
+                                                       aria-controls="condition-covered-${key?index}" aria-selected="true">
+                                                        ${i18["summary.conditions.covered"]}: ${value.coveredOperation?size}
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" id="tab-branch-uncovered-${key?index}" data-toggle="tab" href="#branch-uncovered-${key?index}" role="tab"
-                                                       aria-controls="branch-uncovered-${key?index}" aria-selected="true">
-                                                        ${i18["summary.branches.uncovered"]}: ${value.uncoveredOperation?size}
+                                                    <a class="nav-link" id="tab-condition-uncovered-${key?index}" data-toggle="tab" href="#condition-uncovered-${key?index}" role="tab"
+                                                       aria-controls="condition-uncovered-${key?index}" aria-selected="true">
+                                                        ${i18["summary.conditions.uncovered"]}: ${value.uncoveredOperation?size}
                                                     </a>
                                                 </li>
                                             </ul>
@@ -225,13 +225,13 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="tab-content" id="details-content-${key?index}">
-                                                <div class="tab-pane fade show active" id="branch-covered-${key?index}" role="tabpanel" aria-labelledby="tab-branch-covered-${key?index}">
+                                                <div class="tab-pane fade show active" id="condition-covered-${key?index}" role="tabpanel" aria-labelledby="tab-condition-covered-${key?index}">
                                                     <table class="table table-sm">
                                                         <thead>
                                                         <tr>
-                                                            <th scope="col">${i18["details.branch.operation"]}</th>
-                                                            <th scope="col">${i18["details.branch.branchname"]}e</th>
-                                                            <th scope="col">${i18["details.branch.details"]}</th>
+                                                            <th scope="col">${i18["details.condition.operation"]}</th>
+                                                            <th scope="col">${i18["details.condition.conditionname"]}e</th>
+                                                            <th scope="col">${i18["details.condition.details"]}</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -250,13 +250,13 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                                <div class="tab-pane fade" id="branch-uncovered-${key?index}" role="tabpanel" aria-labelledby="tab-branch-uncovered-${key?index}">
+                                                <div class="tab-pane fade" id="condition-uncovered-${key?index}" role="tabpanel" aria-labelledby="tab-condition-uncovered-${key?index}">
                                                     <table class="table table-sm">
                                                         <thead>
                                                         <tr>
-                                                            <th scope="col">${i18["details.branch.operation"]}</th>
-                                                            <th scope="col">${i18["details.branch.branchname"]}e</th>
-                                                            <th scope="col">${i18["details.branch.details"]}</th>
+                                                            <th scope="col">${i18["details.condition.operation"]}</th>
+                                                            <th scope="col">${i18["details.condition.conditionname"]}e</th>
+                                                            <th scope="col">${i18["details.condition.details"]}</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>

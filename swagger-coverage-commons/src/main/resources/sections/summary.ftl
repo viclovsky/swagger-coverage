@@ -32,7 +32,7 @@
 <#macro branchs counter>
     <div class="row">
         <div class="col-12">
-            <h4>${i18["summary.branches"]}</h4>
+            <h4>${i18["summary.conditions"]}</h4>
         </div>
     </div>
     <div class="row">
@@ -40,7 +40,7 @@
             <div class="alert alert-primary" role="alert">
                 <div class="row">
                     <div class="col-4">
-                        <strong>${i18["summary.branches.total"]}</strong>
+                        <strong>${i18["summary.conditions.total"]}</strong>
                     </div>
                     <div class="col-4">
                         <strong>${counter.all}</strong>
@@ -54,7 +54,7 @@
             <div class="alert alert-success" role="alert">
                 <div class="row">
                     <div class="col-4">
-                        <strong>${i18["summary.branches.covered"]}</strong>
+                        <strong>${i18["summary.conditions.covered"]}</strong>
                     </div>
                     <div class="col-4">
                         <strong> ${counter.covered * 100 / counter.all}%</strong>
@@ -69,7 +69,7 @@
             <div class="alert alert-danger" role="alert">
                 <div class="row">
                     <div class="col-4">
-                        <strong>${i18["summary.branches.uncovered"]}</strong>
+                        <strong>${i18["summary.conditions.uncovered"]}</strong>
                     </div>
                     <div class="col-4">
                         <strong> ${(counter.all-counter.covered) * 100 / counter.all}%</strong>

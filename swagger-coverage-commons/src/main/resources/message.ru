@@ -1,7 +1,7 @@
 menu.summary=Сводка
 menu.operations=Методы
 menu.tags=Группы
-menu.branch=Варианты
+menu.condition=Варианты
 menu.generation=Об отчёте
 
 common.state.full=Полностью
@@ -21,10 +21,10 @@ summary.operations.all=Всего
 summary.operations.no_call=Пропущено
 summary.operations.missed=Лишние запросы
 
-summary.branches=Сводка по вариантам
-summary.branches.total=Всего
-summary.branches.covered=Покрыто
-summary.branches.uncovered=Не покрыто
+summary.conditions=Сводка по вариантам
+summary.conditions.total=Всего
+summary.conditions.covered=Покрыто
+summary.conditions.uncovered=Не покрыто
 
 summary.tags=Сводка по группам
 summary.tags.all=Всего
@@ -41,14 +41,14 @@ details.operation.parameters=Параметры
 details.operation.parameter.type=Тип
 details.operation.parameter.name=Название
 details.operation.parameter.value=Значения
-details.branchlist.name=Вариант
-details.branchlist.details=Подробности
-details.branchprogress.postfix=вариантов покрыто
+details.conditionlist.name=Вариант
+details.conditionlist.details=Подробности
+details.conditionprogress.postfix=вариантов покрыто
 
 details.tag.operations=методов
-details.branch.operation=Метод
-details.branch.branchname=Вариант
-details.branch.details=Подробности
+details.condition.operation=Метод
+details.condition.conditionname=Вариант
+details.condition.details=Подробности
 
 generation.configuration=Настройки
 generation.parsed_file_count=Проверено файлов с результатами

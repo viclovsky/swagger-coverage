@@ -82,36 +82,36 @@
                     <@ui.progress
                     full=operationResult.allConditionCount
                     current=operationResult.coveredConditionCount
-                    postfix=i18["details.branchprogress.postfix"]
+                    postfix=i18["details.conditionprogress.postfix"]
                     />
                 </div>
             </div>
         </div>
         <div id="${target}" class="collapse" aria-labelledby="headingOne">
-            <@branchList list=operationResult.conditions />
+            <@conditionList list=operationResult.conditions />
         </div>
     </div>
 </#macro>
 
-<#macro branchList list>
+<#macro conditionList list>
     <div class="card-body">
         <table class="table table-sm">
             <thead>
             <tr>
-                <th scope="col">${i18["details.branchlist.name"]}</th>
-                <th scope="col">${i18["details.branchlist.details"]}</th>
+                <th scope="col">${i18["details.conditionlist.name"]}</th>
+                <th scope="col">${i18["details.conditionlist.details"]}</th>
             </tr>
             </thead>
             <tbody>
-            <#list list as branch>
+            <#list list as condition>
                 <#assign trStyle = "table-danger">
 
-                <#if branch.covered>
+                <#if condition.covered>
                     <#assign trStyle = "table-success">
                 </#if>
                 <tr class="${trStyle}">
                     <td>
-                        <#if branch.covered>
+                        <#if condition.covered>
                             <span>
                                 <i class="fas fa-check"></i>
                             </span>
@@ -120,9 +120,9 @@
                                 <i class="fas fa-bug"></i>
                             </span>
                         </#if>
-                        &nbsp;${branch.name}
+                        &nbsp;${condition.name}
                     </td>
-                    <td>${branch.reason}</td>
+                    <td>${condition.reason}</td>
                 </tr>
             </#list>
             </tbody>
