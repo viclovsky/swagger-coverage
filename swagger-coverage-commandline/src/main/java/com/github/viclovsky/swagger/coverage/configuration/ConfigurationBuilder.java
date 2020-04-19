@@ -13,16 +13,15 @@ import com.github.viclovsky.swagger.coverage.core.results.builder.postbuilder.Ze
 import com.github.viclovsky.swagger.coverage.core.results.builder.prebuilder.CoverageStatisticsBuilder;
 import com.github.viclovsky.swagger.coverage.core.results.builder.prebuilder.GenerationStatisticsBuilder;
 import com.github.viclovsky.swagger.coverage.core.rule.core.ConditionRule;
-import com.github.viclovsky.swagger.coverage.core.rule.parameter.EnumAllValuesRule;
-import com.github.viclovsky.swagger.coverage.core.rule.parameter.NotEmptyParameterRule;
 import com.github.viclovsky.swagger.coverage.core.rule.parameter.EmptyHeaderRule;
+import com.github.viclovsky.swagger.coverage.core.rule.parameter.EnumAllValuesRule;
 import com.github.viclovsky.swagger.coverage.core.rule.parameter.NotEmptyBodyRule;
+import com.github.viclovsky.swagger.coverage.core.rule.parameter.NotEmptyParameterRule;
 import com.github.viclovsky.swagger.coverage.core.rule.parameter.NotOnlyEnumValuesRule;
 import com.github.viclovsky.swagger.coverage.core.rule.status.HTTPStatusRule;
 import com.github.viclovsky.swagger.coverage.core.rule.status.OnlyDeclaredHTTPStatusesRule;
 import com.github.viclovsky.swagger.coverage.core.writer.CoverageResultsWriter;
 import com.github.viclovsky.swagger.coverage.core.writer.FileSystemResultsWriter;
-import com.github.viclovsky.swagger.coverage.core.writer.HtmlExtendReportResultsWriter;
 import com.github.viclovsky.swagger.coverage.core.writer.HtmlReportResultsWriter;
 import com.github.viclovsky.swagger.coverage.core.writer.LogResultsWriter;
 import org.slf4j.Logger;
@@ -56,12 +55,12 @@ public class ConfigurationBuilder {
         return configuration;
     }
 
-    protected static List<CoverageResultsWriter> getResultsWriters(ConfigurationOptions options){
+    private static List<CoverageResultsWriter> getResultsWriters(ConfigurationOptions options){
         List<CoverageResultsWriter> configuredResultsWriters = new ArrayList<>();
 
         if (options.getWriters().isEmpty()) {
             configuredResultsWriters.add(
-                new HtmlExtendReportResultsWriter()
+                new HtmlReportResultsWriter()
             );
             configuredResultsWriters.add(
                 new LogResultsWriter()
@@ -69,27 +68,18 @@ public class ConfigurationBuilder {
             configuredResultsWriters.add(
                 new FileSystemResultsWriter()
             );
-            configuredResultsWriters.add(
-                new HtmlReportResultsWriter()
-            );
         } else {
-            options
-                    .getWriters()
+            options.getWriters()
                     .forEach((key, value) -> {
                         switch (value.getType()) {
-                            case "extend-html":
+                            case "html":
                                 configuredResultsWriters.add(
-                                        new HtmlExtendReportResultsWriter(value.getLocale(), value.getFilename())
+                                        new HtmlReportResultsWriter(value.getLocale(), value.getFilename())
                                 );
                                 break;
                             case "log":
                                 configuredResultsWriters.add(
                                         new LogResultsWriter()
-                                );
-                                break;
-                            case "html":
-                                configuredResultsWriters.add(
-                                        new HtmlReportResultsWriter()
                                 );
                                 break;
                             case "json":
@@ -104,7 +94,7 @@ public class ConfigurationBuilder {
         return configuredResultsWriters;
     }
 
-    protected static List<ConditionRule> getDefaultList(){
+    private static List<ConditionRule> getDefaultList(){
         List<ConditionRule>  registeredRules = new ArrayList<>();
 
         registeredRules.add(new HTTPStatusRule());
@@ -117,7 +107,7 @@ public class ConfigurationBuilder {
         return registeredRules;
     }
 
-    protected static List<StatisticsBuilder> getDefaultBuilderList(){
+    private static List<StatisticsBuilder> getDefaultBuilderList(){
         List<StatisticsBuilder> registeredBuilders = new ArrayList<>();
 
         registeredBuilders.add(new CoverageStatisticsBuilder());

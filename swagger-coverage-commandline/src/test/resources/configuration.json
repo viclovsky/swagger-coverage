@@ -20,7 +20,7 @@
 
   "writers": {
       "html": {
-        "type" : "extend-html",
+        "type" : "html",
         "locale": "en"
       }
   }
