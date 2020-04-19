@@ -235,16 +235,16 @@
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        <#list value.coveredOperation as branchItem>
+                                                        <#list value.coveredOperation as conditionItem>
                                                             <tr class="table-success">
                                                                 <td>
                                                                     <span>
                                                                         <i class="fas fa-check"></i>
                                                                     </span>
-                                                                    &nbsp;${branchItem.operation}
+                                                                    &nbsp;${conditionItem.operation}
                                                                 </td>
-                                                                <td>${branchItem.condition.name}</td>
-                                                                <td>${branchItem.condition.reason?no_esc}</td>
+                                                                <td>${conditionItem.condition.name}</td>
+                                                                <td>${conditionItem.condition.reason?no_esc}</td>
                                                             </tr>
                                                         </#list>
                                                         </tbody>
@@ -260,16 +260,16 @@
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        <#list value.uncoveredOperation as branchItem>
+                                                        <#list value.uncoveredOperation as conditionItem>
                                                             <tr class="table-danger">
                                                                 <td>
                                                                     <span>
                                                                         <i class="fas fa-bug"></i>
                                                                     </span>
-                                                                    &nbsp;${branchItem.operation}
+                                                                    &nbsp;${conditionItem.operation}
                                                                 </td>
-                                                                <td>${branchItem.condition.name}</td>
-                                                                <td>${branchItem.condition.reason?no_esc}</td>
+                                                                <td>${conditionItem.condition.name}</td>
+                                                                <td>${conditionItem.condition.reason?no_esc}</td>
                                                             </tr>
                                                         </#list>
                                                         </tbody>
