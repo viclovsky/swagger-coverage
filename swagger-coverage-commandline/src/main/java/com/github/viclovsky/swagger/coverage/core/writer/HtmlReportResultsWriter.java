@@ -1,6 +1,7 @@
 package com.github.viclovsky.swagger.coverage.core.writer;
 
 
+import com.github.viclovsky.swagger.coverage.SwaggerCoverageWriteException;
 import com.github.viclovsky.swagger.coverage.core.results.Results;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +40,7 @@ public class HtmlReportResultsWriter implements CoverageResultsWriter {
             final String htmlReport = processTemplate("report.ftl", localeCode, results);
             Files.write(Paths.get(filename), htmlReport.getBytes());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new SwaggerCoverageWriteException("Could not write results", e);
         }
     }
 
