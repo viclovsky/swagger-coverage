@@ -1,7 +1,7 @@
 menu.summary=Summary
 menu.operations=Operation details
 menu.tags=Tag details
-menu.branch=Condition details
+menu.condition=Condition details
 menu.generation=Generation info
 
 common.state.full=Full
@@ -21,10 +21,10 @@ summary.operations.all=All operation
 summary.operations.no_call=Operation without calls
 summary.operations.missed=Missed request
 
-summary.branches=Conditions coverage summary
-summary.branches.total=Total
-summary.branches.covered=Covered
-summary.branches.uncovered=Uncovered
+summary.conditions=Conditions coverage summary
+summary.conditions.total=Total
+summary.conditions.covered=Covered
+summary.conditions.uncovered=Uncovered
 
 summary.tags=Tags coverage summary
 summary.tags.all=All tags
@@ -41,14 +41,14 @@ details.operation.parameters=Parameters
 details.operation.parameter.type=Type
 details.operation.parameter.name=Name
 details.operation.parameter.value=Value
-details.branchlist.name=Condition name
-details.branchlist.details=Details
-details.branchprogress.postfix=condition covered
+details.conditionlist.name=Condition name
+details.conditionlist.details=Details
+details.conditionprogress.postfix=condition covered
 
 details.tag.operations=operations
-details.branch.operation=Operation name
-details.branch.branchname=Condition name
-details.branch.details=Details
+details.condition.operation=Operation name
+details.condition.conditionname=Condition name
+details.condition.details=Details
 
 generation.configuration=Configuration
 generation.parsed_file_count=Parsed result files

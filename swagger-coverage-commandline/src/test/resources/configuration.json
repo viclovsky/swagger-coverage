@@ -20,8 +20,8 @@
 
   "writers": {
       "html": {
-        "type" : "extend-html",
-        "locale": "en"
+        "type" : "html",
+        "locale": "ru"
       }
   }
 }

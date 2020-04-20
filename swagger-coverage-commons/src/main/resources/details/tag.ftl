@@ -24,7 +24,7 @@
                             <@ui.progress
                             full=tagCoverage.conditionCounter.all
                             current=tagCoverage.conditionCounter.covered
-                            postfix=i18["details.branchprogress.postfix"]
+                            postfix=i18["details.conditionprogress.postfix"]
                             />
                         </div>
                     </div>
