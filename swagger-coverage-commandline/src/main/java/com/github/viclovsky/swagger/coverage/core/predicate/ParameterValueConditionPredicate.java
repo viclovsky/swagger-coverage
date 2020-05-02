@@ -40,7 +40,7 @@ public class ParameterValueConditionPredicate extends ConditionPredicate {
 
         if (!covered) {
             expectedValue.removeAll(currentValue);
-            reason = "Missed values: " + expectedValue.toString();
+            reason = "Missed values " + expectedValue.toString();
         }
 
         return covered;
