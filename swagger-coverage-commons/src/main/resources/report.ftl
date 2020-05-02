@@ -81,7 +81,7 @@
             <@summary.operations operationCoveredMap=data.coverageOperationMap />
             <@summary.calls data=data />
             <@summary.tags tagsDetail=data.tagCoverageMap tagCounter=data.tagCounter />
-            <@summary.branchs counter=data.conditionCounter />
+            <@summary.conditions counter=data.conditionCounter />
         </section>
 
         <section id="details-section">
@@ -173,7 +173,7 @@
         <section id="condition-section">
             <div class="row">
                 <div class="col-12">
-                    <h2 class="title" id="branchs">${i18["menu.condition"]}</h2>
+                    <h2 class="title" id="conditions">${i18["menu.condition"]}</h2>
                 </div>
             </div>
             <div class="row">

@@ -29,7 +29,7 @@
     </div>
 </#macro>
 
-<#macro branchs counter>
+<#macro conditions counter>
     <div class="row">
         <div class="col-12">
             <h4>${i18["summary.conditions"]}</h4>
