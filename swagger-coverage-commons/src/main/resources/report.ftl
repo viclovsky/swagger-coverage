@@ -300,8 +300,10 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <div class="alert alert-secondary" role="alert">
-                        <pre>${data.prettyConfiguration} </pre>
+                    <div class="col-sm">
+                        <div class="alert alert-secondary" role="alert">
+                            <pre>${data.prettyConfiguration} </pre>
+                        </div>
                     </div>
                 </div>
             </div>

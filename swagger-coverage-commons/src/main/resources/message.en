@@ -1,7 +1,7 @@
 menu.summary=Summary
-menu.operations=Operation details
-menu.tags=Tag details
-menu.condition=Condition details
+menu.operations=Operations details
+menu.tags=Tags details
+menu.condition=Conditions details
 menu.generation=Generation info
 
 common.state.full=Full
@@ -16,9 +16,9 @@ operations.empty=Empty
 operations.no_call=No call
 operations.missed=Missed
 
-summary.operations=Operation coverage summary
-summary.operations.all=All operation
-summary.operations.no_call=Operation without calls
+summary.operations=Operations coverage summary
+summary.operations.all=All operations
+summary.operations.no_call=Operations without calls
 summary.operations.missed=Missed request
 
 summary.conditions=Conditions coverage summary
@@ -28,7 +28,7 @@ summary.conditions.uncovered=Uncovered
 
 summary.tags=Tags coverage summary
 summary.tags.all=All tags
-summary.tags.no_call=Tag without calls
+summary.tags.no_call=Tags without calls
 
 badged.full=Full coverage
 badged.partial=Partial coverage
