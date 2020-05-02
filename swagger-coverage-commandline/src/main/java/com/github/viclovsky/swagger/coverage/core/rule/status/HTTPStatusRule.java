@@ -20,19 +20,19 @@ public class HTTPStatusRule extends StatusConditionRule {
 
         ConditionPredicate predicate = new DefaultStatusConditionPredicate(status);
         return new SinglePredicateCondition(
-            "HTTP status " + status,
-            "",
-            predicate
+                "HTTP status " + status,
+                "",
+                predicate
         );
     }
 
-    protected boolean skip(String status){
+    protected boolean skip(String status) {
         if (this.options == null) {
             return false;
         }
         if (this.options.getFilter() != null
-            && !this.options.getFilter().isEmpty()
-            && !this.options.getFilter().contains(status)
+                && !this.options.getFilter().isEmpty()
+                && !this.options.getFilter().contains(status)
         ) {
             return true;
         }

@@ -31,7 +31,7 @@
                 </div>
                 <div id="tag-${tag?index}" class="collapse" aria-labelledby="headingOne">
                     <div class="card-body">
-                        <@ui.coverageBadget counter=tagCoverage.coverageCounter legend=i18["summary.operations.legend"]/>
+                        <@ui.coverageBadget counter=tagCoverage.coverageCounter/>
                         <#list tagCoverage.operations as op>
                             <@operation.details
                             name=op

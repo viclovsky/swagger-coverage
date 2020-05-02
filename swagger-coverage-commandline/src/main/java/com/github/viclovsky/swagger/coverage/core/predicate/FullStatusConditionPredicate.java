@@ -32,7 +32,7 @@ public class FullStatusConditionPredicate extends ConditionPredicate {
         }
         boolean covered = expectedStatuses.containsAll(currentStatuses);
 
-        if (!covered){
+        if (!covered) {
             currentStatuses.removeAll(expectedStatuses);
             reason = "Undeclared status: " + String.join(",", currentStatuses);
         }

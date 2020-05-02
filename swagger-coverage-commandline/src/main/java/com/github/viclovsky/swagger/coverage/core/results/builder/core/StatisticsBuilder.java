@@ -11,7 +11,7 @@ public abstract class StatisticsBuilder {
 
     protected ConfigurationOptions options;
 
-    public StatisticsBuilder add(String path){
+    public StatisticsBuilder add(String path) {
         return this;
     }
 
@@ -19,14 +19,16 @@ public abstract class StatisticsBuilder {
         return this;
     }
 
-    public StatisticsBuilder configure(ConfigurationOptions options){
+    public StatisticsBuilder configure(ConfigurationOptions options) {
         this.options = options;
         return this;
-    };
+    }
 
     public abstract StatisticsBuilder configure(Swagger swagger, List<ConditionRule> rules);
+
     public abstract void build(Results results);
 
     public abstract boolean isPreBuilder();
+
     public abstract boolean isPostBuilder();
 }

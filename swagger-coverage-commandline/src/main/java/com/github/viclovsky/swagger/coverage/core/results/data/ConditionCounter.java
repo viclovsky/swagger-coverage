@@ -2,16 +2,16 @@ package com.github.viclovsky.swagger.coverage.core.results.data;
 
 public class ConditionCounter {
 
-    protected long all = 0;
-    protected long covered = 0;
+    private long all = 0;
+    private long covered = 0;
 
-    public ConditionCounter updateAll(long count){
+    public ConditionCounter updateAll(long count) {
         this.all = this.all + count;
         return this;
     }
 
-    public ConditionCounter updateCovered(long count){
-        this.covered= this.covered + count;
+    public ConditionCounter updateCovered(long count) {
+        this.covered = this.covered + count;
         return this;
     }
 

@@ -15,10 +15,10 @@ import static com.github.viclovsky.swagger.coverage.utils.FreemarkerUtils.proces
 
 public class HtmlReportResultsWriter implements CoverageResultsWriter {
 
-    private static final Logger log = LoggerFactory.getLogger(HtmlReportResultsWriter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HtmlReportResultsWriter.class);
 
-    protected String filename = "swagger-coverage-report.html";
-    protected String localeCode = "en";
+    private String filename = "swagger-coverage-report.html";
+    private String localeCode = "en";
 
     public HtmlReportResultsWriter() {
     }
@@ -35,7 +35,7 @@ public class HtmlReportResultsWriter implements CoverageResultsWriter {
     @Override
     public void write(Results results) {
         Path path = Paths.get(filename);
-        log.info(String.format("Write html report in file '%s'", path.toAbsolutePath()));
+        LOGGER.info(String.format("Write html report in file '%s'", path.toAbsolutePath()));
         try {
             final String htmlReport = processTemplate("report.ftl", localeCode, results);
             Files.write(Paths.get(filename), htmlReport.getBytes());

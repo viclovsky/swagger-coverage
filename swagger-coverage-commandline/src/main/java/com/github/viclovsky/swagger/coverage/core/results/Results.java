@@ -1,33 +1,47 @@
 package com.github.viclovsky.swagger.coverage.core.results;
 
 import com.github.viclovsky.swagger.coverage.core.model.OperationKey;
-import com.github.viclovsky.swagger.coverage.core.results.data.*;
+import com.github.viclovsky.swagger.coverage.core.results.data.ConditionCounter;
+import com.github.viclovsky.swagger.coverage.core.results.data.ConditionStatistics;
+import com.github.viclovsky.swagger.coverage.core.results.data.CoverageCounter;
+import com.github.viclovsky.swagger.coverage.core.results.data.CoverageOperationMap;
+import com.github.viclovsky.swagger.coverage.core.results.data.GenerationStatistics;
+import com.github.viclovsky.swagger.coverage.core.results.data.OperationResult;
+import com.github.viclovsky.swagger.coverage.core.results.data.TagCoverage;
 import io.swagger.models.Info;
 import io.swagger.models.Operation;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 public class Results {
 
-    protected Map<OperationKey, OperationResult> operations = new TreeMap<>();
-    protected Map<String, OperationResult> flatOperations = new TreeMap<>();
-    protected Map<OperationKey, Operation> missed  = new TreeMap<>();
-    protected Map<String, ConditionStatistics> conditionStatisticsMap = new HashMap<>();
-    protected Set<OperationKey> zeroCall  = new HashSet<>();
+    private Map<OperationKey, OperationResult> operations = new TreeMap<>();
+    private Map<String, OperationResult> flatOperations = new TreeMap<>();
+    private Map<OperationKey, Operation> missed = new TreeMap<>();
+    private Map<String, ConditionStatistics> conditionStatisticsMap = new HashMap<>();
+    private Set<OperationKey> zeroCall = new HashSet<>();
 
-    protected GenerationStatistics generationStatistics;
-    protected CoverageOperationMap coverageOperationMap = new CoverageOperationMap();
-    protected ConditionCounter conditionCounter = new ConditionCounter();
+    private GenerationStatistics generationStatistics;
+    private CoverageOperationMap coverageOperationMap = new CoverageOperationMap();
+    private ConditionCounter conditionCounter = new ConditionCounter();
 
-    /** TAG STATISTICS **/
-    protected Map<String, TagCoverage> tagCoverageMap = new TreeMap<>();
-    protected CoverageCounter tagCounter;
+    /**
+     * TAG STATISTICS
+     **/
+    private Map<String, TagCoverage> tagCoverageMap = new TreeMap<>();
+    private CoverageCounter tagCounter;
 
-    /** **/
-    protected String prettyConfiguration;
-    protected Info info;
+    /**
+     *
+     **/
+    private String prettyConfiguration;
+    private Info info;
 
-    public Results(){
+    public Results() {
 
     }
 

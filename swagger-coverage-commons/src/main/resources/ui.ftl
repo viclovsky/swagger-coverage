@@ -45,12 +45,9 @@
     </div>
 </#macro>
 
-<#macro coverageBadget counter legend>
+<#macro coverageBadget counter>
     <#if counter.all gt 0>
         <div class="card" style="margin-bottom: 16px;">
-            <div class="card-header">
-                ${legend}
-            </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm">
@@ -71,23 +68,23 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <div class="progress" style="height: 30px;">
+                        <div class="progress" style="height: 16px;">
                             <div
-                                    class="progress-bar bg-success progress-bar-striped" role="progressbar"
+                                    class="progress-bar bg-success" role="progressbar"
                                     style="width: ${counter.full * 100 / counter.all}%"
                                     aria-valuenow="${counter.full}"
                                     aria-valuemin="0"
                                     aria-valuemax="${counter.all}">
                             </div>
                             <div
-                                    class="progress-bar bg-warning progress-bar-striped" role="progressbar"
+                                    class="progress-bar bg-warning" role="progressbar"
                                     style="width: ${counter.party * 100 / counter.all}%"
                                     aria-valuenow="${counter.party}"
                                     aria-valuemin="0"
                                     aria-valuemax="${counter.all}">
                             </div>
                             <div
-                                    class="progress-bar bg-danger progress-bar-striped" role="progressbar"
+                                    class="progress-bar bg-danger" role="progressbar"
                                     style="width: ${counter.empty * 100 / counter.all}%"
                                     aria-valuenow="${counter.empty}"
                                     aria-valuemin="0"

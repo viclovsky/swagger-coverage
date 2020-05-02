@@ -6,30 +6,33 @@ public class CoverageCounter {
     private long party = 0;
     private long empty = 0;
 
-    public CoverageCounter incrementByState(CoverageState state){
-        switch (state){
-            case FULL: return incrementFull();
-            case EMPTY: return incrementEmpty();
-            case PARTY: return incrementParty();
+    public CoverageCounter incrementByState(CoverageState state) {
+        switch (state) {
+            case FULL:
+                return incrementFull();
+            case EMPTY:
+                return incrementEmpty();
+            case PARTY:
+                return incrementParty();
         }
         return this;
     }
 
-    public CoverageCounter incrementFull(){
+    public CoverageCounter incrementFull() {
         this.all++;
         this.full++;
 
         return this;
     }
 
-    public CoverageCounter incrementParty(){
+    public CoverageCounter incrementParty() {
         this.all++;
         this.party++;
 
         return this;
     }
 
-    public CoverageCounter incrementEmpty(){
+    public CoverageCounter incrementEmpty() {
         this.all++;
         this.empty++;
 

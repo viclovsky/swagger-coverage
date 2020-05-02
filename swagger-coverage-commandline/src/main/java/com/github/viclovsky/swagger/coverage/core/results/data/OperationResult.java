@@ -7,23 +7,23 @@ import java.util.List;
 
 public class OperationResult {
 
-    protected OperationKey operationKey;
-    protected List<Condition> conditions;
-    protected long allConditionCount;
-    protected long coveredConditionCount;
-    protected long processCount;
-    protected String description;
-    protected CoverageState state;
+    private OperationKey operationKey;
+    private List<Condition> conditions;
+    private long allConditionCount;
+    private long coveredConditionCount;
+    private long processCount;
+    private String description;
+    private CoverageState state;
 
     public OperationResult(List<Condition> conditions) {
         this.conditions = conditions;
         allConditionCount = conditions.size();
         coveredConditionCount = conditions.stream().filter(Condition::isCovered).count();
 
-        if (coveredConditionCount == 0){
+        if (coveredConditionCount == 0) {
             state = CoverageState.EMPTY;
         } else {
-            if (allConditionCount == coveredConditionCount){
+            if (allConditionCount == coveredConditionCount) {
                 state = CoverageState.FULL;
             } else {
                 state = CoverageState.PARTY;
@@ -59,7 +59,7 @@ public class OperationResult {
     }
 
     public String getDescription() {
-        if (description == null){
+        if (description == null) {
             return "";
         }
         return description;

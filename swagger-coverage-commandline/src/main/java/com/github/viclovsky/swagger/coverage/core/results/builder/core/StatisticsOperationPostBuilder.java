@@ -23,5 +23,6 @@ public abstract class StatisticsOperationPostBuilder extends StatisticsPostBuild
     }
 
     public abstract void buildOperation(OperationKey operation, OperationResult operationResult);
+
     public abstract void buildResult(Results results);
 }

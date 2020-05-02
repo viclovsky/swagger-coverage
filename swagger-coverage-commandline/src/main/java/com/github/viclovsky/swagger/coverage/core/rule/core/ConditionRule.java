@@ -10,10 +10,13 @@ public abstract class ConditionRule {
     protected RuleConfigurationOptions options;
 
     public abstract String getId();
+
     public abstract List<Condition> createCondition(Operation operation);
 
-    public ConditionRule configure(RuleConfigurationOptions options){
+    public ConditionRule configure(RuleConfigurationOptions options) {
         this.options = options;
         return this;
-    };
+    }
+
+    ;
 }

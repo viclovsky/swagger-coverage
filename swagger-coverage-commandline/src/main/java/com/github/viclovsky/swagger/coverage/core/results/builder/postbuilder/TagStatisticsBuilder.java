@@ -21,9 +21,8 @@ import static java.util.stream.Collectors.toMap;
 
 public class TagStatisticsBuilder extends StatisticsOperationPostBuilder {
 
-    private static final Logger log = LoggerFactory.getLogger(TagStatisticsBuilder.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TagStatisticsBuilder.class);
 
-    private Swagger swagger;
     private Map<OperationKey, List<String>> operationToTag;
 
     private Map<String, TagCoverage> tagCoverageMap;
@@ -31,10 +30,7 @@ public class TagStatisticsBuilder extends StatisticsOperationPostBuilder {
 
     @Override
     public TagStatisticsBuilder configure(Swagger swagger, List<ConditionRule> rules) {
-        this.swagger = swagger;
-        OperationsHolder operations = SwaggerSpecificationProcessor.extractOperation(
-                swagger, options.getGeneral().isPathCaseIgnore()
-        );
+        OperationsHolder operations = SwaggerSpecificationProcessor.extractOperation(swagger);
 
         tagCoverageMap = swagger.getTags().stream()
                 .collect(toMap(Tag::getName, TagCoverage::new));
@@ -66,7 +62,7 @@ public class TagStatisticsBuilder extends StatisticsOperationPostBuilder {
 
     @Override
     public void buildResult(Results results) {
-        log.info(tagCoverageMap.toString());
+        LOGGER.info(tagCoverageMap.toString());
         tagCoverageMap.forEach((key, value) -> tagCounter.incrementByState(value.getState()));
         results.setTagCoverageMap(tagCoverageMap).setTagCounter(tagCounter);
     }

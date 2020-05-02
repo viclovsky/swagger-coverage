@@ -15,16 +15,12 @@ public class SwaggerSpecificationProcessor {
 
     private static final String X_EXAMPLE = "x-example";
 
-    public static OperationsHolder extractOperation(Swagger swagger){
-        return extractOperation(swagger,false);
-    }
-
-    public static OperationsHolder extractOperation(Swagger swagger, boolean ignoreCase) {
+    public static OperationsHolder extractOperation(Swagger swagger) {
         OperationsHolder operations = new OperationsHolder();
 
         swagger.getPaths().keySet().forEach(path
                 -> swagger.getPaths().get(path).getOperationMap().forEach((httpMethod, operation)
-                        -> operations.addOperation(new OperationKey().setPath(path).setHttpMethod(httpMethod), operation)
+                -> operations.addOperation(new OperationKey().setPath(path).setHttpMethod(httpMethod), operation)
         ));
         return operations;
     }

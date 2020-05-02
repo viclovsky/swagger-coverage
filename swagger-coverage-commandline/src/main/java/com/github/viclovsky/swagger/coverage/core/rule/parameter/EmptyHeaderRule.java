@@ -8,6 +8,7 @@ import io.swagger.models.parameters.HeaderParameter;
 import io.swagger.models.parameters.Parameter;
 
 public class EmptyHeaderRule extends ParameterConditionRule {
+
     @Override
     public Condition processParameter(Parameter parameter) {
         if (parameter instanceof HeaderParameter) {

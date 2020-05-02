@@ -8,12 +8,12 @@ import java.util.Set;
 
 public class TagCoverage {
 
-    protected Tag tag;
-    protected Set<OperationKey> operations = new HashSet<>();
-    protected CoverageCounter coverageCounter = new CoverageCounter();
-    protected ConditionCounter conditionCounter = new ConditionCounter();
-    protected long callCounts = 0;
-    protected CoverageState state = CoverageState.EMPTY;
+    private Tag tag;
+    private Set<OperationKey> operations = new HashSet<>();
+    private CoverageCounter coverageCounter = new CoverageCounter();
+    private ConditionCounter conditionCounter = new ConditionCounter();
+    private long callCounts = 0;
+    private CoverageState state = CoverageState.EMPTY;
 
     public TagCoverage(Tag tag) {
         this.tag = tag;

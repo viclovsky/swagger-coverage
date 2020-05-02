@@ -12,13 +12,15 @@ import java.util.stream.Collectors;
 
 public class Configuration {
     protected ConfigurationOptions options = new ConfigurationOptions();
-    protected List<ConditionRule> defaultRules;
-    protected List<StatisticsBuilder> registeredBuilders;
+    private List<ConditionRule> defaultRules;
+    private List<StatisticsBuilder> registeredBuilders;
 
-    /** Configured data **/
-    protected List<ConditionRule> configuredRules = null;
-    protected List<StatisticsBuilder> configuredBuilders = null;
-    protected List<CoverageResultsWriter> configuredResultsWriters = null;
+    /**
+     * Configured data
+     **/
+    private List<ConditionRule> configuredRules = null;
+    private List<StatisticsBuilder> configuredBuilders = null;
+    private List<CoverageResultsWriter> configuredResultsWriters = null;
 
     public Configuration() {
     }

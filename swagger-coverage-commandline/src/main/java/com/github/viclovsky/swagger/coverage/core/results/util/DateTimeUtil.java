@@ -7,12 +7,11 @@ import java.time.format.DateTimeFormatter;
 
 public class DateTimeUtil {
 
-    protected static DateTimeFormatter dateTimeFormatter = DateTimeFormatter
+    private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter
             .ofPattern("yyyy-MM-dd HH:mm:ss")
-            .withZone(ZoneId.systemDefault())
-            ;
+            .withZone(ZoneId.systemDefault());
 
-    public static String formatDate(Instant instant){
+    public static String formatDate(Instant instant) {
         return dateTimeFormatter.format(instant);
     }
 }

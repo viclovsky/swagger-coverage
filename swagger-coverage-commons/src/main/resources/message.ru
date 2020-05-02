@@ -56,9 +56,6 @@ generation.time=Затраченое на отчёт время
 generation.result_file_created_interval=Файлы с результатами созданы
 generation.report.date=Дата генерации отчёта
 
-summary.tag.legend=Распределение статусов покрытия групп
-summary.operations.legend=Распределение статусов покрытия операций
-
 predicate.ParameterValueConditionPredicate.name=Все значения параметра
 predicate.ParameterValueConditionPredicate.description=Проверка, что метод вызван со всеми описанным в enum параметра
 predicate.NotOnlyParameterListValueConditionPredicate.name=Значения не только из списка

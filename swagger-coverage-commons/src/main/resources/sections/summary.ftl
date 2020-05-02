@@ -6,7 +6,7 @@
             <h4>${i18["summary.operations"]}</h4>
         </div>
     </div>
-    <@ui.coverageBadget counter=operationCoveredMap.counter legend=i18["summary.operations.legend"]/>
+    <@ui.coverageBadget counter=operationCoveredMap.counter/>
 </#macro>
 
 <#macro calls data>
@@ -29,7 +29,7 @@
     </div>
 </#macro>
 
-<#macro branchs counter>
+<#macro conditions counter>
     <div class="row">
         <div class="col-12">
             <h4>${i18["summary.conditions"]}</h4>
@@ -39,13 +39,8 @@
         <div class="col-sm">
             <div class="alert alert-primary" role="alert">
                 <div class="row">
-                    <div class="col-4">
-                        <strong>${i18["summary.conditions.total"]}</strong>
-                    </div>
-                    <div class="col-4">
-                        <strong>${counter.all}</strong>
-                    </div>
-                    <div class="col-4">
+                    <div class="col-12">
+                        <strong>${i18["summary.conditions.total"]}: ${counter.all}</strong>
                     </div>
                 </div>
             </div>
@@ -53,14 +48,8 @@
         <div class="col-sm">
             <div class="alert alert-success" role="alert">
                 <div class="row">
-                    <div class="col-4">
-                        <strong>${i18["summary.conditions.covered"]}</strong>
-                    </div>
-                    <div class="col-4">
-                        <strong> ${counter.covered * 100 / counter.all}%</strong>
-                    </div>
-                    <div class="col-4">
-                        ${counter.covered} of ${counter.all}
+                    <div class="col-12">
+                        <strong>${i18["summary.conditions.covered"]}: ${counter.covered * 100 / counter.all}% (${counter.covered}/${counter.all})</strong>
                     </div>
                 </div>
             </div>
@@ -68,14 +57,8 @@
         <div class="col-sm">
             <div class="alert alert-danger" role="alert">
                 <div class="row">
-                    <div class="col-4">
-                        <strong>${i18["summary.conditions.uncovered"]}</strong>
-                    </div>
-                    <div class="col-4">
-                        <strong> ${(counter.all-counter.covered) * 100 / counter.all}%</strong>
-                    </div>
-                    <div class="col-4">
-                        ${counter.all-counter.covered} of ${counter.all}
+                    <div class="col-12">
+                        <strong>${i18["summary.conditions.uncovered"]}:  ${(counter.all-counter.covered) * 100 / counter.all}% (${counter.all-counter.covered}/${counter.all})</strong>
                     </div>
                 </div>
             </div>
@@ -96,7 +79,7 @@
             <h4>${i18["summary.tags"]}</h4>
         </div>
     </div>
-    <@ui.coverageBadget counter=tagCounter legend=i18["summary.tag.legend"]/>
+    <@ui.coverageBadget counter=tagCounter/>
     <div class="row">
         <div class="col-sm">
             <div class="alert alert-primary" role="alert">

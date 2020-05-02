@@ -18,19 +18,15 @@ import java.util.stream.Collectors;
 
 public class OperationConditionGenerator {
 
-    private static final Logger log = LoggerFactory.getLogger(OperationConditionGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(OperationConditionGenerator.class);
 
     public static Map<OperationKey, ConditionOperationCoverage> getOperationMap(Swagger swagger, List<ConditionRule> rules) {
-        return getOperationMap(swagger, rules, false);
-    }
-
-    public static Map<OperationKey, ConditionOperationCoverage> getOperationMap(Swagger swagger, List<ConditionRule> rules, boolean ignoreCase) {
         OperationsHolder operations = SwaggerSpecificationProcessor.extractOperation(swagger);
         Map<OperationKey, ConditionOperationCoverage> coverage = new TreeMap<>();
 
         operations.getOperations().forEach((key, value) -> {
             ConditionOperationCoverage oc = buildConditionOperationCoverage(value, rules);
-            log.debug(String.format("put operation %s", key));
+            LOGGER.debug(String.format("put operation %s", key));
             coverage.put(key, oc);
         });
 
@@ -53,7 +49,7 @@ public class OperationConditionGenerator {
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
 
-        log.debug(String.format("created list is %s", conditions));
+        LOGGER.debug(String.format("created list is %s", conditions));
         return conditions;
     }
 }

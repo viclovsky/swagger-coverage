@@ -24,6 +24,7 @@ dependencies {
     implementation("org.slf4j:slf4j-simple")
     implementation("log4j:log4j")
     implementation("com.beust:jcommander")
+    implementation("org.springframework:spring-web")
     testImplementation("junit:junit")
     testImplementation("org.hamcrest:hamcrest-all")
 }

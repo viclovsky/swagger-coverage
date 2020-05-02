@@ -8,12 +8,12 @@ import java.util.List;
 
 public class ConditionStatistics {
 
-    protected long allCount = 0;
-    protected long coveredCount = 0;
-    protected long uncoveredCount = 0;
+    private long allCount = 0;
+    private long coveredCount = 0;
+    private long uncoveredCount = 0;
 
-    protected List<ConditionStatisticsItem> coveredOperation = new ArrayList<>();
-    protected List<ConditionStatisticsItem> uncoveredOperation = new ArrayList<>();
+    private List<ConditionStatisticsItem> coveredOperation = new ArrayList<>();
+    private List<ConditionStatisticsItem> uncoveredOperation = new ArrayList<>();
 
     public long getAllCount() {
         return allCount;
@@ -60,15 +60,16 @@ public class ConditionStatistics {
         return this;
     }
 
-    public ConditionStatistics processCondition(OperationKey operation, Condition condition){
+    public ConditionStatistics processCondition(OperationKey operation, Condition condition) {
         this.allCount++;
 
-        if (condition.isCovered()){
+        if (condition.isCovered()) {
             this.coveredCount++;
             this.coveredOperation.add(new ConditionStatisticsItem(operation, condition));
         } else {
             this.uncoveredCount++;
-            this.uncoveredOperation.add(new ConditionStatisticsItem(operation, condition));;
+            this.uncoveredOperation.add(new ConditionStatisticsItem(operation, condition));
+            ;
         }
 
         return this;
