@@ -30,19 +30,15 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
 
     @Override
     public CoverageStatisticsBuilder configure(Swagger swagger, List<ConditionRule> rules) {
-        mainCoverageData = OperationConditionGenerator.getOperationMap(
-                swagger, rules, options.getGeneral().isPathCaseIgnore()
-        );
+        mainCoverageData = OperationConditionGenerator.getOperationMap(swagger, rules);
         return this;
     }
 
     @Override
     public CoverageStatisticsBuilder add(Swagger swagger) {
-        OperationsHolder operations = SwaggerSpecificationProcessor.extractOperation(
-                swagger, options.getGeneral().isPathCaseIgnore()
-        );
+        OperationsHolder operations = SwaggerSpecificationProcessor.extractOperation(swagger);
 
-        operations.getOperations().entrySet().stream().forEach(entry -> {
+        operations.getOperations().entrySet().forEach(entry -> {
             LOGGER.info(String.format("==  process result [%s]", entry.getKey()));
 
             //todo: https://www.codota.com/code/java/classes/org.springframework.util.AntPathMatcher

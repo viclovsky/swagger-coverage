@@ -21,10 +21,6 @@ public class OperationConditionGenerator {
     private static final Logger LOGGER = LoggerFactory.getLogger(OperationConditionGenerator.class);
 
     public static Map<OperationKey, ConditionOperationCoverage> getOperationMap(Swagger swagger, List<ConditionRule> rules) {
-        return getOperationMap(swagger, rules, false);
-    }
-
-    public static Map<OperationKey, ConditionOperationCoverage> getOperationMap(Swagger swagger, List<ConditionRule> rules, boolean ignoreCase) {
         OperationsHolder operations = SwaggerSpecificationProcessor.extractOperation(swagger);
         Map<OperationKey, ConditionOperationCoverage> coverage = new TreeMap<>();
 

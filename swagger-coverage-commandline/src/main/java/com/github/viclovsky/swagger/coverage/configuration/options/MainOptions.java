@@ -2,21 +2,12 @@ package com.github.viclovsky.swagger.coverage.configuration.options;
 
 public class MainOptions {
 
-    private boolean pathCaseIgnore = false;
-
-    public boolean isPathCaseIgnore() {
-        return pathCaseIgnore;
-    }
-
-    public MainOptions setPathCaseIgnore(boolean pathCaseIgnore) {
-        this.pathCaseIgnore = pathCaseIgnore;
-        return this;
-    }
+    //todo: add more options
 
     @Override
     public String toString() {
         return "MainOptions{" +
-                "pathCaseIgnore=" + pathCaseIgnore +
+
                 '}';
     }
 }

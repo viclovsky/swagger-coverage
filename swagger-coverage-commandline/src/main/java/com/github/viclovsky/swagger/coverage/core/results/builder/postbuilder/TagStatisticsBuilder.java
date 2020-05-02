@@ -30,9 +30,7 @@ public class TagStatisticsBuilder extends StatisticsOperationPostBuilder {
 
     @Override
     public TagStatisticsBuilder configure(Swagger swagger, List<ConditionRule> rules) {
-        OperationsHolder operations = SwaggerSpecificationProcessor.extractOperation(
-                swagger, options.getGeneral().isPathCaseIgnore()
-        );
+        OperationsHolder operations = SwaggerSpecificationProcessor.extractOperation(swagger);
 
         tagCoverageMap = swagger.getTags().stream()
                 .collect(toMap(Tag::getName, TagCoverage::new));

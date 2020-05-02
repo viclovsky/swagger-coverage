@@ -16,10 +16,6 @@ public class SwaggerSpecificationProcessor {
     private static final String X_EXAMPLE = "x-example";
 
     public static OperationsHolder extractOperation(Swagger swagger) {
-        return extractOperation(swagger, false);
-    }
-
-    public static OperationsHolder extractOperation(Swagger swagger, boolean ignoreCase) {
         OperationsHolder operations = new OperationsHolder();
 
         swagger.getPaths().keySet().forEach(path
