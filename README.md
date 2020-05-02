@@ -9,10 +9,13 @@ By saying coverage we mean not a broad theme functionality, but presence (or abs
 ![Swagger Coverage Report](.github/swagger-coverage.png)
 
 ## How it works
-Producing coverage report consists of two parts. Firstly, during test execution, filter/interceptor save information of calls in swagger format in specific folder on executing tests.
+Producing coverage report consists of two parts. Firstly, during test execution, filter/interceptor/proxy save information of calls in swagger format in specific folder on executing tests.
 The next stage is to compare saved result with generated conditions from current API specification and builds report.  
 
 ## How to use and examples
+You can use swagger-coverage with any language and framework. You need to have proxy/filter/interceptor that accumulates data in swagger format. 
+Swagger-coverage have rest-assured integration from the box.
+
 * Add dependencies and filter to your test client
 Add repository to pom.xml
 ```xml
@@ -65,6 +68,8 @@ Here is help of unzip swagger-commandline
       Path to swagger specification.
   * -i, --input
       Path to folder with generated files with coverage.
+    -c, --configuration
+      Path to file with report configuration.
     --help
       Print commandline help.
     -q, --quiet
@@ -97,6 +102,97 @@ Output of the command:
 ```
 Results (swagger-coverage-report.html/swagger-coverage-results.json) will be created after running of swagger-coverage.
 
+## Configuration options
+Swagger-coverage report can be configured by json-file. 
+You can control list of coverage, which be generated and checked for results.
+
+## Rules configuration options
+Options for different rules are placed in "rules" section. 
+You can disable some rules or change their behavior.
+
+#### Checking response http-status
+This rule create condition for every status from *responses*-section of swagger specification.
+Condition mark *covered* when report generator find specific status in results files.
+Options for this rules are placed in *status* subsection in *rules* sections.
+
+You can setup next options:
+
+**enable** - *true/false*. You can disable this rule. Default value is *true*.
+
+**filter** - *[val1,val2]*. Rule will ignore all status, which not in filter list.
+
+**ignore** - *[val1,val2]*. Rule will ignore all status, which in ignore list.
+
+```` 
+{
+  "rules" : {
+    "status": {
+      "enable": true,
+      "ignore": ["400","500"],
+      "filter": ["200"]
+    },
+
+    ....
+  },
+  
+  ....
+}
+````
+
+#### Checking the list of declared and received statuses
+This rule create condition for comparing declared and received status. 
+Condition marked as *covered* when result not contains any of undeclared status.
+*Uncovered* state of this condition indicates missed status in original swagger-documentation 
+or server errors.
+Options for this rules are placed in *only-declareted-status* subsection in *rules* sections.
+
+
+You can setup next options:
+
+**enable** - *true/false*. You can disable this rule. Default value is *true*.
+
+````
+{
+  "rules" : {
+
+    ....
+
+    "only-declareted-status" : {
+      "enable" : true
+    }
+  },
+
+   ....
+}
+````
+
+If you need you can add your rules for generation of conditions. So, please, send your PRs.
+
+## Result writer configuration
+Options for report generation setting are placed in *writers* sections.
+
+#### HTML report writer
+Options for html-report placed in subsection *html* of *writers* sections.
+
+You can setup next options:
+
+**locale** - two latter language code. Now supported only *en/ru*.
+
+**filename** - filename for html report.
+
+````
+{
+  ....
+
+  "writers": {
+      "html": {
+        "locale": "ru",
+        "filename":"report.html"
+      }
+  }
+}
+````
+
 ## Demo
 I have prepared several tests. Thus you are able to have a look and touch swagger-coverage. Just run ```run.sh``` script.
 
@@ -112,6 +208,9 @@ My project is open for any enhancement. So, your help is much appreciated. Pleas
 
 ## Created & Maintained By
 [Victor Orlovsky](https://github.com/viclovsky)
+
+## Contributing to swagger-coverage
+Thanks to all people who contributed. Especially [@TemaMak](https://github.com/TemaMak) who have contributed significant improvements to swagger-coverage.
 
 ## License
 Swagger coverage is released under version 2.0 of the [Apache License](http://www.apache.org/licenses/LICENSE-2.0)

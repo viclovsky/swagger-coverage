@@ -16,6 +16,7 @@
   "writers": {
       "html": {
         "type" : "html",
+        "filename": "report.html",
         "locale": "ru"
       }
   }
