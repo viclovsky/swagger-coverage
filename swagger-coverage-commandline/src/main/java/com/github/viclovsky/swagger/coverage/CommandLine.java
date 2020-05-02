@@ -18,14 +18,14 @@ import java.util.Optional;
 @Parameters(commandNames = "swagger-coverage", commandDescription = "Swagger-coverage Commandline")
 public class CommandLine {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommandLine.class);
-    private final JCommander commander = new JCommander(this);
-
     @ParametersDelegate
     private MainOptions mainOptions = new MainOptions();
 
     @ParametersDelegate
     private VerboseOptions verboseOptions = new VerboseOptions();
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommandLine.class);
+    private final JCommander commander = new JCommander(this);
 
     public static void main(final String[] argv) {
         final CommandLine commandLine = new CommandLine();
