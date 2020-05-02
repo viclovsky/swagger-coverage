@@ -1,11 +1,14 @@
 package com.github.viclovsky.swagger.coverage.core.results.builder.prebuilder;
 
+import com.github.viclovsky.swagger.coverage.CommandLine;
 import com.github.viclovsky.swagger.coverage.core.results.Results;
 import com.github.viclovsky.swagger.coverage.core.results.builder.core.StatisticsPreBuilder;
 import com.github.viclovsky.swagger.coverage.core.results.data.GenerationStatistics;
 import com.github.viclovsky.swagger.coverage.core.results.util.DateTimeUtil;
 import com.github.viclovsky.swagger.coverage.core.rule.core.ConditionRule;
 import io.swagger.models.Swagger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,6 +20,8 @@ import java.time.Instant;
 import java.util.List;
 
 public class GenerationStatisticsBuilder extends StatisticsPreBuilder {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommandLine.class);
+
     private long fileCounter = 0;
     private FileTime minResultTime = null;
     private FileTime maxResultTime = null;
@@ -42,11 +47,9 @@ public class GenerationStatisticsBuilder extends StatisticsPreBuilder {
             if (maxResultTime == null || maxResultTime.toMillis() < attr.lastModifiedTime().toMillis()) {
                 maxResultTime = attr.lastModifiedTime();
             }
-
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("can't read file attributes", e);
         }
-
         return this;
     }
 
