@@ -6,7 +6,7 @@
             <h4>${i18["summary.operations"]}</h4>
         </div>
     </div>
-    <@ui.coverageBadget counter=operationCoveredMap.counter legend=i18["summary.operations.legend"]/>
+    <@ui.coverageBadget counter=operationCoveredMap.counter/>
 </#macro>
 
 <#macro calls data>
@@ -96,7 +96,7 @@
             <h4>${i18["summary.tags"]}</h4>
         </div>
     </div>
-    <@ui.coverageBadget counter=tagCounter legend=i18["summary.tag.legend"]/>
+    <@ui.coverageBadget counter=tagCounter/>
     <div class="row">
         <div class="col-sm">
             <div class="alert alert-primary" role="alert">

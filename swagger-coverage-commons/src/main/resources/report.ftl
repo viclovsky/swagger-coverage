@@ -75,7 +75,7 @@
         <section id="summary-section">
             <div class="row">
                 <div class="col-12">
-                    <h1 class="title" id="summary">${i18["menu.summary"]}</h1>
+                    <h2 class="title" id="summary">${i18["menu.summary"]}</h2>
                 </div>
             </div>
             <@summary.operations operationCoveredMap=data.coverageOperationMap />

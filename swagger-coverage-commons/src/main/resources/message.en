@@ -56,9 +56,6 @@ generation.time=Generation time
 generation.result_file_created_interval=Result file create interval
 generation.report.date=Generation report date
 
-summary.tag.legend=Partition of group's statuses
-summary.operations.legend=Partition of operations's statuses
-
 predicate.ParameterValueConditionPredicate.name=All parameter values
 predicate.ParameterValueConditionPredicate.description=Verification that the method is called with all parameters described in the enum
 predicate.NotOnlyParameterListValueConditionPredicate.name=Values not only from the list
