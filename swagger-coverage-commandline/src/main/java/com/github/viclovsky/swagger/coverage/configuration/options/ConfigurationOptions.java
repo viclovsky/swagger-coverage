@@ -7,7 +7,7 @@ public class ConfigurationOptions {
 
     private Map<String, RuleConfigurationOptions> rules = new HashMap<>();
     private Map<String, ResultsWriterOptions> writers = new HashMap<>();
-    private MainOptions general = new MainOptions();
+//    private MainOptions general = new MainOptions();
 
     public Map<String, RuleConfigurationOptions> getRules() {
         return rules;
@@ -27,20 +27,20 @@ public class ConfigurationOptions {
         return this;
     }
 
-    public MainOptions getGeneral() {
-        return general;
-    }
-
-    public ConfigurationOptions setGeneral(MainOptions general) {
-        this.general = general;
-        return this;
-    }
+//    public MainOptions getGeneral() {
+//        return general;
+//    }
+//
+//    public ConfigurationOptions setGeneral(MainOptions general) {
+//        this.general = general;
+//        return this;
+//    }
 
     @Override
     public String toString() {
         return "ConfigurationOptions{" +
                 "rules=" + rules.toString() +
-                ", general=" + general.toString() +
+//                ", general=" + general.toString() +
                 ", writers=" + writers.toString() +
                 '}';
     }

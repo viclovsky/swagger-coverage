@@ -53,6 +53,7 @@ configure(subprojects) {
             dependency("com.github.tomakehurst:wiremock:2.24.1")
             dependency("com.fasterxml.jackson.core:jackson-core:2.10.1")
             dependency("com.fasterxml.jackson.core:jackson-databind:2.10.1")
+            dependency("org.springframework:spring-web:5.2.6.RELEASE")
         }
     }
 

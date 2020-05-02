@@ -16,11 +16,14 @@ import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.AntPathMatcher;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
+import java.util.function.Predicate;
 
 public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
     private static final Logger LOGGER = LoggerFactory.getLogger(CoverageStatisticsBuilder.class);
@@ -38,29 +41,30 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
     public CoverageStatisticsBuilder add(Swagger swagger) {
         OperationsHolder operations = SwaggerSpecificationProcessor.extractOperation(swagger);
 
-        operations.getOperations().entrySet().forEach(entry -> {
-            LOGGER.info(String.format("==  process result [%s]", entry.getKey()));
+        operations.getOperations().forEach((key, value) -> {
+            LOGGER.info(String.format("==  process result [%s]", key));
 
-            //todo: https://www.codota.com/code/java/classes/org.springframework.util.AntPathMatcher
-            //todo: https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/util/pattern/PathPattern.html
-            if (mainCoverageData.containsKey(entry.getKey())) {
-                mainCoverageData.get(entry.getKey())
+            Optional<OperationKey> keyOptional = mainCoverageData.keySet().stream()
+                    .filter(equalsOperationKeys(key)).findFirst();
+
+            if (keyOptional.isPresent()) {
+                mainCoverageData.get(keyOptional.get())
                         .increaseProcessCount()
                         .getConditions()
                         .stream()
                         .filter(Condition::isNeedCheck)
-                        .forEach(condition -> condition.check(entry.getValue().getParameters(), entry.getValue().getResponses()));
+                        .forEach(condition -> condition.check(value.getParameters(), value.getResponses()));
             } else {
-                LOGGER.info(String.format("Missed request [%s]", entry.getKey()));
-
-                missed.put(
-                        entry.getKey(),
-                        entry.getValue()
-                );
+                LOGGER.info(String.format("Missed request [%s]", key));
+                missed.put(key, value);
             }
         });
-
         return this;
+    }
+
+    private static Predicate<OperationKey> equalsOperationKeys(OperationKey operationKey) {
+        return p -> (p.getHttpMethod() == operationKey.getHttpMethod())
+                && new AntPathMatcher().match(p.getPath(), operationKey.getPath());
     }
 
     @Override
@@ -79,12 +83,8 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
 
             value.getConditions().forEach(condition -> {
                         if (!conditionStatisticsMap.containsKey(condition.getType())) {
-                            conditionStatisticsMap.put(
-                                    condition.getType(),
-                                    new ConditionStatistics()
-                            );
+                            conditionStatisticsMap.put(condition.getType(), new ConditionStatistics());
                         }
-
                         conditionStatisticsMap.get(condition.getType()).processCondition(key, condition);
                     }
             );
