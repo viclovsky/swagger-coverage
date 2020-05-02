@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class SinglePredicateCondition extends Condition {
 
-    private static final Logger log = LoggerFactory.getLogger(SinglePredicateCondition.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SinglePredicateCondition.class);
 
 
     protected ConditionPredicate predicate;
@@ -26,7 +26,7 @@ public class SinglePredicateCondition extends Condition {
     }
 
     @Override
-    public void postCheck(){
+    public void postCheck() {
         this.covered = predicate.postCheck();
     }
 
@@ -37,18 +37,18 @@ public class SinglePredicateCondition extends Condition {
 
     @Override
     public boolean isNeedCheck() {
-        return this.covered == false || predicate.hasPostCheck();
+        return !this.covered || predicate.hasPostCheck();
     }
 
     @Override
     public boolean check(List<Parameter> params, Map<String, Response> responses) {
-        this.covered = predicate.check(params,responses);
+        this.covered = predicate.check(params, responses);
         return this.covered;
     }
 
     @Override
     public String getReason() {
-        if (predicate.getReason() != null){
+        if (predicate.getReason() != null) {
             return predicate.getReason();
         }
 

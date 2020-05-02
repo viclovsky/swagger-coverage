@@ -5,8 +5,8 @@ import com.github.viclovsky.swagger.coverage.core.model.OperationKey;
 
 public class ConditionStatisticsItem {
 
-    protected OperationKey operation;
-    protected Condition condition;
+    private OperationKey operation;
+    private Condition condition;
 
     public ConditionStatisticsItem(OperationKey operation, Condition condition) {
         this.operation = operation;

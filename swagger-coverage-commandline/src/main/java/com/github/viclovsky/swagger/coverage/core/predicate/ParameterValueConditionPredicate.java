@@ -11,11 +11,11 @@ import java.util.Optional;
 
 public class ParameterValueConditionPredicate extends ConditionPredicate {
 
-    protected String name;
-    protected String in;
-    protected String reason;
-    protected List<String> expectedValue = new ArrayList<>();
-    protected List<String> currentValue = new ArrayList<>();
+    private String name;
+    private String in;
+    private String reason;
+    private List<String> expectedValue = new ArrayList<>();
+    private List<String> currentValue = new ArrayList<>();
 
     public ParameterValueConditionPredicate(String name, String in, List<String> value) {
         this.name = name;
@@ -38,7 +38,7 @@ public class ParameterValueConditionPredicate extends ConditionPredicate {
     public boolean postCheck() {
         boolean covered = currentValue.containsAll(expectedValue);
 
-        if (!covered){
+        if (!covered) {
             expectedValue.removeAll(currentValue);
             reason = "Missed values: " + expectedValue.toString();
         }

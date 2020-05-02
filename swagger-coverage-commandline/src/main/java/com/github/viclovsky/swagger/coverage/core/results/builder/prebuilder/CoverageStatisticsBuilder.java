@@ -23,27 +23,27 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
-    private static final Logger log = LoggerFactory.getLogger(CoverageStatisticsBuilder.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CoverageStatisticsBuilder.class);
 
-    protected Map<OperationKey, ConditionOperationCoverage> mainCoverageData;
-    protected Map<OperationKey, Operation> missed  = new TreeMap<>();
+    private Map<OperationKey, ConditionOperationCoverage> mainCoverageData;
+    private Map<OperationKey, Operation> missed = new TreeMap<>();
 
     @Override
     public CoverageStatisticsBuilder configure(Swagger swagger, List<ConditionRule> rules) {
         mainCoverageData = OperationConditionGenerator.getOperationMap(
-            swagger,rules,options.getGeneral().isPathCaseIgnore()
+                swagger, rules, options.getGeneral().isPathCaseIgnore()
         );
         return this;
     }
 
     @Override
-    public CoverageStatisticsBuilder add(Swagger swagger){
+    public CoverageStatisticsBuilder add(Swagger swagger) {
         OperationsHolder operations = SwaggerSpecificationProcessor.extractOperation(
-            swagger,options.getGeneral().isPathCaseIgnore()
+                swagger, options.getGeneral().isPathCaseIgnore()
         );
 
         operations.getOperations().entrySet().stream().forEach(entry -> {
-            log.info(String.format("==  process result [%s]", entry.getKey()));
+            LOGGER.info(String.format("==  process result [%s]", entry.getKey()));
 
             //todo: https://www.codota.com/code/java/classes/org.springframework.util.AntPathMatcher
             //todo: https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/util/pattern/PathPattern.html
@@ -55,7 +55,7 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
                         .filter(Condition::isNeedCheck)
                         .forEach(condition -> condition.check(entry.getValue().getParameters(), entry.getValue().getResponses()));
             } else {
-                log.info(String.format("Missed request [%s]", entry.getKey()));
+                LOGGER.info(String.format("Missed request [%s]", entry.getKey()));
 
                 missed.put(
                         entry.getKey(),
@@ -82,14 +82,14 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
             );
 
             value.getConditions().forEach(condition -> {
-                if (!conditionStatisticsMap.containsKey(condition.getType())) {
+                        if (!conditionStatisticsMap.containsKey(condition.getType())) {
                             conditionStatisticsMap.put(
                                     condition.getType(),
                                     new ConditionStatistics()
                             );
                         }
 
-                conditionStatisticsMap.get(condition.getType()).processCondition(key, condition);
+                        conditionStatisticsMap.get(condition.getType()).processCondition(key, condition);
                     }
             );
         });

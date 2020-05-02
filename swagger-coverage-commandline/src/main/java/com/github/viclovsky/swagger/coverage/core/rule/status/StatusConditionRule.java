@@ -16,7 +16,7 @@ public abstract class StatusConditionRule extends ConditionRule {
 
     public abstract Condition processStatus(String statusCode);
 
-    public List<Condition> createCondition(Operation operation){
+    public List<Condition> createCondition(Operation operation) {
         return operation.getResponses()
                 .keySet()
                 .stream()

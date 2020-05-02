@@ -17,7 +17,7 @@ public class NotEmptyParameterRule extends ParameterConditionRule {
 
         ConditionPredicate predicate = new DefaultParameterConditionPredicate(false, parameter.getName(), parameter.getIn());
         return new SinglePredicateCondition(
-                String.format("%s «%s» is not empty", parameter.getIn(),  parameter.getName()),
+                String.format("%s «%s» is not empty", parameter.getIn(), parameter.getName()),
                 "",
                 predicate
         );

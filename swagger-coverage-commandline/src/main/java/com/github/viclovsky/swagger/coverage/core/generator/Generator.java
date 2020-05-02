@@ -17,7 +17,7 @@ import java.util.List;
 
 public class Generator {
 
-    private static final Logger log = LoggerFactory.getLogger(Generator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Generator.class);
 
     private Path specPath;
     private Path inputPath;
@@ -31,7 +31,7 @@ public class Generator {
     public void run() {
         Swagger spec = parser.read(getSpecPath().toString());
 
-        log.info("spec is {}",spec);
+        LOGGER.info("spec is {}", spec);
 
         Configuration configuration = ConfigurationBuilder.build(configurationPath);
         statisticsBuilders = configuration.getStatisticsBuilders(spec);

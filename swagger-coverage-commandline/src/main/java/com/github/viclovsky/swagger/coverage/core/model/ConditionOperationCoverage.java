@@ -6,9 +6,9 @@ import java.util.List;
 
 public class ConditionOperationCoverage {
 
+    private long processCount = 0;
     private Operation operation;
     private List<Condition> conditions;
-    protected long processCount = 0;
 
     public Operation getOperation() {
         return operation;
@@ -37,7 +37,7 @@ public class ConditionOperationCoverage {
         return this;
     }
 
-    public ConditionOperationCoverage increaseProcessCount(){
+    public ConditionOperationCoverage increaseProcessCount() {
         this.processCount++;
         return this;
     }

@@ -8,9 +8,9 @@ import java.util.Map;
 
 public abstract class Condition {
 
-    protected String name;
-    protected String description;
-    protected boolean covered = false;
+    private String name;
+    private String description;
+    boolean covered = false;
 
     public Condition(String name, String description) {
         this.name = name;

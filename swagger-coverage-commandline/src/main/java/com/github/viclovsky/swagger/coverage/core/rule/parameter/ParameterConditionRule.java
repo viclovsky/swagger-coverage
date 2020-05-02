@@ -14,7 +14,7 @@ public abstract class ParameterConditionRule extends ConditionRule {
 
     public abstract Condition processParameter(Parameter parameter);
 
-    public List<Condition> createCondition(Operation operation){
+    public List<Condition> createCondition(Operation operation) {
         return operation
                 .getParameters()
                 .stream()

@@ -12,7 +12,6 @@ import java.util.List;
 
 public class NotOnlyEnumValuesRule extends ParameterConditionRule {
 
-
     @Override
     public Condition processParameter(Parameter parameter) {
         List<String> enumValues = SwaggerSpecificationProcessor.extractEnum(parameter);

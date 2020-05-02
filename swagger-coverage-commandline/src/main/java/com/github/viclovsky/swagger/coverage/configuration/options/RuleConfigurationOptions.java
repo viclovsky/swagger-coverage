@@ -3,9 +3,9 @@ package com.github.viclovsky.swagger.coverage.configuration.options;
 import java.util.List;
 
 public class RuleConfigurationOptions {
-    protected boolean enable = true;
-    protected List<String> filter;
-    protected List<String> ignore;
+    private boolean enable = true;
+    private List<String> filter;
+    private List<String> ignore;
 
     public boolean isEnable() {
         return enable;

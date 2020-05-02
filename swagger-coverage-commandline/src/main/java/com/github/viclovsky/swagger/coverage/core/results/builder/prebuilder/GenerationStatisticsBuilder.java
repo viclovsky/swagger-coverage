@@ -51,18 +51,18 @@ public class GenerationStatisticsBuilder extends StatisticsPreBuilder {
     }
 
     @Override
-    public void build(Results results){
+    public void build(Results results) {
         final long duration = System.currentTimeMillis() - startTime;
         final String resultDateDuration = DateTimeUtil.formatDate(minResultTime.toInstant())
-            + " - "
-            + DateTimeUtil.formatDate(maxResultTime.toInstant());
+                + " - "
+                + DateTimeUtil.formatDate(maxResultTime.toInstant());
 
         results.setGenerationStatistics(
-            new GenerationStatistics()
-                .setResultFileCount(fileCounter)
-                .setGenerationTime(duration)
-                .setFileResultDateInterval(resultDateDuration)
-                .setGenerateDate(DateTimeUtil.formatDate(Instant.now()))
+                new GenerationStatistics()
+                        .setResultFileCount(fileCounter)
+                        .setGenerationTime(duration)
+                        .setFileResultDateInterval(resultDateDuration)
+                        .setGenerateDate(DateTimeUtil.formatDate(Instant.now()))
         );
     }
 

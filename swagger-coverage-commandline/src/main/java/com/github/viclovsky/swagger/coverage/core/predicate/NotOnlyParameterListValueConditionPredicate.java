@@ -4,7 +4,11 @@ import com.github.viclovsky.swagger.coverage.core.generator.SwaggerSpecification
 import io.swagger.models.Response;
 import io.swagger.models.parameters.Parameter;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 public class NotOnlyParameterListValueConditionPredicate extends ConditionPredicate {
     private String name;
@@ -23,8 +27,8 @@ public class NotOnlyParameterListValueConditionPredicate extends ConditionPredic
 
     @Override
     public boolean check(List<Parameter> params, Map<String, Response> responses) {
-         Optional<Parameter> p = params.stream().filter(ParameterUtils.equalsParam(name, in)).findFirst();
-         if (p.isPresent()) {
+        Optional<Parameter> p = params.stream().filter(ParameterUtils.equalsParam(name, in)).findFirst();
+        if (p.isPresent()) {
             String val = SwaggerSpecificationProcessor.extractValue(p.get());
             currentValue.add(val);
         }

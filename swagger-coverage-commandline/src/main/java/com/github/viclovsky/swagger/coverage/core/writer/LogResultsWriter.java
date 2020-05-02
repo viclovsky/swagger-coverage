@@ -12,19 +12,19 @@ import java.util.Set;
 
 public class LogResultsWriter implements CoverageResultsWriter {
 
-    private final static Logger log = Logger.getLogger(LogResultsWriter.class);
+    private final static Logger LOGGER = Logger.getLogger(LogResultsWriter.class);
 
     public LogResultsWriter() {
     }
 
     @Override
     public void write(Results results) {
-        log.info("Empty coverage: ");
-        logOperationCoverage(results.getOperations(),results.getCoverageOperationMap().getEmpty());
-        log.info("Partial coverage: ");
-        logOperationCoverage(results.getOperations(),results.getCoverageOperationMap().getParty());
-        log.info("Full coverage: ");
-        logOperationCoverage(results.getOperations(),results.getCoverageOperationMap().getFull());
+        LOGGER.info("Empty coverage: ");
+        logOperationCoverage(results.getOperations(), results.getCoverageOperationMap().getEmpty());
+        LOGGER.info("Partial coverage: ");
+        logOperationCoverage(results.getOperations(), results.getCoverageOperationMap().getParty());
+        LOGGER.info("Full coverage: ");
+        logOperationCoverage(results.getOperations(), results.getCoverageOperationMap().getFull());
         logMissedCoverage(results.getMissed());
 
         DecimalFormat df = new DecimalFormat("###.###");
@@ -32,17 +32,17 @@ public class LogResultsWriter implements CoverageResultsWriter {
         float partialPercentage = (float) (results.getCoverageOperationMap().getParty().size() * 100) / results.getOperations().size();
         float fullPercentage = (float) (results.getCoverageOperationMap().getFull().size() * 100) / results.getOperations().size();
 
-        log.info(String.format("Conditions: %s/%s", results.getConditionCounter().getCovered(), results.getConditionCounter().getAll()));
-        log.info("Empty coverage " + df.format(emptyPercentage) + " %");
-        log.info("Partial coverage " + df.format(partialPercentage) + " %");
-        log.info("Full coverage " + df.format(fullPercentage) + " %");
+        LOGGER.info(String.format("Conditions: %s/%s", results.getConditionCounter().getCovered(), results.getConditionCounter().getAll()));
+        LOGGER.info("Empty coverage " + df.format(emptyPercentage) + " %");
+        LOGGER.info("Partial coverage " + df.format(partialPercentage) + " %");
+        LOGGER.info("Full coverage " + df.format(fullPercentage) + " %");
     }
 
     private void logMissedCoverage(Map<OperationKey, Operation> missed) {
         if (!missed.isEmpty()) {
-            log.info("Missed coverage: ");
+            LOGGER.info("Missed coverage: ");
             missed.keySet().forEach(
-                    m -> log.info(m.getHttpMethod() + " " + m.getPath()));
+                    m -> LOGGER.info(m.getHttpMethod() + " " + m.getPath()));
         }
     }
 
@@ -54,15 +54,15 @@ public class LogResultsWriter implements CoverageResultsWriter {
         });
     }
 
-    private void printOperationCoverage(OperationResult result){
-        log.info(String.format("%s %s (%s/%s)", result.getOperationKey().getHttpMethod(), result.getOperationKey().getPath(),
+    private void printOperationCoverage(OperationResult result) {
+        LOGGER.info(String.format("%s %s (%s/%s)", result.getOperationKey().getHttpMethod(), result.getOperationKey().getPath(),
                 result.getCoveredConditionCount(), result.getAllConditionCount()));
 
         result.getConditions().forEach(c -> {
             if (c.isCovered()) {
-                log.info(String.format("✅ %s", c.getName()));
+                LOGGER.info(String.format("✅ %s", c.getName()));
             } else {
-                log.info(String.format("❌ %s", c.getName()));
+                LOGGER.info(String.format("❌ %s", c.getName()));
             }
 
         });

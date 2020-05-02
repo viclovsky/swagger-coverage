@@ -2,7 +2,6 @@ package com.github.viclovsky.swagger.coverage.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.viclovsky.swagger.coverage.configuration.options.ConfigurationOptions;
-import com.github.viclovsky.swagger.coverage.core.generator.Generator;
 import com.github.viclovsky.swagger.coverage.core.results.builder.core.StatisticsBuilder;
 import com.github.viclovsky.swagger.coverage.core.results.builder.postbuilder.ConditionStatisticsBuilder;
 import com.github.viclovsky.swagger.coverage.core.results.builder.postbuilder.ConfigurationStatisticsBuilder;
@@ -34,9 +33,9 @@ import java.util.List;
 
 public class ConfigurationBuilder {
 
-    private static final Logger log = LoggerFactory.getLogger(Generator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConfigurationBuilder.class);
 
-    public static Configuration build(Path path){
+    public static Configuration build(Path path) {
         Configuration configuration = new Configuration();
         ConfigurationOptions options = new ConfigurationOptions();
         ObjectMapper mapper = new ObjectMapper();
@@ -45,29 +44,23 @@ public class ConfigurationBuilder {
                 options = mapper.readValue(path.toFile(), ConfigurationOptions.class);
             }
         } catch (IOException e) {
-            log.info("can't read configuration, use default configuration");
+            LOGGER.info("can't read configuration, use default configuration");
         }
         configuration.setOptions(options)
-            .setDefaultRules(getDefaultList())
-            .setRegisteredBuilders(getDefaultBuilderList())
-            .setConfiguredResultsWriters(getResultsWriters(options));
+                .setDefaultRules(getDefaultList())
+                .setRegisteredBuilders(getDefaultBuilderList())
+                .setConfiguredResultsWriters(getResultsWriters(options));
 
         return configuration;
     }
 
-    private static List<CoverageResultsWriter> getResultsWriters(ConfigurationOptions options){
+    private static List<CoverageResultsWriter> getResultsWriters(ConfigurationOptions options) {
         List<CoverageResultsWriter> configuredResultsWriters = new ArrayList<>();
 
         if (options.getWriters().isEmpty()) {
-            configuredResultsWriters.add(
-                new HtmlReportResultsWriter()
-            );
-            configuredResultsWriters.add(
-                new LogResultsWriter()
-            );
-            configuredResultsWriters.add(
-                new FileSystemResultsWriter()
-            );
+            configuredResultsWriters.add(new HtmlReportResultsWriter());
+            configuredResultsWriters.add(new LogResultsWriter());
+            configuredResultsWriters.add(new FileSystemResultsWriter());
         } else {
             options.getWriters()
                     .forEach((key, value) -> {
@@ -77,7 +70,7 @@ public class ConfigurationBuilder {
                                         new HtmlReportResultsWriter(value.getLocale(), value.getFilename())
                                 );
                                 break;
-                            case "log":
+                            case "LOGGER":
                                 configuredResultsWriters.add(
                                         new LogResultsWriter()
                                 );
@@ -94,8 +87,8 @@ public class ConfigurationBuilder {
         return configuredResultsWriters;
     }
 
-    private static List<ConditionRule> getDefaultList(){
-        List<ConditionRule>  registeredRules = new ArrayList<>();
+    private static List<ConditionRule> getDefaultList() {
+        List<ConditionRule> registeredRules = new ArrayList<>();
 
         registeredRules.add(new HTTPStatusRule());
         registeredRules.add(new NotEmptyParameterRule());
@@ -107,7 +100,7 @@ public class ConfigurationBuilder {
         return registeredRules;
     }
 
-    private static List<StatisticsBuilder> getDefaultBuilderList(){
+    private static List<StatisticsBuilder> getDefaultBuilderList() {
         List<StatisticsBuilder> registeredBuilders = new ArrayList<>();
 
         registeredBuilders.add(new CoverageStatisticsBuilder());

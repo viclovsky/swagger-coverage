@@ -7,7 +7,6 @@ import com.github.viclovsky.swagger.coverage.core.predicate.FullStatusConditionP
 import com.github.viclovsky.swagger.coverage.core.rule.core.ConditionRule;
 import io.swagger.models.Operation;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
