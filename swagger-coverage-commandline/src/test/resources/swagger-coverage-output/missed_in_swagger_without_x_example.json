@@ -1,0 +1,53 @@
+{
+  "swagger": "2.0",
+  "host": "localhost",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    ""
+  ],
+  "paths": {
+    "/some/operation/missed/in/swagger/without/x/example": {
+      "get": {
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "required": true,
+            "x-example": "p"
+          },
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": false,
+            "x-example": "h"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": false,
+            "x-example": "*/*"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": false,
+            "x-example": "application/x-www-form-urlencoded; charset=ISO-8859-1"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {}
+        }
+      }
+    }
+  }
+}

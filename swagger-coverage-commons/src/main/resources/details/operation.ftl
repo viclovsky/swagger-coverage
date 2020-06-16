@@ -40,7 +40,7 @@
                                             <tr>
                                                 <td>${p.in}</td>
                                                 <td>${p.getName()}</td>
-                                                <td>${p.getVendorExtensions()["x-example"]}</td>
+                                                <td><#if p.getVendorExtensions()["x-example"]??>: ${p.getVendorExtensions()["x-example"]}</#if>
                                             </tr>
                                         </#list>
                                     </tbody>
