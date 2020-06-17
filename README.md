@@ -52,7 +52,7 @@ RestAssured.given().filter(new SwaggerCoverageRestAssured())
 ```
 
 * Download and run command line.
-Download zip archive and unpack it 
+Download zip archive and unpack it. Don't forget to replace {latest-swagger-coverage-version} to latest version. 
 ```
 wget https://dl.bintray.com/viclovsky/maven/com/github/viclovsky/swagger/coverage/swagger-coverage-commandline/{latest-swagger-coverage-version}/swagger-coverage-commandline-{latest-swagger-coverage-version}.zip
 unzip swagger-coverage-commandline-{latest-swagger-coverage-version}.zip
