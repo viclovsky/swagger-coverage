@@ -1,7 +1,6 @@
 package com.github.viclovsky.swagger.coverage.configuration.options;
 
 public class ResultsWriterOptions {
-    private String type;
     private String filename;
     private String locale = "en";
 
@@ -23,19 +22,9 @@ public class ResultsWriterOptions {
         return this;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public ResultsWriterOptions setType(String type) {
-        this.type = type;
-        return this;
-    }
-
     @Override
     public String toString() {
         return "ResultsWriterOptions{" +
-                "type='" + type + '\'' +
                 ", filename='" + filename + '\'' +
                 ", locale='" + locale + '\'' +
                 '}';

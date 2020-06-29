@@ -64,7 +64,7 @@ public class ConfigurationBuilder {
         } else {
             options.getWriters()
                     .forEach((key, value) -> {
-                        switch (value.getType()) {
+                        switch (key) {
                             case "html":
                                 configuredResultsWriters.add(
                                         new HtmlReportResultsWriter(value.getLocale(), value.getFilename())
