@@ -15,6 +15,7 @@ operations.partial=Partial
 operations.empty=Empty
 operations.no_call=No call
 operations.missed=Missed
+operations.deprecated=Deprecated
 
 summary.operations=Operations coverage summary
 summary.operations.all=All operations

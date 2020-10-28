@@ -15,6 +15,7 @@ operations.partial=Частично
 operations.empty=Не покрыто
 operations.no_call=Пропущено
 operations.missed=Лишние запросы
+operations.deprecated=Не используются
 
 summary.operations=Сводка по методам
 summary.operations.all=Всего

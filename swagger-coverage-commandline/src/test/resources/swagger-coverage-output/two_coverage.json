@@ -5,7 +5,7 @@
   "consumes" : [ "application/json" ],
   "produces" : [ "" ],
   "paths" : {
-    "/pet/findByTags" : {
+    "/pet/findByStatus" : {
       "get" : {
         "parameters" : [ {
           "name": "tags",

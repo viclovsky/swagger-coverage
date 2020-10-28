@@ -15,13 +15,17 @@ public class OperationResult {
     private String description;
     private CoverageState state;
 
-    public OperationResult(List<Condition> conditions) {
+    public OperationResult(List<Condition> conditions, Boolean isDeprecated) {
         this.conditions = conditions;
         allConditionCount = conditions.size();
         coveredConditionCount = conditions.stream().filter(Condition::isCovered).count();
 
         if (coveredConditionCount == 0) {
-            state = CoverageState.EMPTY;
+            if (isDeprecated != null && isDeprecated) {
+                state = CoverageState.DEPRECATED;
+            } else {
+                state = CoverageState.EMPTY;
+            }
         } else {
             if (allConditionCount == coveredConditionCount) {
                 state = CoverageState.FULL;

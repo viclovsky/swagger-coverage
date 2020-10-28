@@ -75,7 +75,7 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
         mainCoverageData.forEach((key, value) -> {
             value.getConditions().stream().filter(Condition::isHasPostCheck).forEach(Condition::postCheck);
 
-            operations.put(key, new OperationResult(value.getConditions())
+            operations.put(key, new OperationResult(value.getConditions(), value.getOperation().isDeprecated())
                     .setProcessCount(value.getProcessCount())
                     .setDescription(value.getOperation().getDescription())
                     .setOperationKey(key)
