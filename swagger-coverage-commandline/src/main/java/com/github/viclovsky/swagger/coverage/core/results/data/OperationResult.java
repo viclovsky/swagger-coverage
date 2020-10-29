@@ -20,12 +20,10 @@ public class OperationResult {
         allConditionCount = conditions.size();
         coveredConditionCount = conditions.stream().filter(Condition::isCovered).count();
 
-        if (coveredConditionCount == 0) {
-            if (isDeprecated != null && isDeprecated) {
-                state = CoverageState.DEPRECATED;
-            } else {
-                state = CoverageState.EMPTY;
-            }
+        if (isDeprecated != null && isDeprecated) {
+            state = CoverageState.DEPRECATED;
+        } else if (coveredConditionCount == 0) {
+            state = CoverageState.EMPTY;
         } else {
             if (allConditionCount == coveredConditionCount) {
                 state = CoverageState.FULL;

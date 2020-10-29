@@ -8,6 +8,7 @@ common.state.full=Полностью
 common.state.partial=Частично
 common.state.empty=Не покрыто
 common.state.no_call=Пропущено
+common.state.deprecated=Не используется
 
 operations.all=Все
 operations.full=Полностью

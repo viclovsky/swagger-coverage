@@ -112,6 +112,9 @@
             <#case "EMPTY">
                 <span class="badge badge-danger">${i18["common.state.empty"]}</span>
                 <#break>
+            <#case "DEPRECATED">
+                <span class="badge badge-danger">${i18["common.state.deprecated"]}</span>
+                <#break>
             <#default>
         </#switch>
     </#if>

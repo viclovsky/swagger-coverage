@@ -8,6 +8,7 @@ common.state.full=Full
 common.state.partial=Partial
 common.state.empty=Empty
 common.state.no_call=No call
+common.state.deprecated=Deprecated
 
 operations.all=All
 operations.full=Full
