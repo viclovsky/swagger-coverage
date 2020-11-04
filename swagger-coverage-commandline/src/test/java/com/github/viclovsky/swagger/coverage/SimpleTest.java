@@ -2,34 +2,45 @@ package com.github.viclovsky.swagger.coverage;
 
 import com.github.viclovsky.swagger.coverage.core.generator.Generator;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
-import java.io.File;
+import java.util.Arrays;
+import java.util.Collection;
 
+@RunWith(Parameterized.class)
 public class SimpleTest {
 
     private static final String OUTPUT_SWAGGER_COVERAGE_DIR = "swagger-coverage-output";
-    private static final String SPEC_FILE = "petstory.json";
     private static final String CONFIGURATION_FILE = "configuration.json";
+    private final Config config;
 
-    private File spec = new File(getClass().getClassLoader().getResource(SPEC_FILE).getFile());
-    private File reqDir = new File(getClass().getClassLoader().getResource(OUTPUT_SWAGGER_COVERAGE_DIR).getFile());
-    private File configuration = new File(getClass().getClassLoader().getResource(CONFIGURATION_FILE).getFile());
+    public SimpleTest(Config config) {
+        this.config = config;
+    }
+
+    @Parameterized.Parameters()
+    public static Collection<Object[]> testData() {
+        return Arrays.asList(new Object[][]{
+                {new Config(CONFIGURATION_FILE, OUTPUT_SWAGGER_COVERAGE_DIR, "petstory.json")},
+                {new Config(CONFIGURATION_FILE, OUTPUT_SWAGGER_COVERAGE_DIR, "petstory_no_tags.json")}
+        });
+    }
 
     @Test
     public void simpleTest() {
-        Generator generator = new Generator();
-            generator.setInputPath(reqDir.toPath())
-            .setSpecPath(spec.toPath())
-            .run();
+        new Generator()
+                .setInputPath(config.getOutput())
+                .setSpecPath(config.getSpec())
+                .run();
     }
 
     @Test
     public void simpleTestWithConfiguration() {
-        Generator generator = new Generator();
-        generator.setInputPath(reqDir.toPath())
-            .setSpecPath(spec.toPath())
-            .setConfigurationPath(configuration.toPath())
-            .run();
-
+        new Generator()
+                .setInputPath(config.getOutput())
+                .setSpecPath(config.getSpec())
+                .setConfigurationPath(config.getPath())
+                .run();
     }
 }
