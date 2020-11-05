@@ -15,6 +15,7 @@
   },
   "writers": {
       "html": {
+        "type": "html",
         "filename": "custom-report.html",
         "locale": "en"
       }
