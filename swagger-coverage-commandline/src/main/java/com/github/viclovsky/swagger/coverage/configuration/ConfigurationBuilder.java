@@ -77,7 +77,7 @@ public class ConfigurationBuilder {
                                 break;
                             case "json":
                                 configuredResultsWriters.add(
-                                        new FileSystemResultsWriter()
+                                        new FileSystemResultsWriter(value.getFilename())
                                 );
                                 break;
                         }

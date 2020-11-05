@@ -18,14 +18,21 @@ public class FileSystemResultsWriter implements CoverageResultsWriter {
 
     private final static Logger LOGGER = Logger.getLogger(FileSystemResultsWriter.class);
     private final ObjectMapper mapper;
+    private final String fileName;
 
     public FileSystemResultsWriter() {
+        this.fileName = COVERAGE_RESULTS_NAME;
+        this.mapper = SwaggerCoverage2ModelJackson.createMapper();
+    }
+
+    public FileSystemResultsWriter(String fileName) {
+        this.fileName = fileName;
         this.mapper = SwaggerCoverage2ModelJackson.createMapper();
     }
 
     @Override
     public void write(Results results) {
-        final String swaggerResultName = COVERAGE_RESULTS_NAME;
+        final String swaggerResultName = fileName;
         Path path = Paths.get(swaggerResultName);
         LOGGER.info(String.format("Write results in file '%s'", path.toAbsolutePath()));
         try (OutputStream os = Files.newOutputStream(Paths.get(swaggerResultName))) {
