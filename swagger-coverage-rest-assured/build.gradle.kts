@@ -15,5 +15,5 @@ dependencies {
     implementation("io.swagger:swagger-compat-spec-parser")
     testImplementation("junit:junit")
     testImplementation("com.github.tomakehurst:wiremock")
-    testImplementation("org.hamcrest:hamcrest-all")
+    testImplementation("org.hamcrest:hamcrest")
 }
