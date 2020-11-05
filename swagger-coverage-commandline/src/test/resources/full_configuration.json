@@ -1,0 +1,32 @@
+{
+  "rules": {
+    "status": {
+      "filter": [
+        "200"
+      ],
+      "ignore": [
+        "500",
+        "400",
+        "404"
+      ]
+    },
+    "only-declared-status": {
+      "enable": true
+    },
+    "empty-required-header": {
+      "enable": true
+    },
+    "enum-another-value": {
+      "enable": true
+    }
+  },
+  "writers": {
+    "html": {
+      "filename": "custom-report.html",
+      "locale": "en"
+    },
+    "json": {
+      "filename": "json-report.json"
+    }
+  }
+}

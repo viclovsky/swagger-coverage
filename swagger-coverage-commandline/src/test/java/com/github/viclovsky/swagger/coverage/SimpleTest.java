@@ -18,7 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class SimpleTest {
 
     private static final String OUTPUT_SWAGGER_COVERAGE_DIR = "swagger-coverage-output";
-    private static final String CONFIGURATION_FILE = "configuration.json";
+    private static final String CONFIGURATION_FILE = "full_configuration.json";
     private final Config config;
 
     public SimpleTest(Config config) {
@@ -53,5 +53,6 @@ public class SimpleTest {
                 .run();
 
         assertThat(get("custom-report.html").toFile(), FileMatchers.anExistingFile());
+        assertThat(get("json-report.json").toFile(), FileMatchers.anExistingFile());
     }
 }
