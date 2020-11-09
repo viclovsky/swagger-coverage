@@ -33,9 +33,10 @@ public class ConditionStatisticsBuilder extends StatisticsOperationPostBuilder {
             case FULL:
                 coverageOperationMap.addFull(operation);
                 break;
-            case DEPRECATED:
-                coverageOperationMap.addDeprecated(operation);
-                break;
+        }
+
+        if (operationResult.getDeprecated()) {
+            coverageOperationMap.addDeprecated(operation);
         }
     }
 }

@@ -132,7 +132,7 @@
                         <li class="nav-item">
                             <a class="nav-link" id="deprecated-tab" data-toggle="tab" href="#deprecated" role="tab"
                                aria-controls="deprecated" aria-selected="false">
-                                ${i18["operations.deprecated"]}: ${data.coverageOperationMap.deprecated?size}
+                                ${i18["operations.deprecated"]}: ${data.deprecated?size}
                             </a>
                         </li>
                     </ul>
@@ -163,7 +163,7 @@
                             <@operations.list coverage=data.missed prefix="missed"/>
                         </div>
                         <div class="tab-pane fade" id="deprecated" role="tabpanel" aria-labelledby="deprecated-tab">
-                            <@condition.list coverage=data.coverageOperationMap.deprecated prefix="deprecated"/>
+                            <@operations.list coverage=data.deprecated prefix="deprecated"/>
                         </div>
                     </div>
                 </div>

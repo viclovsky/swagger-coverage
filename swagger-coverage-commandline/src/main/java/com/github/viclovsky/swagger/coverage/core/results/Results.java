@@ -22,6 +22,7 @@ public class Results {
     private Map<OperationKey, OperationResult> operations = new TreeMap<>();
     private Map<String, OperationResult> flatOperations = new TreeMap<>();
     private Map<OperationKey, Operation> missed = new TreeMap<>();
+    private Map<OperationKey, Operation> deprecated = new TreeMap<>();
     private Map<String, ConditionStatistics> conditionStatisticsMap = new HashMap<>();
     private Set<OperationKey> zeroCall = new HashSet<>();
 
@@ -70,6 +71,15 @@ public class Results {
     public Results setMissed(Map<OperationKey, Operation> missed) {
         this.missed = missed;
         return this;
+    }
+
+    public Results setDeprecated(Map<OperationKey, Operation> deprecated) {
+        this.deprecated = deprecated;
+        return this;
+    }
+
+    public Map<OperationKey, Operation> getDeprecated() {
+        return deprecated;
     }
 
     public GenerationStatistics getGenerationStatistics() {

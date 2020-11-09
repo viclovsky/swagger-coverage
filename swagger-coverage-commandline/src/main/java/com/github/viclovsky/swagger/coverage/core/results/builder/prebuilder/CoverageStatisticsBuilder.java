@@ -30,6 +30,7 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
 
     private Map<OperationKey, ConditionOperationCoverage> mainCoverageData;
     private Map<OperationKey, Operation> missed = new TreeMap<>();
+    private Map<OperationKey, Operation> deprecated = new TreeMap<>();
 
     @Override
     public CoverageStatisticsBuilder configure(Swagger swagger, List<ConditionRule> rules) {
@@ -81,6 +82,10 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
                     .setOperationKey(key)
             );
 
+            if (value.getOperation().isDeprecated() != null && value.getOperation().isDeprecated()) {
+                deprecated.put(key, value.getOperation());
+            }
+
             value.getConditions().forEach(condition -> {
                         if (!conditionStatisticsMap.containsKey(condition.getType())) {
                             conditionStatisticsMap.put(condition.getType(), new ConditionStatistics());
@@ -92,6 +97,7 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
 
         results.setOperations(operations)
                 .setMissed(missed)
+                .setDeprecated(deprecated)
                 .setConditionStatisticsMap(conditionStatisticsMap);
     }
 }
