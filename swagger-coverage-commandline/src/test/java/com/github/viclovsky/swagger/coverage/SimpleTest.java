@@ -29,7 +29,8 @@ public class SimpleTest {
     public static Collection<Object[]> testData() {
         return Arrays.asList(new Object[][]{
                 {new Config(CONFIGURATION_FILE, OUTPUT_SWAGGER_COVERAGE_DIR, "petstory.json")},
-                {new Config(CONFIGURATION_FILE, OUTPUT_SWAGGER_COVERAGE_DIR, "petstory_no_tags.json")}
+                {new Config(CONFIGURATION_FILE, OUTPUT_SWAGGER_COVERAGE_DIR, "petstory_no_tags.json")},
+                {new Config(CONFIGURATION_FILE, OUTPUT_SWAGGER_COVERAGE_DIR, "petstory_with_x_example.json")}
         });
     }
 
