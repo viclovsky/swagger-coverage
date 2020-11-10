@@ -5,6 +5,7 @@ public class CoverageCounter {
     private long full = 0;
     private long party = 0;
     private long empty = 0;
+    private long deprecated = 0;
 
     public CoverageCounter incrementByState(CoverageState state) {
         switch (state) {
@@ -35,6 +36,13 @@ public class CoverageCounter {
     public CoverageCounter incrementEmpty() {
         this.all++;
         this.empty++;
+
+        return this;
+    }
+
+    public CoverageCounter incrementDeprecated() {
+        this.all++;
+        this.deprecated++;
 
         return this;
     }
@@ -75,6 +83,15 @@ public class CoverageCounter {
         return this;
     }
 
+    public long getDeprecated() {
+        return deprecated;
+    }
+
+    public CoverageCounter setDeprecated(long deprecated) {
+        this.deprecated = deprecated;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "CoverageCounter{" +
@@ -82,6 +99,7 @@ public class CoverageCounter {
                 ", full=" + full +
                 ", party=" + party +
                 ", empty=" + empty +
+                ", deprecated=" + deprecated +
                 '}';
     }
 }

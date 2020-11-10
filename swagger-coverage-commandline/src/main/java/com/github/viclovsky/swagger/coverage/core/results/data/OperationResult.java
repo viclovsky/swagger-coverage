@@ -14,9 +14,11 @@ public class OperationResult {
     private long processCount;
     private String description;
     private CoverageState state;
+    private boolean deprecated;
 
-    public OperationResult(List<Condition> conditions) {
+    public OperationResult(List<Condition> conditions, Boolean isDeprecated) {
         this.conditions = conditions;
+        this.deprecated = (isDeprecated != null) ? isDeprecated : false;
         allConditionCount = conditions.size();
         coveredConditionCount = conditions.stream().filter(Condition::isCovered).count();
 
@@ -94,5 +96,13 @@ public class OperationResult {
 
     public void setConditions(List<Condition> conditions) {
         this.conditions = conditions;
+    }
+
+    public boolean getDeprecated() {
+        return deprecated;
+    }
+
+    public void setDeprecated(boolean isDeprecated) {
+        this.deprecated = isDeprecated;
     }
 }

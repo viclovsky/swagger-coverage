@@ -19,6 +19,8 @@ public class LogResultsWriter implements CoverageResultsWriter {
 
     @Override
     public void write(Results results) {
+        LOGGER.info("Deprecated coverage: ");
+        logOperationCoverage(results.getOperations(), results.getCoverageOperationMap().getDeprecated());
         LOGGER.info("Empty coverage: ");
         logOperationCoverage(results.getOperations(), results.getCoverageOperationMap().getEmpty());
         LOGGER.info("Partial coverage: ");
@@ -28,11 +30,13 @@ public class LogResultsWriter implements CoverageResultsWriter {
         logMissedCoverage(results.getMissed());
 
         DecimalFormat df = new DecimalFormat("###.###");
+        float deprecatedPercentage = (float) (results.getCoverageOperationMap().getDeprecated().size() * 100) / results.getOperations().size();
         float emptyPercentage = (float) (results.getCoverageOperationMap().getEmpty().size() * 100) / results.getOperations().size();
         float partialPercentage = (float) (results.getCoverageOperationMap().getParty().size() * 100) / results.getOperations().size();
         float fullPercentage = (float) (results.getCoverageOperationMap().getFull().size() * 100) / results.getOperations().size();
 
         LOGGER.info(String.format("Conditions: %s/%s", results.getConditionCounter().getCovered(), results.getConditionCounter().getAll()));
+        LOGGER.info("Deprecated coverage " + df.format(deprecatedPercentage) + " %");
         LOGGER.info("Empty coverage " + df.format(emptyPercentage) + " %");
         LOGGER.info("Partial coverage " + df.format(partialPercentage) + " %");
         LOGGER.info("Full coverage " + df.format(fullPercentage) + " %");

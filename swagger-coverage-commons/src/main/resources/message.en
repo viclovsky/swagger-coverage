@@ -8,6 +8,7 @@ common.state.full=Full
 common.state.partial=Partial
 common.state.empty=Empty
 common.state.no_call=No call
+common.state.deprecated=Deprecated
 
 operations.all=All
 operations.full=Full
@@ -15,6 +16,7 @@ operations.partial=Partial
 operations.empty=Empty
 operations.no_call=No call
 operations.missed=Missed
+operations.deprecated=Deprecated
 
 summary.operations=Operations coverage summary
 summary.operations.all=All operations

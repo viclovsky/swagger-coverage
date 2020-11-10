@@ -9,6 +9,7 @@ public class CoverageOperationMap {
     private Set<OperationKey> full = new HashSet<>();
     private Set<OperationKey> party = new HashSet<>();
     private Set<OperationKey> empty = new HashSet<>();
+    private Set<OperationKey> deprecated = new HashSet<>();
 
     protected CoverageCounter counter = new CoverageCounter();
 
@@ -27,6 +28,12 @@ public class CoverageOperationMap {
     public CoverageOperationMap addEmpty(OperationKey operation) {
         this.empty.add(operation);
         this.counter.incrementEmpty();
+        return this;
+    }
+
+    public CoverageOperationMap addDeprecated(OperationKey operation) {
+        this.deprecated.add(operation);
+        this.counter.incrementDeprecated();
         return this;
     }
 
@@ -54,6 +61,15 @@ public class CoverageOperationMap {
 
     public CoverageOperationMap setEmpty(Set<OperationKey> empty) {
         this.empty = empty;
+        return this;
+    }
+
+    public Set<OperationKey> getDeprecated() {
+        return deprecated;
+    }
+
+    public CoverageOperationMap setDeprecated(Set<OperationKey> deprecated) {
+        this.deprecated = deprecated;
         return this;
     }
 

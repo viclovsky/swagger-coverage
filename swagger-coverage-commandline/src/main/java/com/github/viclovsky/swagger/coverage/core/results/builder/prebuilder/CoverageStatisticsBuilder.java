@@ -30,6 +30,7 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
 
     private Map<OperationKey, ConditionOperationCoverage> mainCoverageData;
     private Map<OperationKey, Operation> missed = new TreeMap<>();
+    private Map<OperationKey, Operation> deprecated = new TreeMap<>();
 
     @Override
     public CoverageStatisticsBuilder configure(Swagger swagger, List<ConditionRule> rules) {
@@ -75,11 +76,15 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
         mainCoverageData.forEach((key, value) -> {
             value.getConditions().stream().filter(Condition::isHasPostCheck).forEach(Condition::postCheck);
 
-            operations.put(key, new OperationResult(value.getConditions())
+            operations.put(key, new OperationResult(value.getConditions(), value.getOperation().isDeprecated())
                     .setProcessCount(value.getProcessCount())
                     .setDescription(value.getOperation().getDescription())
                     .setOperationKey(key)
             );
+
+            if (value.getOperation().isDeprecated() != null && value.getOperation().isDeprecated()) {
+                deprecated.put(key, value.getOperation());
+            }
 
             value.getConditions().forEach(condition -> {
                         if (!conditionStatisticsMap.containsKey(condition.getType())) {
@@ -92,6 +97,7 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
 
         results.setOperations(operations)
                 .setMissed(missed)
+                .setDeprecated(deprecated)
                 .setConditionStatisticsMap(conditionStatisticsMap);
     }
 }
