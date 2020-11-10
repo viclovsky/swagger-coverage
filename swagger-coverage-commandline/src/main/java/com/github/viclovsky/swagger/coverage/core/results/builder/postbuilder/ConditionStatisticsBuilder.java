@@ -5,6 +5,7 @@ import com.github.viclovsky.swagger.coverage.core.results.Results;
 import com.github.viclovsky.swagger.coverage.core.results.builder.core.StatisticsOperationPostBuilder;
 import com.github.viclovsky.swagger.coverage.core.results.data.ConditionCounter;
 import com.github.viclovsky.swagger.coverage.core.results.data.CoverageOperationMap;
+import com.github.viclovsky.swagger.coverage.core.results.data.CoverageState;
 import com.github.viclovsky.swagger.coverage.core.results.data.OperationResult;
 
 public class ConditionStatisticsBuilder extends StatisticsOperationPostBuilder {
@@ -37,6 +38,11 @@ public class ConditionStatisticsBuilder extends StatisticsOperationPostBuilder {
 
         if (operationResult.getDeprecated()) {
             coverageOperationMap.addDeprecated(operation);
+            conditionCounter.incrementDeprecated();
+
+            if (operationResult.getState() == CoverageState.EMPTY) {
+                conditionCounter.incrementDeprecatedAndEmpty();
+            }
         }
     }
 }
