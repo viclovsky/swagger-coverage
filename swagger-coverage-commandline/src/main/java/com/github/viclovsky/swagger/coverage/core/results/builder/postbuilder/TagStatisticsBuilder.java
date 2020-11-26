@@ -42,6 +42,7 @@ public class TagStatisticsBuilder extends StatisticsOperationPostBuilder {
         operationToTag = operations.getOperations()
                 .entrySet()
                 .stream()
+                .filter(entry -> entry.getValue().getTags() != null)
                 .collect(toMap(Map.Entry::getKey, entry -> entry.getValue().getTags()));
 
         operationToTag.forEach((key, value) -> value.stream()
