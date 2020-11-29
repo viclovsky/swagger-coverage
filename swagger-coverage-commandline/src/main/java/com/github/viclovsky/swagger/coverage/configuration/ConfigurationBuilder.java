@@ -67,7 +67,8 @@ public class ConfigurationBuilder {
                         switch (key) {
                             case "html":
                                 configuredResultsWriters.add(
-                                        new HtmlReportResultsWriter(value.getLocale(), value.getFilename())
+                                        new HtmlReportResultsWriter(value.getLocale(), value.getFilename(),
+                                                value.getCustomTemplatePath())
                                 );
                                 break;
                             case "LOGGER":
