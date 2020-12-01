@@ -1,5 +1,6 @@
 package com.github.viclovsky.swagger.coverage.utils;
 
+import freemarker.cache.FileTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -30,12 +31,8 @@ public final class FreemarkerUtils {
         return processTemplate(path,"en",object);
     }
 
-    public static String processTemplate(final String path, String locale, final Object object) {
-        final Configuration configuration = new Configuration(Configuration.VERSION_2_3_28);
-
-        configuration.setClassForTemplateLoading(FreemarkerUtils.class, "/");
-        configuration.setDefaultEncoding("UTF-8");
-
+    private static String proccessTemplate(Configuration configuration, String locale, String templateName,
+                                           final Object object) {
         Map<String, String> messages = readMessages(locale);
 
         try {
@@ -44,12 +41,31 @@ public final class FreemarkerUtils {
             data.put("messages", messages);
 
             final Writer writer = new StringWriter();
-            final Template template = configuration.getTemplate(path);
+            final Template template = configuration.getTemplate(templateName);
             template.process(data, writer);
             return writer.toString();
         } catch (IOException | TemplateException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static String processTemplate(final String path, String locale, final Object object) {
+        final Configuration configuration = new Configuration(Configuration.VERSION_2_3_28);
+
+        configuration.setClassForTemplateLoading(FreemarkerUtils.class, "/");
+        configuration.setDefaultEncoding("UTF-8");
+
+        return proccessTemplate(configuration, locale, path, object);
+    }
+
+    public static String processCustomTemplate(final String customTemplatePath, String locale, Object object)
+            throws IOException {
+        File template = new File(customTemplatePath);
+        final Configuration configuration = new Configuration(Configuration.VERSION_2_3_28);
+
+        configuration.setTemplateLoader(new FileTemplateLoader(template.getParentFile()));
+        configuration.setDefaultEncoding("UTF-8");
+        return proccessTemplate(configuration, locale, template.getName(), object);
     }
 
     public static Map<String, String> readMessages(String localeCode){
