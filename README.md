@@ -193,6 +193,21 @@ You can setup next options:
 }
 ````
 
+#### Report customization
+To customize your http report with your own template set full path to the template like below:
+````
+{
+  ....
+  
+  "writers": {
+    "hml": {
+      ....
+      "customTemplatePath": "/full/path/to/report_custom.ftl"
+    }
+  }
+}
+````
+
 ## Demo
 I have prepared several tests. Thus you are able to have a look and touch swagger-coverage. Just run ```run.sh``` script.
 
