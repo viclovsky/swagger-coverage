@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.AntPathMatcher;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,6 +74,8 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
         Map<OperationKey, OperationResult> operations = new TreeMap<>();
         Map<String, ConditionStatistics> conditionStatisticsMap = new HashMap<>();
 
+        List<OperationKey> deprecatedOperationsToExclude = new ArrayList<>();
+
         mainCoverageData.forEach((key, value) -> {
             value.getConditions().stream().filter(Condition::isHasPostCheck).forEach(Condition::postCheck);
 
@@ -84,6 +87,7 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
 
             if (value.getOperation().isDeprecated() != null && value.getOperation().isDeprecated()) {
                 deprecated.put(key, value.getOperation());
+                deprecatedOperationsToExclude.add(key);
             }
 
             value.getConditions().forEach(condition -> {
@@ -94,6 +98,9 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
                     }
             );
         });
+
+        deprecatedOperationsToExclude.forEach(key -> mainCoverageData.remove(key));
+        deprecatedOperationsToExclude.forEach(operations::remove);
 
         results.setOperations(operations)
                 .setMissed(missed)
