@@ -22,7 +22,9 @@ public class OperationResult {
         allConditionCount = conditions.size();
         coveredConditionCount = conditions.stream().filter(Condition::isCovered).count();
 
-        if (coveredConditionCount == 0) {
+        if (this.deprecated) {
+            state = CoverageState.DEPRECATED;
+        } else if (coveredConditionCount == 0) {
             state = CoverageState.EMPTY;
         } else {
             if (allConditionCount == coveredConditionCount) {
