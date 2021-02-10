@@ -1,6 +1,7 @@
 package com.github.viclovsky.swagger.coverage.core.results.builder.prebuilder;
 
 import com.github.viclovsky.swagger.coverage.CommandLine;
+import com.github.viclovsky.swagger.coverage.configuration.Configuration;
 import com.github.viclovsky.swagger.coverage.core.results.Results;
 import com.github.viclovsky.swagger.coverage.core.results.builder.core.StatisticsPreBuilder;
 import com.github.viclovsky.swagger.coverage.core.results.data.GenerationStatistics;
@@ -54,7 +55,7 @@ public class GenerationStatisticsBuilder extends StatisticsPreBuilder {
     }
 
     @Override
-    public void build(Results results) {
+    public void build(Results results, Configuration configuration) {
         final long duration = System.currentTimeMillis() - startTime;
         final String resultDateDuration = DateTimeUtil.formatDate(minResultTime.toInstant())
                 + " - "

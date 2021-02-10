@@ -1,5 +1,6 @@
 package com.github.viclovsky.swagger.coverage.core.results.builder.core;
 
+import com.github.viclovsky.swagger.coverage.configuration.Configuration;
 import com.github.viclovsky.swagger.coverage.configuration.options.ConfigurationOptions;
 import com.github.viclovsky.swagger.coverage.core.results.Results;
 import com.github.viclovsky.swagger.coverage.core.rule.core.ConditionRule;
@@ -26,7 +27,7 @@ public abstract class StatisticsBuilder {
 
     public abstract StatisticsBuilder configure(Swagger swagger, List<ConditionRule> rules);
 
-    public abstract void build(Results results);
+    public abstract void build(Results results, Configuration configuration);
 
     public abstract boolean isPreBuilder();
 
