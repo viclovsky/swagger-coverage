@@ -15,8 +15,8 @@ jobs:
           java-version: 8
       - name: "Gradle Build"
         run: ./gradlew build -Pversion=${GITHUB_REF:10}
-      - name: "Gradle Publish to Bintray"
+      - name: "Publish"
         env:
-          BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
-          BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
-        run: ./gradlew bintrayUpload -Pversion=${GITHUB_REF:10}
+          GITHUB_USER: ${{ secrets.GITHUB_USER }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./gradlew publish -Pversion=${GITHUB_REF:10}

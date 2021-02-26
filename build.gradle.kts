@@ -5,10 +5,6 @@ buildscript {
         mavenLocal()
         jcenter()
     }
-
-    dependencies {
-        classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4")
-    }
 }
 
 plugins {
@@ -33,8 +29,8 @@ configure(subprojects) {
     apply(plugin = "io.spring.dependency-management")
     apply(plugin = "java")
     apply(plugin = "java-library")
-    apply(from = "$gradleScriptDir/bintray.gradle")
     apply(from = "$gradleScriptDir/maven.gradle")
+    apply(from = "$gradleScriptDir/github-publish.gradle")
 
     configure<DependencyManagementExtension> {
         imports {
