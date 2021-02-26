@@ -31,3 +31,12 @@ jobs:
           asset_path: ./swagger-coverage-commandline/build/distributions/swagger-coverage-commandline-${{ steps.release.outputs.version }}.zip
           asset_name: swagger-coverage-${{ steps.release.outputs.version }}.zip
           asset_content_type: application/octet-stream
+      - name: "Publish Tar to GitHub"
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./swagger-coverage-commandline/build/distributions/swagger-coverage-commandline-${{ steps.release.outputs.version }}.tar
+          asset_name: swagger-coverage-${{ steps.release.outputs.version }}.tar
+          asset_content_type: application/octet-stream
