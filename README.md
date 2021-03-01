@@ -1,6 +1,8 @@
 [license]: http://www.apache.org/licenses/LICENSE-2.0 "Apache License 2.0"
+[release]: https://github.com/viclovsky/swagger-coverage/releases/latest "Latest release"
+[release-badge]: https://img.shields.io/github/release/viclovsky/swagger-coverage.svg?style=flat
 [![Build Status](https://github.com/viclovsky/swagger-coverage/workflows/Build/badge.svg)](https://github.com/viclovsky/swagger-coverage/actions)
-[ ![Download](https://api.bintray.com/packages/viclovsky/maven/swagger-coverage/images/download.svg) ](https://bintray.com/viclovsky/maven/swagger-coverage/_latestVersion)
+[![release-badge][]][release]
 
 # swagger-coverage
 Swagger-coverage gives a full picture about coverage of API tests (regression) based on OAS 2 (Swagger). 
