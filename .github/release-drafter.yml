@@ -15,4 +15,3 @@ template: |
   ## 👀 Links
 
   [Commits since $PREVIOUS_TAG](https://github.com/viclovsky/swagger-coverage/compare/$PREVIOUS_TAG...master)
-  [Download](https://dl.bintray.com/viclovsky/maven/com/github/viclovsky/swagger/coverage/swagger-coverage-commandline/$NEXT_MINOR_VERSION/swagger-coverage-commandline-$NEXT_MINOR_VERSION.zip)
