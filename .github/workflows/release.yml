@@ -13,10 +13,30 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 8
+      - run: echo "::set-output name=version::${GITHUB_REF:10}"
+        id: release
       - name: "Gradle Build"
-        run: ./gradlew build -Pversion=${GITHUB_REF:10}
-      - name: "Gradle Publish to Bintray"
+        run: ./gradlew build -Pversion=${{ steps.release.outputs.version }}
+      - name: "Publish packages to GitHub"
         env:
-          BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
-          BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
-        run: ./gradlew bintrayUpload -Pversion=${GITHUB_REF:10}
+          GITHUB_USER: ${{ secrets.GITHUB_USER }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./gradlew publish -Pversion=${{ steps.release.outputs.version }}
+      - name: "Publish Zip to GitHub"
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./swagger-coverage-commandline/build/distributions/swagger-coverage-commandline-${{ steps.release.outputs.version }}.zip
+          asset_name: swagger-coverage-${{ steps.release.outputs.version }}.zip
+          asset_content_type: application/octet-stream
+      - name: "Publish Tar to GitHub"
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./swagger-coverage-commandline/build/distributions/swagger-coverage-commandline-${{ steps.release.outputs.version }}.tar
+          asset_name: swagger-coverage-${{ steps.release.outputs.version }}.tar
+          asset_content_type: application/octet-stream
