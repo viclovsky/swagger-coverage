@@ -1,6 +1,7 @@
 package com.github.viclovsky.swagger.coverage.core.results.builder.core;
 
 
+import com.github.viclovsky.swagger.coverage.configuration.Configuration;
 import com.github.viclovsky.swagger.coverage.core.model.OperationKey;
 import com.github.viclovsky.swagger.coverage.core.results.Results;
 import com.github.viclovsky.swagger.coverage.core.results.data.OperationResult;
@@ -17,7 +18,7 @@ public abstract class StatisticsOperationPostBuilder extends StatisticsPostBuild
     }
 
     @Override
-    public void build(Results results) {
+    public void build(Results results, Configuration configuration) {
         results.getOperations().forEach(this::buildOperation);
         buildResult(results);
     }

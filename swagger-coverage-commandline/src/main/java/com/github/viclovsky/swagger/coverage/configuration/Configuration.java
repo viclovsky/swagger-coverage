@@ -63,6 +63,10 @@ public class Configuration {
         return this;
     }
 
+    public RuleConfigurationOptions getOption(String optionKey) {
+        return this.options.getRules().get(optionKey);
+    }
+
     public Configuration setDefaultRules(List<ConditionRule> defaultRules) {
         this.defaultRules = defaultRules;
         return this;

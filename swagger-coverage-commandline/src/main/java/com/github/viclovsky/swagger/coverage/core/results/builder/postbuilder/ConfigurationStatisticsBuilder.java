@@ -3,6 +3,7 @@ package com.github.viclovsky.swagger.coverage.core.results.builder.postbuilder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.viclovsky.swagger.coverage.CommandLine;
+import com.github.viclovsky.swagger.coverage.configuration.Configuration;
 import com.github.viclovsky.swagger.coverage.core.results.Results;
 import com.github.viclovsky.swagger.coverage.core.results.builder.core.StatisticsBuilder;
 import com.github.viclovsky.swagger.coverage.core.results.builder.core.StatisticsPostBuilder;
@@ -23,7 +24,7 @@ public class ConfigurationStatisticsBuilder extends StatisticsPostBuilder {
     }
 
     @Override
-    public void build(Results results) {
+    public void build(Results results, Configuration configuration) {
         ObjectMapper mapper = new ObjectMapper();
         String prettyConfiguration = "";
         try {

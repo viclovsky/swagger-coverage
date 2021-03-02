@@ -18,6 +18,9 @@
     },
     "enum-another-value": {
       "enable": true
+    },
+    "exclude-deprecated" : {
+      "enable" : true
     }
   },
   "writers": {

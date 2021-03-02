@@ -1,6 +1,7 @@
 package com.github.viclovsky.swagger.coverage.core.results.builder.prebuilder;
 
 
+import com.github.viclovsky.swagger.coverage.configuration.Configuration;
 import com.github.viclovsky.swagger.coverage.core.generator.OperationConditionGenerator;
 import com.github.viclovsky.swagger.coverage.core.generator.SwaggerSpecificationProcessor;
 import com.github.viclovsky.swagger.coverage.core.model.Condition;
@@ -69,14 +70,14 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
     }
 
     @Override
-    public void build(Results results) {
+    public void build(Results results, Configuration configuration) {
         Map<OperationKey, OperationResult> operations = new TreeMap<>();
         Map<String, ConditionStatistics> conditionStatisticsMap = new HashMap<>();
 
         mainCoverageData.forEach((key, value) -> {
             value.getConditions().stream().filter(Condition::isHasPostCheck).forEach(Condition::postCheck);
 
-            operations.put(key, new OperationResult(value.getConditions(), value.getOperation().isDeprecated())
+            operations.put(key, new OperationResult(configuration, value.getConditions(), value.getOperation().isDeprecated())
                     .setProcessCount(value.getProcessCount())
                     .setDescription(value.getOperation().getDescription())
                     .setOperationKey(key)

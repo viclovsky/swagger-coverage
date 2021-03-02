@@ -1,5 +1,6 @@
 package com.github.viclovsky.swagger.coverage.core.results.data;
 
+import com.github.viclovsky.swagger.coverage.configuration.Configuration;
 import com.github.viclovsky.swagger.coverage.core.model.Condition;
 import com.github.viclovsky.swagger.coverage.core.model.OperationKey;
 
@@ -7,6 +8,7 @@ import java.util.List;
 
 public class OperationResult {
 
+    private boolean excludeDeprecated;
     private OperationKey operationKey;
     private List<Condition> conditions;
     private long allConditionCount;
@@ -16,13 +18,21 @@ public class OperationResult {
     private CoverageState state;
     private boolean deprecated;
 
-    public OperationResult(List<Condition> conditions, Boolean isDeprecated) {
+    public OperationResult(Configuration configuration, List<Condition> conditions, Boolean isDeprecated) {
         this.conditions = conditions;
         this.deprecated = (isDeprecated != null) ? isDeprecated : false;
         allConditionCount = conditions.size();
         coveredConditionCount = conditions.stream().filter(Condition::isCovered).count();
 
-        if (coveredConditionCount == 0) {
+        try {
+            excludeDeprecated = configuration.getOption("exclude-deprecated").isEnable();
+        } catch (NullPointerException e) {
+            excludeDeprecated = false;
+        }
+
+        if (this.deprecated && excludeDeprecated) {
+            state = CoverageState.DEPRECATED;
+        } else if (coveredConditionCount == 0) {
             state = CoverageState.EMPTY;
         } else {
             if (allConditionCount == coveredConditionCount) {

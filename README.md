@@ -168,6 +168,32 @@ You can setup next options:
 }
 ````
 
+#### Excluding deprecated operations from the coverage report statistic
+This rule is created for cases when you don't want to measure coverage of deprecated operations, but only for actual ones. <br>
+If an operation is deprecated then it will be excluded from *Full*, *Partial*, and *Empty* categories and won't affect the "Operations coverage summary"
+
+Options for this rule are placed in "*exclude-deprecated*" subsection in *rules* sections.
+
+You can set up next options:
+
+**enable** - *true/false*. <br>
+By default, this rule is not enabled. Add it to the config file with *true* value to enable this rule, like in the example below:
+
+````
+{
+  "rules" : {
+
+    ....
+
+    "exclude-deprecated" : {
+      "enable" : true
+    }
+  },
+
+   ....
+}
+````
+
 If you need you can add your rules for generation of conditions. So, please, send your PRs.
 
 ## Result writer configuration

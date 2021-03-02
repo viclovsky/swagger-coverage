@@ -42,10 +42,10 @@ public class Generator {
         Results result = new Results();
 
         statisticsBuilders.stream().filter(StatisticsBuilder::isPreBuilder).forEach(
-                statisticsBuilder -> statisticsBuilder.build(result));
+                statisticsBuilder -> statisticsBuilder.build(result, configuration));
 
         statisticsBuilders.stream().filter(StatisticsBuilder::isPostBuilder).forEach(
-                statisticsBuilder -> statisticsBuilder.build(result));
+                statisticsBuilder -> statisticsBuilder.build(result, configuration));
 
         configuration.getConfiguredResultsWriters().forEach(writer -> writer.write(result));
     }
