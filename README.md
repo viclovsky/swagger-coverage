@@ -146,7 +146,7 @@ This rule create condition for comparing declared and received status.
 Condition marked as *covered* when result not contains any of undeclared status.
 *Uncovered* state of this condition indicates missed status in original swagger-documentation 
 or server errors.
-Options for this rules are placed in *only-declareted-status* subsection in *rules* sections.
+Options for this rules are placed in *only-declared-status* subsection in *rules* sections.
 
 
 You can setup next options:
@@ -159,7 +159,7 @@ You can setup next options:
 
     ....
 
-    "only-declareted-status" : {
+    "only-declared-status" : {
       "enable" : true
     }
   },
