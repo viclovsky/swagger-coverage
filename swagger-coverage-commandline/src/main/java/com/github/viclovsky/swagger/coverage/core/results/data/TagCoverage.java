@@ -1,7 +1,7 @@
 package com.github.viclovsky.swagger.coverage.core.results.data;
 
 import com.github.viclovsky.swagger.coverage.core.model.OperationKey;
-import io.swagger.models.Tag;
+import io.swagger.v3.oas.models.tags.Tag;
 
 import java.util.HashSet;
 import java.util.Set;

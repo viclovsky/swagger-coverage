@@ -1,11 +1,11 @@
 package com.github.viclovsky.swagger.coverage.core.model;
 
-import io.swagger.models.HttpMethod;
+import io.swagger.v3.oas.models.PathItem;
 
 public class OperationKey implements Comparable {
 
     private String path;
-    private HttpMethod httpMethod;
+    private PathItem.HttpMethod httpMethod;
 
     @Override
     public String toString() {
@@ -21,11 +21,11 @@ public class OperationKey implements Comparable {
         return this;
     }
 
-    public HttpMethod getHttpMethod() {
+    public PathItem.HttpMethod getHttpMethod() {
         return httpMethod;
     }
 
-    public OperationKey setHttpMethod(HttpMethod httpMethod) {
+    public OperationKey setHttpMethod(PathItem.HttpMethod httpMethod) {
         this.httpMethod = httpMethod;
         return this;
     }

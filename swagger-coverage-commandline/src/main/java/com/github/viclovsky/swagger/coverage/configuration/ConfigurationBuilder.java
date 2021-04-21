@@ -11,10 +11,13 @@ import com.github.viclovsky.swagger.coverage.core.results.builder.postbuilder.Ta
 import com.github.viclovsky.swagger.coverage.core.results.builder.postbuilder.ZeroCallStatisticsBuilder;
 import com.github.viclovsky.swagger.coverage.core.results.builder.prebuilder.CoverageStatisticsBuilder;
 import com.github.viclovsky.swagger.coverage.core.results.builder.prebuilder.GenerationStatisticsBuilder;
+import com.github.viclovsky.swagger.coverage.core.rule.body.PropertyEnumAllValuesRule;
+import com.github.viclovsky.swagger.coverage.core.rule.body.PropertyNotEmptyRule;
+import com.github.viclovsky.swagger.coverage.core.rule.body.PropertyNotOnlyEnumValuesRule;
 import com.github.viclovsky.swagger.coverage.core.rule.core.ConditionRule;
 import com.github.viclovsky.swagger.coverage.core.rule.parameter.EmptyHeaderRule;
+import com.github.viclovsky.swagger.coverage.core.rule.body.NotEmptyBodyRule;
 import com.github.viclovsky.swagger.coverage.core.rule.parameter.EnumAllValuesRule;
-import com.github.viclovsky.swagger.coverage.core.rule.parameter.NotEmptyBodyRule;
 import com.github.viclovsky.swagger.coverage.core.rule.parameter.NotEmptyParameterRule;
 import com.github.viclovsky.swagger.coverage.core.rule.parameter.NotOnlyEnumValuesRule;
 import com.github.viclovsky.swagger.coverage.core.rule.status.HTTPStatusRule;
@@ -98,6 +101,10 @@ public class ConfigurationBuilder {
         registeredRules.add(new OnlyDeclaredHTTPStatusesRule());
         registeredRules.add(new EmptyHeaderRule());
         registeredRules.add(new NotOnlyEnumValuesRule());
+        registeredRules.add(new PropertyEnumAllValuesRule());
+        registeredRules.add(new PropertyNotOnlyEnumValuesRule());
+        registeredRules.add(new PropertyNotEmptyRule());
+
         return registeredRules;
     }
 

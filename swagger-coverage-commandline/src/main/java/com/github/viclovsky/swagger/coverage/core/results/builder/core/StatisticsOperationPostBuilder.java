@@ -1,19 +1,18 @@
 package com.github.viclovsky.swagger.coverage.core.results.builder.core;
 
-
 import com.github.viclovsky.swagger.coverage.configuration.Configuration;
 import com.github.viclovsky.swagger.coverage.core.model.OperationKey;
 import com.github.viclovsky.swagger.coverage.core.results.Results;
 import com.github.viclovsky.swagger.coverage.core.results.data.OperationResult;
 import com.github.viclovsky.swagger.coverage.core.rule.core.ConditionRule;
-import io.swagger.models.Swagger;
+import io.swagger.v3.oas.models.OpenAPI;
 
 import java.util.List;
 
 public abstract class StatisticsOperationPostBuilder extends StatisticsPostBuilder {
 
     @Override
-    public StatisticsBuilder configure(Swagger swagger, List<ConditionRule> rules) {
+    public StatisticsBuilder configure(OpenAPI swagger, List<ConditionRule> rules) {
         return this;
     }
 

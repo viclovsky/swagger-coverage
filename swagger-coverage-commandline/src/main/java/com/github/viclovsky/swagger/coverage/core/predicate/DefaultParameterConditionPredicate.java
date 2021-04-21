@@ -1,13 +1,13 @@
 package com.github.viclovsky.swagger.coverage.core.predicate;
 
-import io.swagger.models.Response;
-import io.swagger.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class DefaultParameterConditionPredicate extends ConditionPredicate {
+public class DefaultParameterConditionPredicate extends ParameterConditionPredicate {
 
     private boolean isEmpty;
     private String name;
@@ -20,7 +20,7 @@ public class DefaultParameterConditionPredicate extends ConditionPredicate {
     }
 
     @Override
-    public boolean check(List<Parameter> params, Map<String, Response> responses) {
+    public boolean check(List<Parameter> params, Map<String, ApiResponse> responses) {
         Optional<Parameter> p = params.stream().filter(ParameterUtils.equalsParam(name, in)).findFirst();
         return (isEmpty() ^ p.isPresent());
     }

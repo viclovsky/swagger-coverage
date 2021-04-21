@@ -8,8 +8,8 @@ import com.github.viclovsky.swagger.coverage.core.results.data.CoverageOperation
 import com.github.viclovsky.swagger.coverage.core.results.data.GenerationStatistics;
 import com.github.viclovsky.swagger.coverage.core.results.data.OperationResult;
 import com.github.viclovsky.swagger.coverage.core.results.data.TagCoverage;
-import io.swagger.models.Info;
-import io.swagger.models.Operation;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.info.Info;
 
 import java.util.HashMap;
 import java.util.HashSet;

@@ -21,13 +21,12 @@ public class FileSystemResultsWriter implements CoverageResultsWriter {
     private final String fileName;
 
     public FileSystemResultsWriter() {
-        this.fileName = COVERAGE_RESULTS_NAME;
-        this.mapper = SwaggerCoverage2ModelJackson.createMapper();
+        this(COVERAGE_RESULTS_NAME);
     }
 
     public FileSystemResultsWriter(String fileName) {
         this.fileName = fileName;
-        this.mapper = SwaggerCoverage2ModelJackson.createMapper();
+        this.mapper = SwaggerCoverage2ModelJackson.createJsonMapper();
     }
 
     @Override

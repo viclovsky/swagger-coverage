@@ -1,0 +1,13 @@
+---
+openapi: 3.0.0
+paths:
+  /store/inventory:
+    get:
+      responses:
+        "404":
+          description: ""
+servers:
+  - url: http://localhost
+info:
+  version: ""
+  title: ""

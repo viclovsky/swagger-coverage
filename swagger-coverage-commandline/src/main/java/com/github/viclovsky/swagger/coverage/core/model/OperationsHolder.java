@@ -1,6 +1,6 @@
 package com.github.viclovsky.swagger.coverage.core.model;
 
-import io.swagger.models.Operation;
+import io.swagger.v3.oas.models.Operation;
 
 import java.util.Map;
 import java.util.TreeMap;

@@ -5,7 +5,7 @@ import com.github.viclovsky.swagger.coverage.configuration.options.RuleConfigura
 import com.github.viclovsky.swagger.coverage.core.results.builder.core.StatisticsBuilder;
 import com.github.viclovsky.swagger.coverage.core.rule.core.ConditionRule;
 import com.github.viclovsky.swagger.coverage.core.writer.CoverageResultsWriter;
-import io.swagger.models.Swagger;
+import io.swagger.v3.oas.models.OpenAPI;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,7 +36,7 @@ public class Configuration {
         return configuredRules;
     }
 
-    public List<StatisticsBuilder> getStatisticsBuilders(Swagger specification) {
+    public List<StatisticsBuilder> getStatisticsBuilders(OpenAPI specification) {
         if (configuredBuilders == null) {
             configuredBuilders = registeredBuilders
                     .stream().map(builder -> builder

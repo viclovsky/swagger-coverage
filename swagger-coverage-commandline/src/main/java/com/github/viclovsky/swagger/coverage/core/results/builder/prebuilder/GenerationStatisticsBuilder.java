@@ -7,7 +7,7 @@ import com.github.viclovsky.swagger.coverage.core.results.builder.core.Statistic
 import com.github.viclovsky.swagger.coverage.core.results.data.GenerationStatistics;
 import com.github.viclovsky.swagger.coverage.core.results.util.DateTimeUtil;
 import com.github.viclovsky.swagger.coverage.core.rule.core.ConditionRule;
-import io.swagger.models.Swagger;
+import io.swagger.v3.oas.models.OpenAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +29,7 @@ public class GenerationStatisticsBuilder extends StatisticsPreBuilder {
     private long startTime;
 
     @Override
-    public GenerationStatisticsBuilder configure(Swagger swagger, List<ConditionRule> rules) {
+    public GenerationStatisticsBuilder configure(OpenAPI swagger, List<ConditionRule> rules) {
         startTime = System.currentTimeMillis();
         return this;
     }

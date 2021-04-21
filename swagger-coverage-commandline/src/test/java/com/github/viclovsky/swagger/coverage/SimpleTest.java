@@ -17,7 +17,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @RunWith(Parameterized.class)
 public class SimpleTest {
 
-    private static final String OUTPUT_SWAGGER_COVERAGE_DIR = "swagger-coverage-output";
+    private static final String V2_OUTPUT_SWAGGER_COVERAGE_DIR = "v2/swagger-coverage-output";
+    private static final String V3_OUTPUT_SWAGGER_COVERAGE_DIR = "v3/swagger-coverage-output";
     private static final String CONFIGURATION_FILE = "full_configuration.json";
     private final Config config;
 
@@ -28,10 +29,16 @@ public class SimpleTest {
     @Parameterized.Parameters()
     public static Collection<Object[]> testData() {
         return Arrays.asList(new Object[][]{
-                {new Config(CONFIGURATION_FILE, OUTPUT_SWAGGER_COVERAGE_DIR, "petstory.json")},
-                {new Config(CONFIGURATION_FILE, OUTPUT_SWAGGER_COVERAGE_DIR, "petstory_no_tags.json")},
-                {new Config(CONFIGURATION_FILE, OUTPUT_SWAGGER_COVERAGE_DIR, "petstory_operation_wo_tags.json")},
-                {new Config(CONFIGURATION_FILE, OUTPUT_SWAGGER_COVERAGE_DIR, "petstory_with_x_example.json")}
+                //Swagger v2
+                {new Config(CONFIGURATION_FILE, V2_OUTPUT_SWAGGER_COVERAGE_DIR, "v2/petstory.json")},
+                {new Config(CONFIGURATION_FILE, V2_OUTPUT_SWAGGER_COVERAGE_DIR, "v2/petstory_no_tags.json")},
+                {new Config(CONFIGURATION_FILE, V2_OUTPUT_SWAGGER_COVERAGE_DIR, "v2/petstory_operation_wo_tags.json")},
+                {new Config(CONFIGURATION_FILE, V2_OUTPUT_SWAGGER_COVERAGE_DIR, "v2/petstory_with_x_example.json")},
+                //Swagger v3
+                {new Config(CONFIGURATION_FILE, V3_OUTPUT_SWAGGER_COVERAGE_DIR, "v3/petstory.yaml")},
+                {new Config(CONFIGURATION_FILE, V3_OUTPUT_SWAGGER_COVERAGE_DIR, "v3/petstory_no_tags.yaml")},
+                {new Config(CONFIGURATION_FILE, V3_OUTPUT_SWAGGER_COVERAGE_DIR, "v3/petstory_operation_wo_tags.yaml")},
+                {new Config(CONFIGURATION_FILE, V3_OUTPUT_SWAGGER_COVERAGE_DIR, "v3/petstory_with_x_example.yaml")}
         });
     }
 

@@ -5,7 +5,7 @@ import com.github.viclovsky.swagger.coverage.core.model.Condition;
 import com.github.viclovsky.swagger.coverage.core.model.SinglePredicateCondition;
 import com.github.viclovsky.swagger.coverage.core.predicate.ConditionPredicate;
 import com.github.viclovsky.swagger.coverage.core.predicate.ParameterValueConditionPredicate;
-import io.swagger.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.Parameter;
 
 import java.util.List;
 

@@ -1,18 +1,16 @@
 package com.github.viclovsky.swagger.coverage.core.predicate;
 
-import io.swagger.models.Response;
-import io.swagger.models.parameters.BodyParameter;
-import io.swagger.models.parameters.Parameter;
-
-import java.util.List;
-import java.util.Map;
+import io.swagger.v3.oas.models.Operation;
 
 public class DefaultBodyConditionPredicate extends ConditionPredicate {
 
     @Override
-    public boolean check(List<Parameter> params, Map<String, Response> responses) {
-        long bodyParamsCount = params.stream().filter(entry -> entry instanceof BodyParameter).count();
-        return bodyParamsCount > 0;
+    public boolean check(Operation operation) {
+        if(operation.getRequestBody() != null && operation.getRequestBody().getContent() != null) {
+            return operation.getRequestBody().getContent().values().size() > 0;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -29,4 +27,5 @@ public class DefaultBodyConditionPredicate extends ConditionPredicate {
     public String getReason() {
         return null;
     }
+
 }
