@@ -5,7 +5,7 @@
 [![release-badge][]][release]
 
 # swagger-coverage
-Swagger-coverage gives a full picture about coverage of API tests (regression) based on OAS 2 (Swagger). 
+Swagger-coverage gives a full picture about coverage of API tests (regression) based on OAS (Swagger). 
 By saying coverage we mean not a broad theme functionality, but presence (or absence) of calls defined by API methods, parameters, return codes or other conditions which corresponds specification of API.
 
 ![Swagger Coverage Report](.github/swagger-coverage.png)
@@ -18,17 +18,6 @@ The next stage is to compare saved result with generated conditions from current
 You can use swagger-coverage with any language and framework. You need to have proxy/filter/interceptor that accumulates data in swagger format. 
 Swagger-coverage have rest-assured integration from the box.
 
-* Add dependencies and filter to your test client
-Add repository to pom.xml
-```xml
- <repositories>
-        <repository>
-            <id>viclovsky</id>
-            <url>https://dl.bintray.com/viclovsky/maven/</url>
-        </repository>
- </repositories>
-```
-
 Add filter dependency:
 ```xml
  <dependency>
@@ -38,11 +27,6 @@ Add filter dependency:
  </dependency>
 ```
 or if use gradle, it can be added like
-```
-repositories {
-    maven { url 'https://dl.bintray.com/viclovsky/maven' }
-}
-```
 
 ```
 compile "com.github.viclovsky.swagger.coverage:swagger-coverage-rest-assured:$latest-swagger-coverage-version"
@@ -56,7 +40,7 @@ RestAssured.given().filter(new SwaggerCoverageRestAssured())
 * Download and run command line.
 Download zip archive and unpack it. Don't forget to replace {latest-swagger-coverage-version} to latest version. 
 ```
-wget https://dl.bintray.com/viclovsky/maven/com/github/viclovsky/swagger/coverage/swagger-coverage-commandline/{latest-swagger-coverage-version}/swagger-coverage-commandline-{latest-swagger-coverage-version}.zip
+wget https://github.com/viclovsky/swagger-coverage/releases/download/{latest-swagger-coverage-version}/swagger-coverage-{latest-swagger-coverage-version}.zip
 unzip swagger-coverage-commandline-{latest-swagger-coverage-version}.zip
 ```
 
@@ -254,7 +238,12 @@ My project is open for any enhancement. So, your help is much appreciated. Pleas
 [Victor Orlovsky](https://github.com/viclovsky)
 
 ## Contributing to swagger-coverage
-Thanks to all people who contributed. Especially [@TemaMak](https://github.com/TemaMak) who have contributed significant improvements to swagger-coverage.
+Thanks to all people who contributed. Especially 
+
+* [@TemaMak](https://github.com/TemaMak) 
+* [@Emilio-Pega](https://github.com/Emilio-Pega)
+
+who have contributed significant improvements to swagger-coverage.
 
 ## License
 Swagger coverage is released under version 2.0 of the [Apache License](http://www.apache.org/licenses/LICENSE-2.0)

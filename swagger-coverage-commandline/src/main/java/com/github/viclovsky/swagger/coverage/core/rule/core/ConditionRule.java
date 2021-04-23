@@ -17,6 +17,4 @@ public abstract class ConditionRule {
         this.options = options;
         return this;
     }
-
-    ;
 }

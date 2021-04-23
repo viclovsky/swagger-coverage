@@ -70,3 +70,10 @@ predicate.DefaultParameterConditionPredicate.name=Проверка значен�
 predicate.DefaultParameterConditionPredicate.description=Проверка, что параметр пустой или не пустой
 predicate.FullStatusConditionPredicate.name=Только описанные статусы
 predicate.FullStatusConditionPredicate.description=Проверка, что не было получено статусов, которые не описаны
+
+predicate.DefaultPropertyConditionPredicate.name=Проверка значения проперти
+predicate.DefaultPropertyConditionPredicate.description=Проверка, что проперти пустая или не пустая
+predicate.PropertyValueConditionPredicate.name=Все значения проперти
+predicate.PropertyValueConditionPredicate.description=Проверка, что метод вызван со всеми описанным в enum проперти
+predicate.PropertyValueNotOnlyConditionPredicate.name=Значения не только из списка
+predicate.PropertyValueNotOnlyConditionPredicate.description=Проверка, что метод вызывался со значением, которое не описано в enum проперти
