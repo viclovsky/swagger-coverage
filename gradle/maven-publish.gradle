@@ -1,0 +1,30 @@
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+publishing {
+    repositories {
+        maven {
+            name = "sonatype"
+            url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2")
+            credentials {
+                username = project.hasProperty('SONATYPE_USER') ? project.property('SONATYPE_USER') : System.getenv('SONATYPE_USER')
+                password = project.hasProperty('SONATYPE_PASSWORD') ? project.property('SONATYPE_PASSWORD') : System.getenv('SONATYPE_PASSWORD')
+            }
+        }
+    }
+
+    publications {
+        mavenJava(MavenPublication) {
+            customizePom(pom)
+            groupId group
+            artifactId archivesBaseName
+            version version
+            from components.java
+        }
+    }
+}
+
+signing {
+    useGpgCmd()
+    sign publishing.publications
+}

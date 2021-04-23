@@ -17,6 +17,19 @@ jobs:
         id: release
       - name: "Gradle Build"
         run: ./gradlew build -Pversion=${{ steps.release.outputs.version }}
+
+      - name: Prepare to publish
+        run: |
+          echo '${{secrets.GPG_KEY_CONTENTS}}' | base64 -d > publish_key.gpg
+          gpg --quiet --batch --yes --decrypt --passphrase="${{secrets.SECRET_PASSPHRASE}}" \
+          --output secret.gpg publish_key.gpg
+
+      - name: "Publish packages to Maven Central"
+        env:
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+        run: ./gradlew publish -Pversion=${{ steps.release.outputs.version }} -Psigning.secretKeyRingFile=secret.gpg -Psigning.keyId=${{secrets.SIGNING_KEYID}} -Psigning.password=${{secrets.SIGNING_PASSWORD}}
+
       - name: "Publish packages to GitHub"
         env:
           GITHUB_USER: ${{ secrets.GITHUB_USER }}

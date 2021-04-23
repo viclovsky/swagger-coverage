@@ -8,6 +8,8 @@ buildscript {
 }
 
 plugins {
+    maven
+    signing
     java
     id("io.spring.dependency-management") version "1.0.6.RELEASE"
 }
@@ -31,6 +33,7 @@ configure(subprojects) {
     apply(plugin = "java-library")
     apply(from = "$gradleScriptDir/maven.gradle")
     apply(from = "$gradleScriptDir/github-publish.gradle")
+    apply(from = "$gradleScriptDir/maven-publish.gradle")
 
     configure<DependencyManagementExtension> {
         imports {
