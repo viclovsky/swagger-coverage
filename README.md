@@ -5,7 +5,7 @@
 [![release-badge][]][release]
 
 # swagger-coverage
-Swagger-coverage gives a full picture about coverage of API tests (regression) based on OAS 2 (Swagger). 
+Swagger-coverage gives a full picture about coverage of API tests (regression) based on OAS (Swagger). 
 By saying coverage we mean not a broad theme functionality, but presence (or absence) of calls defined by API methods, parameters, return codes or other conditions which corresponds specification of API.
 
 ![Swagger Coverage Report](.github/swagger-coverage.png)
