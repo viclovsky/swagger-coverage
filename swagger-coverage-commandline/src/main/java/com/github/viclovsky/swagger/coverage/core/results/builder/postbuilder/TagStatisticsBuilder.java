@@ -9,8 +9,8 @@ import com.github.viclovsky.swagger.coverage.core.results.data.CoverageCounter;
 import com.github.viclovsky.swagger.coverage.core.results.data.OperationResult;
 import com.github.viclovsky.swagger.coverage.core.results.data.TagCoverage;
 import com.github.viclovsky.swagger.coverage.core.rule.core.ConditionRule;
-import io.swagger.models.Swagger;
-import io.swagger.models.Tag;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +31,7 @@ public class TagStatisticsBuilder extends StatisticsOperationPostBuilder {
     private CoverageCounter tagCounter = new CoverageCounter();
 
     @Override
-    public TagStatisticsBuilder configure(Swagger swagger, List<ConditionRule> rules) {
+    public TagStatisticsBuilder configure(OpenAPI swagger, List<ConditionRule> rules) {
         OperationsHolder operations = SwaggerSpecificationProcessor.extractOperation(swagger);
 
         tagCoverageMap = ofNullable(swagger.getTags())

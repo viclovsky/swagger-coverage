@@ -1,18 +1,13 @@
 package com.github.viclovsky.swagger.coverage.core.model;
 
 import com.github.viclovsky.swagger.coverage.core.predicate.ConditionPredicate;
-import io.swagger.models.Response;
-import io.swagger.models.parameters.Parameter;
+import io.swagger.v3.oas.models.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.List;
-import java.util.Map;
 
 public class SinglePredicateCondition extends Condition {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SinglePredicateCondition.class);
-
 
     protected ConditionPredicate predicate;
 
@@ -41,8 +36,8 @@ public class SinglePredicateCondition extends Condition {
     }
 
     @Override
-    public boolean check(List<Parameter> params, Map<String, Response> responses) {
-        this.covered = predicate.check(params, responses);
+    public boolean check(Operation operation) {
+        this.covered = predicate.check(operation);
         return this.covered;
     }
 

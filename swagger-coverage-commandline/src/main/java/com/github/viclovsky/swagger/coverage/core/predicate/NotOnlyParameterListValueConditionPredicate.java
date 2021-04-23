@@ -1,8 +1,8 @@
 package com.github.viclovsky.swagger.coverage.core.predicate;
 
 import com.github.viclovsky.swagger.coverage.core.generator.SwaggerSpecificationProcessor;
-import io.swagger.models.Response;
-import io.swagger.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 
 import java.util.HashSet;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-public class NotOnlyParameterListValueConditionPredicate extends ConditionPredicate {
+public class NotOnlyParameterListValueConditionPredicate extends ParameterConditionPredicate {
     private String name;
     private String in;
 
@@ -26,7 +26,7 @@ public class NotOnlyParameterListValueConditionPredicate extends ConditionPredic
     }
 
     @Override
-    public boolean check(List<Parameter> params, Map<String, Response> responses) {
+    public boolean check(List<Parameter> params, Map<String, ApiResponse> responses) {
         Optional<Parameter> p = params.stream().filter(ParameterUtils.equalsParam(name, in)).findFirst();
         if (p.isPresent()) {
             String val = SwaggerSpecificationProcessor.extractValue(p.get());

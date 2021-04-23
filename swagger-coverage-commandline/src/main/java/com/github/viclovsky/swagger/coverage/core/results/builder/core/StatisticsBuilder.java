@@ -4,7 +4,7 @@ import com.github.viclovsky.swagger.coverage.configuration.Configuration;
 import com.github.viclovsky.swagger.coverage.configuration.options.ConfigurationOptions;
 import com.github.viclovsky.swagger.coverage.core.results.Results;
 import com.github.viclovsky.swagger.coverage.core.rule.core.ConditionRule;
-import io.swagger.models.Swagger;
+import io.swagger.v3.oas.models.OpenAPI;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public abstract class StatisticsBuilder {
         return this;
     }
 
-    public StatisticsBuilder add(Swagger swagger) {
+    public StatisticsBuilder add(OpenAPI swagger) {
         return this;
     }
 
@@ -25,7 +25,7 @@ public abstract class StatisticsBuilder {
         return this;
     }
 
-    public abstract StatisticsBuilder configure(Swagger swagger, List<ConditionRule> rules);
+    public abstract StatisticsBuilder configure(OpenAPI swagger, List<ConditionRule> rules);
 
     public abstract void build(Results results, Configuration configuration);
 

@@ -1,14 +1,10 @@
 package com.github.viclovsky.swagger.coverage.core.predicate;
 
-import io.swagger.models.Response;
-import io.swagger.models.parameters.Parameter;
-
-import java.util.List;
-import java.util.Map;
+import io.swagger.v3.oas.models.Operation;
 
 public abstract class ConditionPredicate {
 
-    public abstract boolean check(List<Parameter> params, Map<String, Response> responses);
+    public abstract boolean check(Operation operation);
 
     public abstract boolean postCheck();
 

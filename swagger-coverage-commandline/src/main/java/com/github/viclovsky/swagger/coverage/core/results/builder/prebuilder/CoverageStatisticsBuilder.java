@@ -1,6 +1,5 @@
 package com.github.viclovsky.swagger.coverage.core.results.builder.prebuilder;
 
-
 import com.github.viclovsky.swagger.coverage.configuration.Configuration;
 import com.github.viclovsky.swagger.coverage.core.generator.OperationConditionGenerator;
 import com.github.viclovsky.swagger.coverage.core.generator.SwaggerSpecificationProcessor;
@@ -13,8 +12,8 @@ import com.github.viclovsky.swagger.coverage.core.results.builder.core.Statistic
 import com.github.viclovsky.swagger.coverage.core.results.data.ConditionStatistics;
 import com.github.viclovsky.swagger.coverage.core.results.data.OperationResult;
 import com.github.viclovsky.swagger.coverage.core.rule.core.ConditionRule;
-import io.swagger.models.Operation;
-import io.swagger.models.Swagger;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.AntPathMatcher;
@@ -34,13 +33,13 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
     private Map<OperationKey, Operation> deprecated = new TreeMap<>();
 
     @Override
-    public CoverageStatisticsBuilder configure(Swagger swagger, List<ConditionRule> rules) {
+    public CoverageStatisticsBuilder configure(OpenAPI swagger, List<ConditionRule> rules) {
         mainCoverageData = OperationConditionGenerator.getOperationMap(swagger, rules);
         return this;
     }
 
     @Override
-    public CoverageStatisticsBuilder add(Swagger swagger) {
+    public CoverageStatisticsBuilder add(OpenAPI swagger) {
         OperationsHolder operations = SwaggerSpecificationProcessor.extractOperation(swagger);
 
         operations.getOperations().forEach((key, value) -> {
@@ -55,7 +54,7 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
                         .getConditions()
                         .stream()
                         .filter(Condition::isNeedCheck)
-                        .forEach(condition -> condition.check(value.getParameters(), value.getResponses()));
+                        .forEach(condition -> condition.check(value));
             } else {
                 LOGGER.info(String.format("Missed request [%s]", key));
                 missed.put(key, value);
@@ -77,13 +76,13 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
         mainCoverageData.forEach((key, value) -> {
             value.getConditions().stream().filter(Condition::isHasPostCheck).forEach(Condition::postCheck);
 
-            operations.put(key, new OperationResult(configuration, value.getConditions(), value.getOperation().isDeprecated())
+            operations.put(key, new OperationResult(configuration, value.getConditions(), value.getOperation().getDeprecated())
                     .setProcessCount(value.getProcessCount())
                     .setDescription(value.getOperation().getDescription())
                     .setOperationKey(key)
             );
 
-            if (value.getOperation().isDeprecated() != null && value.getOperation().isDeprecated()) {
+            if (value.getOperation().getDeprecated() != null && value.getOperation().getDeprecated()) {
                 deprecated.put(key, value.getOperation());
             }
 

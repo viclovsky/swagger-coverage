@@ -1,62 +1,72 @@
 package com.github.viclovsky.swagger.coverage.core.generator;
 
-
 import com.github.viclovsky.swagger.coverage.core.model.OperationKey;
 import com.github.viclovsky.swagger.coverage.core.model.OperationsHolder;
-import io.swagger.models.Swagger;
-import io.swagger.models.parameters.Parameter;
-import io.swagger.models.parameters.SerializableParameter;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.StringProperty;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SwaggerSpecificationProcessor {
 
     private static final String X_EXAMPLE = "x-example";
 
-    public static OperationsHolder extractOperation(Swagger swagger) {
+    public static OperationsHolder extractOperation(OpenAPI swagger) {
         OperationsHolder operations = new OperationsHolder();
 
         swagger.getPaths().keySet().forEach(path
-                -> swagger.getPaths().get(path).getOperationMap().forEach((httpMethod, operation)
+                -> swagger.getPaths().get(path).readOperationsMap().forEach((httpMethod, operation)
                 -> operations.addOperation(new OperationKey().setPath(path).setHttpMethod(httpMethod), operation)
         ));
         return operations;
     }
 
     public static String extractValue(Parameter p) {
-        if (p.getVendorExtensions() == null) {
-            return p.getName();
+        if (p.getExtensions() != null && p.getExtensions().containsKey(X_EXAMPLE)) {
+            return (String) p.getExtensions().get(X_EXAMPLE);
         }
-
-        if (p.getVendorExtensions().containsKey(X_EXAMPLE)) {
-            return (String) p.getVendorExtensions().get(X_EXAMPLE);
+        if(p.getExample() != null) {
+            return p.getExample().toString();
         }
-
         return p.getName();
     }
 
-    public static List<String> extractEnum(Parameter p) {
-        List<String> enumValues = null;
-
-        if (p instanceof SerializableParameter) {
-            SerializableParameter serializableParameter = (SerializableParameter) p;
-            if (serializableParameter.getEnum() != null && !serializableParameter.getEnum().isEmpty()) {
-                enumValues = serializableParameter.getEnum();
-            }
-
-            if (enumValues == null && serializableParameter.getItems() != null) {
-                Property items = serializableParameter.getItems();
-                if (items instanceof StringProperty) {
-                    StringProperty stringProperty = (StringProperty) items;
-                    if (stringProperty.getEnum() != null && !stringProperty.getEnum().isEmpty()) {
-                        enumValues = stringProperty.getEnum();
-                    }
-                }
-            }
+    public static String extractValue(Schema schema) {
+        if (schema.getExtensions() !=null && schema.getExtensions().containsKey(X_EXAMPLE)) {
+            return (String) schema.getExtensions().get(X_EXAMPLE);
+        }
+        if(schema.getExample() != null) {
+            return schema.getExample().toString();
         }
 
-        return enumValues;
+        return schema.getName();
     }
+
+    public static List<String> extractEnum(Parameter p) {
+        return extractEnum(p.getSchema());
+    }
+
+    public static List<String> extractEnum(Schema schema) {
+        List enums = null;
+        if (schema != null) {
+            enums = schema.getEnum();
+            if (enums == null &&
+                    schema instanceof ArraySchema &&
+                    ((ArraySchema) schema).getItems() != null) {
+                enums = ((ArraySchema) schema).getItems().getEnum();
+            }
+        }
+        if (enums != null) {
+            return ((Stream<Object>) enums.stream())
+                    .map(o -> o.toString())
+                    .collect(Collectors.toList());
+        } else {
+            return null;
+        }
+    }
+
 }

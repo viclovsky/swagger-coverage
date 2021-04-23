@@ -1,15 +1,15 @@
 package com.github.viclovsky.swagger.coverage.core.predicate;
 
 import com.github.viclovsky.swagger.coverage.core.generator.SwaggerSpecificationProcessor;
-import io.swagger.models.Response;
-import io.swagger.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class ParameterValueConditionPredicate extends ConditionPredicate {
+public class ParameterValueConditionPredicate extends ParameterConditionPredicate {
 
     private String name;
     private String in;
@@ -24,7 +24,7 @@ public class ParameterValueConditionPredicate extends ConditionPredicate {
     }
 
     @Override
-    public boolean check(List<Parameter> params, Map<String, Response> responses) {
+    public boolean check(List<Parameter> params, Map<String, ApiResponse> responses) {
         Optional<Parameter> p = params.stream().filter(ParameterUtils.equalsParam(name, in)).findFirst();
         if (p.isPresent()) {
             String val = SwaggerSpecificationProcessor.extractValue(p.get());

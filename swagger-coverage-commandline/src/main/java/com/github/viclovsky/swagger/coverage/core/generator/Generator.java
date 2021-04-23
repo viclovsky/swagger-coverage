@@ -6,8 +6,9 @@ import com.github.viclovsky.swagger.coverage.configuration.Configuration;
 import com.github.viclovsky.swagger.coverage.configuration.ConfigurationBuilder;
 import com.github.viclovsky.swagger.coverage.core.results.Results;
 import com.github.viclovsky.swagger.coverage.core.results.builder.core.StatisticsBuilder;
-import io.swagger.models.Swagger;
-import io.swagger.parser.SwaggerParser;
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.parser.core.models.SwaggerParseResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,12 +25,14 @@ public class Generator {
 
     private Path configurationPath;
 
-    private SwaggerParser parser = new SwaggerParser();
+    private OpenAPIParser parser = new OpenAPIParser();
 
     private List<StatisticsBuilder> statisticsBuilders = new ArrayList<>();
 
     public void run() {
-        Swagger spec = parser.read(getSpecPath().toString());
+        SwaggerParseResult parsed = parser.readLocation(getSpecPath().toUri().toString(), null, null);
+        parsed.getMessages().forEach(LOGGER::info);
+        OpenAPI spec = parsed.getOpenAPI();
 
         LOGGER.info("spec is {}", spec);
 
@@ -37,7 +40,7 @@ public class Generator {
         statisticsBuilders = configuration.getStatisticsBuilders(spec);
 
         CoverageOutputReader reader = new FileSystemOutputReader(getInputPath());
-        reader.getOutputs().forEach(o -> processFile(o.toString()));
+        reader.getOutputs().forEach(o -> processFile(o));
 
         Results result = new Results();
 
@@ -50,10 +53,12 @@ public class Generator {
         configuration.getConfiguredResultsWriters().forEach(writer -> writer.write(result));
     }
 
-    public void processFile(String path) {
-        final Swagger operationSwagger = parser.read(path);
+    public void processFile(Path path) {
+        SwaggerParseResult parsed = parser.readLocation(path.toUri().toString(), null, null);
+        parsed.getMessages().forEach(LOGGER::info);
+        OpenAPI spec = parsed.getOpenAPI();
         statisticsBuilders.stream().filter(StatisticsBuilder::isPreBuilder).forEach(builder ->
-                builder.add(path).add(operationSwagger));
+                builder.add(path.toString()).add(spec));
     }
 
     public Path getSpecPath() {

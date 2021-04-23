@@ -5,8 +5,8 @@ import com.github.viclovsky.swagger.coverage.core.results.Results;
 import com.github.viclovsky.swagger.coverage.core.results.builder.core.StatisticsOperationPostBuilder;
 import com.github.viclovsky.swagger.coverage.core.results.data.OperationResult;
 import com.github.viclovsky.swagger.coverage.core.rule.core.ConditionRule;
-import io.swagger.models.Info;
-import io.swagger.models.Swagger;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class SwaggerInfoBuilder extends StatisticsOperationPostBuilder {
     private Info info;
 
     @Override
-    public SwaggerInfoBuilder configure(Swagger swagger, List<ConditionRule> rules) {
+    public SwaggerInfoBuilder configure(OpenAPI swagger, List<ConditionRule> rules) {
         info = swagger.getInfo();
         return this;
     }

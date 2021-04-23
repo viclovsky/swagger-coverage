@@ -1,12 +1,12 @@
 package com.github.viclovsky.swagger.coverage.core.predicate;
 
-import io.swagger.models.Response;
-import io.swagger.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 
 import java.util.List;
 import java.util.Map;
 
-public class DefaultStatusConditionPredicate extends ConditionPredicate {
+public class DefaultStatusConditionPredicate extends ParameterConditionPredicate {
 
     private String statusCode;
 
@@ -15,7 +15,7 @@ public class DefaultStatusConditionPredicate extends ConditionPredicate {
     }
 
     @Override
-    public boolean check(List<Parameter> params, Map<String, Response> responses) {
+    public boolean check(List<Parameter> params, Map<String, ApiResponse> responses) {
         return responses.containsKey(getStatusCode());
     }
 

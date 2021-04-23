@@ -14,7 +14,7 @@
                             ${key}
                         </div>
                         <div class="col-3">
-                            ${i18["details.operation.status"]}: ${value.responses?keys?join(",")}
+                            ${i18["details.operation.status"]}: ${value.getResponses()?keys?join(",")}
                         </div>
                     </div>
                 </div>
@@ -36,15 +36,22 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        <#list value.parameters as p>
+                                        <#list value.getParameters() as p>
                                             <tr>
-                                                <td>${p.in}</td>
                                                 <td>${p.getName()}</td>
-                                                <#if p.getVendorExtensions()["x-example"]??>
-                                                    <#if p.getVendorExtensions()["x-example"]?is_boolean>
-                                                        <td>${p.getVendorExtensions()["x-example"]?c}</td>
+                                                <#if p.getExtensions()??>
+                                                    <#if p.getExtensions()["x-example"]??>
+                                                        <#if p.getExtensions()["x-example"]?is_boolean>
+                                                            <td>${p.getExtensions()["x-example"]?c}</td>
+                                                        <#else>
+                                                            <td>${p.getExtensions()["x-example"]}</td>
+                                                        </#if>
+                                                    </#if>
+                                                <#elseif p.getExample()??>
+                                                    <#if p.getExample()?is_boolean>
+                                                        <td>${p.getExample()?c}</td>
                                                     <#else>
-                                                        <td>${p.getVendorExtensions()["x-example"]}</td>
+                                                        <td>${p.getExample()}</td>
                                                     </#if>
                                                 </#if>
                                             </tr>

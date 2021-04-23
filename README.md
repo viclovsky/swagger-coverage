@@ -244,7 +244,8 @@ Swagger-coverage works fine with clients which were generated from swagger (for 
 Because all methods/parameters which will be saved are 100% compatible with current API specification. 
 
 ## Requirements 
-For a moment swagger-coverage  is compatible only with OpenApi specification v2. It is possible that swagger-coverage will support other versions.
+
+For a moment swagger-coverage  is compatible only with OpenApi specifications v2 & v3. It is possible that swagger-coverage will support other versions.
 
 ## Pull Requests
 My project is open for any enhancement. So, your help is much appreciated. Please, feel free to open your pull request or issue and I will consider it in several days.

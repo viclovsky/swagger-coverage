@@ -3,7 +3,7 @@ package com.github.viclovsky.swagger.coverage.core.writer;
 import com.github.viclovsky.swagger.coverage.core.model.OperationKey;
 import com.github.viclovsky.swagger.coverage.core.results.Results;
 import com.github.viclovsky.swagger.coverage.core.results.data.OperationResult;
-import io.swagger.models.Operation;
+import io.swagger.v3.oas.models.Operation;
 import org.apache.log4j.Logger;
 
 import java.text.DecimalFormat;

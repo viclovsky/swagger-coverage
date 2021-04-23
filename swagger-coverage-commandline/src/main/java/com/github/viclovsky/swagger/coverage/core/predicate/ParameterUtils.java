@@ -1,6 +1,6 @@
 package com.github.viclovsky.swagger.coverage.core.predicate;
 
-import io.swagger.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.Parameter;
 
 import java.util.function.Predicate;
 

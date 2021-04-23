@@ -2,7 +2,7 @@ package com.github.viclovsky.swagger.coverage.core.rule.core;
 
 import com.github.viclovsky.swagger.coverage.configuration.options.RuleConfigurationOptions;
 import com.github.viclovsky.swagger.coverage.core.model.Condition;
-import io.swagger.models.Operation;
+import io.swagger.v3.oas.models.Operation;
 
 import java.util.List;
 

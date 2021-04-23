@@ -5,8 +5,8 @@ import com.github.viclovsky.swagger.coverage.core.model.ConditionOperationCovera
 import com.github.viclovsky.swagger.coverage.core.model.OperationKey;
 import com.github.viclovsky.swagger.coverage.core.model.OperationsHolder;
 import com.github.viclovsky.swagger.coverage.core.rule.core.ConditionRule;
-import io.swagger.models.Operation;
-import io.swagger.models.Swagger;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +20,7 @@ public class OperationConditionGenerator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OperationConditionGenerator.class);
 
-    public static Map<OperationKey, ConditionOperationCoverage> getOperationMap(Swagger swagger, List<ConditionRule> rules) {
+    public static Map<OperationKey, ConditionOperationCoverage> getOperationMap(OpenAPI swagger, List<ConditionRule> rules) {
         OperationsHolder operations = SwaggerSpecificationProcessor.extractOperation(swagger);
         Map<OperationKey, ConditionOperationCoverage> coverage = new TreeMap<>();
 

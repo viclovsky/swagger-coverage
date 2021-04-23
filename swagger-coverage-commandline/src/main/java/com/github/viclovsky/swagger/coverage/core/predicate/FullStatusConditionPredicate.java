@@ -1,14 +1,14 @@
 package com.github.viclovsky.swagger.coverage.core.predicate;
 
-import io.swagger.models.Response;
-import io.swagger.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class FullStatusConditionPredicate extends ConditionPredicate {
+public class FullStatusConditionPredicate extends ParameterConditionPredicate {
 
     private Set<String> expectedStatuses;
     private Set<String> currentStatuses = new HashSet<>();
@@ -19,7 +19,7 @@ public class FullStatusConditionPredicate extends ConditionPredicate {
     }
 
     @Override
-    public boolean check(List<Parameter> params, Map<String, Response> responses) {
+    public boolean check(List<Parameter> params, Map<String, ApiResponse> responses) {
         responses.forEach((key, value) -> currentStatuses.add(key));
         return true;
     }

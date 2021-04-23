@@ -1,0 +1,42 @@
+---
+openapi: 3.0.0
+paths:
+  "/pet/{petId}":
+    get:
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          example: p
+          schema:
+            type: string
+        - name: X-Request-ID
+          in: header
+          required: false
+          example: h
+          schema:
+            type: string
+        - name: Accept
+          in: header
+          required: false
+          example: "*/*"
+          schema:
+            type: string
+        - name: Content-Type
+          in: header
+          required: false
+          example: application/x-www-form-urlencoded; charset=ISO-8859-1
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: ""
+        "404":
+          description: ""
+servers:
+  - url: http://localhost
+info:
+  version: ""
+  title: ""
