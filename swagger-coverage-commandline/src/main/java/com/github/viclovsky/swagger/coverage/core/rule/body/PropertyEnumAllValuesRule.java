@@ -11,14 +11,14 @@ import java.util.List;
 public class PropertyEnumAllValuesRule extends PropertyConditionRule {
 
     @Override
-    protected Condition processProperty(String mediaTypeName, Schema schema) {
+    protected Condition processProperty(String mediaTypeName, String name, Schema schema) {
         List<String> enums = SwaggerSpecificationProcessor.extractEnum(schema);
-        if (schema != null && schema.getName() != null && mediaTypeName != null
+        if (schema != null && name != null && mediaTypeName != null
                 && enums != null && !enums.isEmpty()) {
             return new SinglePredicateCondition(
-                    String.format("«%s» contains all values from enum %s", schema.getName(), enums),
+                    String.format("«%s» contains all values from enum %s", name, enums),
                     "",
-                    new PropertyValueConditionPredicate(mediaTypeName, schema.getName(), enums)
+                    new PropertyValueConditionPredicate(mediaTypeName, name, enums)
             );
         }
         return null;
