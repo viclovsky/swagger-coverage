@@ -9,7 +9,7 @@ public class PropertyNotEmptyRule extends PropertyConditionRule {
 
     @Override
     protected Condition processProperty(String mediaTypeName, Schema schema) {
-        if (schema != null && mediaTypeName != null) {
+        if (schema != null && schema.getName() != null && mediaTypeName != null) {
             return new SinglePredicateCondition(
                     String.format("«%s» is not empty", schema.getName()),
                     "",

@@ -25,11 +25,11 @@ public abstract class PropertyConditionPredicate extends ConditionPredicate {
         }
         Optional<Schema> schema = operation.getRequestBody().getContent().entrySet()
                 .stream()
-                .filter(o -> o.getKey().equals(mediaTypeName))
+                .filter(o -> mediaTypeName.equals(o.getKey()))
                 .map(o -> o.getValue().getSchema())
                 .filter(Objects::nonNull)
                 .flatMap(o -> (Stream<Schema>) o.getProperties().values().stream())
-                .filter(o -> o.getName().equals(propertyName))
+                .filter(o -> propertyName.equals(o.getName()))
                 .findFirst();
         return check(schema);
     }
