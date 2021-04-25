@@ -13,7 +13,8 @@ public class PropertyNotOnlyEnumValuesRule extends PropertyConditionRule {
     @Override
     protected Condition processProperty(String mediaTypeName, Schema schema) {
         List<String> enums = SwaggerSpecificationProcessor.extractEnum(schema);
-        if (enums != null && !enums.isEmpty()) {
+        if (schema != null && schema.getName() != null && mediaTypeName != null
+                && enums != null && !enums.isEmpty()) {
             return new SinglePredicateCondition(
                     String.format("«%s» contains all values from enum %s", schema.getName(), enums),
                     "",
