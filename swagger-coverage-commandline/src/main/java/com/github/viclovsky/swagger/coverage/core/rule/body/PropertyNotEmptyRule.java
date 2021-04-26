@@ -8,12 +8,12 @@ import io.swagger.v3.oas.models.media.Schema;
 public class PropertyNotEmptyRule extends PropertyConditionRule {
 
     @Override
-    protected Condition processProperty(String mediaTypeName, Schema schema) {
-        if (schema != null && mediaTypeName != null) {
+    protected Condition processProperty(String mediaTypeName, String name, Schema schema) {
+        if (schema != null && name != null && mediaTypeName != null) {
             return new SinglePredicateCondition(
-                    String.format("«%s» is not empty", schema.getName()),
+                    String.format("«%s» is not empty", name),
                     "",
-                    new DefaultPropertyConditionPredicate(mediaTypeName, schema.getName(), false)
+                    new DefaultPropertyConditionPredicate(mediaTypeName, name, false)
             );
         }
         return null;

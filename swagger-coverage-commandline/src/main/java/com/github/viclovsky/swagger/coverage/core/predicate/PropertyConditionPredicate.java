@@ -3,6 +3,7 @@ package com.github.viclovsky.swagger.coverage.core.predicate;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -25,11 +26,12 @@ public abstract class PropertyConditionPredicate extends ConditionPredicate {
         }
         Optional<Schema> schema = operation.getRequestBody().getContent().entrySet()
                 .stream()
-                .filter(o -> o.getKey().equals(mediaTypeName))
+                .filter(o -> mediaTypeName.equals(o.getKey()))
                 .map(o -> o.getValue().getSchema())
                 .filter(Objects::nonNull)
-                .flatMap(o -> (Stream<Schema>) o.getProperties().values().stream())
-                .filter(o -> o.getName().equals(propertyName))
+                .flatMap(o -> (Stream<Map.Entry<String, Schema>>) o.getProperties().entrySet().stream())
+                .filter(o -> propertyName.equals(o.getKey()))
+                .map(o -> o.getValue())
                 .findFirst();
         return check(schema);
     }
@@ -38,7 +40,9 @@ public abstract class PropertyConditionPredicate extends ConditionPredicate {
         return propertyName;
     }
 
-    public String getMediaTypeName() { return mediaTypeName; }
+    public String getMediaTypeName() {
+        return mediaTypeName;
+    }
 
     public PropertyConditionPredicate setPropertyName(String propertyName) {
         this.propertyName = propertyName;

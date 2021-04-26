@@ -11,13 +11,14 @@ import java.util.List;
 public class PropertyNotOnlyEnumValuesRule extends PropertyConditionRule {
 
     @Override
-    protected Condition processProperty(String mediaTypeName, Schema schema) {
+    protected Condition processProperty(String mediaTypeName, String name, Schema schema) {
         List<String> enums = SwaggerSpecificationProcessor.extractEnum(schema);
-        if (enums != null && !enums.isEmpty()) {
+        if (schema != null && name != null && mediaTypeName != null
+                && enums != null && !enums.isEmpty()) {
             return new SinglePredicateCondition(
-                    String.format("«%s» contains all values from enum %s", schema.getName(), enums),
+                    String.format("«%s» contains all values from enum %s", name, enums),
                     "",
-                    new PropertyValueNotOnlyConditionPredicate(mediaTypeName, schema.getName(), enums)
+                    new PropertyValueNotOnlyConditionPredicate(mediaTypeName, name, enums)
             );
         }
         return null;

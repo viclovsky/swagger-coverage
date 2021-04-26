@@ -8,7 +8,9 @@ import io.swagger.v3.oas.models.media.Schema;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -28,15 +30,15 @@ public abstract class PropertyConditionRule extends ConditionRule {
 
     private Stream<Condition> processMediaType(String mediaTypeName, MediaType mediaType) {
         if (mediaType.getSchema() != null && mediaType.getSchema().getProperties() != null) {
-            return ((Collection<Schema>) mediaType.getSchema().getProperties().values())
+            return ((Set<Map.Entry<String, Schema>>) mediaType.getSchema().getProperties().entrySet())
                     .stream()
-                    .map(s -> processProperty(mediaTypeName, s))
+                    .map(s -> processProperty(mediaTypeName, s.getKey(), s.getValue()))
                     .filter(Objects::nonNull);
         } else {
             return null;
         }
     }
 
-    protected abstract Condition processProperty(String mediaTypeName, Schema schema);
+    protected abstract Condition processProperty(String mediaTypeName, String name, Schema schema);
 
 }
