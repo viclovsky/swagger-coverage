@@ -1,6 +1,47 @@
 apply plugin: 'maven-publish'
 
 publishing {
+    publications {
+        gpr(MavenPublication) {
+            from components.java
+            artifact sourceJar
+            artifact javadocJar
+
+            pom {
+                name = getProject().description
+                description = getProject().description
+                url = "https://github.com/viclovsky/swagger-coverage"
+                organization {
+                    name = "viclovsky"
+                    url = "https://github.com/viclovsky"
+                }
+                licenses {
+                    license {
+                        name = 'The Apache Software License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution = 'repo'
+                    }
+                }
+                scm {
+                    url = 'https://github.com/viclovsky/swagger-coverage'
+                    connection = 'scm:git:git://github.com/viclovsky/swagger-coverage'
+                    developerConnection = 'scm:git:git://github.com/viclovsky/swagger-coverage'
+                }
+                developers {
+                    developer {
+                        id = 'viclovsky'
+                        name = 'Victor Orlovsky'
+                        email = 'viclovsky@gmail.com'
+                    }
+                }
+                issueManagement {
+                    system = 'Github Issues'
+                    url = 'https://github.com/viclovsky/swagger-coverage/issues'
+                }
+            }
+        }
+    }
+
     repositories {
         maven {
             name = "sonatype"
@@ -9,11 +50,6 @@ publishing {
                 username = project.hasProperty('SONATYPE_USERNAME') ? project.property('SONATYPE_USERNAME') : System.getenv('SONATYPE_USERNAME')
                 password = project.hasProperty('SONATYPE_PASSWORD') ? project.property('SONATYPE_PASSWORD') : System.getenv('SONATYPE_PASSWORD')
             }
-        }
-    }
-    publications {
-        gpr(MavenPublication) {
-            from(components.java)
         }
     }
 }
