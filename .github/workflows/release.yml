@@ -20,15 +20,15 @@ jobs:
 
       - name: Prepare to publish
         run: |
-          echo '${{secrets.GPG_KEY_CONTENTS}}' | base64 -d > /home/publish_key.gpg
+          echo '${{secrets.GPG_KEY_CONTENTS}}' | base64 -d > ${{ github.workspace }}/publish_key.gpg
           gpg --quiet --batch --yes --decrypt --passphrase="${{secrets.SECRET_PASSPHRASE}}" \
-          --output /home/secret.gpg /home/publish_key.gpg
+          --output ${{ github.workspace }}/secret.gpg ${{ github.workspace }}/publish_key.gpg
 
       - name: "Publish packages to Maven Central"
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-        run: ./gradlew --no-parallel publishAllPublicationsToSonatypeRepository -Pversion=${{ steps.release.outputs.version }} -Psigning.secretKeyRingFile=/home/secret.gpg -Psigning.keyId=${{secrets.SIGNING_KEYID}} -Psigning.password=${{secrets.SIGNING_PASSWORD}}
+        run: ./gradlew --no-parallel publishAllPublicationsToSonatypeRepository -Pversion=${{ steps.release.outputs.version }} -Psigning.secretKeyRingFile=${{ github.workspace }}/secret.gpg -Psigning.keyId=${{secrets.SIGNING_KEYID}} -Psigning.password=${{secrets.SIGNING_PASSWORD}}
 
       - name: "Publish Zip to GitHub"
         uses: actions/upload-release-asset@v1
