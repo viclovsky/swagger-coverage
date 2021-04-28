@@ -1,6 +1,48 @@
 apply plugin: 'maven-publish'
+apply plugin: 'signing'
 
 publishing {
+    publications {
+        gpr(MavenPublication) {
+            from components.java
+            artifact sourceJar
+            artifact javadocJar
+
+            pom {
+                name = project.name
+                description = project.name
+                url = "https://github.com/viclovsky/swagger-coverage"
+                organization {
+                    name = "viclovsky"
+                    url = "https://github.com/viclovsky"
+                }
+                licenses {
+                    license {
+                        name = 'The Apache Software License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution = 'repo'
+                    }
+                }
+                scm {
+                    url = 'https://github.com/viclovsky/swagger-coverage'
+                    connection = 'scm:git:git://github.com/viclovsky/swagger-coverage'
+                    developerConnection = 'scm:git:git://github.com/viclovsky/swagger-coverage'
+                }
+                developers {
+                    developer {
+                        id = 'viclovsky'
+                        name = 'Victor Orlovsky'
+                        email = 'viclovsky@gmail.com'
+                    }
+                }
+                issueManagement {
+                    system = 'Github Issues'
+                    url = 'https://github.com/viclovsky/swagger-coverage/issues'
+                }
+            }
+        }
+    }
+
     repositories {
         maven {
             name = "sonatype"
@@ -11,9 +53,8 @@ publishing {
             }
         }
     }
-    publications {
-        gpr(MavenPublication) {
-            from(components.java)
-        }
-    }
+}
+
+signing {
+    sign publishing.publications
 }

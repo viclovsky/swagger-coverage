@@ -29,8 +29,6 @@ configure(subprojects) {
     apply(plugin = "io.spring.dependency-management")
     apply(plugin = "java")
     apply(plugin = "java-library")
-    apply(from = "$gradleScriptDir/maven.gradle")
-    apply(from = "$gradleScriptDir/maven-publish.gradle")
 
     configure<DependencyManagementExtension> {
         imports {
@@ -100,6 +98,8 @@ configure(subprojects) {
             ))
         }
     }
+
+    apply(from = "$gradleScriptDir/maven-publish.gradle")
 }
 
 repositories {
