@@ -20,7 +20,7 @@ jobs:
 
       - name: Prepare to publish
         run: |
-          echo '${{secrets.GPG_KEY_CONTENTS}}' | base64 -d > publish_key.gpg
+          echo '${{secrets.GPG_KEY_CONTENTS}}' | base64 -d > /home/publish_key.gpg
           gpg --quiet --batch --yes --decrypt --passphrase="${{secrets.SECRET_PASSPHRASE}}" \
           --output /home/secret.gpg /home/publish_key.gpg
 
