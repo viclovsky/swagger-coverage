@@ -32,7 +32,6 @@ configure(subprojects) {
     apply(plugin = "java")
     apply(plugin = "java-library")
     apply(from = "$gradleScriptDir/maven.gradle")
-    apply(from = "$gradleScriptDir/github-publish.gradle")
     apply(from = "$gradleScriptDir/maven-publish.gradle")
 
     configure<DependencyManagementExtension> {

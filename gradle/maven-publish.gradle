@@ -12,16 +12,6 @@ publishing {
             }
         }
     }
-
-    publications {
-        mavenJava(MavenPublication) {
-            customizePom(pom)
-            groupId group
-            artifactId archivesBaseName
-            version version
-            from components.java
-        }
-    }
 }
 
 signing {
