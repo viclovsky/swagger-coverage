@@ -9,7 +9,6 @@ buildscript {
 
 plugins {
     maven
-    signing
     java
     id("io.spring.dependency-management") version "1.0.6.RELEASE"
 }
