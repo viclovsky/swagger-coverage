@@ -1,4 +1,5 @@
 apply plugin: 'maven-publish'
+apply plugin: 'signing'
 
 publishing {
     publications {
@@ -52,4 +53,8 @@ publishing {
             }
         }
     }
+}
+
+signing {
+    sign publishing.publications
 }
