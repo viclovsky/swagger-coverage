@@ -8,7 +8,6 @@ buildscript {
 }
 
 plugins {
-    maven
     java
     id("io.spring.dependency-management") version "1.0.6.RELEASE"
 }
