@@ -9,8 +9,8 @@ publishing {
             artifact javadocJar
 
             pom {
-                name = getProject().description
-                description = getProject().description
+                name = project.name
+                description = project.name
                 url = "https://github.com/viclovsky/swagger-coverage"
                 organization {
                     name = "viclovsky"

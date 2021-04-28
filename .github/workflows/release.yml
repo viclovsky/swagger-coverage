@@ -28,7 +28,7 @@ jobs:
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-        run: ./gradlew publish -Pversion=${{ steps.release.outputs.version }} -Psigning.secretKeyRingFile=secret.gpg -Psigning.keyId=${{secrets.SIGNING_KEYID}} -Psigning.password=${{secrets.SIGNING_PASSWORD}}
+        run: ./gradlew --no-parallel publishAllPublicationsToSonatypeRepository -Pversion=${{ steps.release.outputs.version }} -Psigning.secretKeyRingFile=secret.gpg -Psigning.keyId=${{secrets.SIGNING_KEYID}} -Psigning.password=${{secrets.SIGNING_PASSWORD}}
 
       - name: "Publish Zip to GitHub"
         uses: actions/upload-release-asset@v1
