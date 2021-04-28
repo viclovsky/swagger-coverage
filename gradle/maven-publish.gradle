@@ -1,0 +1,19 @@
+apply plugin: 'maven-publish'
+
+publishing {
+    repositories {
+        maven {
+            name = "sonatype"
+            url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2")
+            credentials {
+                username = project.hasProperty('SONATYPE_USERNAME') ? project.property('SONATYPE_USERNAME') : System.getenv('SONATYPE_USERNAME')
+                password = project.hasProperty('SONATYPE_PASSWORD') ? project.property('SONATYPE_PASSWORD') : System.getenv('SONATYPE_PASSWORD')
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
+        }
+    }
+}

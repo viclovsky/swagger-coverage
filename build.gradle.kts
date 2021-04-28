@@ -12,7 +12,7 @@ plugins {
     id("io.spring.dependency-management") version "1.0.6.RELEASE"
 }
 
-group = "com.github.viclovsky.swagger.coverage"
+group = "com.github.viclovsky"
 version = version
 
 val root = rootProject.projectDir
@@ -23,14 +23,14 @@ java {
 }
 
 configure(subprojects) {
-    group = "com.github.viclovsky.swagger.coverage"
+    group = "com.github.viclovsky"
     version = version
 
     apply(plugin = "io.spring.dependency-management")
     apply(plugin = "java")
     apply(plugin = "java-library")
     apply(from = "$gradleScriptDir/maven.gradle")
-    apply(from = "$gradleScriptDir/github-publish.gradle")
+    apply(from = "$gradleScriptDir/maven-publish.gradle")
 
     configure<DependencyManagementExtension> {
         imports {
