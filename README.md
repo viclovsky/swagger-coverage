@@ -1,8 +1,12 @@
 [license]: http://www.apache.org/licenses/LICENSE-2.0 "Apache License 2.0"
 [release]: https://github.com/viclovsky/swagger-coverage/releases/latest "Latest release"
 [release-badge]: https://img.shields.io/github/release/viclovsky/swagger-coverage.svg?style=flat
+[maven]: https://repo.maven.apache.org/maven2/com/github/viclovsky/swagger-coverage-commandline/ "Maven Central"
+[maven-badge]: https://img.shields.io/maven-central/v/com.github.viclovsky/swagger-coverage-commandline.svg?style=flat
+
 [![Build Status](https://github.com/viclovsky/swagger-coverage/workflows/Build/badge.svg)](https://github.com/viclovsky/swagger-coverage/actions)
 [![release-badge][]][release]
+[![maven-badge][]][maven] 
 
 # swagger-coverage
 Swagger-coverage gives a full picture about coverage of API tests (regression) based on OAS (Swagger). 
@@ -21,7 +25,7 @@ Swagger-coverage have rest-assured integration from the box.
 Add filter dependency:
 ```xml
  <dependency>
-     <groupId>com.github.viclovsky.swagger.coverage</groupId>
+     <groupId>com.github.viclovsky</groupId>
      <artifactId>swagger-coverage-rest-assured</artifactId>
      <version>${latest-swagger-coverage-version}</version>
  </dependency>
@@ -29,10 +33,10 @@ Add filter dependency:
 or if use gradle, it can be added like
 
 ```
-compile "com.github.viclovsky.swagger.coverage:swagger-coverage-rest-assured:$latest-swagger-coverage-version"
+compile "com.github.viclovsky:swagger-coverage-rest-assured:$latest-swagger-coverage-version"
 ```
 
-Just add filter into test client SwaggerCoverageRestAssured. For instance, as presented below:
+Just add filter into test client SwaggerCoverageRestAssured (SwaggerCoverageV3RestAssured for v3). For instance, as presented below:
 ```java
 RestAssured.given().filter(new SwaggerCoverageRestAssured())
 ```
