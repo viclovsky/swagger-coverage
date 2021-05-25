@@ -41,7 +41,6 @@ public class CoverageCounter {
     }
 
     public CoverageCounter incrementDeprecated() {
-        this.all++;
         this.deprecated++;
 
         return this;
