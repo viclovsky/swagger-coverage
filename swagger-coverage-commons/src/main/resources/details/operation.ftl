@@ -36,26 +36,28 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        <#list value.getParameters() as p>
-                                            <tr>
-                                                <td>${p.getName()}</td>
-                                                <#if p.getExtensions()??>
-                                                    <#if p.getExtensions()["x-example"]??>
-                                                        <#if p.getExtensions()["x-example"]?is_boolean>
-                                                            <td>${p.getExtensions()["x-example"]?c}</td>
+                                        <#if value.getParameters()??>
+                                            <#list value.getParameters() as p>
+                                                <tr>
+                                                    <td>${p.getName()}</td>
+                                                    <#if p.getExtensions()??>
+                                                        <#if p.getExtensions()["x-example"]??>
+                                                            <#if p.getExtensions()["x-example"]?is_boolean>
+                                                                <td>${p.getExtensions()["x-example"]?c}</td>
+                                                            <#else>
+                                                                <td>${p.getExtensions()["x-example"]}</td>
+                                                            </#if>
+                                                        </#if>
+                                                    <#elseif p.getExample()??>
+                                                        <#if p.getExample()?is_boolean>
+                                                            <td>${p.getExample()?c}</td>
                                                         <#else>
-                                                            <td>${p.getExtensions()["x-example"]}</td>
+                                                            <td>${p.getExample()}</td>
                                                         </#if>
                                                     </#if>
-                                                <#elseif p.getExample()??>
-                                                    <#if p.getExample()?is_boolean>
-                                                        <td>${p.getExample()?c}</td>
-                                                    <#else>
-                                                        <td>${p.getExample()}</td>
-                                                    </#if>
-                                                </#if>
-                                            </tr>
-                                        </#list>
+                                                </tr>
+                                            </#list>
+                                        </#if>
                                     </tbody>
                                 </table>
                             </div>
