@@ -41,6 +41,7 @@ public class CustomReportTemplateTest {
         customReportOptions.put("html", new ResultsWriterOptions()
                 .setFilename("custom-template-report.html")
                 .setLocale("en")
+                .setNumberFormat("0.###")
                 .setCustomTemplatePath(Paths.get(res.toURI()).toFile().getAbsolutePath()));
         ConfigurationOptions configurationOptions = new ConfigurationOptions().setWriters(customReportOptions);
         File testConfigurationFile = File.createTempFile("customTemplate", ".json");

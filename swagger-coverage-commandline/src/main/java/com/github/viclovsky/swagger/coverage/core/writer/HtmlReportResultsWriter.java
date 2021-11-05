@@ -1,11 +1,13 @@
 package com.github.viclovsky.swagger.coverage.core.writer;
 
 import com.github.viclovsky.swagger.coverage.SwaggerCoverageWriteException;
+import com.github.viclovsky.swagger.coverage.configuration.options.ResultsWriterOptions;
 import com.github.viclovsky.swagger.coverage.core.results.Results;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,32 +19,40 @@ public class HtmlReportResultsWriter implements CoverageResultsWriter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HtmlReportResultsWriter.class);
 
+    private ResultsWriterOptions options;
+
     private String filename = "swagger-coverage-report.html";
     private String localeCode = "en";
-    private String customTemplatePath = null;
+    private String numberFormat = "0.###";
 
     public HtmlReportResultsWriter() {
     }
 
-    public HtmlReportResultsWriter(String localeCode, String filename, String customTemplatePath) {
-        if (localeCode != null) {
-            this.localeCode = localeCode;
+    public HtmlReportResultsWriter(ResultsWriterOptions options){
+        if (options.getLocale() == null){
+            options.setLocale(localeCode);
         }
-        if (filename != null) {
-            this.filename = filename;
+
+        if (options.getFilename() == null){
+            options.setFilename(filename);
         }
-        this.customTemplatePath = customTemplatePath;
+
+        if (options.getNumberFormat() == null){
+            options.setNumberFormat(numberFormat);
+        }
+
+        this.options = options;
     }
 
     @Override
     public void write(Results results) {
-        Path path = Paths.get(filename);
+        Path path = Paths.get(options.getFilename());
         LOGGER.info(String.format("Write html report in file '%s'", path.toAbsolutePath()));
         try {
-            final String htmlReport = (customTemplatePath == null ) ?
-                    processTemplate("report.ftl", localeCode, results) :
-                    processCustomTemplate(customTemplatePath, localeCode, results);
-            Files.write(Paths.get(filename), htmlReport.getBytes());
+            final String htmlReport = (options.getCustomTemplatePath() == null ) ?
+                    processTemplate("report.ftl", options.getLocale(), options.getNumberFormat(), results) :
+                    processCustomTemplate(options.getCustomTemplatePath(), options.getLocale(), options.getNumberFormat(), results);
+            Files.write(Paths.get(options.getFilename()), htmlReport.getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             throw new SwaggerCoverageWriteException("Could not write results", e);
         }
