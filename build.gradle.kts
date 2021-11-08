@@ -39,7 +39,8 @@ configure(subprojects) {
             //swagger 2.x
             dependency("io.swagger:swagger-models:1.6.2")
             //swagger 3.x
-            dependency("io.swagger.core.v3:swagger-models:2.1.9")
+            dependency("io.swagger.core.v3:swagger-core:2.1.10")
+            dependency("io.swagger.core.v3:swagger-models:2.1.10")
             dependency("io.swagger.parser.v3:swagger-parser:2.0.25")
 
             dependency("org.slf4j:slf4j-simple:1.7.30")
