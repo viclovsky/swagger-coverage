@@ -14,7 +14,7 @@
         <div class="progress" style="height: ${height}px;">
             <div
                     class="progress-bar ${bgStyle}" role="progressbar"
-                    style="width: ${percentValue}%"
+                    style="width: ${percentValue?c}%"
                     aria-valuenow="${current}"
                     aria-valuemin="0"
                     aria-valuemax="${full}">
@@ -47,6 +47,9 @@
 
 <#macro coverageBadget counter>
     <#if counter.all gt 0>
+        <#assign fullValue = counter.full * 100 / counter.all>
+        <#assign partlyValue = counter.party * 100 / counter.all>
+        <#assign emptyValue = counter.empty * 100 / counter.all>
         <div class="card" style="margin-bottom: 16px;">
             <div class="card-body">
                 <div class="row">
@@ -71,21 +74,21 @@
                         <div class="progress" style="height: 16px;">
                             <div
                                     class="progress-bar bg-success" role="progressbar"
-                                    style="width: ${counter.full * 100 / counter.all}%"
+                                    style="width: ${fullValue?c}%"
                                     aria-valuenow="${counter.full}"
                                     aria-valuemin="0"
                                     aria-valuemax="${counter.all}">
                             </div>
                             <div
                                     class="progress-bar bg-warning" role="progressbar"
-                                    style="width: ${counter.party * 100 / counter.all}%"
+                                    style="width: ${partlyValue?c}%"
                                     aria-valuenow="${counter.party}"
                                     aria-valuemin="0"
                                     aria-valuemax="${counter.all}">
                             </div>
                             <div
                                     class="progress-bar bg-danger" role="progressbar"
-                                    style="width: ${counter.empty * 100 / counter.all}%"
+                                    style="width: ${emptyValue?c}%"
                                     aria-valuenow="${counter.empty}"
                                     aria-valuemin="0"
                                     aria-valuemax="${counter.all}">

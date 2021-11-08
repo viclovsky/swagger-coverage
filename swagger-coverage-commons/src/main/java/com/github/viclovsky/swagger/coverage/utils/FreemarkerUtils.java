@@ -27,7 +27,7 @@ public final class FreemarkerUtils {
     }
 
     public static String processTemplate(final String path, final Object object) {
-        return processTemplate(path,"en",object);
+        return processTemplate(path,"en", "0.###", object);
     }
 
     private static String proccessTemplate(Configuration configuration, String locale, String templateName,
@@ -48,22 +48,24 @@ public final class FreemarkerUtils {
         }
     }
 
-    public static String processTemplate(final String path, String locale, final Object object) {
+    public static String processTemplate(final String path, String locale, String numberFormat, final Object object) {
         final Configuration configuration = new Configuration(Configuration.VERSION_2_3_28);
 
         configuration.setClassForTemplateLoading(FreemarkerUtils.class, "/");
         configuration.setDefaultEncoding("UTF-8");
+        configuration.setNumberFormat(numberFormat);
 
         return proccessTemplate(configuration, locale, path, object);
     }
 
-    public static String processCustomTemplate(final String customTemplatePath, String locale, Object object)
+    public static String processCustomTemplate(final String customTemplatePath, String locale, String numberFormat, Object object)
             throws IOException {
         File template = new File(customTemplatePath);
         final Configuration configuration = new Configuration(Configuration.VERSION_2_3_28);
 
         configuration.setTemplateLoader(new FileTemplateLoader(template.getParentFile()));
         configuration.setDefaultEncoding("UTF-8");
+        configuration.setNumberFormat(numberFormat);
         return proccessTemplate(configuration, locale, template.getName(), object);
     }
 

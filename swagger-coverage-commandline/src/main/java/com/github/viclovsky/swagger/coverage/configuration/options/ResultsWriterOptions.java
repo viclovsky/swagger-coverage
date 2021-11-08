@@ -4,6 +4,7 @@ public class ResultsWriterOptions {
     private String filename;
     private String locale = "en";
     private String customTemplatePath;
+    private String numberFormat = "0.###";
 
     public String getFilename() {
         return filename;
@@ -29,6 +30,7 @@ public class ResultsWriterOptions {
                 ", filename='" + filename + '\'' +
                 ", locale='" + locale + '\'' +
                 ", customTemplatePath='" + customTemplatePath + '\'' +
+                ", numberFormat='" + numberFormat + '\'' +
                 '}';
     }
 
@@ -39,5 +41,12 @@ public class ResultsWriterOptions {
 
     public String getCustomTemplatePath() {
         return customTemplatePath;
+    }
+
+    public String getNumberFormat() {return numberFormat;}
+
+    public ResultsWriterOptions setNumberFormat(String numberFormat){
+        this.numberFormat = numberFormat;
+        return this;
     }
 }
