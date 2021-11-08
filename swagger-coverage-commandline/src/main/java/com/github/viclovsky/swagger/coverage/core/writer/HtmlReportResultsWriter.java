@@ -26,6 +26,10 @@ public class HtmlReportResultsWriter implements CoverageResultsWriter {
     private String numberFormat = "0.###";
 
     public HtmlReportResultsWriter() {
+        options = new ResultsWriterOptions()
+                .setFilename(filename)
+                .setLocale(localeCode)
+                .setNumberFormat(numberFormat);
     }
 
     public HtmlReportResultsWriter(ResultsWriterOptions options){
