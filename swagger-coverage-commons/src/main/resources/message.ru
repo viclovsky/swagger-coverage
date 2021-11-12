@@ -77,3 +77,5 @@ predicate.PropertyValueConditionPredicate.name=Все значения проп�
 predicate.PropertyValueConditionPredicate.description=Проверка, что метод вызван со всеми описанным в enum проперти
 predicate.PropertyValueNotOnlyConditionPredicate.name=Значения не только из списка
 predicate.PropertyValueNotOnlyConditionPredicate.description=Проверка, что метод вызывался со значением, которое не описано в enum проперти
+predicate.DefaultTagConditionPredicate.name= Фильтр по тегам
+predicate.DefaultTagConditionPredicate.description= Убедитесь, что у метода есть тег, доступный или недоступный в зависимости от конфигурации.

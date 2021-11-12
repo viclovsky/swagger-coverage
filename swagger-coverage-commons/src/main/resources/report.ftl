@@ -239,7 +239,7 @@
                                                         <thead>
                                                         <tr>
                                                             <th scope="col">${i18["details.condition.operation"]}</th>
-                                                            <th scope="col">${i18["details.condition.conditionname"]}e</th>
+                                                            <th scope="col">${i18["details.condition.conditionname"]}</th>
                                                             <th scope="col">${i18["details.condition.details"]}</th>
                                                         </tr>
                                                         </thead>
@@ -264,7 +264,7 @@
                                                         <thead>
                                                         <tr>
                                                             <th scope="col">${i18["details.condition.operation"]}</th>
-                                                            <th scope="col">${i18["details.condition.conditionname"]}e</th>
+                                                            <th scope="col">${i18["details.condition.conditionname"]}</th>
                                                             <th scope="col">${i18["details.condition.details"]}</th>
                                                         </tr>
                                                         </thead>

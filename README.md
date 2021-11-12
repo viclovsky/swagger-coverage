@@ -182,6 +182,36 @@ By default, this rule is not enabled. Add it to the config file with *true* valu
 }
 ````
 
+#### Including/Excluding tag coverage report statistic
+
+This rule is created for cases when you want to measure coverage of operations having only particular tag(s) or you want to exclude operations having particular tag(s).
+The whole httpMethod(and all related operations) is excluded in the coverage measurement if a related tag is present in ignore.
+
+You can setup next options:
+
+**enable** - *true/false*. You can disable this rule. Default value is *true*.
+
+**filter** - *[val1,val2]*. Rule will ignore all methods, which do not have tag in filter list.
+
+**ignore** - *[val1,val2]*. Rule will ignore all methods, which have tag in ignore list.
+
+```` 
+{
+  "rules" : {
+    ....
+
+    "filterAllByTag": {
+      "enable": true,
+      "ignore": ["Exclude"]
+    },
+
+    ....
+  },
+  
+  ....
+}
+````
+
 If you need you can add your rules for generation of conditions. So, please, send your PRs.
 
 ## Result writer configuration
