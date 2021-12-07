@@ -77,3 +77,5 @@ predicate.PropertyValueConditionPredicate.name = All property values
 predicate.PropertyValueConditionPredicate.description = Verification that the method is called with all properties described in the enum
 predicate.PropertyValueNotOnlyConditionPredicate.name = Values not only from the list
 predicate.PropertyValueNotOnlyConditionPredicate.description = Verify that the method was called with a value that is not described in the property enum
+predicate.DefaultTagConditionPredicate.name= Filter on tags
+predicate.DefaultTagConditionPredicate.description= Verify that the method has tag available or unavailable depending on configuration

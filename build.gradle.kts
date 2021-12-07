@@ -75,6 +75,7 @@ configure(subprojects) {
 
     tasks.withType(Javadoc::class) {
         (options as StandardJavadocDocletOptions).addStringOption("Xdoclint:none", "-quiet")
+        options.encoding = "UTF-8"
     }
 
     tasks.withType<GenerateModuleMetadata> {

@@ -22,6 +22,7 @@ import com.github.viclovsky.swagger.coverage.core.rule.parameter.NotEmptyParamet
 import com.github.viclovsky.swagger.coverage.core.rule.parameter.NotOnlyEnumValuesRule;
 import com.github.viclovsky.swagger.coverage.core.rule.status.HTTPStatusRule;
 import com.github.viclovsky.swagger.coverage.core.rule.status.OnlyDeclaredHTTPStatusesRule;
+import com.github.viclovsky.swagger.coverage.core.rule.tag.FilterAllByTagRule;
 import com.github.viclovsky.swagger.coverage.core.writer.CoverageResultsWriter;
 import com.github.viclovsky.swagger.coverage.core.writer.FileSystemResultsWriter;
 import com.github.viclovsky.swagger.coverage.core.writer.HtmlReportResultsWriter;
@@ -93,6 +94,7 @@ public class ConfigurationBuilder {
     private static List<ConditionRule> getDefaultList() {
         List<ConditionRule> registeredRules = new ArrayList<>();
 
+        registeredRules.add(new FilterAllByTagRule());
         registeredRules.add(new HTTPStatusRule());
         registeredRules.add(new NotEmptyParameterRule());
         registeredRules.add(new EnumAllValuesRule());

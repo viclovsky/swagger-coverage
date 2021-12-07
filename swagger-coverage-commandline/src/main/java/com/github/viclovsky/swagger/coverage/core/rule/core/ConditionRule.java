@@ -17,4 +17,20 @@ public abstract class ConditionRule {
         this.options = options;
         return this;
     }
+
+    protected final boolean includesEnabled() {
+        return options != null && options.getFilter() != null && !options.getFilter().isEmpty();
+    }
+
+    protected final boolean excludesEnabled() {
+        return options != null && options.getIgnore() != null && !options.getIgnore().isEmpty();
+    }
+
+    protected final boolean isIncluded(String val) {
+        return includesEnabled() && options.getFilter().contains(val);
+    }
+
+    protected final boolean isExcluded(String val) {
+        return excludesEnabled() && options.getIgnore().contains(val);
+    }
 }
