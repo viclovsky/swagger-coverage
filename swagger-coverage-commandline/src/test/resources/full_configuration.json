@@ -21,11 +21,6 @@
     },
     "exclude-deprecated" : {
       "enable" : true
-    },
-    "filterAllByTag": {
-      "enable": true,
-      "filter": [],
-      "ignore": ["Exclude"]
     }
   },
   "writers": {
