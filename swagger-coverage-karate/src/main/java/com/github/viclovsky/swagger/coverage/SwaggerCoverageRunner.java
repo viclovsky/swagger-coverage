@@ -1,6 +1,7 @@
 package com.github.viclovsky.swagger.coverage;
 
 import java.io.File;
+import java.net.URI;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +40,7 @@ public class SwaggerCoverageRunner extends Runner {
 
         Boolean oas3;
         String destUrl;
-        String specificationPath;
+        URI specificationPath;
         String configPath;
         String inputPath;
         String coverageDir;
@@ -60,16 +61,17 @@ public class SwaggerCoverageRunner extends Runner {
                 .setInputPath(Path.of(coverageDir, SwaggerCoverageConstants.OUTPUT_DIRECTORY));
             
             if (specificationPath != null) {
-                generator.setSpecPath(Path.of(coverageDir, specificationPath));
+                URI specUri = specificationPath.isAbsolute() ? specificationPath : URI.create(coverageDir + specificationPath.toString());
+                generator.setSpecPath(specUri);
             }
             else{
                 File specFile = Optional.of(Path.of(coverageDir, SPECIFICATION_NAME + ".json").toFile())
-                        .filter((file) -> file.exists())
-                        .or(()-> Optional.of(Path.of(coverageDir, SPECIFICATION_NAME + ".yaml").toFile()))
-                        .filter((file) -> file.exists())
-                        .orElseThrow(() -> new NoSuchElementException());
+                .filter((file) -> file.exists())
+                .or(()-> Optional.of(Path.of(coverageDir, SPECIFICATION_NAME + ".yaml").toFile()))
+                .filter((file) -> file.exists())
+                .orElseThrow(() -> new NoSuchElementException());
 
-                generator.setSpecPath(specFile.toPath()); 
+                generator.setSpecPath(specFile.toURI()); 
             }
 
             if (configPath != null){
@@ -105,11 +107,11 @@ public class SwaggerCoverageRunner extends Runner {
             return this;
         }
 
-        public SwaggerCoverageBuilder swaggerSpec(String path){
+        public SwaggerCoverageBuilder swaggerSpec(URI path){
             specificationPath = path;
             return this;
         }
-
+        
         public SwaggerCoverageBuilder swaggerCoverageConfig(String configPath){
             this.configPath = configPath;
             return this; 
