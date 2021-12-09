@@ -2,6 +2,7 @@ package com.github.viclovsky.swagger.coverage.option;
 
 import com.beust.jcommander.Parameter;
 
+import java.net.URI;
 import java.nio.file.Path;
 
 public class MainOptions {
@@ -12,7 +13,7 @@ public class MainOptions {
             required = true,
             order = 0
     )
-    private Path specPath;
+    private URI specPath;
 
     @Parameter(
             names = {"-i", "--input"},
@@ -41,7 +42,7 @@ public class MainOptions {
         return help;
     }
 
-    public Path getSpecPath() {
+    public URI getSpecPath() {
         return specPath;
     }
 
