@@ -12,6 +12,7 @@ import io.swagger.v3.parser.core.models.SwaggerParseResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.URI;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class Generator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Generator.class);
 
-    private Path specPath;
+    private URI specPath;
     private Path inputPath;
 
     private Path configurationPath;
@@ -30,7 +31,7 @@ public class Generator {
     private List<StatisticsBuilder> statisticsBuilders = new ArrayList<>();
 
     public void run() {
-        SwaggerParseResult parsed = parser.readLocation(getSpecPath().toUri().toString(), null, null);
+        SwaggerParseResult parsed = parser.readLocation(specPath.toString(), null, null);
         parsed.getMessages().forEach(LOGGER::info);
         OpenAPI spec = parsed.getOpenAPI();
 
@@ -61,11 +62,11 @@ public class Generator {
                 builder.add(path.toString()).add(spec));
     }
 
-    public Path getSpecPath() {
+    public URI getSpecPath() {
         return specPath;
     }
 
-    public Generator setSpecPath(Path specPath) {
+    public Generator setSpecPath(URI specPath) {
         this.specPath = specPath;
         return this;
     }

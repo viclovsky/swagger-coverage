@@ -1,6 +1,7 @@
 package com.github.viclovsky.swagger.coverage;
 
 import java.io.File;
+import java.net.URI;
 import java.nio.file.Path;
 
 import static java.util.Optional.ofNullable;
@@ -24,8 +25,8 @@ public class Config {
         return getFile(outputPath).toPath();
     }
 
-    public Path getSpec() {
-        return getFile(specPath).toPath();
+    public URI getSpec() {
+        return URI.create(specPath);
     }
 
     private File getFile(String name) {
