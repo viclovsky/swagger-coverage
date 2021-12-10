@@ -55,7 +55,7 @@ Here is help of unzip swagger-commandline
 
   Options:
   * -s, --spec
-      Path to swagger specification.
+      Path to local or URL to remote swagger specification.
   * -i, --input
       Path to folder with generated files with coverage.
     -c, --configuration
