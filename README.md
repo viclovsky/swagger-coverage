@@ -196,6 +196,8 @@ You can setup next options:
 
 **filename** - filename for html report.
 
+**numberFormat** - [Extended Java decimal format](https://freemarker.apache.org/docs/ref_builtins_number.html#topic.extendedJavaDecimalFormat) to control how numbers are displayed in the report.
+
 ````
 {
   ....
@@ -203,7 +205,8 @@ You can setup next options:
   "writers": {
       "html": {
         "locale": "ru",
-        "filename":"report.html"
+        "filename":"report.html",
+        "numberFormat": "0.##"
       }
   }
 }
