@@ -9,7 +9,7 @@ public class MainOptions {
 
     @Parameter(
             names = {"-s", "--spec"},
-            description = "Path to swagger specification.",
+            description = "Path to local or URL to remote swagger specification.",
             required = true,
             order = 0
     )
