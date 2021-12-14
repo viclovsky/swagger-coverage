@@ -35,12 +35,14 @@ public class SimpleTest {
                 {new Config(CONFIGURATION_FILE, V2_OUTPUT_SWAGGER_COVERAGE_DIR, "v2/petstory_operation_wo_tags.json")},
                 {new Config(CONFIGURATION_FILE, V2_OUTPUT_SWAGGER_COVERAGE_DIR, "v2/petstory_with_x_example.json")},
                 {new Config(CONFIGURATION_FILE, V2_OUTPUT_SWAGGER_COVERAGE_DIR, "v2/petstory_without_parameters.json")},
+                {new Config(CONFIGURATION_FILE, V2_OUTPUT_SWAGGER_COVERAGE_DIR, "https://petstore.swagger.io/v2/swagger.json")},
                 //Swagger v3
                 {new Config(CONFIGURATION_FILE, V3_OUTPUT_SWAGGER_COVERAGE_DIR, "v3/petstory.yaml")},
                 {new Config(CONFIGURATION_FILE, V3_OUTPUT_SWAGGER_COVERAGE_DIR, "v3/petstory_no_tags.yaml")},
                 {new Config(CONFIGURATION_FILE, V3_OUTPUT_SWAGGER_COVERAGE_DIR, "v3/petstory_operation_wo_tags.yaml")},
                 {new Config(CONFIGURATION_FILE, V3_OUTPUT_SWAGGER_COVERAGE_DIR, "v3/petstory_with_x_example.yaml")},
-                {new Config(CONFIGURATION_FILE, V3_OUTPUT_SWAGGER_COVERAGE_DIR, "v3/petstory_without_parameters.yaml")}
+                {new Config(CONFIGURATION_FILE, V3_OUTPUT_SWAGGER_COVERAGE_DIR, "v3/petstory_without_parameters.yaml")},
+                {new Config(CONFIGURATION_FILE, V3_OUTPUT_SWAGGER_COVERAGE_DIR, "https://petstore3.swagger.io/api/v3/openapi.yaml")}
         });
     }
 
