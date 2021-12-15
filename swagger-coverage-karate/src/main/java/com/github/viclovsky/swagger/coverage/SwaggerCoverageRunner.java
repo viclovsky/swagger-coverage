@@ -10,12 +10,14 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import com.github.viclovsky.swagger.coverage.core.generator.Generator;
+import com.intuit.karate.Logger;
 import com.intuit.karate.Results;
 import com.intuit.karate.Runner;
 import com.intuit.karate.core.MockServer;
 import com.intuit.karate.job.JobConfig;
 
 public class SwaggerCoverageRunner extends Runner {
+    private static final Logger logger = new Logger();
 
     private static MockServer mockServer;
 
