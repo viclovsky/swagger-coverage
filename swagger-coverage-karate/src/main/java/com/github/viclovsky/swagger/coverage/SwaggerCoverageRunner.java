@@ -38,23 +38,44 @@ public class SwaggerCoverageRunner extends Runner {
         final String SPECIFICATION_NAME = "swagger-specification";
         final String CONFIG_NAME = "swagger-coverage-config.json";
 
-        Boolean oas3;
+        boolean oas3;
         String destUrl;
         URI specificationPath;
         String configPath;
         String inputPath;
         String coverageDir;
+        boolean backupCoverageOutput;
 
         private void prepareTests(){
+            if(backupCoverageOutput){
+                backupCoverageOutput();
+            }
+
+            File outputDir = new File(coverageDir, SwaggerCoverageConstants.OUTPUT_DIRECTORY);
+            if (outputDir.exists()) outputDir.delete();
+
             Map<String, Object> args = new HashMap<String, Object>();
             args.put("oas3", oas3);
             args.put("destUrl", destUrl);
             args.put("workingDir", coverageDir);
             int proxyPort = startProxy(args);
             systemProperty("proxy.port", proxyPort + "");
+            logger.info("Started proxy at port: {}", proxyPort);
         }
         
-        private void GenerateReport(){
+        private void backupCoverageOutput(){
+            File file = new File(coverageDir, SwaggerCoverageConstants.OUTPUT_DIRECTORY);
+            if (file.exists()) {
+                File newDir = new File(coverageDir, SwaggerCoverageConstants.OUTPUT_DIRECTORY + "_" + System.currentTimeMillis());
+                if (file.renameTo(newDir)){
+                    logger.info("backed up existing swagger-coverage-output dir to: {}", newDir);
+                } else {
+                    logger.warn("failed to backup existing swagger-coverage-output dir: {}", file);
+                }
+            }
+        }
+
+        private void generateReport(){
             if (coverageDir == null) coverageDir = "";
 
             Generator generator = new Generator()
@@ -122,11 +143,16 @@ public class SwaggerCoverageRunner extends Runner {
             return this;
         }
 
+        public SwaggerCoverageBuilder backupCoverageOutput(boolean value){
+            this.backupCoverageOutput = value;
+            return this;
+        }
+
         @Override
         public Results parallel(int threadCount){
             prepareTests();
             Results results = super.parallel(threadCount);
-            GenerateReport();
+            generateReport();
             stopProxy();
             return results;
         }
@@ -135,7 +161,7 @@ public class SwaggerCoverageRunner extends Runner {
         public Results jobManager(JobConfig value){
             prepareTests();
             Results results = super.jobManager(value);
-            GenerateReport();
+            generateReport();
             stopProxy();
             return results;
         }
