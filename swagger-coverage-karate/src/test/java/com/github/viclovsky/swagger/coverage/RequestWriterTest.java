@@ -4,6 +4,7 @@ import static com.github.viclovsky.swagger.coverage.SwaggerCoverageConstants.OUT
 import static java.util.Optional.ofNullable;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.iterableWithSize;
+import static org.hamcrest.Matchers.endsWith;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,6 +49,7 @@ public class RequestWriterTest {
         writer.write(request, false);
 
         assertThat(getPaths(workingDir.resolve(OUTPUT_DIRECTORY)), iterableWithSize(1));
+        assertThat(getPaths(workingDir.resolve(OUTPUT_DIRECTORY)).get(0).toString(), endsWith(".json"));
     }
 
     @Test
@@ -57,6 +59,7 @@ public class RequestWriterTest {
         writer.write(request, true);
 
         assertThat(getPaths(workingDir.resolve(OUTPUT_DIRECTORY)), iterableWithSize(1));
+        assertThat(getPaths(workingDir.resolve(OUTPUT_DIRECTORY)).get(0).toString(), endsWith(".yaml"));
     }
 
     private List<Path> getPaths(Path path) {
