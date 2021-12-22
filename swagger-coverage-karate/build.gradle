@@ -1,0 +1,72 @@
+//import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+//import org.gradle.api.artifacts.Dependency
+
+plugins {
+    id "com.github.johnrengelman.shadow" version "7.1.0"
+    id "java"
+    id "java-library"
+}
+
+description = "Swagger Coverage Karate"
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    provided
+    implementation.extendsFrom provided //implementation is useful for compiling with spark dependencies but having a smaller jar since they are already in the classpath
+}
+
+dependencies {
+    api project(":swagger-coverage-commons")
+    api project(":swagger-coverage-commandline")
+    implementation "io.swagger:swagger-models"
+    implementation "io.swagger.core.v3:swagger-models"
+    provided "com.intuit.karate:karate-core"
+    testImplementation "junit:junit"
+    testImplementation "org.hamcrest:hamcrest"
+
+    //testImplementation -> karate-junit5
+}
+
+configurations.testImplementation {
+    exclude group: "org.slf4j"
+    //exclude group: 'org.slf4j', module: 'slf4j-simple'
+}
+
+// tasks {
+//     test {
+//         workingDir(buildDir)
+//     }
+// }
+
+// tasks {
+// 	named<ShadowJar>("shadowJar") {
+//         dependencies{
+//             exclude("org.slf4j:")
+//         }		
+// 	}
+// }
+
+shadowJar {
+    zip64 = true
+    mergeServiceFiles() 
+    def exclude_modules = project
+            .configurations
+            .provided
+            .resolvedConfiguration
+            .getLenientConfiguration()
+            .getAllModuleDependencies()
+            .collect {
+                it.name
+            }
+    dependencies {
+        exclude(dependency {
+            exclude_modules.contains(it.name)
+        })
+    }// replacement that I haven't see anywhere else
+}
+
+tasks.jar.enabled = false // disable the original jar so I don't build 2
+tasks.assemble.dependsOn tasks.shadowJar // make shadowjar automatically run with assemble/build is called
