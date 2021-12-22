@@ -20,8 +20,8 @@ dependencies {
     //testImplementation -> karate-junit5
 }
 
-// tasks {
-//     test {
-//         workingDir(buildDir)
-//     }
-// }
+tasks {
+    test {
+        workingDir(buildDir)
+    }
+}
