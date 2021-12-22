@@ -10,6 +10,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import com.github.viclovsky.swagger.coverage.core.generator.Generator;
+import com.intuit.karate.FileUtils;
 import com.intuit.karate.Logger;
 import com.intuit.karate.Results;
 import com.intuit.karate.Runner;
@@ -54,7 +55,7 @@ public class SwaggerCoverageRunner extends Runner {
             }
 
             File outputDir = new File(coverageDir, SwaggerCoverageConstants.OUTPUT_DIRECTORY);
-            if (outputDir.exists()) outputDir.delete();
+            if (outputDir.exists()) FileUtils.deleteDirectory(outputDir);
 
             Map<String, Object> args = new HashMap<String, Object>();
             args.put("oas3", oas3);
@@ -84,8 +85,7 @@ public class SwaggerCoverageRunner extends Runner {
                 .setInputPath(Path.of(coverageDir, SwaggerCoverageConstants.OUTPUT_DIRECTORY));
             
             if (specificationPath != null) {
-                URI specUri = specificationPath.isAbsolute() ? specificationPath : URI.create(coverageDir + specificationPath.toString());
-                generator.setSpecPath(specUri);
+                generator.setSpecPath(specificationPath);
             }
             else{
                 File specFile = Optional.of(Path.of(coverageDir, SPECIFICATION_NAME + ".json").toFile())
@@ -98,7 +98,7 @@ public class SwaggerCoverageRunner extends Runner {
             }
 
             if (configPath != null){
-                generator.setConfigurationPath(Path.of(coverageDir, configPath));
+                generator.setConfigurationPath(Path.of(configPath));
             }
             else{
                 File configFile = Path.of(coverageDir, CONFIG_NAME).toFile();
