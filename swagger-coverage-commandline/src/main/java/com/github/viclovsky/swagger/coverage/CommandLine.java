@@ -1,5 +1,6 @@
 package com.github.viclovsky.swagger.coverage;
 
+import ch.qos.logback.classic.Level;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
 import com.beust.jcommander.Parameters;
@@ -7,8 +8,6 @@ import com.beust.jcommander.ParametersDelegate;
 import com.github.viclovsky.swagger.coverage.core.generator.Generator;
 import com.github.viclovsky.swagger.coverage.option.MainOptions;
 import com.github.viclovsky.swagger.coverage.option.VerboseOptions;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,12 +54,16 @@ public class CommandLine {
     }
 
     private ExitCode run() {
+
+        ch.qos.logback.classic.Logger rootLogger =
+                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
+
         if (verboseOptions.isQuiet()) {
-            LogManager.getRootLogger().setLevel(Level.OFF);
+            rootLogger.setLevel(Level.INFO);
         }
 
         if (verboseOptions.isVerbose()) {
-            LogManager.getRootLogger().setLevel(Level.DEBUG);
+            rootLogger.setLevel(Level.INFO);
         }
 
         if (mainOptions.isHelp()) {
