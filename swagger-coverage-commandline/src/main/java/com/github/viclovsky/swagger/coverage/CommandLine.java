@@ -59,11 +59,11 @@ public class CommandLine {
                 (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
 
         if (verboseOptions.isQuiet()) {
-            rootLogger.setLevel(Level.INFO);
+            rootLogger.setLevel(Level.OFF);
         }
 
         if (verboseOptions.isVerbose()) {
-            rootLogger.setLevel(Level.INFO);
+            rootLogger.setLevel(Level.DEBUG);
         }
 
         if (mainOptions.isHelp()) {
