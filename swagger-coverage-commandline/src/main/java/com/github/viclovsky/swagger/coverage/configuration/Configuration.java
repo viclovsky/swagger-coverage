@@ -6,6 +6,7 @@ import com.github.viclovsky.swagger.coverage.core.results.builder.core.Statistic
 import com.github.viclovsky.swagger.coverage.core.rule.core.ConditionRule;
 import com.github.viclovsky.swagger.coverage.core.writer.CoverageResultsWriter;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.parser.core.models.ParseOptions;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -93,5 +94,9 @@ public class Configuration {
     public Configuration setConfiguredResultsWriters(List<CoverageResultsWriter> configuredResultsWriters) {
         this.configuredResultsWriters = configuredResultsWriters;
         return this;
+    }
+
+    public ParseOptions getParseOptions() {
+        return options.getParseOptions();
     }
 }

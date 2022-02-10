@@ -27,6 +27,7 @@ dependencies {
     implementation("org.springframework:spring-web")
     testImplementation("junit:junit")
     testImplementation("org.hamcrest:hamcrest")
+    testImplementation("com.jayway.jsonpath:json-path-assert")
 }
 
 tasks {

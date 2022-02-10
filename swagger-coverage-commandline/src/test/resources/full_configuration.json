@@ -31,5 +31,8 @@
     "json": {
       "filename": "json-report.json"
     }
+  },
+  "parseOptions": {
+    "resolve" : true
   }
 }

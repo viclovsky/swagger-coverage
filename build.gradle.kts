@@ -48,6 +48,7 @@ configure(subprojects) {
             dependency("com.beust:jcommander:1.81")
             dependency("junit:junit:4.13.2")
             dependency("org.hamcrest:hamcrest:2.2")
+            dependency("com.jayway.jsonpath:json-path-assert:2.7.0")
             dependency("io.rest-assured:rest-assured:4.4.0")
             dependency("com.github.tomakehurst:wiremock:2.27.2")
             dependency("com.fasterxml.jackson.core:jackson-core:2.12.3")
