@@ -1,0 +1,22 @@
+name: Run
+
+on:
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 8
+      - name: "Gradle Build"
+        run: ./run.sh
+      - uses: actions/upload-artifact@v2
+        with:
+          name: custom-report.html
+          path: custom-report.html
