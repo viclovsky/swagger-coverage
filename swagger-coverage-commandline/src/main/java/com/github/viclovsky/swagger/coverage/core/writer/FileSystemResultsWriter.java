@@ -4,7 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.viclovsky.swagger.coverage.SwaggerCoverageWriteException;
 import com.github.viclovsky.swagger.coverage.core.results.Results;
 import com.github.viclovsky.swagger.coverage.model.SwaggerCoverage2ModelJackson;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -16,7 +17,7 @@ import static com.github.viclovsky.swagger.coverage.SwaggerCoverageConstants.COV
 
 public class FileSystemResultsWriter implements CoverageResultsWriter {
 
-    private final static Logger LOGGER = Logger.getLogger(FileSystemResultsWriter.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(FileSystemResultsWriter.class);
     private final ObjectMapper mapper;
     private final String fileName;
 
