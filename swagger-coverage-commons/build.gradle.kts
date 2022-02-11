@@ -15,7 +15,7 @@ dependencies {
     //dirty fix https://github.com/viclovsky/swagger-coverage/issues/90
     implementation("io.swagger.core.v3:swagger-core")
     implementation("io.swagger.core.v3:swagger-models")
-    implementation("org.slf4j:slf4j-simple")
+    implementation("org.slf4j:slf4j-api")
     implementation("ch.qos.logback:logback-classic")
     implementation("com.fasterxml.jackson.core:jackson-core")
     implementation("com.fasterxml.jackson.core:jackson-databind")
