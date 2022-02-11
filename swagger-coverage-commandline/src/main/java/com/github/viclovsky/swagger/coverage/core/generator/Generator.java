@@ -31,13 +31,13 @@ public class Generator {
     private List<StatisticsBuilder> statisticsBuilders = new ArrayList<>();
 
     public void run() {
-        SwaggerParseResult parsed = parser.readLocation(specPath.toString(), null, null);
+        Configuration configuration = ConfigurationBuilder.build(configurationPath);
+
+        SwaggerParseResult parsed = parser.readLocation(specPath.toString(), null, configuration.getParseOptions());
         parsed.getMessages().forEach(LOGGER::info);
         OpenAPI spec = parsed.getOpenAPI();
 
         LOGGER.info("spec is {}", spec);
-
-        Configuration configuration = ConfigurationBuilder.build(configurationPath);
         statisticsBuilders = configuration.getStatisticsBuilders(spec);
 
         CoverageOutputReader reader = new FileSystemOutputReader(getInputPath());

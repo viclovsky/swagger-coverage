@@ -49,7 +49,11 @@
             <div class="alert alert-success" role="alert">
                 <div class="row">
                     <div class="col-12">
+                        <#if counter.all gt 0>
                         <strong>${i18["summary.conditions.covered"]}: ${counter.covered * 100 / counter.all}% (${counter.covered}/${counter.all})</strong>
+                        <#else>
+                        <strong>${i18["summary.conditions.covered"]}: 0% (0)</strong>
+                        </#if>
                     </div>
                 </div>
             </div>
@@ -58,7 +62,11 @@
             <div class="alert alert-danger" role="alert">
                 <div class="row">
                     <div class="col-12">
+                        <#if counter.all gt 0>
                         <strong>${i18["summary.conditions.uncovered"]}:  ${(counter.all-counter.covered) * 100 / counter.all}% (${counter.all-counter.covered}/${counter.all})</strong>
+                        <#else>
+                        <strong>${i18["summary.conditions.uncovered"]}:  0% (0)</strong>
+                        </#if>
                     </div>
                 </div>
             </div>
