@@ -6,4 +6,4 @@ Background:
 Scenario: Basic Test
     Given path "pet", 1
     When method GET
-    Then status 200 
+    Then status 200

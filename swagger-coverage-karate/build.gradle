@@ -30,7 +30,7 @@ dependencies {
     //testImplementation -> karate-junit5
 }
 
-configurations.testImplementation {
+configurations.all {
     exclude group: "org.slf4j"
     //exclude group: 'org.slf4j', module: 'slf4j-simple'
 }
