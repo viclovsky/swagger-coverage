@@ -1,5 +1,7 @@
 package com.github.viclovsky.swagger.coverage.configuration.options;
 
+import io.swagger.v3.parser.core.models.ParseOptions;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,6 +9,7 @@ public class ConfigurationOptions {
 
     private Map<String, RuleConfigurationOptions> rules = new HashMap<>();
     private Map<String, ResultsWriterOptions> writers = new HashMap<>();
+    private ParseOptions parseOptions;
 
     public Map<String, RuleConfigurationOptions> getRules() {
         return rules;
@@ -23,6 +26,15 @@ public class ConfigurationOptions {
 
     public ConfigurationOptions setWriters(Map<String, ResultsWriterOptions> writers) {
         this.writers = writers;
+        return this;
+    }
+
+    public ParseOptions getParseOptions() {
+        return parseOptions;
+    }
+
+    public ConfigurationOptions setParseOptions(ParseOptions parseOptions) {
+        this.parseOptions = parseOptions;
         return this;
     }
 

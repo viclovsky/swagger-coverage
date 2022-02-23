@@ -43,11 +43,13 @@ configure(subprojects) {
             dependency("io.swagger.core.v3:swagger-models:2.1.10")
             dependency("io.swagger.parser.v3:swagger-parser:2.0.25")
 
-            dependency("org.slf4j:slf4j-simple:1.7.30")
-            dependency("log4j:log4j:1.2.17")
+            dependency("org.slf4j:slf4j-api:1.7.32")
+            dependency("ch.qos.logback:logback-classic:1.2.10")
+
             dependency("com.beust:jcommander:1.81")
             dependency("junit:junit:4.13.2")
             dependency("org.hamcrest:hamcrest:2.2")
+            dependency("com.jayway.jsonpath:json-path-assert:2.7.0")
             dependency("io.rest-assured:rest-assured:4.4.0")
             dependency("com.github.tomakehurst:wiremock:2.27.2")
             dependency("com.fasterxml.jackson.core:jackson-core:2.12.3")

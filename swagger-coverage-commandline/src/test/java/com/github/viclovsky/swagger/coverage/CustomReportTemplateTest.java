@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.viclovsky.swagger.coverage.configuration.options.ConfigurationOptions;
 import com.github.viclovsky.swagger.coverage.configuration.options.ResultsWriterOptions;
 import com.github.viclovsky.swagger.coverage.core.generator.Generator;
+import io.swagger.v3.parser.core.models.ParseOptions;
 import org.apache.commons.io.FileUtils;
 import org.hamcrest.io.FileMatchers;
 import org.junit.Test;
@@ -43,7 +44,11 @@ public class CustomReportTemplateTest {
                 .setLocale("en")
                 .setNumberFormat("0.###")
                 .setCustomTemplatePath(Paths.get(res.toURI()).toFile().getAbsolutePath()));
-        ConfigurationOptions configurationOptions = new ConfigurationOptions().setWriters(customReportOptions);
+        ParseOptions parseOptions = new ParseOptions();
+        parseOptions.setResolve(true);
+        ConfigurationOptions configurationOptions = new ConfigurationOptions()
+                .setWriters(customReportOptions)
+                .setParseOptions(parseOptions);
         File testConfigurationFile = File.createTempFile("customTemplate", ".json");
         FileUtils.writeStringToFile(testConfigurationFile, new ObjectMapper().writeValueAsString(configurationOptions));
         return testConfigurationFile;
