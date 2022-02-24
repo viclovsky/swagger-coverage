@@ -2,6 +2,7 @@ package com.github.viclovsky.swagger.coverage;
 
 import static io.swagger.models.Scheme.forValue;
 
+import java.io.File;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,8 @@ public class RequestWriter {
     private CoverageOutputWriter writer;
 
     public RequestWriter(String workingDir){
-        writer = new FileSystemOutputWriter(java.nio.file.Path.of(workingDir, SwaggerCoverageConstants.OUTPUT_DIRECTORY));
+        File dir = new File(workingDir, SwaggerCoverageConstants.OUTPUT_DIRECTORY);
+        writer = new FileSystemOutputWriter(dir.toPath());
     }
 
     public void write(Request request, Boolean oas3){

@@ -11,3 +11,4 @@ build
 
 # Allure
 allure-results
+bin/
