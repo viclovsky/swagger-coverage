@@ -14,9 +14,12 @@ Background:
         }
     """
     * def writer = callonce initWriter workingDir
+    * def CR = Java.type("com.github.viclovsky.swagger.coverage.CrossRef");
 
 Scenario:
     * karate.proceed(destUrl)
+    
+    * def pathParams = pathMatches(CR.INSTANCE.getPath()) ? pathParams : null
     
     * def multipart = karate.get('requestParts', null)
     * if (multipart != null) karate.remove("multipart", ".[*].value")
@@ -30,6 +33,7 @@ Scenario:
             headerParams: '#(requestHeaders)',
             responseHeaders: '#(responseHeaders)',
             requestParts: '#(multipart)',
+            pathParams: '#(pathParams)'
             method: '#(requestMethod)',
             statusCode: '#(responseStatus)',
             hasBody: '#(request != null)'

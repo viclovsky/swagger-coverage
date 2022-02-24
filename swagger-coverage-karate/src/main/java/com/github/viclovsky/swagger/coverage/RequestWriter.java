@@ -40,9 +40,11 @@ public class RequestWriter {
         Map<String, List<String>> requestParams = request.getRequestParams();
         Map<String, List<Map<String, String>>> requestParts = request.getRequestParts();
         Map<String, List<String>> responseHeaders = request.getResponseHeaders();
+        Map<String, String> pathParams = request.getPathParams();
         Operation operation = new Operation();
 
         headerParams.forEach((n, v) -> operation.addParameter(new HeaderParameter().name(n)));
+        pathParams.forEach((n, v) -> operation.addParameter(new PathParameter().name(n)));
 
         if (request.hasBody()) {
             operation.addConsumes(getContentType(headerParams));
@@ -76,10 +78,14 @@ public class RequestWriter {
         Map<String, List<String>> requestParams = request.getRequestParams();
         Map<String, List<Map<String, String>>> requestParts = request.getRequestParts();
         Map<String, List<String>> responseHeaders = request.getResponseHeaders();
+        Map<String, String> pathParams = request.getPathParams();
         io.swagger.v3.oas.models.Operation operation = new io.swagger.v3.oas.models.Operation();
 
         headerParams.forEach((n, v) -> operation
                 .addParametersItem(new io.swagger.v3.oas.models.parameters.HeaderParameter().name(n).example(v)));
+                
+        pathParams.forEach((n, v) -> operation
+                .addParametersItem(new io.swagger.v3.oas.models.parameters.PathParameter().name(n).example(v)));  
 
         if (request.hasBody()) {
             MediaType mediaType = new MediaType();

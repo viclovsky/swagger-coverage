@@ -9,6 +9,7 @@ public class Request {
     private Map<String, List<String>> requestParams;
     private Map<String, List<String>> headerParams;
     private Map<String, List<Map<String, String>>> requestParts;
+    private Map<String, String> pathParams;
     private Boolean hasBody;
     private String method;
     private int statusCode;
@@ -45,6 +46,14 @@ public class Request {
 
     public void setRequestParts(Map<String, List<Map<String, String>>> requestParts) {
         this.requestParts = requestParts;
+    }
+
+    public Map<String, String> getPathParams() {
+        return pathParams;
+    }
+
+    public void setPathParams(Map<String, String> pathParams) {
+        this.pathParams = pathParams;
     }
 
     public Map<String, List<String>> getHeaderParams() {
