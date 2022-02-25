@@ -1,24 +1,24 @@
 function fn(){
     var proxyPort = karate.properties['proxy.port'];
 
-    
-
     if(proxyPort){
         karate.configure('proxy', 'http://127.0.0.1:'+ proxyPort);
     }
 
-    var setNumber = function(arg) {
-        var CR = Java.type("com.github.viclovsky.swagger.coverage.CrossRef");
-        CR.INSTANCE.setNum(arg);
-    } 
+    var setPathPattern = function(arg) {
+        var SCO = Java.type("com.github.viclovsky.swagger.coverage.SwaggerCoverageOptions");
+        SCO.setPath(arg);
+    }
 
-    var setPath = function(arg) {
-        var CR = Java.type("com.github.viclovsky.swagger.coverage.CrossRef");
-        CR.INSTANCE.setPath(arg);
+    var ignoreNextCall = function() {
+        var SCO = Java.type("com.github.viclovsky.swagger.coverage.SwaggerCoverageOptions");
+        SCO.setIgnoreCall(true);
     }
 
     return {
-        setNumber: setNumber,
-        setPath : setPath
+        scOptions : {
+            setPathPattern : setPathPattern,
+            ignoreNextCall : ignoreNextCall
+        }
     }
 }

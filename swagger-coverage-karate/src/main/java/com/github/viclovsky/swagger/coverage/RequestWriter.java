@@ -46,7 +46,10 @@ public class RequestWriter {
         Operation operation = new Operation();
 
         headerParams.forEach((n, v) -> operation.addParameter(new HeaderParameter().name(n)));
-        pathParams.forEach((n, v) -> operation.addParameter(new PathParameter().name(n)));
+
+        if (pathParams != null){
+            pathParams.forEach((n, v) -> operation.addParameter(new PathParameter().name(n)));
+        }
 
         if (request.hasBody()) {
             operation.addConsumes(getContentType(headerParams));
@@ -85,9 +88,11 @@ public class RequestWriter {
 
         headerParams.forEach((n, v) -> operation
                 .addParametersItem(new io.swagger.v3.oas.models.parameters.HeaderParameter().name(n).example(v)));
-                
-        pathParams.forEach((n, v) -> operation
+
+        if (pathParams != null){
+            pathParams.forEach((n, v) -> operation
                 .addParametersItem(new io.swagger.v3.oas.models.parameters.PathParameter().name(n).example(v)));  
+        }
 
         if (request.hasBody()) {
             MediaType mediaType = new MediaType();
