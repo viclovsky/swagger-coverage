@@ -2,6 +2,7 @@ package com.github.viclovsky.swagger.coverage;
 
 import static io.swagger.models.Scheme.forValue;
 
+import java.io.File;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,8 @@ public class RequestWriter {
     private CoverageOutputWriter writer;
 
     public RequestWriter(String workingDir){
-        writer = new FileSystemOutputWriter(java.nio.file.Path.of(workingDir, SwaggerCoverageConstants.OUTPUT_DIRECTORY));
+        File dir = new File(workingDir, SwaggerCoverageConstants.OUTPUT_DIRECTORY);
+        writer = new FileSystemOutputWriter(dir.toPath());
     }
 
     public void write(Request request, Boolean oas3){
@@ -40,9 +42,14 @@ public class RequestWriter {
         Map<String, List<String>> requestParams = request.getRequestParams();
         Map<String, List<Map<String, String>>> requestParts = request.getRequestParts();
         Map<String, List<String>> responseHeaders = request.getResponseHeaders();
+        Map<String, String> pathParams = request.getPathParams();
         Operation operation = new Operation();
 
         headerParams.forEach((n, v) -> operation.addParameter(new HeaderParameter().name(n)));
+
+        if (pathParams != null){
+            pathParams.forEach((n, v) -> operation.addParameter(new PathParameter().name(n)));
+        }
 
         if (request.hasBody()) {
             operation.addConsumes(getContentType(headerParams));
@@ -76,15 +83,21 @@ public class RequestWriter {
         Map<String, List<String>> requestParams = request.getRequestParams();
         Map<String, List<Map<String, String>>> requestParts = request.getRequestParts();
         Map<String, List<String>> responseHeaders = request.getResponseHeaders();
+        Map<String, String> pathParams = request.getPathParams();
         io.swagger.v3.oas.models.Operation operation = new io.swagger.v3.oas.models.Operation();
 
         headerParams.forEach((n, v) -> operation
-                .addParametersItem(new io.swagger.v3.oas.models.parameters.HeaderParameter().name(n).example(v)));
+                .addParametersItem(new io.swagger.v3.oas.models.parameters.HeaderParameter().name(n)));
+
+        if (pathParams != null){
+            pathParams.forEach((n, v) -> operation
+                .addParametersItem(new io.swagger.v3.oas.models.parameters.PathParameter().name(n)));  
+        }
 
         if (request.hasBody()) {
             MediaType mediaType = new MediaType();
             Schema<Object> schema = new Schema<>();
-            requestParams.forEach((n, v) -> schema.addProperties(n, new Schema<>().example(v)));
+            requestParams.forEach((n, v) -> schema.addProperties(n, new Schema<>()));
 
             if (requestParts != null) {
                 requestParts.forEach((n, v) -> schema.addProperties(n, new Schema<>()));
@@ -95,7 +108,7 @@ public class RequestWriter {
                     new RequestBody().content(new Content().addMediaType(getContentType(headerParams), mediaType)));
         } else {
             requestParams.forEach((n, v) -> operation
-                    .addParametersItem(new io.swagger.v3.oas.models.parameters.QueryParameter().name(n).example(v)));
+                    .addParametersItem(new io.swagger.v3.oas.models.parameters.QueryParameter().name(n)));
         }
 
         operation.responses(new ApiResponses().addApiResponse(Integer.toString(request.getStatusCode()),

@@ -1,7 +1,9 @@
 package com.github.viclovsky.swagger.coverage;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
@@ -78,11 +80,23 @@ public class SwaggerCoverageRunner extends Runner {
             }
         }
 
-        private void generateReport(){
+        private void generateReport() {
             if (coverageDir == null) coverageDir = "";
 
+            Path inputPath = Path.of(coverageDir, SwaggerCoverageConstants.OUTPUT_DIRECTORY);
+
+            if (!inputPath.toFile().exists()){
+                try {
+                    Files.createDirectory(inputPath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    logger.warn("Failed to create empty directory for coverage input: {}. Report could not be generated.", inputPath);
+                    return;
+                }
+            }
+
             Generator generator = new Generator()
-                .setInputPath(Path.of(coverageDir, SwaggerCoverageConstants.OUTPUT_DIRECTORY));
+                .setInputPath(inputPath);
             
             if (specificationPath != null) {
                 generator.setSpecPath(specificationPath);
@@ -106,6 +120,8 @@ public class SwaggerCoverageRunner extends Runner {
                     generator.setConfigurationPath(configFile.toPath());
                 }
             }
+
+            
 
             generator.run();
         }
