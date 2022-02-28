@@ -87,17 +87,17 @@ public class RequestWriter {
         io.swagger.v3.oas.models.Operation operation = new io.swagger.v3.oas.models.Operation();
 
         headerParams.forEach((n, v) -> operation
-                .addParametersItem(new io.swagger.v3.oas.models.parameters.HeaderParameter().name(n).example(v)));
+                .addParametersItem(new io.swagger.v3.oas.models.parameters.HeaderParameter().name(n)));
 
         if (pathParams != null){
             pathParams.forEach((n, v) -> operation
-                .addParametersItem(new io.swagger.v3.oas.models.parameters.PathParameter().name(n).example(v)));  
+                .addParametersItem(new io.swagger.v3.oas.models.parameters.PathParameter().name(n)));  
         }
 
         if (request.hasBody()) {
             MediaType mediaType = new MediaType();
             Schema<Object> schema = new Schema<>();
-            requestParams.forEach((n, v) -> schema.addProperties(n, new Schema<>().example(v)));
+            requestParams.forEach((n, v) -> schema.addProperties(n, new Schema<>()));
 
             if (requestParts != null) {
                 requestParts.forEach((n, v) -> schema.addProperties(n, new Schema<>()));
@@ -108,7 +108,7 @@ public class RequestWriter {
                     new RequestBody().content(new Content().addMediaType(getContentType(headerParams), mediaType)));
         } else {
             requestParams.forEach((n, v) -> operation
-                    .addParametersItem(new io.swagger.v3.oas.models.parameters.QueryParameter().name(n).example(v)));
+                    .addParametersItem(new io.swagger.v3.oas.models.parameters.QueryParameter().name(n)));
         }
 
         operation.responses(new ApiResponses().addApiResponse(Integer.toString(request.getStatusCode()),
