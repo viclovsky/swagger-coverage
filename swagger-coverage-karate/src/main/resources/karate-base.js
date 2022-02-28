@@ -7,7 +7,7 @@ function fn(){
 
     var setPathPattern = function(arg) {
         var SCO = Java.type("com.github.viclovsky.swagger.coverage.SwaggerCoverageOptions");
-        SCO.setPath(arg);
+        SCO.setPathPattern(arg);
     }
 
     var ignoreNextCall = function() {
