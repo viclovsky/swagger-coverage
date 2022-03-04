@@ -2,27 +2,26 @@
 Feature: Http Proxy for Swagger-Coverage
 
 Background:
-    * print 'init target url:', destUrl
     * print 'using oas3:', oas3
     * print 'working Dir:', workingDir
 
     * def initWriter = 
     """
         function(dir){
-            var RequestWriter = Java.type('com.github.viclovsky.swagger.coverage.RequestWriter');
+            var RequestWriter = Java.type('com.github.viclovsky.swagger.coverage.karate.RequestWriter');
             return new RequestWriter(dir);
         }
     """
     * def writer = callonce initWriter workingDir
-    * def scOptions = Java.type("com.github.viclovsky.swagger.coverage.SwaggerCoverageOptions");
+    * def scOptions = Java.type("com.github.viclovsky.swagger.coverage.karate.SwaggerCoverageOptions");
 
 Scenario: scOptions.getIgnoreCall()
     * print "Call ignored for Swagger Coverage Report."
-    * karate.proceed(destUrl)
+    * karate.proceed(scOptions.getDestinationURL())
     * scOptions.reset()
 
 Scenario:
-    * karate.proceed(destUrl)
+    * karate.proceed(scOptions.getDestinationURL())
     
     * def pathParams = pathMatches(scOptions.getPathPattern()) ? pathParams : null
     
@@ -45,6 +44,6 @@ Scenario:
         }
     """
 
-    * def coverageRequest = karate.toBean(reqJson, 'com.github.viclovsky.swagger.coverage.Request')
+    * def coverageRequest = karate.toBean(reqJson, 'com.github.viclovsky.swagger.coverage.karate.Request')
     * eval writer.write(coverageRequest, oas3)
     * scOptions.reset()

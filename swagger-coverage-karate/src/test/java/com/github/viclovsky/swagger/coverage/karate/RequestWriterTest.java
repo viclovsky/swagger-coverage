@@ -1,4 +1,4 @@
-package com.github.viclovsky.swagger.coverage;
+package com.github.viclovsky.swagger.coverage.karate;
 
 import static com.github.viclovsky.swagger.coverage.SwaggerCoverageConstants.OUTPUT_DIRECTORY;
 import static java.util.Optional.ofNullable;

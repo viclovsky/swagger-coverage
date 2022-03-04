@@ -1,4 +1,4 @@
-package com.github.viclovsky.swagger.coverage;
+package com.github.viclovsky.swagger.coverage.karate;
 
 import java.util.List;
 import java.util.Map;

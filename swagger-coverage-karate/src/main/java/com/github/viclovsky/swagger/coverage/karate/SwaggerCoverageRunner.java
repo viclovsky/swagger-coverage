@@ -1,4 +1,4 @@
-package com.github.viclovsky.swagger.coverage;
+package com.github.viclovsky.swagger.coverage.karate;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import com.github.viclovsky.swagger.coverage.SwaggerCoverageConstants;
 import com.github.viclovsky.swagger.coverage.core.generator.Generator;
 import com.intuit.karate.FileUtils;
 import com.intuit.karate.Logger;
@@ -44,7 +45,6 @@ public class SwaggerCoverageRunner extends Runner {
         final String CONFIG_NAME = "swagger-coverage-config.json";
 
         boolean oas3;
-        String destUrl;
         URI specificationPath;
         String configPath;
         String inputPath;
@@ -61,7 +61,6 @@ public class SwaggerCoverageRunner extends Runner {
 
             Map<String, Object> args = new HashMap<String, Object>();
             args.put("oas3", oas3);
-            args.put("destUrl", destUrl);
             args.put("workingDir", coverageDir);
             int proxyPort = startProxy(args);
             systemProperty("proxy.port", proxyPort + "");
@@ -121,8 +120,6 @@ public class SwaggerCoverageRunner extends Runner {
                 }
             }
 
-            
-
             generator.run();
         }
 
@@ -133,16 +130,6 @@ public class SwaggerCoverageRunner extends Runner {
 
         public SwaggerCoverageBuilder oas3(){
             oas3 = true;
-            return this;
-        }
-
-        public SwaggerCoverageBuilder destUrl(String destUrl){
-            this.destUrl = destUrl;
-            return this;
-        }
-
-        public SwaggerCoverageBuilder inputDir(String path){
-            inputPath = path;
             return this;
         }
 

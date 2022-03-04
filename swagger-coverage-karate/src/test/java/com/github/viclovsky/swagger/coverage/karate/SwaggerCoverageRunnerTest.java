@@ -1,4 +1,4 @@
-package com.github.viclovsky.swagger.coverage;
+package com.github.viclovsky.swagger.coverage.karate;
 
 
 import static com.github.viclovsky.swagger.coverage.SwaggerCoverageConstants.COVERAGE_HTML_REPORT_NAME;
@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
+import com.github.viclovsky.swagger.coverage.SwaggerCoverageConstants;
 import com.intuit.karate.FileUtils;
 import com.intuit.karate.Results;
 
@@ -44,7 +45,6 @@ public class SwaggerCoverageRunnerTest {
                 .coverageDir(tempCoverageDir.toString())
                 .swaggerSpec(URI.create("https://petstore.swagger.io/v2/swagger.json"))
                 .swagger()
-                .destUrl("https://petstore.swagger.io")
                 .parallel(1);
 
         assertEquals(results.getErrorMessages(), 0, results.getFailCount());
@@ -59,7 +59,6 @@ public class SwaggerCoverageRunnerTest {
                 .coverageDir(tempCoverageDir.toString())
                 .swaggerSpec(URI.create("https://petstore3.swagger.io/api/v3/openapi.yaml"))
                 .oas3()
-                .destUrl("https://petstore3.swagger.io")
                 .parallel(1);
 
         assertEquals(results.getErrorMessages(), 0, results.getFailCount());
@@ -75,7 +74,6 @@ public class SwaggerCoverageRunnerTest {
                 .swaggerSpec(coverageDir.resolve("swagger-specification.json").toUri())
                 .swaggerCoverageConfig(coverageDir.resolve("swagger-coverage-config.json").toString())
                 .swagger()
-                .destUrl("https://petstore.swagger.io")
                 .parallel(1);
 
         assertEquals(results.getErrorMessages(), 0, results.getFailCount());
@@ -91,7 +89,6 @@ public class SwaggerCoverageRunnerTest {
                 .swaggerSpec(coverageDir.resolve("swagger-specification.yaml").toUri())
                 .swaggerCoverageConfig(coverageDir.resolve("swagger-coverage-config.json").toString())
                 .oas3()
-                .destUrl("https://petstore3.swagger.io")
                 .parallel(1);
 
         assertEquals(results.getErrorMessages(), 0, results.getFailCount());
@@ -106,7 +103,6 @@ public class SwaggerCoverageRunnerTest {
                 .backupReportDir(false)
                 .coverageDir(coverageDir.toString())
                 .swagger()
-                .destUrl("https://petstore.swagger.io")
                 .parallel(1);
 
         assertEquals(results.getErrorMessages(), 0, results.getFailCount());
@@ -120,7 +116,6 @@ public class SwaggerCoverageRunnerTest {
                 .backupReportDir(false)
                 .coverageDir(coverageDir.toString())
                 .oas3()
-                .destUrl("https://petstore3.swagger.io")
                 .parallel(1);
 
         assertEquals(results.getErrorMessages(), 0, results.getFailCount());
@@ -134,7 +129,6 @@ public class SwaggerCoverageRunnerTest {
                 .backupReportDir(false)
                 .coverageDir(coverageDir.toString())
                 .oas3()
-                .destUrl("https://petstore3.swagger.io")
                 .parallel(1);
 
         assertEquals(results.getErrorMessages(), 0, results.getFailCount());
@@ -145,7 +139,6 @@ public class SwaggerCoverageRunnerTest {
                 .backupCoverageOutput(true)
                 .coverageDir(coverageDir.toString())
                 .oas3()
-                .destUrl("https://petstore3.swagger.io")
                 .parallel(1);
 
         assertEquals(results.getErrorMessages(), 0, results.getFailCount());
