@@ -1,11 +1,12 @@
 Feature: Petstore v2
 
 Background:
-    * url "http://petstore.swagger.io/v2"
-    * eval scOptions.setDestUrl("https://petstore.swagger.io")
+    * def baseUrl = karate.properties["baseUrl"]
+    * url baseUrl
+    * eval scOptions.setDestUrl(baseUrl)
 
 Scenario: Basic Test
-    * eval scOptions.setPathPattern("/v2/pet/{id}")
+    * eval scOptions.setPathPattern("/pet/{id}")
     Given path "pet", 1
     When method GET
     Then status 200

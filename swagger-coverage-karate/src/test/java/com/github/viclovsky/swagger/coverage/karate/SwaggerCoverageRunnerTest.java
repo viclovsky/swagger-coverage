@@ -1,12 +1,5 @@
 package com.github.viclovsky.swagger.coverage.karate;
 
-
-import static com.github.viclovsky.swagger.coverage.SwaggerCoverageConstants.COVERAGE_HTML_REPORT_NAME;
-import static java.nio.file.Paths.get;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.hamcrest.Matchers.iterableWithSize;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -15,24 +8,47 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.github.viclovsky.swagger.coverage.SwaggerCoverageConstants;
 import com.intuit.karate.FileUtils;
 import com.intuit.karate.Results;
 
+import org.apache.http.HttpStatus;
 import org.hamcrest.io.FileMatchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import static com.github.viclovsky.swagger.coverage.SwaggerCoverageConstants.COVERAGE_HTML_REPORT_NAME;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.hamcrest.Matchers.iterableWithSize;
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.configureFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
+
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 
 public class SwaggerCoverageRunnerTest {
+
+    private static final String BODY_STRING = "{ name: MockPet }";
+
+    @Rule
+    public WireMockRule mock = new WireMockRule(options().dynamicPort().withRootDirectory(getDirFromResources("wiremock").toString()), false);
 
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
 
     @Before
     public void setUp(){
+        configureFor(mock.port());
+        stubFor(get(urlMatching("/pet/.*"))
+                .willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+                        .withBody(BODY_STRING)));
+
         deleteOutputDirs(getDirFromResources("api-test-coverage-v2"));
         deleteOutputDirs(getDirFromResources("api-test-coverage-v3"));
     }
@@ -43,12 +59,13 @@ public class SwaggerCoverageRunnerTest {
         Results results = SwaggerCoverageRunner.path("classpath:petv2.feature")
                 .backupReportDir(false)
                 .coverageDir(tempCoverageDir.toString())
-                .swaggerSpec(URI.create("https://petstore.swagger.io/v2/swagger.json"))
+                .swaggerSpec(URI.create(mock.url("/swagger.json")))
                 .swagger()
+                .systemProperty("baseUrl", mock.baseUrl())
                 .parallel(1);
 
         assertEquals(results.getErrorMessages(), 0, results.getFailCount());
-        assertThat(get(COVERAGE_HTML_REPORT_NAME).toFile(), FileMatchers.anExistingFile());
+        assertThat(Paths.get(COVERAGE_HTML_REPORT_NAME).toFile(), FileMatchers.anExistingFile());
     }
 
     @Test
@@ -57,12 +74,13 @@ public class SwaggerCoverageRunnerTest {
         Results results = SwaggerCoverageRunner.path("classpath:petv3.feature")
                 .backupReportDir(false)
                 .coverageDir(tempCoverageDir.toString())
-                .swaggerSpec(URI.create("https://petstore3.swagger.io/api/v3/openapi.yaml"))
+                .swaggerSpec(URI.create(mock.url("/openapi.yaml")))
                 .oas3()
+                .systemProperty("baseUrl", mock.baseUrl())
                 .parallel(1);
 
         assertEquals(results.getErrorMessages(), 0, results.getFailCount());
-        assertThat(get(COVERAGE_HTML_REPORT_NAME).toFile(), FileMatchers.anExistingFile());
+        assertThat(Paths.get(COVERAGE_HTML_REPORT_NAME).toFile(), FileMatchers.anExistingFile());
     }
 
     @Test
@@ -74,10 +92,11 @@ public class SwaggerCoverageRunnerTest {
                 .swaggerSpec(coverageDir.resolve("swagger-specification.json").toUri())
                 .swaggerCoverageConfig(coverageDir.resolve("swagger-coverage-config.json").toString())
                 .swagger()
+                .systemProperty("baseUrl", mock.baseUrl())
                 .parallel(1);
 
         assertEquals(results.getErrorMessages(), 0, results.getFailCount());
-        assertThat(get(COVERAGE_HTML_REPORT_NAME).toFile(), FileMatchers.anExistingFile());
+        assertThat(Paths.get(COVERAGE_HTML_REPORT_NAME).toFile(), FileMatchers.anExistingFile());
     }
 
     @Test
@@ -89,10 +108,11 @@ public class SwaggerCoverageRunnerTest {
                 .swaggerSpec(coverageDir.resolve("swagger-specification.yaml").toUri())
                 .swaggerCoverageConfig(coverageDir.resolve("swagger-coverage-config.json").toString())
                 .oas3()
+                .systemProperty("baseUrl", mock.baseUrl())
                 .parallel(1);
 
         assertEquals(results.getErrorMessages(), 0, results.getFailCount());
-        assertThat(get(COVERAGE_HTML_REPORT_NAME).toFile(), FileMatchers.anExistingFile());
+        assertThat(Paths.get(COVERAGE_HTML_REPORT_NAME).toFile(), FileMatchers.anExistingFile());
     }
 
 
@@ -103,10 +123,11 @@ public class SwaggerCoverageRunnerTest {
                 .backupReportDir(false)
                 .coverageDir(coverageDir.toString())
                 .swagger()
+                .systemProperty("baseUrl", mock.baseUrl())
                 .parallel(1);
 
         assertEquals(results.getErrorMessages(), 0, results.getFailCount());
-        assertThat(get(COVERAGE_HTML_REPORT_NAME).toFile(), FileMatchers.anExistingFile());
+        assertThat(Paths.get(COVERAGE_HTML_REPORT_NAME).toFile(), FileMatchers.anExistingFile());
     }
 
     @Test
@@ -116,10 +137,11 @@ public class SwaggerCoverageRunnerTest {
                 .backupReportDir(false)
                 .coverageDir(coverageDir.toString())
                 .oas3()
+                .systemProperty("baseUrl", mock.baseUrl())
                 .parallel(1);
 
         assertEquals(results.getErrorMessages(), 0, results.getFailCount());
-        assertThat(get(COVERAGE_HTML_REPORT_NAME).toFile(), FileMatchers.anExistingFile());
+        assertThat(Paths.get(COVERAGE_HTML_REPORT_NAME).toFile(), FileMatchers.anExistingFile());
     }
 
     @Test
@@ -129,20 +151,22 @@ public class SwaggerCoverageRunnerTest {
                 .backupReportDir(false)
                 .coverageDir(coverageDir.toString())
                 .oas3()
+                .systemProperty("baseUrl", mock.baseUrl())
                 .parallel(1);
 
         assertEquals(results.getErrorMessages(), 0, results.getFailCount());
-        assertThat(get(COVERAGE_HTML_REPORT_NAME).toFile(), FileMatchers.anExistingFile());
+        assertThat(Paths.get(COVERAGE_HTML_REPORT_NAME).toFile(), FileMatchers.anExistingFile());
 
         results = SwaggerCoverageRunner.path("classpath:petv3.feature")
                 .backupReportDir(false)
                 .backupCoverageOutput(true)
                 .coverageDir(coverageDir.toString())
                 .oas3()
+                .systemProperty("baseUrl", mock.baseUrl())
                 .parallel(1);
 
         assertEquals(results.getErrorMessages(), 0, results.getFailCount());
-        assertThat(get(COVERAGE_HTML_REPORT_NAME).toFile(), FileMatchers.anExistingFile());
+        assertThat(Paths.get(COVERAGE_HTML_REPORT_NAME).toFile(), FileMatchers.anExistingFile());
         assertThat(Arrays.asList(coverageDir.toFile().list((dir, name) -> name.contains(SwaggerCoverageConstants.OUTPUT_DIRECTORY))), iterableWithSize(2));
     }
 

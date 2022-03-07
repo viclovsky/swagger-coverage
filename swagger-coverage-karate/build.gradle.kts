@@ -17,6 +17,7 @@ dependencies {
     implementation("com.intuit.karate:karate-core")
     testImplementation("junit:junit")
     testImplementation("org.hamcrest:hamcrest")
+    testImplementation("com.github.tomakehurst:wiremock")
     //testImplementation -> karate-junit5
 }
 
