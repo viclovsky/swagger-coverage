@@ -8,6 +8,7 @@ import static org.hamcrest.Matchers.endsWith;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -34,7 +35,7 @@ public class RequestWriterTest {
             File file = ofNullable(getClass().getClassLoader().getResource("request.json"))
                     .map(resource -> new File(resource.getFile()))
                     .orElseThrow(() -> new IllegalArgumentException("Unable to read file: request.json"));
-            String requestJson = Files.readString(file.toPath());
+            String requestJson = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
             request = JsonUtils.fromJson(requestJson, Request.class);
         } catch (Exception e) {
             throw new RuntimeException("Can't load request json from resources folder!");

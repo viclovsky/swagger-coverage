@@ -104,9 +104,11 @@ public class SwaggerCoverageRunner extends Runner {
             else{
                 File specFile = Optional.of(Paths.get(coverageDir, SPECIFICATION_NAME + ".json").toFile())
                 .filter((file) -> file.exists())
-                .or(()-> Optional.of(Paths.get(coverageDir, SPECIFICATION_NAME + ".yaml").toFile()))
-                .filter((file) -> file.exists())
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseGet(()-> Paths.get(coverageDir, SPECIFICATION_NAME + ".yaml").toFile());
+                
+                if (!specFile.exists()){
+                    throw new NoSuchElementException();
+                }
 
                 generator.setSpecPath(specFile.toURI()); 
             }
