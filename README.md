@@ -22,7 +22,7 @@ The next stage is to compare saved result with generated conditions from current
 You can use swagger-coverage with any language and framework. You need to have proxy/filter/interceptor that accumulates data in swagger format. 
 Swagger-coverage have rest-assured integration from the box.
 
-> There is also Karate integration, which has its own [manual](/swagger-coverage-karate/README.md).
+> There is also a Karate integration, which has its own [manual](/swagger-coverage-karate/README.md).
 
 Add filter dependency:
 ```xml
