@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,7 +83,7 @@ public class SwaggerCoverageRunner extends Runner {
         private void generateReport() {
             if (coverageDir == null) coverageDir = "";
 
-            Path inputPath = Path.of(coverageDir, SwaggerCoverageConstants.OUTPUT_DIRECTORY);
+            Path inputPath = Paths.get(coverageDir, SwaggerCoverageConstants.OUTPUT_DIRECTORY);
 
             if (!inputPath.toFile().exists()){
                 try {
@@ -101,9 +102,9 @@ public class SwaggerCoverageRunner extends Runner {
                 generator.setSpecPath(specificationPath);
             }
             else{
-                File specFile = Optional.of(Path.of(coverageDir, SPECIFICATION_NAME + ".json").toFile())
+                File specFile = Optional.of(Paths.get(coverageDir, SPECIFICATION_NAME + ".json").toFile())
                 .filter((file) -> file.exists())
-                .or(()-> Optional.of(Path.of(coverageDir, SPECIFICATION_NAME + ".yaml").toFile()))
+                .or(()-> Optional.of(Paths.get(coverageDir, SPECIFICATION_NAME + ".yaml").toFile()))
                 .filter((file) -> file.exists())
                 .orElseThrow(() -> new NoSuchElementException());
 
@@ -111,10 +112,10 @@ public class SwaggerCoverageRunner extends Runner {
             }
 
             if (configPath != null){
-                generator.setConfigurationPath(Path.of(configPath));
+                generator.setConfigurationPath(Paths.get(configPath));
             }
             else{
-                File configFile = Path.of(coverageDir, CONFIG_NAME).toFile();
+                File configFile = Paths.get(coverageDir, CONFIG_NAME).toFile();
                 if (configFile.exists()){
                     generator.setConfigurationPath(configFile.toPath());
                 }

@@ -7,7 +7,7 @@ Swagger-coverage for Karate uses the [server-side features](https://github.com/k
 This approach has the advantage that the tests do not have to be changed and swagger-coverage can also be integrated into existing Karate projects with minimal effort. In addition, multiple Test Runners can be used in parallel. Since you usually don't want to create a report every time you run the tests (e.g. during active test implementation), you can decide individually when to use the Coverage Test Runner.
 
 ## Setup and How to Use
-The Swagger Coverage Runner requires at least [Java](https://www.oracle.com/java/technologies/downloads/) 11 and the use of either JUnit 4 or JUnit 5.  
+The Swagger Coverage Runner requires at least [Java](https://www.oracle.com/java/technologies/downloads/) 8 and the use of either JUnit 4 or JUnit 5.  
 
 The `swagger-coverage-karate` artifact also includes the `swagger-coverage-commons` and the `swagger-coverage-commandline` modules.
 To add the dependency to your project when using Maven, add the following to your pom.xml:
