@@ -15,10 +15,18 @@ dependencies {
     implementation("io.swagger:swagger-models")
     implementation("io.swagger.core.v3:swagger-models")
     implementation("com.intuit.karate:karate-core")
+
+    //needed for karate runner
+    implementation("com.linecorp.armeria:armeria:1.14.1")
+    implementation("io.netty:netty-all:4.1.74.Final")
+    implementation("org.thymeleaf:thymeleaf:3.0.15.RELEASE")
+    implementation("io.github.classgraph:classgraph:4.8.108")
+    implementation("org.antlr:antlr4-runtime:4.9.3")
+    implementation("org.apache.httpcomponents:httpclient:4.5.13")
+
     testImplementation("junit:junit")
     testImplementation("org.hamcrest:hamcrest")
     testImplementation("com.github.tomakehurst:wiremock")
-    //testImplementation -> karate-junit5
 }
 
 tasks {

@@ -57,7 +57,7 @@ configure(subprojects) {
             dependency("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.12.3")
             dependency("com.fasterxml.jackson.core:jackson-annotations:2.12.3")
             dependency("org.springframework:spring-web:5.3.7")
-            dependency("com.intuit.karate:karate-core:1.1.0")
+            dependency("com.intuit.karate:karate-core:1.2.0.RC1")
         }
     }
 
