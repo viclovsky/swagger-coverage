@@ -37,7 +37,7 @@ public class SwaggerCoverageRunnerTest {
     private static final String BODY_STRING = "{ name: MockPet }";
 
     @Rule
-    public WireMockRule mock = new WireMockRule(options().dynamicPort().withRootDirectory(getDirFromResources("wiremock").toString()), false);
+    public WireMockRule mock = new WireMockRule(options().dynamicPort().withRootDirectory(getDirFromResources("/wiremock").toString()), false);
 
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
@@ -49,8 +49,8 @@ public class SwaggerCoverageRunnerTest {
                 .willReturn(aResponse().withStatus(HttpStatus.SC_OK)
                         .withBody(BODY_STRING)));
 
-        deleteOutputDirs(getDirFromResources("api-test-coverage-v2"));
-        deleteOutputDirs(getDirFromResources("api-test-coverage-v3"));
+        deleteOutputDirs(getDirFromResources("/api-test-coverage-v2"));
+        deleteOutputDirs(getDirFromResources("/api-test-coverage-v3"));
     }
 
     @Test
@@ -85,7 +85,7 @@ public class SwaggerCoverageRunnerTest {
 
     @Test
     public void shouldGetFilesFromSpecifiedFilesV2(){
-        Path coverageDir = getDirFromResources("api-test-coverage-v2");
+        Path coverageDir = getDirFromResources("/api-test-coverage-v2");
         Results results = SwaggerCoverageRunner.path("classpath:petv2.feature")
                 .backupReportDir(false)
                 .coverageDir(coverageDir.toString())
@@ -101,7 +101,7 @@ public class SwaggerCoverageRunnerTest {
 
     @Test
     public void shouldGetFilesFromSpecifiedFilesV3(){
-        Path coverageDir = getDirFromResources("api-test-coverage-v3");
+        Path coverageDir = getDirFromResources("/api-test-coverage-v3");
         Results results = SwaggerCoverageRunner.path("classpath:petv3.feature")
                 .backupReportDir(false)
                 .coverageDir(coverageDir.toString())
@@ -118,7 +118,7 @@ public class SwaggerCoverageRunnerTest {
 
     @Test
     public void shouldGetFilesFromSpecifiedDirV2(){
-        Path coverageDir = getDirFromResources("api-test-coverage-v2");
+        Path coverageDir = getDirFromResources("/api-test-coverage-v2");
         Results results = SwaggerCoverageRunner.path("classpath:petv2.feature")
                 .backupReportDir(false)
                 .coverageDir(coverageDir.toString())
@@ -132,7 +132,7 @@ public class SwaggerCoverageRunnerTest {
 
     @Test
     public void shouldGetFilesFromSpecifiedDirV3(){
-        Path coverageDir = getDirFromResources("api-test-coverage-v3");
+        Path coverageDir = getDirFromResources("/api-test-coverage-v3");
         Results results = SwaggerCoverageRunner.path("classpath:petv3.feature")
                 .backupReportDir(false)
                 .coverageDir(coverageDir.toString())
@@ -146,7 +146,7 @@ public class SwaggerCoverageRunnerTest {
 
     @Test
     public void shouldBackupCoverageOutput() {
-        Path coverageDir = getDirFromResources("api-test-coverage-v3");
+        Path coverageDir = getDirFromResources("/api-test-coverage-v3");
         Results results = SwaggerCoverageRunner.path("classpath:petv3.feature")
                 .backupReportDir(false)
                 .coverageDir(coverageDir.toString())
@@ -172,7 +172,7 @@ public class SwaggerCoverageRunnerTest {
 
     private Path getDirFromResources(String name) {
         try {
-            return Paths.get(getClass().getClassLoader().getResource(name).toURI());
+            return Paths.get(this.getClass().getResource(name).toURI());
         } catch (URISyntaxException e) {
             return null;
         }
