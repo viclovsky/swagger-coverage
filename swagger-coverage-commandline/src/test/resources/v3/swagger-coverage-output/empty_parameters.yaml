@@ -1,0 +1,17 @@
+---
+openapi: 3.0.0
+paths:
+  /pet/findByStatus:
+    get:
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: ""
+        "404":
+          description: ""
+servers:
+  - url: http://localhost
+info:
+  version: ""
+  title: ""

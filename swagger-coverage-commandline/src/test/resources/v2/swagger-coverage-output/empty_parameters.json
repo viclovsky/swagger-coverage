@@ -1,0 +1,17 @@
+{
+  "swagger" : "2.0",
+  "host" : "localhost",
+  "schemes" : [ "http" ],
+  "consumes" : [ "application/json" ],
+  "produces" : [ "" ],
+  "paths" : {
+    "/pet/findByStatus" : {
+      "get" : {
+        "parameters" : [ ],
+        "responses" : {
+          "200" : { }
+        }
+      }
+    }
+  }
+}
