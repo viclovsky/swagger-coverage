@@ -21,8 +21,11 @@ public class DefaultParameterConditionPredicate extends ParameterConditionPredic
 
     @Override
     public boolean check(List<Parameter> params, Map<String, ApiResponse> responses) {
-        Optional<Parameter> p = params.stream().filter(ParameterUtils.equalsParam(name, in)).findFirst();
-        return (isEmpty() ^ p.isPresent());
+        if (params != null) {
+            Optional<Parameter> p = params.stream().filter(ParameterUtils.equalsParam(name, in)).findFirst();
+            return (isEmpty() ^ p.isPresent());
+        }
+        return isEmpty();
     }
 
     @Override

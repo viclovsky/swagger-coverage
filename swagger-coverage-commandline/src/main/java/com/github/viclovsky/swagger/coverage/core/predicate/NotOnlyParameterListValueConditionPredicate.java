@@ -27,10 +27,12 @@ public class NotOnlyParameterListValueConditionPredicate extends ParameterCondit
 
     @Override
     public boolean check(List<Parameter> params, Map<String, ApiResponse> responses) {
-        Optional<Parameter> p = params.stream().filter(ParameterUtils.equalsParam(name, in)).findFirst();
-        if (p.isPresent()) {
-            String val = SwaggerSpecificationProcessor.extractValue(p.get());
-            currentValue.add(val);
+        if (params != null) {
+            Optional<Parameter> p = params.stream().filter(ParameterUtils.equalsParam(name, in)).findFirst();
+            if (p.isPresent()) {
+                String val = SwaggerSpecificationProcessor.extractValue(p.get());
+                currentValue.add(val);
+            }
         }
 
         return true;

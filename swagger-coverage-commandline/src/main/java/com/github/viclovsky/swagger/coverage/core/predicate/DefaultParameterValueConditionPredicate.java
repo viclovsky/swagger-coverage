@@ -26,11 +26,13 @@ public class DefaultParameterValueConditionPredicate extends ParameterConditionP
 
     @Override
     public boolean check(List<Parameter> params, Map<String, ApiResponse> responses) {
-        Optional<Parameter> p = params.stream().filter(ParameterUtils.equalsParam(name, in)).findFirst();
+        if (params != null) {
+            Optional<Parameter> p = params.stream().filter(ParameterUtils.equalsParam(name, in)).findFirst();
 
-        if (p.isPresent()) {
-            String val = SwaggerSpecificationProcessor.extractValue(p.get());
-            currentValue.add(val);
+            if (p.isPresent()) {
+                String val = SwaggerSpecificationProcessor.extractValue(p.get());
+                currentValue.add(val);
+            }
         }
 
         return currentValue.contains(expectedValue);
