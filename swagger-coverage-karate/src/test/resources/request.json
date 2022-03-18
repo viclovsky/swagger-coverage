@@ -1,0 +1,42 @@
+{
+    "baseUrl": "petstore.swagger.io/v2",
+    "path": "pet",
+    "requestParams": {
+        "param1": [
+            "value1"
+        ],
+        "param2": [
+            "23"
+        ]
+    },
+    "headerParams": {
+        "host": [
+            "service-reports.iot.qbeyond.tech"
+        ],
+        "accept-encoding": [
+            "gzip,deflate"
+        ]
+    },
+    "responseHeaders": {
+        "content-type": [
+            "application/json"
+        ],
+        "content-length": [
+            "28"
+        ]
+    },
+    "requestParts": {
+        "file": [
+          {
+            "charset": "UTF-8",
+            "filename": "testImage",
+            "transferEncoding": "binary",
+            "name": "file",
+            "contentType": "image/jpeg"
+          }
+        ]
+    },
+    "method": "POST",
+    "statusCode": 200,
+    "hasBody": false
+}

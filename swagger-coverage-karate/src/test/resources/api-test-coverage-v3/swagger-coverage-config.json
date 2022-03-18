@@ -1,0 +1,10 @@
+{
+    "rules" : { },
+    "writers" : { 
+        "html": {
+            "locale": "en",
+            "filename":"swagger-coverage-report.html",
+            "numberFormat": "0.##"
+        }
+    }
+} 
