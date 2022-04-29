@@ -47,8 +47,7 @@ public class CustomReportTemplateTest {
         ParseOptions parseOptions = new ParseOptions();
         parseOptions.setResolve(true);
         ConfigurationOptions configurationOptions = new ConfigurationOptions()
-                .setWriters(customReportOptions)
-                .setParseOptions(parseOptions);
+                .setWriters(customReportOptions);
         File testConfigurationFile = File.createTempFile("customTemplate", ".json");
         FileUtils.writeStringToFile(testConfigurationFile, new ObjectMapper().writeValueAsString(configurationOptions));
         return testConfigurationFile;

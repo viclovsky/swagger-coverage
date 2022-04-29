@@ -37,11 +37,11 @@ configure(subprojects) {
             dependency("org.freemarker:freemarker:2.3.31")
 
             //swagger 2.x
-            dependency("io.swagger:swagger-models:1.6.2")
+            dependency("io.swagger:swagger-models:1.6.6")
             //swagger 3.x
-            dependency("io.swagger.core.v3:swagger-core:2.1.10")
-            dependency("io.swagger.core.v3:swagger-models:2.1.10")
-            dependency("io.swagger.parser.v3:swagger-parser:2.0.25")
+            dependency("io.swagger.core.v3:swagger-core:2.2.0")
+            dependency("io.swagger.core.v3:swagger-models:2.2.0")
+            dependency("io.swagger.parser.v3:swagger-parser:2.0.32")
 
             dependency("org.slf4j:slf4j-simple:1.7.30")
             dependency("log4j:log4j:1.2.17")

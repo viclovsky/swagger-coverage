@@ -8,6 +8,7 @@ import com.github.viclovsky.swagger.coverage.core.results.Results;
 import com.github.viclovsky.swagger.coverage.core.results.builder.core.StatisticsBuilder;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,14 +27,15 @@ public class Generator {
 
     private Path configurationPath;
 
-    private OpenAPIParser parser = new OpenAPIParser();
+    private final OpenAPIParser parser = new OpenAPIParser();
 
     private List<StatisticsBuilder> statisticsBuilders = new ArrayList<>();
 
     public void run() {
         Configuration configuration = ConfigurationBuilder.build(configurationPath);
-
-        SwaggerParseResult parsed = parser.readLocation(specPath.toString(), null, configuration.getParseOptions());
+        ParseOptions parseOptions = new ParseOptions();
+        parseOptions.setResolve(true);
+        SwaggerParseResult parsed = parser.readLocation(specPath.toString(), null, parseOptions);
         parsed.getMessages().forEach(LOGGER::info);
         OpenAPI spec = parsed.getOpenAPI();
 
@@ -41,7 +43,7 @@ public class Generator {
         statisticsBuilders = configuration.getStatisticsBuilders(spec);
 
         CoverageOutputReader reader = new FileSystemOutputReader(getInputPath());
-        reader.getOutputs().forEach(o -> processFile(o));
+        reader.getOutputs().forEach(this::processFile);
 
         Results result = new Results();
 
