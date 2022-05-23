@@ -229,18 +229,6 @@ To customize your http report with your own template set full path to the templa
 }
 ````
 
-## Specification parser configuration
-To customize parser behavior you can pass some options like this:
-````
-{
-  ....
-  
-  "parseOptions": {
-    "resolve" : true
-  }
-}
-````
-
 [Look here](https://github.com/swagger-api/swagger-parser/blob/master/modules/swagger-parser-core/src/main/java/io/swagger/v3/parser/core/models/ParseOptions.java) to see all available options.
 
 
