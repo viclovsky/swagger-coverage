@@ -9,6 +9,6 @@ jobs:
   triage:
     runs-on: ubuntu-latest
     steps:
-      - uses: zwaldowski/match-label-action@v2
+      - uses: zwaldowski/match-label-action@v4
         with:
           allowed: 'type:new feature, type:improvement, type:bug'
