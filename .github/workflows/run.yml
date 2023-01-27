@@ -16,7 +16,7 @@ jobs:
           java-version: 8
       - name: "Gradle Build"
         run: ./run.sh
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: custom-report.html
           path: custom-report.html
