@@ -22,7 +22,7 @@ dependencies {
     implementation("org.thymeleaf:thymeleaf:3.0.15.RELEASE")
     implementation("io.github.classgraph:classgraph:4.8.108")
     implementation("org.antlr:antlr4-runtime:4.9.3")
-    implementation("org.apache.httpcomponents:httpclient:4.5.13")
+    implementation("org.apache.httpcomponents:httpclient:4.5.14")
 
     testImplementation("junit:junit")
     testImplementation("org.hamcrest:hamcrest")
