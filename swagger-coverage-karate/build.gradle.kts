@@ -20,7 +20,7 @@ dependencies {
     implementation("com.linecorp.armeria:armeria:1.14.1")
     implementation("io.netty:netty-all:4.1.74.Final")
     implementation("org.thymeleaf:thymeleaf:3.0.15.RELEASE")
-    implementation("io.github.classgraph:classgraph:4.8.108")
+    implementation("io.github.classgraph:classgraph:4.8.154")
     implementation("org.antlr:antlr4-runtime:4.9.3")
     implementation("org.apache.httpcomponents:httpclient:4.5.13")
 
