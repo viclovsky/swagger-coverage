@@ -17,7 +17,7 @@ dependencies {
     implementation("com.intuit.karate:karate-core")
 
     //needed for karate runner
-    implementation("com.linecorp.armeria:armeria:1.14.1")
+    implementation("com.linecorp.armeria:armeria:1.22.1")
     implementation("io.netty:netty-all:4.1.74.Final")
     implementation("org.thymeleaf:thymeleaf:3.0.15.RELEASE")
     implementation("io.github.classgraph:classgraph:4.8.108")
