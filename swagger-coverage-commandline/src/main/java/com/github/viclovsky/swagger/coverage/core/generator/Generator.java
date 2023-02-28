@@ -8,6 +8,7 @@ import com.github.viclovsky.swagger.coverage.core.results.Results;
 import com.github.viclovsky.swagger.coverage.core.results.builder.core.StatisticsBuilder;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.parser.core.models.AuthorizationValue;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
 import org.slf4j.Logger;
@@ -23,6 +24,8 @@ public class Generator {
     private static final Logger LOGGER = LoggerFactory.getLogger(Generator.class);
 
     private URI specPath;
+    private List<AuthorizationValue> specAuths;
+
     private Path inputPath;
 
     private Path configurationPath;
@@ -35,7 +38,7 @@ public class Generator {
         Configuration configuration = ConfigurationBuilder.build(configurationPath);
         ParseOptions parseOptions = new ParseOptions();
         parseOptions.setResolve(true);
-        SwaggerParseResult parsed = parser.readLocation(specPath.toString(), null, parseOptions);
+        SwaggerParseResult parsed = parser.readLocation(specPath.toString(), specAuths, parseOptions);
         parsed.getMessages().forEach(LOGGER::info);
         OpenAPI spec = parsed.getOpenAPI();
 
@@ -70,6 +73,15 @@ public class Generator {
 
     public Generator setSpecPath(URI specPath) {
         this.specPath = specPath;
+        return this;
+    }
+
+    public List<AuthorizationValue> getSpecAuths() {
+        return specAuths;
+    }
+
+    public Generator setSpecAuths(List<AuthorizationValue> specAuths) {
+        this.specAuths = specAuths;
         return this;
     }
 
