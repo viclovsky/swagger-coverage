@@ -7,7 +7,7 @@ plugins {
 description = "Swagger-coverage Commandline"
 
 application {
-    mainClassName = "com.github.viclovsky.swagger.coverage.CommandLine"
+    mainClass.set("com.github.viclovsky.swagger.coverage.CommandLine")
 }
 
 java {
