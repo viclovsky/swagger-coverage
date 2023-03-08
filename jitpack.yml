@@ -1,0 +1,4 @@
+jdk:
+  - openjdk8
+install:
+   - ./gradlew clean build publishToMavenLocal -x signGprPublication
