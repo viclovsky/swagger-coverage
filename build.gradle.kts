@@ -44,7 +44,7 @@ configure(subprojects) {
             dependency("io.swagger.parser.v3:swagger-parser:2.0.32")
 
             dependency("org.slf4j:slf4j-api:1.7.32")
-            dependency("ch.qos.logback:logback-classic:1.2.10")
+            dependency("ch.qos.logback:logback-classic:1.4.6")
 
             dependency("com.beust:jcommander:1.81")
             dependency("junit:junit:4.13.2")
