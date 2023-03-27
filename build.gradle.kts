@@ -37,7 +37,7 @@ configure(subprojects) {
             dependency("org.freemarker:freemarker:2.3.31")
 
             //swagger 2.x
-            dependency("io.swagger:swagger-models:1.6.6")
+            dependency("io.swagger:swagger-models:1.6.10")
             //swagger 3.x
             dependency("io.swagger.core.v3:swagger-core:2.2.0")
             dependency("io.swagger.core.v3:swagger-models:2.2.0")
