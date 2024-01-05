@@ -92,6 +92,10 @@ configure(subprojects) {
         options.encoding = "UTF-8"
     }
 
+    tasks.javadoc {
+        options.encoding = "UTF-8"
+    }
+
     tasks.compileTestJava {
         options.encoding = "UTF-8"
         options.compilerArgs.add("-parameters")
@@ -113,4 +117,3 @@ configure(subprojects) {
 repositories {
     mavenCentral()
 }
-
