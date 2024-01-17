@@ -14,6 +14,7 @@ import com.github.viclovsky.swagger.coverage.core.results.data.OperationResult;
 import com.github.viclovsky.swagger.coverage.core.rule.core.ConditionRule;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.parameters.PathParameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.AntPathMatcher;
@@ -24,6 +25,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
     private static final Logger LOGGER = LoggerFactory.getLogger(CoverageStatisticsBuilder.class);
@@ -49,6 +51,22 @@ public class CoverageStatisticsBuilder extends StatisticsPreBuilder {
                     .filter(equalsOperationKeys(key)).findFirst();
 
             if (keyOptional.isPresent()) {
+                // Recreate path parameters if framework can't parse path parameters to value
+                Map<String, String> extractedPathParams = new AntPathMatcher()
+                        .extractUriTemplateVariables(keyOptional.get().getPath(), key.getPath());
+                if (!extractedPathParams.isEmpty()) {
+                    List<String> existedPathParametersNames = value.getParameters().stream()
+                            .filter(parameter -> parameter.getIn().equals("path"))
+                            .map(parameter -> parameter.getName())
+                            .collect(Collectors.toList());
+                    extractedPathParams.forEach((n, v) -> {
+                        if (!existedPathParametersNames.contains(n)) {
+                            value.addParametersItem(new PathParameter().name(n).example(v));
+                            LOGGER.info(String.format("==  result [%s] was also mimicked by absent path param with [name=%s, example=%s]", key, n, v));
+                        }
+                    });
+                }
+
                 mainCoverageData.get(keyOptional.get())
                         .increaseProcessCount()
                         .getConditions()
